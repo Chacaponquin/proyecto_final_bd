@@ -43,7 +43,7 @@ Aquí están todos los requisitos que los queridos profesores quien ver implemen
 > ### ⚠️ Aclaración sobre la estructura
 > Menos la carpeta `utils` y `services` todas estan separadas por módulos, o sea cada una representa una entidad del proyecto y en ella van a estar las clases correspondinetes a las funcionalidades de la carpeta en la que se encuentren
 
-### services 
+### `services`
 Basicamente son las funciones que concentrarán toda la lógica de cada entidad `crear`, `eliminar`, `modificar`, `leer`, etc. **Utilizando los DTO como argumentos para los que sean necesarios**. Un ejemplo de implementación sería:
 ```java
 // UserServices.java
@@ -76,7 +76,7 @@ public class UserServices{
 >   ServicesSelector.UserServices.readUsers()
 >   ```
 
-### dto
+### `dto`
 En este proyecto nos piden que utilicemos el patrón DTO (Data Transfer Object) que aunque suene a un patrón utilizado en facebook es bastante easy. En esta carpeta irán en cada módulo o carpeta las clases que tendrán los parámetros necesarios para realizar cierta operación
 
 #### Ejemplo
@@ -106,17 +106,17 @@ public class UserServices{
 > ### ⚠️ Aclaraciones sobre `dto`
 > - Todos los nombres de archivos deben terminar en `DTO`
 
-### exceptions
+### `exceptions`
 Aquí estarán todas las excepciones pertenecientes a cada módulo. **Preferiblemente dedicadas a validaciones de formularios o de parámetros**
 
 > ### ⚠️ Aclaraciones sobre `exceptions`
 > - Todos los nombres de archivos deben terminar en `Exception`
 > - **LAS EXCEPCIONES EN CUANTO A VALIDACIONES DEBEN ESTAR EN LA LÓGICA NO SE DEBE ESPERAR A QUE LA BASE DE DATOS DISPARE UN ERROR DEBIDO A QUE ESTE SE HACE MUY DIFÍCIL DE IDENTIFICAR**. Ejemplos: nombres vacios, edades menores que 0, etc.
 
-### utils
+### `utils`
 😐 Hasta este momento el compañero Héctor no tiene mucha idea de que va aquí. Lo más probable es que sean clases dedicadas a la conexión con las bases de datos, modificación de textos, etc.
 
-### visual
+### `visual`
 Contiene las ventanas de la UI
 
 > ### ⚠️ Aclaraciones sobre `visual`
@@ -134,7 +134,7 @@ Cada uno va a tener que implementar de cada entidad que le toque:
 - visual
 - exceptions
 
-> ### ⚠️ **LEAN LOS [REQUISITOS](#requisitos-del-código) COÑO**
+> ### ⚠️ **LEAN LOS [REQUISITOS](#-requisitos-del-código) COÑO**
 
 ### 🧑‍🚀 Tareas de José 
 - ⭕ Phase
