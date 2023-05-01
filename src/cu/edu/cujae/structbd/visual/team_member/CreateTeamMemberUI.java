@@ -3,12 +3,12 @@ package cu.edu.cujae.structbd.visual.team_member;
 import javax.swing.*;
 import java.awt.event.*;
 
-public class CreateTeamMember extends JDialog {
+public class CreateTeamMemberUI extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
 
-    public CreateTeamMember() {
+    public CreateTeamMemberUI() {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
@@ -52,7 +52,7 @@ public class CreateTeamMember extends JDialog {
     }
 
     public static void main(String[] args) {
-        CreateTeamMember dialog = new CreateTeamMember();
+        CreateTeamMemberUI dialog = new CreateTeamMemberUI();
         dialog.pack();
         dialog.setVisible(true);
         System.exit(0);
