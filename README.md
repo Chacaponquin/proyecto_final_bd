@@ -126,7 +126,7 @@ Contiene las ventanas de la UI
 > ### 😹 Chistecillo
 > Cómo convertir un burro en una burra? Guardarlo en el garaje, hasta que se aburra
 
-## 💻 Tareas (por ahora)
+## 💻 Tareas 
 Como somos un equipo sexy y democrático vamos a repartir de forma justa los módulos asi cada uno se puede encargar de cada entidad sin necesidad de estar tocando código de otro. Como hay 11 entidades y yo soy el único negro del equipo voy a coger 3 pero cogere el `Team` que considero que es el más difícil.
 Cada uno va a tener que implementar de cada entidad que le toque:
 - dto
