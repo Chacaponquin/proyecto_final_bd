@@ -29,7 +29,7 @@ Aquí están todos los requisitos que los queridos profesores quien ver implemen
 > Has entrado alguna vez en un laberinto? Pues no sabes lo que te pierdes
 
 
-## Antes de empezar
+## 🕐 Antes de empezar
 Debido a que cada uno tiene una configuración distinta de la base de datos en su máquina y estamos usando NetBeans (que ya lo odio y eso que sólo he movido dos carpetas). Hay que crear variables de entorno para cada uno de nosotros.
 
 ### ¿Para qué son?
@@ -53,6 +53,9 @@ System.getProperty('DATABASE_NAME');
 System.getProperty('DATABASE_USERNAME');
 System.getProperty('DATABASE_PASSWORD')
 ```
+
+> ### ⚠️ Aclaración
+> Añadir la librería de postgres que se encuentra dentro de la carpeta `lib`. Investigar como hacerlo en NetBeans (que lo odio) que es de forma diferente a Eclipse (que lo odio también) aunque es muy parecida.
 
 ## 📚 Estructura 
 
