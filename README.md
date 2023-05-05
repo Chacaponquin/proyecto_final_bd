@@ -3,7 +3,7 @@
 # 👧 Proyecto Taylor Swift
 
 > ### 😹 Chistecillo
-> Qué es la piedad? Tener 3,1416 años
+> Qué es la piedad? Tener 3,1416 año
 
 ## 😀 Objetivo principal
 Este trabajo tiene como único objetivo el **5** del compañero José para que termine con 5 la asignatura y le pueda hacer el siguiente baile a Baster.
@@ -40,7 +40,7 @@ Aquí están todos los requisitos que los queridos profesores quien ver implemen
     |--- visual
 ```
 
-> ### ⚠️ Aclaración sobre la estructura
+> ### ⚠�? Aclaración sobre la estructura
 > Menos la carpeta `utils` y `services` todas estan separadas por módulos, o sea cada una representa una entidad del proyecto y en ella van a estar las clases correspondinetes a las funcionalidades de la carpeta en la que se encuentren
 
 ### `services`
@@ -67,7 +67,7 @@ public class UserServices{
 }
 ```
 
-> ### ⚠️ Aclaraciones sobre `services`
+> ### ⚠�? Aclaraciones sobre `services`
 > - Todos los nombres de los archivos deber terminar en **Services**
 > - Todos los servicios deben ser importados desde una clase ya escrita que se llama `ServicesLocator` **(porque les salió del tubo a los profesores)**
 >   ```java
@@ -103,23 +103,23 @@ public class UserServices{
 }
 ```
 
-> ### ⚠️ Aclaraciones sobre `dto`
+> ### ⚠�? Aclaraciones sobre `dto`
 > - Todos los nombres de archivos deben terminar en `DTO`
 
 ### `exceptions`
 Aquí estarán todas las excepciones pertenecientes a cada módulo. **Preferiblemente dedicadas a validaciones de formularios o de parámetros**
 
-> ### ⚠️ Aclaraciones sobre `exceptions`
+> ### ⚠�? Aclaraciones sobre `exceptions`
 > - Todos los nombres de archivos deben terminar en `Exception`
-> - **LAS EXCEPCIONES EN CUANTO A VALIDACIONES DEBEN ESTAR EN LA LÓGICA NO SE DEBE ESPERAR A QUE LA BASE DE DATOS DISPARE UN ERROR DEBIDO A QUE ESTE SE HACE MUY DIFÍCIL DE IDENTIFICAR**. Ejemplos: nombres vacios, edades menores que 0, etc.
+> - **LAS EXCEPCIONES EN CUANTO A VALIDACIONES DEBEN ESTAR EN LA LÓGICA NO SE DEBE ESPERAR A QUE LA BASE DE DATOS DISPARE UN ERROR DEBIDO A QUE ESTE SE HACE MUY DIF�?CIL DE IDENTIFICAR**. Ejemplos: nombres vacios, edades menores que 0, etc.
 
 ### `utils`
-😐 Hasta este momento el compañero Héctor no tiene mucha idea de que va aquí. Lo más probable es que sean clases dedicadas a la conexión con las bases de datos, modificación de textos, etc.
+�? Hasta este momento el compañero Héctor no tiene mucha idea de que va aquí. Lo más probable es que sean clases dedicadas a la conexión con las bases de datos, modificación de textos, etc.
 
 ### `visual`
 Contiene las ventanas de la UI
 
-> ### ⚠️ Aclaraciones sobre `visual`
+> ### ⚠�? Aclaraciones sobre `visual`
 > - Todos los nombres de archivos deben terminar en `UI`
 > - **NO DEBE HABER LÓGICA EN LOS ARCHIVOS UI, SÓLO LLAMADAS A SERVICIOS**
 
@@ -134,21 +134,21 @@ Cada uno va a tener que implementar de cada entidad que le toque:
 - visual
 - exceptions
 
-> ### ⚠️ **LEAN LOS [REQUISITOS](#-requisitos-del-código) COÑO**
+> ### ⚠�? **LEAN LOS [REQUISITOS](#-requisitos-del-código) COÑO**
 
-### 🧑‍🚀 Tareas de José 
+### 🧑�?🚀 Tareas de José 
 - ⭕ Phase
 - ⭕ Coach
 - ⭕ Player
 - ⭕ Province
 
-### 🐈 Tareas de Amaya 
+### �?� Tareas de Amaya 
 - ⭕ Game
 - ⭕ Position
 - ⭕ Team_member
 - ⭕ Pitcher
 
-### 🦍 Tareas de Héctor
+### �? Tareas de Héctor
 - ⭕ Team
 - ⭕ Batter
 - ⭕ Stadium
