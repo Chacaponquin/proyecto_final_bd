@@ -14,9 +14,9 @@ public class Connector {
         return connection;
     }
 
-    private static void createConnection(String serveraddres, String database, String user, String pass) throws ClassNotFoundException, SQLException {
+    private static void createConnection(String serveraddres, String database, String user, String pass, String port) throws ClassNotFoundException, SQLException {
         Class.forName("org.postgresql.Driver");
-        String url = "jdbc:postgresql://" + serveraddres + ":5433/"+ database;
+        String url = "jdbc:postgresql://" + serveraddres + ":" + port + "/"+ database;
         java.sql.Connection connection = DriverManager.getConnection(url, user, pass);
         Connector.connection = connection;
     }
@@ -25,8 +25,9 @@ public class Connector {
         String username = System.getProperty("DATABASE_USERNAME");
         String password = System.getProperty("DATABASE_PASSWORD");
         String database = System.getProperty("DATABASE_NAME");
+        String port = System.getProperty("DATABASE_PORT");
 
-       createConnection("localhost", database, username, password);
+       createConnection("localhost", database, username, password, port);
     }
 }
 
