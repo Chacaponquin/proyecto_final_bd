@@ -92,25 +92,4 @@ public class ProvinceServices
         connection.close();
         return readProvinceDTO;
     }
-
-    public static void main(String args[])
-    {
-        try
-        {
-            ProvinceServices ps = new ProvinceServices();
-            DeleteProvinceDTO cp = new DeleteProvinceDTO("ce5d1a08-1603-1603-b640-92e4dd8cd6a8");
-            ps.deleteProvince(cp);
-
-        }
-        catch (SQLException ex)
-        {
-            Logger.getLogger(ProvinceServices.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        catch (ClassNotFoundException ex)
-        {
-            Logger.getLogger(ProvinceServices.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }
-
 }

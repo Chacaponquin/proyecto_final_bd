@@ -2,29 +2,28 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package cu.edu.cujae.structbd.dto.coach;
+package cu.edu.cujae.structbd.dto.player;
 
 /**
  *
  * @author Jose
  */
-public class ReadCoachDTO
+public class ReadPlayerDTO
 {
-
     private String team_member_ID;
     private String team_member_name;
     private int member_number;
     private String team_name;
-    private int experience_years;
+    private String position_name;
 
-    public ReadCoachDTO(String team_member_ID, String team_member_name, int member_number, String team_name,
-                        int experience_years)
+    public ReadPlayerDTO(String team_member_ID, String team_member_name, int member_number, String team_name,
+                         String position_name)
     {
         this.team_member_ID = team_member_ID;
         this.team_member_name = team_member_name;
         this.member_number = member_number;
         this.team_name = team_name;
-        this.experience_years = experience_years;
+        this.position_name = position_name;
     }
 
     public String getTeam_member_ID()
@@ -95,20 +94,21 @@ public class ReadCoachDTO
         }
     }
 
-    public int getExperience_years()
+    public String getPosition_name()
     {
-        return experience_years;
+        return position_name;
     }
 
-    public void setExperience_years(int experience_years)
+    public void setPosition_name(String position_name)
     {
-        if (experience_years >= 0)
+        if (position_name != null)
         {
-            this.experience_years = experience_years;
+            this.position_name = position_name;
         }
         else
         {
             throw new IllegalArgumentException();
         }
     }
+
 }
