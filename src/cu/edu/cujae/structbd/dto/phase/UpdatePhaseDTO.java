@@ -1,8 +1,16 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package cu.edu.cujae.structbd.dto.phase;
 
 import java.time.LocalDate;
 
-public class CreatePhaseDTO
+/**
+ *
+ * @author Jose
+ */
+public class UpdatePhaseDTO
 {
     private String phase_id;
     private String phase_name;
@@ -10,7 +18,7 @@ public class CreatePhaseDTO
     private LocalDate finish_date;
     private int teams_amount;
 
-    public CreatePhaseDTO(String phase_id, String phase_name, LocalDate start_date, LocalDate finish_date,
+    public UpdatePhaseDTO(String phase_id, String phase_name, LocalDate start_date, LocalDate finish_date,
                           int teams_amount)
     {
         this.phase_id = phase_id;
