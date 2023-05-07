@@ -1,21 +1,29 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package cu.edu.cujae.structbd.dto.coach;
 
-public class CreateCoachDTO
+/**
+ *
+ * @author Jose
+ */
+public class ReadCoachDTO
 {
 
     private String team_member_ID;
     private String team_member_name;
     private int member_number;
-    private String team_ID;
+    private String team_name;
     private int experience_years;
 
-    public CreateCoachDTO(String team_member_ID, String team_member_name, int member_number, String team_ID,
-                          int experience_years)
+    public ReadCoachDTO(String team_member_ID, String team_member_name, int member_number, String team_ID,
+                        int experience_years)
     {
         this.team_member_ID = team_member_ID;
         this.team_member_name = team_member_name;
         this.member_number = member_number;
-        this.team_ID = team_ID;
+        this.team_name = team_ID;
         this.experience_years = experience_years;
     }
 
@@ -70,16 +78,16 @@ public class CreateCoachDTO
         }
     }
 
-    public String getTeam_ID()
+    public String getTeam_name()
     {
-        return team_ID;
+        return team_name;
     }
 
-    public void setTeam_ID(String team_ID)
+    public void setTeam_name(String team_name)
     {
-        if (team_ID != null)
+        if (team_name != null)
         {
-            this.team_ID = team_ID;
+            this.team_name = team_name;
         }
         else
         {
@@ -103,5 +111,4 @@ public class CreateCoachDTO
             throw new IllegalArgumentException();
         }
     }
-
 }

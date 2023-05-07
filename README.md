@@ -40,6 +40,7 @@ Se debe dar click derecho en el proyecto e ir a `Properties -> Run`, crear una n
 - `DATABASE_NAME`
 - `DATABASE_PASSWORD`
 - `DATABASE_USERNAME`
+- `DATABASE_PORT`
 
 > ### ⚠️ Aclaración
 > Al definirlas todas deben tener la `D` delante. No tengo idea por qué
@@ -51,7 +52,8 @@ Esto permite que se pueda acceder a ellas de la forma:
 ```java
 System.getProperty('DATABASE_NAME');
 System.getProperty('DATABASE_USERNAME');
-System.getProperty('DATABASE_PASSWORD')
+System.getProperty('DATABASE_PASSWORD');
+System.getProperty('DATABASE_PORT');
 ```
 
 > ### ⚠️ Aclaración

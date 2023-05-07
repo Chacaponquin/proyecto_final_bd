@@ -1,6 +1,14 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package cu.edu.cujae.structbd.dto.coach;
 
-public class CreateCoachDTO
+/**
+ *
+ * @author Jose
+ */
+public class UpdateCoachDTO
 {
 
     private String team_member_ID;
@@ -9,7 +17,7 @@ public class CreateCoachDTO
     private String team_ID;
     private int experience_years;
 
-    public CreateCoachDTO(String team_member_ID, String team_member_name, int member_number, String team_ID,
+    public UpdateCoachDTO(String team_member_ID, String team_member_name, int member_number, String team_ID,
                           int experience_years)
     {
         this.team_member_ID = team_member_ID;
@@ -103,5 +111,6 @@ public class CreateCoachDTO
             throw new IllegalArgumentException();
         }
     }
+
 
 }

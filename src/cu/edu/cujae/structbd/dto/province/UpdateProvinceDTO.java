@@ -1,12 +1,19 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package cu.edu.cujae.structbd.dto.province;
 
-public class CreateProvinceDTO
+/**
+ *
+ * @author Jose
+ */
+public class UpdateProvinceDTO
 {
-
     private String ID;
     private String name;
 
-    public CreateProvinceDTO(String ID, String name)
+    public UpdateProvinceDTO(String ID, String name)
     {
         this.ID = ID;
         this.name = name;
@@ -45,5 +52,4 @@ public class CreateProvinceDTO
             throw new IllegalArgumentException();
         }
     }
-
 }
