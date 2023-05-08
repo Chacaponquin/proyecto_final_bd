@@ -1,5 +1,4 @@
 package cu.edu.cujae.structbd;
-
 import cu.edu.cujae.structbd.visual.main.MainUI;
 
 import java.sql.SQLException;

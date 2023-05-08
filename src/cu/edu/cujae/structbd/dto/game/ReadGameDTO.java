@@ -1,8 +1,9 @@
 package cu.edu.cujae.structbd.dto.game;
 
+import java.time.LocalDate;
 import java.util.Date;
 
-public class CreateGameDTO {
+public class ReadGameDTO {
     private String id;
     private String hcTeamID;
     private String visTeamID;
@@ -11,7 +12,7 @@ public class CreateGameDTO {
     private String winner;
     private int audience;
 
-    public CreateGameDTO(String id, String hcTeamID, String visTeamID, String phaseID, Date date, String winner, int audience) {
+    public ReadGameDTO(String id, String hcTeamID, String visTeamID, String phaseID, Date date, String winner, int audience) {
         this.id = id;
         this.hcTeamID = hcTeamID;
         this.visTeamID = visTeamID;

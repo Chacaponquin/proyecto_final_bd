@@ -4,6 +4,8 @@
  */
 package cu.edu.cujae.structbd.visual.province;
 
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Jose
@@ -19,6 +21,7 @@ public class ProvinceUI extends javax.swing.JDialog
         super(parent, modal);
         initComponents();
     }
+    
 
     /**
      * This method is called from within the constructor to initialize the form. WARNING: Do NOT modify this code. The
