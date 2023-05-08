@@ -72,6 +72,7 @@ public class Report_4UI extends javax.swing.JDialog
         setTitle("Entrenadores de mayor experiencia");
         setResizable(false);
 
+        table.setAutoCreateRowSorter(true);
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][]
             {
@@ -149,6 +150,7 @@ public class Report_4UI extends javax.swing.JDialog
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton1ActionPerformed

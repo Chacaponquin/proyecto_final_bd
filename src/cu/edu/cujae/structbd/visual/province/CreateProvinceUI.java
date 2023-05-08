@@ -4,7 +4,9 @@
  */
 package cu.edu.cujae.structbd.visual.province;
 
+import cu.edu.cujae.structbd.dto.province.CreateProvinceDTO;
 import cu.edu.cujae.structbd.services.ServicesLocator;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -33,7 +35,7 @@ public class CreateProvinceUI extends javax.swing.JDialog
 
         jPanel1 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
-        jButton3 = new javax.swing.JButton();
+        aceptar_button = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         field_name = new javax.swing.JTextField();
@@ -42,15 +44,16 @@ public class CreateProvinceUI extends javax.swing.JDialog
         setTitle("Insertar Provincia");
         setResizable(false);
 
-        jButton3.setText("Aceptar");
-        jButton3.addActionListener(new java.awt.event.ActionListener()
+        aceptar_button.setText("Aceptar");
+        aceptar_button.setEnabled(false);
+        aceptar_button.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                jButton3ActionPerformed(evt);
+                aceptar_buttonActionPerformed(evt);
             }
         });
-        jPanel4.add(jButton3);
+        jPanel4.add(aceptar_button);
 
         jButton4.setText("Cancelar");
         jButton4.addActionListener(new java.awt.event.ActionListener()
@@ -64,12 +67,24 @@ public class CreateProvinceUI extends javax.swing.JDialog
 
         jLabel1.setText("Nombre:");
 
+        field_name.addKeyListener(new java.awt.event.KeyAdapter()
+        {
+            public void keyReleased(java.awt.event.KeyEvent evt)
+            {
+                field_nameKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt)
+            {
+                field_nameKeyTyped(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(0, 33, Short.MAX_VALUE)
+                .addGap(0, 61, Short.MAX_VALUE)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
@@ -101,10 +116,40 @@ public class CreateProvinceUI extends javax.swing.JDialog
         dispose();
     }//GEN-LAST:event_jButton4ActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton3ActionPerformed
-    {//GEN-HEADEREND:event_jButton3ActionPerformed
-        //ServicesLocator.ProvinceServices.createProvince(createProvinceDTO);
-    }//GEN-LAST:event_jButton3ActionPerformed
+    private void aceptar_buttonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_aceptar_buttonActionPerformed
+    {//GEN-HEADEREND:event_aceptar_buttonActionPerformed
+        if (validarNombre())
+        {
+            /*String province_name = field_name.getText();
+            String province_id = ;
+            CreateProvinceDTO createProvinceDTO = new CreateProvinceDTO(province_id, province_name);
+            ServicesLocator.ProvinceServices.createProvince(createProvinceDTO);*/
+            dispose();
+        }
+
+    }//GEN-LAST:event_aceptar_buttonActionPerformed
+
+    private void field_nameKeyReleased(java.awt.event.KeyEvent evt)//GEN-FIRST:event_field_nameKeyReleased
+    {//GEN-HEADEREND:event_field_nameKeyReleased
+        if (!field_name.getText().isEmpty())
+        {
+            aceptar_button.setEnabled(true);
+        }
+        else
+        {
+            aceptar_button.setEnabled(false);
+        }
+    }//GEN-LAST:event_field_nameKeyReleased
+
+    private void field_nameKeyTyped(java.awt.event.KeyEvent evt)//GEN-FIRST:event_field_nameKeyTyped
+    {//GEN-HEADEREND:event_field_nameKeyTyped
+        char key = evt.getKeyChar();
+
+        if (!Character.isAlphabetic(key) && !Character.isSpaceChar(key))
+        {
+            evt.consume();
+        }
+    }//GEN-LAST:event_field_nameKeyTyped
 
     /**
      * @param args the command line arguments
@@ -169,11 +214,29 @@ public class CreateProvinceUI extends javax.swing.JDialog
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton aceptar_button;
     private javax.swing.JTextField field_name;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel4;
     // End of variables declaration//GEN-END:variables
+        public boolean validarNombre()
+    {
+        boolean result = true;
+        boolean flag;
+        String nombre = field_name.getText();
+        for (int i = 0; i < nombre.length() && result; i++)
+        {
+            flag = Character.isUpperCase(nombre.charAt(0)) && nombre.charAt(0) != ' ' && (Character.isLetter(nombre.
+                                                                                          charAt(i)) || nombre.charAt(i) == ' ');
+            if (!flag)
+            {
+                result = false;
+                JOptionPane.showMessageDialog(null, "El nombre debe iniciar con letra mayúscula", "Nombre incorrecto",
+                                              JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        return result;
+    }
 }

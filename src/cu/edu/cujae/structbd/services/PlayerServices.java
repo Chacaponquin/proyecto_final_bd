@@ -51,7 +51,7 @@ public class PlayerServices
         while (resultSet.next())
         {
             players_list.add(new ReadPlayerDTO(resultSet.getString(1), resultSet.getString(2), resultSet.getInt(4),
-                                               resultSet.getString(3), resultSet.getString(5)));
+                                               resultSet.getString(3), resultSet.getString(5), resultSet.getInt(6)));
         }
         resultSet.close();
         preparedFunction.close();
@@ -72,7 +72,7 @@ public class PlayerServices
         ResultSet resultSet = (ResultSet) preparedFunction.getObject(1);
         resultSet.next();
         readPlayerDTO = new ReadPlayerDTO(resultSet.getString(1), resultSet.getString(2), resultSet.getInt(4),
-                                          resultSet.getString(3), resultSet.getString(5));
+                                          resultSet.getString(3), resultSet.getString(5), resultSet.getInt(6));
         return readPlayerDTO;
     }
 }

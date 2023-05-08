@@ -16,15 +16,17 @@ public class ReadCoachDTO
     private int member_number;
     private String team_name;
     private int experience_years;
+    private int years_in_team;
 
     public ReadCoachDTO(String team_member_ID, String team_member_name, int member_number, String team_name,
-                        int experience_years)
+                        int experience_years, int years_in_team)
     {
         this.team_member_ID = team_member_ID;
         this.team_member_name = team_member_name;
         this.member_number = member_number;
         this.team_name = team_name;
         this.experience_years = experience_years;
+        this.years_in_team = years_in_team;
     }
 
     public String getTeam_member_ID()
@@ -111,4 +113,22 @@ public class ReadCoachDTO
             throw new IllegalArgumentException();
         }
     }
+
+    public int getYears_in_team()
+    {
+        return years_in_team;
+    }
+
+    public void setYears_in_team(int years_in_team)
+    {
+        if (years_in_team >= 0)
+        {
+            this.years_in_team = years_in_team;
+        }
+        else
+        {
+            throw new IllegalArgumentException();
+        }
+    }
+
 }

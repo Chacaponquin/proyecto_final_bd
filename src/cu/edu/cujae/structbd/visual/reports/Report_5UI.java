@@ -94,6 +94,7 @@ public class Report_5UI extends javax.swing.JDialog
                 .addGap(0, 9, Short.MAX_VALUE))
         );
 
+        table.setAutoCreateRowSorter(true);
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][]
             {

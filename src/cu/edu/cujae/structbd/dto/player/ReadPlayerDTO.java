@@ -15,15 +15,17 @@ public class ReadPlayerDTO
     private int member_number;
     private String team_name;
     private String position_name;
+    private int years_in_team;
 
     public ReadPlayerDTO(String team_member_ID, String team_member_name, int member_number, String team_name,
-                         String position_name)
+                         String position_name, int years_in_team)
     {
         this.team_member_ID = team_member_ID;
         this.team_member_name = team_member_name;
         this.member_number = member_number;
         this.team_name = team_name;
         this.position_name = position_name;
+        this.years_in_team = years_in_team;
     }
 
     public String getTeam_member_ID()
@@ -111,4 +113,20 @@ public class ReadPlayerDTO
         }
     }
 
+    public int getYears_in_team()
+    {
+        return years_in_team;
+    }
+
+    public void setYears_in_team(int years_in_team)
+    {
+        if (years_in_team >= 0)
+        {
+            this.years_in_team = years_in_team;
+        }
+        else
+        {
+            throw new IllegalArgumentException();
+        }
+    }
 }

@@ -35,14 +35,15 @@ public class CoachServices
 
     public void updateCoach(UpdateCoachDTO updateCoachDTO) throws SQLException, ClassNotFoundException
     {
-        String function = "{call coach_update(?,?,?,?,?)}";
+        String function = "{call coach_update(?,?,?,?,?,?)}";
         java.sql.Connection connection = Connector.getConnection();
         CallableStatement preparedFunction = connection.prepareCall(function);
         preparedFunction.setString(1, updateCoachDTO.getTeam_member_ID());
         preparedFunction.setString(2, updateCoachDTO.getTeam_member_name());
         preparedFunction.setInt(3, updateCoachDTO.getMember_number());
-        preparedFunction.setString(4, updateCoachDTO.getTeam_ID());
+        preparedFunction.setString(4, updateCoachDTO.getTeam_name());
         preparedFunction.setInt(5, updateCoachDTO.getExperience_years());
+        preparedFunction.setInt(6, updateCoachDTO.getYears_in_team());
         preparedFunction.execute();
         preparedFunction.close();
         connection.close();
@@ -72,7 +73,7 @@ public class CoachServices
         while (resultSet.next())
         {
             coaches_list.add(new ReadCoachDTO(resultSet.getString(1), resultSet.getString(2), resultSet.getInt(4),
-                                              resultSet.getString(3), resultSet.getInt(5)));
+                                              resultSet.getString(3), resultSet.getInt(5), resultSet.getInt(6)));
         }
         resultSet.close();
         preparedFunction.close();
@@ -93,7 +94,7 @@ public class CoachServices
         ResultSet resultSet = (ResultSet) preparedFunction.getObject(1);
         resultSet.next();
         readCoachDTO = new ReadCoachDTO(resultSet.getString(1), resultSet.getString(2), resultSet.getInt(4),
-                                        resultSet.getString(3), resultSet.getInt(5));
+                                        resultSet.getString(3), resultSet.getInt(5), resultSet.getInt(6));
         return readCoachDTO;
     }
 }

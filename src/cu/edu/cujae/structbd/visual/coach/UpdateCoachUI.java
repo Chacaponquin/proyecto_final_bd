@@ -4,7 +4,7 @@
  */
 package cu.edu.cujae.structbd.visual.coach;
 
-import cu.edu.cujae.structbd.dto.coach.CreateCoachDTO;
+import cu.edu.cujae.structbd.dto.coach.UpdateCoachDTO;
 import cu.edu.cujae.structbd.services.ServicesLocator;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -14,16 +14,22 @@ import java.util.logging.Logger;
  *
  * @author Jose
  */
-public class CreateCoachUI extends javax.swing.JDialog
+public class UpdateCoachUI extends javax.swing.JDialog
 {
-
+    private UpdateCoachDTO updateCoachDTO;
     /**
      * Creates new form CreateCoachUI
      */
-    public CreateCoachUI(java.awt.Frame parent, boolean modal)
+    public UpdateCoachUI(java.awt.Frame parent, boolean modal, UpdateCoachDTO updateCoachDTO)
     {
         super(parent, modal);
         initComponents();
+        this.updateCoachDTO = updateCoachDTO;
+        this.field_name.setText(this.updateCoachDTO.getTeam_member_name());
+        this.spinner_exp.setValue(this.updateCoachDTO.getExperience_years());
+        this.spinner_number.setValue(this.updateCoachDTO.getMember_number());
+        this.spinner_team.setValue(this.updateCoachDTO.getYears_in_team());
+        //Falta el combox
     }
 
     /**
@@ -47,6 +53,8 @@ public class CreateCoachUI extends javax.swing.JDialog
         combo_box_team = new javax.swing.JComboBox<>();
         spinner_number = new javax.swing.JSpinner();
         spinner_exp = new javax.swing.JSpinner();
+        jLabel5 = new javax.swing.JLabel();
+        spinner_team = new javax.swing.JSpinner();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Insertar Entrenador");
@@ -109,6 +117,10 @@ public class CreateCoachUI extends javax.swing.JDialog
         jPanel2.add(spinner_number, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 80, -1, -1));
         jPanel2.add(spinner_exp, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 110, -1, -1));
 
+        jLabel5.setText("Años en el equipo:");
+        jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, -1, -1));
+        jPanel2.add(spinner_team, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 140, -1, -1));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -124,7 +136,7 @@ public class CreateCoachUI extends javax.swing.JDialog
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -146,20 +158,24 @@ public class CreateCoachUI extends javax.swing.JDialog
             String team = combo_box_team.getSelectedItem().toString();
             int number = (int) spinner_number.getValue();
             int y_exp = (int) spinner_exp.getValue();
+            int y_team = (int) spinner_team.getValue();
+            updateCoachDTO.setTeam_name(team);
+            updateCoachDTO.setExperience_years(y_exp);
+            updateCoachDTO.setMember_number(number);
+            updateCoachDTO.setTeam_member_name(name);
+            updateCoachDTO.setYears_in_team(y_team);
 
-            //Falta generar el id y validar
-            CreateCoachDTO createCoachDTO = new CreateCoachDTO("    ", name, number, team, y_exp);
-            ServicesLocator.CoachServices.createCoach(createCoachDTO);
+            //Falta validar
+            ServicesLocator.CoachServices.updateCoach(updateCoachDTO);
         }
         catch (SQLException ex)
         {
-            Logger.getLogger(CreateCoachUI.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UpdateCoachUI.class.getName()).log(Level.SEVERE, null, ex);
         }
         catch (ClassNotFoundException ex)
         {
-            Logger.getLogger(CreateCoachUI.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UpdateCoachUI.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
@@ -185,32 +201,35 @@ public class CreateCoachUI extends javax.swing.JDialog
         }
         catch (ClassNotFoundException ex)
         {
-            java.util.logging.Logger.getLogger(CreateCoachUI.class.getName()).log(java.util.logging.Level.SEVERE, null,
+            java.util.logging.Logger.getLogger(UpdateCoachUI.class.getName()).log(java.util.logging.Level.SEVERE, null,
                                                                                   ex);
         }
         catch (InstantiationException ex)
         {
-            java.util.logging.Logger.getLogger(CreateCoachUI.class.getName()).log(java.util.logging.Level.SEVERE, null,
+            java.util.logging.Logger.getLogger(UpdateCoachUI.class.getName()).log(java.util.logging.Level.SEVERE, null,
                                                                                   ex);
         }
         catch (IllegalAccessException ex)
         {
-            java.util.logging.Logger.getLogger(CreateCoachUI.class.getName()).log(java.util.logging.Level.SEVERE, null,
+            java.util.logging.Logger.getLogger(UpdateCoachUI.class.getName()).log(java.util.logging.Level.SEVERE, null,
                                                                                   ex);
         }
         catch (javax.swing.UnsupportedLookAndFeelException ex)
         {
-            java.util.logging.Logger.getLogger(CreateCoachUI.class.getName()).log(java.util.logging.Level.SEVERE, null,
+            java.util.logging.Logger.getLogger(UpdateCoachUI.class.getName()).log(java.util.logging.Level.SEVERE, null,
                                                                                   ex);
         }
         //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable()
+        /*java.awt.EventQueue.invokeLater(new Runnable()
         {
             public void run()
             {
-                CreateCoachUI dialog = new CreateCoachUI(new javax.swing.JFrame(), true);
+                UpdateCoachUI dialog = new UpdateCoachUI(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter()
                 {
                     @Override
@@ -221,7 +240,7 @@ public class CreateCoachUI extends javax.swing.JDialog
                 });
                 dialog.setVisible(true);
             }
-        });
+        });*/
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -233,9 +252,11 @@ public class CreateCoachUI extends javax.swing.JDialog
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JSpinner spinner_exp;
     private javax.swing.JSpinner spinner_number;
+    private javax.swing.JSpinner spinner_team;
     // End of variables declaration//GEN-END:variables
 }

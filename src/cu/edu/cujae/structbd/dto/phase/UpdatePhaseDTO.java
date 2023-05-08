@@ -15,11 +15,11 @@ public class UpdatePhaseDTO
 {
     private String phase_id;
     private String phase_name;
-    private Date start_date;
-    private Date finish_date;
+    private LocalDate start_date;
+    private LocalDate finish_date;
     private int teams_amount;
 
-    public UpdatePhaseDTO(String phase_id, String phase_name, Date start_date, Date finish_date,
+    public UpdatePhaseDTO(String phase_id, String phase_name, LocalDate start_date, LocalDate finish_date,
                           int teams_amount)
     {
         this.phase_id = phase_id;
@@ -63,12 +63,12 @@ public class UpdatePhaseDTO
         }
     }
 
-    public Date getStart_date()
+    public LocalDate getStart_date()
     {
         return start_date;
     }
 
-    public void setStart_date(Date start_date)
+    public void setStart_date(LocalDate start_date)
     {
         if (start_date != null)
         {
@@ -80,12 +80,12 @@ public class UpdatePhaseDTO
         }
     }
 
-    public Date getFinish_date()
+    public LocalDate getFinish_date()
     {
         return finish_date;
     }
 
-    public void setFinish_date(Date finish_date)
+    public void setFinish_date(LocalDate finish_date)
     {
         if (finish_date != null)
         {

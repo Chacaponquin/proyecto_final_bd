@@ -29,17 +29,41 @@ public class ProvinceUI extends javax.swing.JDialog
     private void initComponents()
     {
 
+        jPopupMenu1 = new javax.swing.JPopupMenu();
+        menuMod = new javax.swing.JMenuItem();
+        menuDel = new javax.swing.JMenuItem();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        table = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
 
+        menuMod.setText("Modificar provincia");
+        menuMod.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                menuModActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(menuMod);
+
+        menuDel.setText("Eliminar provincia");
+        menuDel.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                menuDelActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(menuDel);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Provincia");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        table.setAutoCreateRowSorter(true);
+        table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][]
             {
                 {null},
@@ -72,7 +96,8 @@ public class ProvinceUI extends javax.swing.JDialog
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        table.setComponentPopupMenu(jPopupMenu1);
+        jScrollPane1.setViewportView(table);
 
         jButton3.setText("Insertar");
         jButton3.addActionListener(new java.awt.event.ActionListener()
@@ -166,6 +191,26 @@ public class ProvinceUI extends javax.swing.JDialog
         createProvinceUI.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    private void menuModActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_menuModActionPerformed
+    {//GEN-HEADEREND:event_menuModActionPerformed
+        int row = table.getSelectedRow();
+        if (row>0){
+            
+        } else {
+            
+        }
+    }//GEN-LAST:event_menuModActionPerformed
+
+    private void menuDelActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_menuDelActionPerformed
+    {//GEN-HEADEREND:event_menuDelActionPerformed
+        int row = table.getSelectedRow();
+        if (row>0){
+            
+        } else {
+            
+        }
+    }//GEN-LAST:event_menuDelActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -230,7 +275,10 @@ public class ProvinceUI extends javax.swing.JDialog
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JMenuItem menuDel;
+    private javax.swing.JMenuItem menuMod;
+    private javax.swing.JTable table;
     // End of variables declaration//GEN-END:variables
 }
