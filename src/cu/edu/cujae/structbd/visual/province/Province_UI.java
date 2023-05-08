@@ -4,6 +4,14 @@
  */
 package cu.edu.cujae.structbd.visual.province;
 
+import cu.edu.cujae.structbd.dto.province.ReadProvinceDTO;
+import cu.edu.cujae.structbd.services.ServicesLocator;
+import java.sql.SQLException;
+import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Jose
@@ -11,12 +19,34 @@ package cu.edu.cujae.structbd.visual.province;
 public class Province_UI extends javax.swing.JFrame
 {
 
+    private LinkedList<ReadProvinceDTO> provinces_list;
+
     /**
      * Creates new form Province_UI
      */
     public Province_UI()
     {
         initComponents();
+        try
+        {
+
+            this.provinces_list = new LinkedList<>(ServicesLocator.ProvinceServices.readAllProvince());
+            for (ReadProvinceDTO rpdt : provinces_list)
+            {
+                ((DefaultTableModel) table.getModel()).addRow(new Object[]
+                {
+                    rpdt.getName()
+                });
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(Province_UI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        catch (ClassNotFoundException ex)
+        {
+            Logger.getLogger(Province_UI.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -152,6 +182,7 @@ public class Province_UI extends javax.swing.JFrame
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton1ActionPerformed
@@ -173,20 +204,26 @@ public class Province_UI extends javax.swing.JFrame
     private void menuModActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_menuModActionPerformed
     {//GEN-HEADEREND:event_menuModActionPerformed
         int row = table.getSelectedRow();
-        if (row>0){
-            
-        } else {
-            
+        if (row > 0)
+        {
+
+        }
+        else
+        {
+
         }
     }//GEN-LAST:event_menuModActionPerformed
 
     private void menuDelActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_menuDelActionPerformed
     {//GEN-HEADEREND:event_menuDelActionPerformed
         int row = table.getSelectedRow();
-        if (row>0){
-            
-        } else {
-            
+        if (row > 0)
+        {
+
+        }
+        else
+        {
+
         }
     }//GEN-LAST:event_menuDelActionPerformed
 

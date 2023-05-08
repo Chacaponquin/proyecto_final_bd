@@ -46,11 +46,11 @@ public class PhaseUI extends javax.swing.JFrame {
         }
         catch (SQLException ex)
         {
-            Logger.getLogger(Phase_UI.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PhaseUI.class.getName()).log(Level.SEVERE, null, ex);
         }
         catch (ClassNotFoundException ex)
         {
-            Logger.getLogger(Phase_UI.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PhaseUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -187,6 +187,7 @@ public class PhaseUI extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void menuUpdateActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_menuUpdateActionPerformed
@@ -273,11 +274,11 @@ public class PhaseUI extends javax.swing.JFrame {
                 }
                 catch (SQLException ex)
                 {
-                    Logger.getLogger(Phase_UI.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(PhaseUI.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 catch (ClassNotFoundException ex)
                 {
-                    Logger.getLogger(Phase_UI.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(PhaseUI.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
