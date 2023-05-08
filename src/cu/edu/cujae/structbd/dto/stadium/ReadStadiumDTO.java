@@ -17,4 +17,12 @@ public class ReadStadiumDTO {
         this.stadiumName = stadiumName;
     }
     
+    public String getStadiumName(){
+        return this.stadiumName;
+    }
+    
+    public int getCapacity(){
+        return this.capacity;
+    }
+    
 }

@@ -13,6 +13,7 @@ import cu.edu.cujae.structbd.visual.player.PlayerUI;
 import cu.edu.cujae.structbd.visual.position.PositionUI;
 import cu.edu.cujae.structbd.visual.province.ProvinceUI;
 import cu.edu.cujae.structbd.visual.stadium.StadiumUI;
+import java.sql.SQLException;
 import java.util.HashMap;
 import javax.swing.JFrame;
 
@@ -23,7 +24,7 @@ import javax.swing.JFrame;
 public class ViewUtils {
     private final HashMap<String, JFrame> views = new HashMap<>();
     
-    public ViewUtils(){
+    public ViewUtils() throws SQLException, ClassNotFoundException{
         this.views.put("Position", new PositionUI());
         this.views.put("Player", new PlayerUI());
         this.views.put("Pitcher", new PitcherUI());

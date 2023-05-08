@@ -19,10 +19,7 @@ public class StadiumServices {
         
         while (result.next())
         {
-            ReadStadiumDTO newDTO = new ReadStadiumDTO(result.getString(1), Integer.parseInt(result.getString(2)));
-            System.out.println(result.getString(1));
-            System.out.println(result.getString(2));
-            
+            ReadStadiumDTO newDTO = new ReadStadiumDTO(result.getString(1), Integer.parseInt(result.getString(2)));            
             stadiums.add(newDTO);
         }
         
