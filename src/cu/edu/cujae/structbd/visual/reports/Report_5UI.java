@@ -18,13 +18,13 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Jose
  */
-public class report_5 extends javax.swing.JDialog
+public class Report_5UI extends javax.swing.JDialog
 {
 
     /**
      * Creates new form report_5
      */
-    public report_5(java.awt.Frame parent, boolean modal)
+    public Report_5UI(java.awt.Frame parent, boolean modal)
     {
         super(parent, modal);
         try
@@ -44,11 +44,11 @@ public class report_5 extends javax.swing.JDialog
         }
         catch (SQLException ex)
         {
-            Logger.getLogger(report_5.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Report_5UI.class.getName()).log(Level.SEVERE, null, ex);
         }
         catch (ClassNotFoundException ex)
         {
-            Logger.getLogger(report_5.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Report_5UI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -177,20 +177,21 @@ public class report_5 extends javax.swing.JDialog
         }
         catch (ClassNotFoundException ex)
         {
-            java.util.logging.Logger.getLogger(report_5.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Report_5UI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         catch (InstantiationException ex)
         {
-            java.util.logging.Logger.getLogger(report_5.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Report_5UI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         catch (IllegalAccessException ex)
         {
-            java.util.logging.Logger.getLogger(report_5.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Report_5UI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         catch (javax.swing.UnsupportedLookAndFeelException ex)
         {
-            java.util.logging.Logger.getLogger(report_5.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Report_5UI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the dialog */
@@ -198,7 +199,7 @@ public class report_5 extends javax.swing.JDialog
         {
             public void run()
             {
-                report_5 dialog = new report_5(new javax.swing.JFrame(), true);
+                Report_5UI dialog = new Report_5UI(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter()
                 {
                     @Override
