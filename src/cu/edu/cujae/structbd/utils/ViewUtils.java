@@ -12,8 +12,8 @@ import cu.edu.cujae.structbd.visual.pitcher.PitcherUI;
 import cu.edu.cujae.structbd.visual.player.PlayerUI;
 import cu.edu.cujae.structbd.visual.position.PositionUI;
 import cu.edu.cujae.structbd.visual.province.ProvinceUI;
+import cu.edu.cujae.structbd.visual.stadium.StadiumUI;
 import java.util.HashMap;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 
 /**
@@ -21,7 +21,7 @@ import javax.swing.JFrame;
  * @author Hector Angel Gomez
  */
 public class ViewUtils {
-    private HashMap<String, JFrame> views = new HashMap<>();
+    private final HashMap<String, JFrame> views = new HashMap<>();
     
     public ViewUtils(){
         this.views.put("Position", new PositionUI());
@@ -31,6 +31,7 @@ public class ViewUtils {
         this.views.put("Game", new GameUI());
         this.views.put("Coach", new CoachUI());
         this.views.put("Batter", new BatterUI());
+        this.views.put("Stadium", new StadiumUI());
     }
     
     public HashMap<String, JFrame> getViews(){

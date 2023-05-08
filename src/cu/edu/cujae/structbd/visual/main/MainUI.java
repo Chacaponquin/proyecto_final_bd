@@ -7,8 +7,14 @@ package cu.edu.cujae.structbd.visual.main;
 import cu.edu.cujae.structbd.utils.UtilsConnector;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 /**
  *
@@ -24,6 +30,8 @@ public class MainUI extends javax.swing.JFrame {
     public MainUI() {
         initComponents();
         this.updateMenuItems();
+        
+        
     }
     
     public void updateMenuItems(){
@@ -40,8 +48,8 @@ public class MainUI extends javax.swing.JFrame {
             this.jMenu1.add(menuItem);
         });
     }
-    
-    public ActionListener clickMenuItem(MainUI mainWindow, JFrame view){
+     
+    public ActionListener clickMenuItem(MainUI mainWindow, JFrame view) {
         return new ActionListener(){
             @Override
                 public void actionPerformed(ActionEvent e){
@@ -69,15 +77,22 @@ public class MainUI extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        ImageIcon icon = new ImageIcon(MainUI.class.getResource("/cu/edu/cujae/structbd/assets/cat.jpg"));
+        System.out.print(icon);
+        JLabel label = new JLabel();
+        label.setIcon(icon);
+        imagePanel.add(label);
+        imagePanel.setVisible(true);
+
         javax.swing.GroupLayout imagePanelLayout = new javax.swing.GroupLayout(imagePanel);
         imagePanel.setLayout(imagePanelLayout);
         imagePanelLayout.setHorizontalGroup(
             imagePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 355, Short.MAX_VALUE)
+            .addGap(0, 375, Short.MAX_VALUE)
         );
         imagePanelLayout.setVerticalGroup(
             imagePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 260, Short.MAX_VALUE)
+            .addGap(0, 281, Short.MAX_VALUE)
         );
 
         jMenu1.setText("File");
@@ -95,14 +110,14 @@ public class MainUI extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(128, 128, 128)
                 .addComponent(imagePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(141, Short.MAX_VALUE))
+                .addContainerGap(121, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(37, 37, 37)
                 .addComponent(imagePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(67, Short.MAX_VALUE))
+                .addContainerGap(46, Short.MAX_VALUE))
         );
 
         pack();
