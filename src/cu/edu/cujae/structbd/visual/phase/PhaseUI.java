@@ -4,17 +4,54 @@
  */
 package cu.edu.cujae.structbd.visual.phase;
 
+import cu.edu.cujae.structbd.dto.phase.DeletePhaseDTO;
+import cu.edu.cujae.structbd.dto.phase.ReadPhaseDTO;
+import cu.edu.cujae.structbd.dto.phase.UpdatePhaseDTO;
+import cu.edu.cujae.structbd.services.ServicesLocator;
+import static java.awt.image.ImageObserver.HEIGHT;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Hector Angel Gomez
  */
 public class PhaseUI extends javax.swing.JFrame {
 
+    private LinkedList<ReadPhaseDTO> readPhaseDTO_list;
     /**
      * Creates new form PhaseUI
      */
     public PhaseUI() {
         initComponents();
+        try
+        {
+            this.readPhaseDTO_list = new LinkedList<>(ServicesLocator.PhaseServices.readAllPhase());
+            Iterator<ReadPhaseDTO> it_readPhaseDTO_list = readPhaseDTO_list.iterator();
+            while (it_readPhaseDTO_list.hasNext())
+            {
+                ReadPhaseDTO readPhaseDTO = it_readPhaseDTO_list.next();
+                ((DefaultTableModel) table.getModel()).addRow(new Object[]
+                {
+                    readPhaseDTO.getPhase_name(), readPhaseDTO.getStart_date().toString(),
+                    readPhaseDTO.getFinish_date().toString(), readPhaseDTO.getTeams_amount()
+                });
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(Phase_UI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        catch (ClassNotFoundException ex)
+        {
+            Logger.getLogger(Phase_UI.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -24,23 +61,243 @@ public class PhaseUI extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents()
+    {
+
+        jPopupMenu1 = new javax.swing.JPopupMenu();
+        menuUpdate = new javax.swing.JMenuItem();
+        menuDelete = new javax.swing.JMenuItem();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        table = new javax.swing.JTable();
+
+        menuUpdate.setText("Modificar fase");
+        menuUpdate.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                menuUpdateActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(menuUpdate);
+
+        menuDelete.setText("Eliminar fase");
+        menuDelete.setToolTipText("");
+        menuDelete.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                menuDeleteActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(menuDelete);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jButton1.setText("Cancelar");
+        jButton1.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("Aceptar");
+        jButton2.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jButton3.setText("Insertar");
+        jButton3.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        table.setAutoCreateRowSorter(true);
+        table.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][]
+            {
+
+            },
+            new String []
+            {
+                "Nombre", "Fecha de inicio", "Fecha de fin", "Equipos"
+            }
+        )
+        {
+            Class[] types = new Class []
+            {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
+            };
+            boolean[] canEdit = new boolean []
+            {
+                false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex)
+            {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex)
+            {
+                return canEdit [columnIndex];
+            }
+        });
+        table.setComponentPopupMenu(jPopupMenu1);
+        jScrollPane1.setViewportView(table);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jButton2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1))
+                    .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addContainerGap())
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jButton3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 232, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void menuUpdateActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_menuUpdateActionPerformed
+    {//GEN-HEADEREND:event_menuUpdateActionPerformed
+        int row = table.getSelectedRow();
+        if (row > 0)
+        {
+            String name = table.getValueAt(row - 1, 1).toString();
+            String start_date = table.getValueAt(row - 1, 2).toString();
+            String finish_date = table.getValueAt(row - 1, 3).toString();
+            int teams_amount = Integer.valueOf(table.getValueAt(row - 1, 4).toString());
+            Iterator<ReadPhaseDTO> it_list = this.readPhaseDTO_list.iterator();
+            String id = null;
+            boolean found = false;
+
+            //Buscando el id de la fase seleccionada 
+            while (it_list.hasNext() && !found)
+            {
+                ReadPhaseDTO readPhaseDTO = it_list.next();
+                if (readPhaseDTO.getPhase_name().equals(name))
+                {
+                    id = readPhaseDTO.getPhase_id();
+                    found = true;
+                }
+            }
+
+            //Llamada a la funcion de modificar
+            if (found)
+            {
+                LocalDate sd = LocalDate.of(Integer.valueOf(start_date.substring(0, 4)), Integer.valueOf(start_date.
+                                            substring(5, 7)), Integer.valueOf(start_date.substring(8, 10)));
+                LocalDate fd = LocalDate.of(Integer.valueOf(finish_date.substring(0, 4)), Integer.valueOf(finish_date.
+                                            substring(5, 7)), Integer.valueOf(finish_date.substring(8, 10)));
+                UpdatePhaseDTO updatePhaseDTO = new UpdatePhaseDTO(id, name, sd, fd, teams_amount);
+                UpdatePhaseUI ufui = new UpdatePhaseUI(null, true, updatePhaseDTO);
+                ufui.setVisible(true);
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(rootPane, "La fase no se encuentra en la base de datos", "Información",
+                                              HEIGHT);
+            }
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(rootPane, "Seleccione una fase para poder modificarla", "Información",
+                                          HEIGHT);
+        }
+    }//GEN-LAST:event_menuUpdateActionPerformed
+
+    private void menuDeleteActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_menuDeleteActionPerformed
+    {//GEN-HEADEREND:event_menuDeleteActionPerformed
+        int row = table.getSelectedRow();
+        System.out.println(String.valueOf(row));
+        if (row > 0)
+        {
+            String name = table.getValueAt(row, 0).toString();
+            System.out.println(name);
+            String start_date = table.getValueAt(row, 1).toString();
+            String finish_date = table.getValueAt(row, 2).toString();
+            int teams_amount = Integer.valueOf(table.getValueAt(row, 3).toString());
+            Iterator<ReadPhaseDTO> it_list = this.readPhaseDTO_list.iterator();
+            String id = null;
+            boolean found = false;
+
+            //Buscando el id de la fase seleccionada 
+            while (it_list.hasNext() && !found)
+            {
+                ReadPhaseDTO readPhaseDTO = it_list.next();
+                if (readPhaseDTO.getPhase_name().equals(name))
+                {
+                    System.out.println("siiiiiiiiii");
+                    id = readPhaseDTO.getPhase_id();
+                    found = true;
+                }
+            }
+
+            //Llamada a la funcion de eliminar
+            if (found)
+            {
+                try
+                {
+                    ServicesLocator.PhaseServices.deletePhase(new DeletePhaseDTO(id));
+                }
+                catch (SQLException ex)
+                {
+                    Logger.getLogger(Phase_UI.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                catch (ClassNotFoundException ex)
+                {
+                    Logger.getLogger(Phase_UI.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+    }//GEN-LAST:event_menuDeleteActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton2ActionPerformed
+    {//GEN-HEADEREND:event_jButton2ActionPerformed
+        dispose();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton1ActionPerformed
+    {//GEN-HEADEREND:event_jButton1ActionPerformed
+        dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton3ActionPerformed
+    {//GEN-HEADEREND:event_jButton3ActionPerformed
+        CreatePhaseUI cpui = new CreatePhaseUI(this, rootPaneCheckingEnabled);
+        cpui.setVisible(true);
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -78,5 +335,13 @@ public class PhaseUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JPopupMenu jPopupMenu1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JMenuItem menuDelete;
+    private javax.swing.JMenuItem menuUpdate;
+    private javax.swing.JTable table;
     // End of variables declaration//GEN-END:variables
 }

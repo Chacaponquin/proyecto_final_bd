@@ -30,7 +30,6 @@ public class CoachServices
         preparedFunction.setInt(5, createCoachDTO.getExperience_years());
         preparedFunction.execute();
         preparedFunction.close();
-        connection.close();
     }
 
     public void updateCoach(UpdateCoachDTO updateCoachDTO) throws SQLException, ClassNotFoundException
@@ -46,7 +45,6 @@ public class CoachServices
         preparedFunction.setInt(6, updateCoachDTO.getYears_in_team());
         preparedFunction.execute();
         preparedFunction.close();
-        connection.close();
     }
 
     public void deleteCoach(DeleteCoachDTO deleteCoachDTO) throws SQLException, ClassNotFoundException
@@ -57,7 +55,6 @@ public class CoachServices
         preparedFunction.setString(1, deleteCoachDTO.getTeam_member_ID());
         preparedFunction.execute();
         preparedFunction.close();
-        connection.close();
     }
 
     public List<ReadCoachDTO> readAllCoaches() throws SQLException, ClassNotFoundException
@@ -77,7 +74,6 @@ public class CoachServices
         }
         resultSet.close();
         preparedFunction.close();
-        connection.close();
         return coaches_list;
     }
 
@@ -95,6 +91,7 @@ public class CoachServices
         resultSet.next();
         readCoachDTO = new ReadCoachDTO(resultSet.getString(1), resultSet.getString(2), resultSet.getInt(4),
                                         resultSet.getString(3), resultSet.getInt(5), resultSet.getInt(6));
+        preparedFunction.close();
         return readCoachDTO;
     }
 }

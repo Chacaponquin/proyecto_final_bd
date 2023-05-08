@@ -34,8 +34,6 @@ public class PlayerServices
         CallableStatement preparedFunction = connection.prepareCall(function);
         preparedFunction.setString(1, deletePlayerDTO.getID());
         preparedFunction.execute();
-        preparedFunction.close();
-        connection.close();
     }
 
     public List<ReadPlayerDTO> readAllPlayer() throws SQLException, ClassNotFoundException
@@ -55,7 +53,6 @@ public class PlayerServices
         }
         resultSet.close();
         preparedFunction.close();
-        connection.close();
         return players_list;
     }
 
@@ -73,6 +70,7 @@ public class PlayerServices
         resultSet.next();
         readPlayerDTO = new ReadPlayerDTO(resultSet.getString(1), resultSet.getString(2), resultSet.getInt(4),
                                           resultSet.getString(3), resultSet.getString(5), resultSet.getInt(6));
+        preparedFunction.close();
         return readPlayerDTO;
     }
 }

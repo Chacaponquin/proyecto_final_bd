@@ -57,7 +57,7 @@ public class MainUI extends javax.swing.JFrame {
         return new ActionListener(){
             @Override
                 public void actionPerformed(ActionEvent e){
-                    mainWindow.setVisible(false);
+                mainWindow.setVisible(true);
                     view.setVisible(true);
                     view.setLocationRelativeTo(null);
                 } 

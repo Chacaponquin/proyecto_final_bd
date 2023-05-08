@@ -8,6 +8,7 @@ package cu.edu.cujae.structbd.utils;
  *
  * @author Hector Angel Gomez
  */
-public class UtilsConnector {
-    public static ViewUtils viewUtils = new ViewUtils(); 
+public class UtilsConnector
+{
+    public static ViewUtils viewUtils = new ViewUtils();
 }

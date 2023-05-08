@@ -29,6 +29,7 @@ public class CreatePhaseUI extends javax.swing.JDialog
     {
         super(parent, modal);
         initComponents();
+        jButton2.setEnabled(true);
     }
 
     /**

@@ -1,6 +1,6 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package cu.edu.cujae.structbd.visual.coach;
 
@@ -20,17 +20,14 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Jose
  */
-public class CoachUI extends javax.swing.JDialog
+public class Coach_UI extends javax.swing.JFrame
 {
-
     private LinkedList<ReadCoachDTO> readCoachDTO_list;
-
     /**
-     * Creates new form CoachUI
+     * Creates new form Coach_UI
      */
-    public CoachUI(java.awt.Frame parent, boolean modal)
+    public Coach_UI()
     {
-        super(parent, modal);
         initComponents();
         try
         {
@@ -52,11 +49,11 @@ public class CoachUI extends javax.swing.JDialog
         }
         catch (SQLException ex)
         {
-            Logger.getLogger(CoachUI.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Coach_UI.class.getName()).log(Level.SEVERE, null, ex);
         }
         catch (ClassNotFoundException ex)
         {
-            Logger.getLogger(CoachUI.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Coach_UI.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
@@ -73,11 +70,13 @@ public class CoachUI extends javax.swing.JDialog
         jPopupMenu1 = new javax.swing.JPopupMenu();
         menuUpdate = new javax.swing.JMenuItem();
         menuDelete = new javax.swing.JMenuItem();
+        jPanel1 = new javax.swing.JPanel();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
-        jButton3 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
 
         menuUpdate.setText("jMenuItem1");
         menuUpdate.addActionListener(new java.awt.event.ActionListener()
@@ -99,9 +98,54 @@ public class CoachUI extends javax.swing.JDialog
         });
         jPopupMenu1.add(menuDelete);
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setResizable(false);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jButton2.setText("Cancelar");
+        jButton2.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jButton3.setText("Aceptar");
+        jButton3.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton2)
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(jButton2)
+                .addComponent(jButton3))
+        );
+
+        jButton1.setText("Insertar");
+        jButton1.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        table.setAutoCreateRowSorter(true);
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][]
             {
@@ -109,7 +153,7 @@ public class CoachUI extends javax.swing.JDialog
             },
             new String []
             {
-                "Nombre", "Equipo", "´Número", "Años de experiencia", "Años en el equipo"
+                "Nombre", "Equipo", "Número", "Años de experiencia", "Años en el equipo"
             }
         )
         {
@@ -135,63 +179,55 @@ public class CoachUI extends javax.swing.JDialog
         table.setComponentPopupMenu(jPopupMenu1);
         jScrollPane1.setViewportView(table);
 
-        jButton3.setText("Insertar");
-
-        jButton2.setText("Aceptar");
-        jButton2.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
-        jButton1.setText("Cancelar");
-        jButton1.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                jButton1ActionPerformed(evt);
-            }
-        });
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addContainerGap())
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 573, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(429, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jButton2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1)))
-                .addContainerGap())
-            .addComponent(jScrollPane1)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 289, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
         pack();
-        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton1ActionPerformed
     {//GEN-HEADEREND:event_jButton1ActionPerformed
-        dispose();
+        CreateCoachUI ccui = new CreateCoachUI(this, rootPaneCheckingEnabled);
+        ccui.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton3ActionPerformed
+    {//GEN-HEADEREND:event_jButton3ActionPerformed
+        dispose();
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton2ActionPerformed
     {//GEN-HEADEREND:event_jButton2ActionPerformed
@@ -200,14 +236,14 @@ public class CoachUI extends javax.swing.JDialog
 
     private void menuUpdateActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_menuUpdateActionPerformed
     {//GEN-HEADEREND:event_menuUpdateActionPerformed
-        int row = table.getSelectedRow();
+         int row = table.getSelectedRow();
         if (row > 0)
         {
-            String name = table.getValueAt(row, 1).toString();
-            String team = table.getValueAt(row, 2).toString();
-            Integer number = Integer.valueOf(table.getValueAt(row, 3).toString());
-            Integer years_exp = Integer.valueOf(table.getValueAt(row, 4).toString());
-            Integer years_team = Integer.valueOf(table.getValueAt(row, 5).toString());
+            String name = table.getValueAt(row, 0).toString();
+            String team = table.getValueAt(row, 1).toString();
+            Integer number = Integer.valueOf(table.getValueAt(row, 2).toString());
+            Integer years_exp = Integer.valueOf(table.getValueAt(row, 3).toString());
+            Integer years_team = Integer.valueOf(table.getValueAt(row, 4).toString());
             String id = null;
             boolean found = false;
             Iterator<ReadCoachDTO> it = this.readCoachDTO_list.iterator();
@@ -228,19 +264,21 @@ public class CoachUI extends javax.swing.JDialog
                 UpdateCoachUI upui = new UpdateCoachUI(null, true, updateCoachDTO);
                 upui.setVisible(true);
             }
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Seleccione un entrenador para poder modificar sus datos", "Información", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_menuUpdateActionPerformed
 
     private void menuDeleteActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_menuDeleteActionPerformed
     {//GEN-HEADEREND:event_menuDeleteActionPerformed
-       int row = table.getSelectedRow();
+        int row = table.getSelectedRow();
         if (row > 0)
         {
-            String name = table.getValueAt(row, 1).toString();
-            String team = table.getValueAt(row, 2).toString();
-            Integer number = Integer.valueOf(table.getValueAt(row, 3).toString());
-            Integer years_exp = Integer.valueOf(table.getValueAt(row, 4).toString());
-            Integer years_team = Integer.valueOf(table.getValueAt(row, 5).toString());
+            String name = table.getValueAt(row, 0).toString();
+            String team = table.getValueAt(row, 1).toString();
+            Integer number = Integer.valueOf(table.getValueAt(row, 2).toString());
+            Integer years_exp = Integer.valueOf(table.getValueAt(row, 3).toString());
+            Integer years_team = Integer.valueOf(table.getValueAt(row, 4).toString());
             String id = null;
             boolean found = false;
             Iterator<ReadCoachDTO> it = this.readCoachDTO_list.iterator();
@@ -263,13 +301,15 @@ public class CoachUI extends javax.swing.JDialog
                 }
                 catch (SQLException ex)
                 {
-                    Logger.getLogger(CoachUI.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(Coach_UI.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 catch (ClassNotFoundException ex)
                 {
-                    Logger.getLogger(CoachUI.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(Coach_UI.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Seleccione un entrenador para poder modificar sus datos", "Información", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_menuDeleteActionPerformed
 
@@ -296,37 +336,28 @@ public class CoachUI extends javax.swing.JDialog
         }
         catch (ClassNotFoundException ex)
         {
-            java.util.logging.Logger.getLogger(CoachUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Coach_UI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         catch (InstantiationException ex)
         {
-            java.util.logging.Logger.getLogger(CoachUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Coach_UI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         catch (IllegalAccessException ex)
         {
-            java.util.logging.Logger.getLogger(CoachUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Coach_UI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         catch (javax.swing.UnsupportedLookAndFeelException ex)
         {
-            java.util.logging.Logger.getLogger(CoachUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Coach_UI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
-        /* Create and display the dialog */
+        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable()
         {
             public void run()
             {
-                CoachUI dialog = new CoachUI(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter()
-                {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e)
-                    {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
+                new Coach_UI().setVisible(true);
             }
         });
     }
@@ -335,6 +366,8 @@ public class CoachUI extends javax.swing.JDialog
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JMenuItem menuDelete;
