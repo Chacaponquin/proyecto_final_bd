@@ -14,7 +14,12 @@ public class ReadPositionDTO {
     }
 
     public void setPositionID(String positionID) {
-        this.positionID = positionID;
+        if(positionID != null){
+            this.positionID = positionID;
+        }
+        else{
+            throw new IllegalArgumentException();
+        }
     }
 
     public String getPositionName() {
@@ -22,6 +27,11 @@ public class ReadPositionDTO {
     }
 
     public void setPositionName(String positionName) {
-        this.positionName = positionName;
+        if(positionName != null){
+            this.positionName = positionName;
+        }
+        else{
+            throw new IllegalArgumentException();
+        }
     }
 }

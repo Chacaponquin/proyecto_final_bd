@@ -1,9 +1,11 @@
-package cu.edu.cujae.structbd.dto.team_member;
+package cu.edu.cujae.structbd.dto.game;
 
-public class DeleteTeamMemberDTO {
-    private String id;
+import java.time.LocalDate;
 
-    public DeleteTeamMemberDTO(String id) {
+public class ReadAGameDTO {
+     private String id;
+
+    public ReadAGameDTO(String id, String hcTeamID, String visTeamID, String phaseID, LocalDate date, String winner, int audience) {
         this.id = id;
     }
 

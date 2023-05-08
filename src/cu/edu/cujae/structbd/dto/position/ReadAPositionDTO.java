@@ -1,9 +1,9 @@
 package cu.edu.cujae.structbd.dto.position;
 
-public class DeletePositionDTO {
+public class ReadAPositionDTO {
     private String positionID;
 
-    public DeletePositionDTO(String positionID) {
+    public ReadAPositionDTO(String positionID) {
         this.positionID = positionID;
     }
 

@@ -1,9 +1,9 @@
 package cu.edu.cujae.structbd.dto.pitcher;
 
-public class DeletePitcherDTO {
+public class ReadAPitcherDTO {
     private String teamMemberID;
 
-    public DeletePitcherDTO(String teamMemberID) {
+    public ReadAPitcherDTO(String teamMemberID) {
         this.teamMemberID = teamMemberID;
     }
 

@@ -1,9 +1,9 @@
 package cu.edu.cujae.structbd.dto.team_member;
 
-public class DeleteTeamMemberDTO {
+public class ReadATeamMemberDTO {
     private String id;
 
-    public DeleteTeamMemberDTO(String id) {
+    public ReadATeamMemberDTO(String id) {
         this.id = id;
     }
 
