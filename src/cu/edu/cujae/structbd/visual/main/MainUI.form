@@ -61,7 +61,7 @@
     <Container class="javax.swing.JPanel" name="imagePanel">
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JPanel()"/>
-        <AuxValue name="JavaCodeGenerator_LayoutCodePre" type="java.lang.String" value="ImageIcon icon = new ImageIcon(MainUI.class.getResource(&quot;/cu/edu/cujae/structbd/assets/cat.jpg&quot;));&#xa;System.out.print(icon);&#xa;JLabel label = new JLabel();&#xa;label.setIcon(icon);&#xa;imagePanel.add(label);&#xa;imagePanel.setVisible(true);"/>
+        <AuxValue name="JavaCodeGenerator_LayoutCodePre" type="java.lang.String" value="imagePanel = new JPanel(){&#xa;    public void paintComponent(Graphics g) {&#xa;        Image img = Toolkit.getDefaultToolkit().getImage(MainUI.class.getResource(&quot;/cu/edu/cujae/structbd/assets/cat.jpg&quot;));&#xa;        g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), this);&#xa;    }&#xa;};"/>
       </AuxValues>
 
       <Layout>
