@@ -24,7 +24,6 @@ public class ProvinceServices
         preparedFunction.setString(2, createProvinceDTO.getName());
         preparedFunction.execute();
         preparedFunction.close();
-        connection.close();
 
     }
 
@@ -37,7 +36,6 @@ public class ProvinceServices
         preparedFunction.setString(2, updateProvinceDTO.getName());
         preparedFunction.execute();
         preparedFunction.close();
-        connection.close();
     }
 
     public void deleteProvince(DeleteProvinceDTO deleteProvinceDTO) throws SQLException, ClassNotFoundException
@@ -48,7 +46,6 @@ public class ProvinceServices
         preparedFunction.setString(1, deleteProvinceDTO.getID());
         preparedFunction.execute();
         preparedFunction.close();
-        connection.close();
     }
 
     public List<ReadProvinceDTO> readAllProvince() throws SQLException, ClassNotFoundException
@@ -67,7 +64,7 @@ public class ProvinceServices
         }
         resultSet.close();
         preparedFunction.close();
-        connection.close();
+
         return provinces_list;
     }
 
@@ -86,7 +83,7 @@ public class ProvinceServices
         readProvinceDTO = new ReadProvinceDTO(resultSet.getString(1), resultSet.getString(2));
         resultSet.close();
         preparedFunction.close();
-        connection.close();
+
         return readProvinceDTO;
     }
 }

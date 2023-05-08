@@ -35,14 +35,13 @@ public class MainUI extends javax.swing.JFrame {
     public MainUI() {
         initComponents();
         this.updateMenuItems();
-        
-        
     }
     
     public void updateMenuItems(){
         HashMap<String, JFrame> views = UtilsConnector.viewUtils.getViews();
         
         this.jMenu1.setText("Entidades");
+        this.jMenu2.setText("Reportes");
         
         views.forEach((k, view) -> {
             javax.swing.JMenuItem menuItem = new javax.swing.JMenuItem();
