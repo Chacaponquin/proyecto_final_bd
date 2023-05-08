@@ -11,8 +11,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class ProvinceServices
 {
@@ -91,25 +89,4 @@ public class ProvinceServices
         connection.close();
         return readProvinceDTO;
     }
-
-    public static void main(String args[])
-    {
-        try
-        {
-            ProvinceServices ps = new ProvinceServices();
-            DeleteProvinceDTO cp = new DeleteProvinceDTO("ce5d1a08-1603-1603-b640-92e4dd8cd6a8");
-            ps.deleteProvince(cp);
-
-        }
-        catch (SQLException ex)
-        {
-            Logger.getLogger(ProvinceServices.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        catch (ClassNotFoundException ex)
-        {
-            Logger.getLogger(ProvinceServices.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }
-
 }

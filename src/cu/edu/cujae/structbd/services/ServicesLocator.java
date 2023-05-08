@@ -15,5 +15,6 @@ public abstract class ServicesLocator {
     public static TeamServices TeamServices = new TeamServices();
 
     public static TeamMemberServices TeamMemberServices = new TeamMemberServices();
+    public static AppServices AppServices = new AppServices();
 
 }
