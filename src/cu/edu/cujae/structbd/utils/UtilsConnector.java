@@ -11,4 +11,5 @@ package cu.edu.cujae.structbd.utils;
 public class UtilsConnector
 {
     public static ViewUtils viewUtils = new ViewUtils();
+    public static IdUtils idUtils = new IdUtils();
 }
