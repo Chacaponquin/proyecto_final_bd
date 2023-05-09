@@ -74,6 +74,7 @@ public class CoachServices
         }
         resultSet.close();
         preparedFunction.close();
+        
         return coaches_list;
     }
 

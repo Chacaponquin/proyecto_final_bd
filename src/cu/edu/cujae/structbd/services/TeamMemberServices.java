@@ -28,7 +28,7 @@ public class TeamMemberServices {
                     resultSet.getInt(3), resultSet.getString(4), resultSet.getString(5));
         resultSet.close();
         preparedFunction.close();
-        connection.close();
+
         return readTeamMemberDTO;
         
     }
@@ -49,7 +49,7 @@ public class TeamMemberServices {
         }
         resultSet.close();
         preparedFunction.close();
-        connection.close();
+
         return teamMembersList;
     }
     
@@ -64,7 +64,6 @@ public class TeamMemberServices {
         preparedFunction.setString(5, updateTeamMemberDTO.getTeam_id());
         preparedFunction.execute();
         preparedFunction.close();
-        connection.close();
     }
     
     public void deleteTeamMember(DeleteTeamMemberDTO deleteTeamMemberDTO) throws SQLException, ClassNotFoundException{
@@ -74,6 +73,5 @@ public class TeamMemberServices {
         preparedFunction.setString(1, deleteTeamMemberDTO.getId());
         preparedFunction.execute();
         preparedFunction.close();
-        connection.close();
     }
 }

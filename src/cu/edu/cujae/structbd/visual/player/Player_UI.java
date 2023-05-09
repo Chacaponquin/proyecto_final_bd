@@ -31,7 +31,7 @@ public class Player_UI extends javax.swing.JFrame
         {
             this.list_player = new LinkedList<>(ServicesLocator.PlayerServices.readAllPlayer());
             Iterator<ReadPlayerDTO> it_list_player = list_player.iterator();
-            while (it_list_player.hasNext())
+            while(it_list_player.hasNext())
             {
                 ReadPlayerDTO readPlayerDTO = it_list_player.next();
                 ((DefaultTableModel) table.getModel()).addRow(new Object[]

@@ -33,7 +33,6 @@ public class PhaseServices
         preparedFunction.setInt(5, createPhaseDTO.getTeams_amount());
         preparedFunction.execute();
         preparedFunction.close();
-        connection.close();
     }
 
     public void updatePhase(UpdatePhaseDTO updatePhaseDTO) throws SQLException, ClassNotFoundException
@@ -69,6 +68,7 @@ public class PhaseServices
         }
         resultSet.close();
         preparedFunction.close();
+        
         return phase_list;
     }
 
@@ -101,24 +101,5 @@ public class PhaseServices
         preparedFunction.setString(1, deletePhaseDTO.getPhase_id());
         preparedFunction.execute();
         preparedFunction.close();
-    }
-
-    public static void main(String args[])
-    {
-        DeletePhaseDTO df = new DeletePhaseDTO("3da4016e-1603-1603-bc49-ae82ea8cd7c5");
-        PhaseServices ps = new PhaseServices();
-        try
-        {
-            ps.deletePhase(df);
-        }
-        catch (SQLException ex)
-        {
-            Logger.getLogger(PhaseServices.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        catch (ClassNotFoundException ex)
-        {
-            Logger.getLogger(PhaseServices.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
     }
 }

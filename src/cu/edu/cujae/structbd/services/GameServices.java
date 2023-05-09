@@ -28,7 +28,6 @@ public class GameServices {
         preparedFunction.setInt(7, createGameDTO.getAudience());
         preparedFunction.execute();
         preparedFunction.close();
-        connection.close();
     }
     
     public List<ReadGameDTO> readAllGames() throws SQLException, ClassNotFoundException{
@@ -48,7 +47,7 @@ public class GameServices {
         }
         resultSet.close();
         preparedFunction.close();
-        connection.close();
+
         return games_list;
     }
     
@@ -68,7 +67,7 @@ public class GameServices {
                     resultSet.getString(6), resultSet.getInt(7));
         resultSet.close();
         preparedFunction.close();
-        connection.close();
+
         return readGameDTO;
     }
     
@@ -85,7 +84,6 @@ public class GameServices {
         preparedFunction.setInt(7, updateGameDTO.getAudience());
         preparedFunction.execute();
         preparedFunction.close();
-        connection.close();
     }
     
     public void deleteGame(DeleteGameDTO deleteGameDTO) throws SQLException, ClassNotFoundException{
@@ -95,7 +93,6 @@ public class GameServices {
         preparedFunction.setString(1, deleteGameDTO.getId());
         preparedFunction.execute();
         preparedFunction.close();
-        connection.close();
     }
 }
 

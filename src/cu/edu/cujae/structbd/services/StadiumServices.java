@@ -23,8 +23,6 @@ public class StadiumServices {
             stadiums.add(newDTO);
         }
         
-        connection.close();
-        
         return stadiums;
     }
 }

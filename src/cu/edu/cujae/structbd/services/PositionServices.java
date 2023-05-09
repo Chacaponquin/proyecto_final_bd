@@ -23,7 +23,6 @@ public class PositionServices {
         preparedFunction.setString(2, createPositionDTO.getPositionName());
         preparedFunction.execute();
         preparedFunction.close();
-        connection.close();
     }
     
     public void deletePosition(DeletePositionDTO deletePositionDTO) throws SQLException, ClassNotFoundException{
@@ -33,7 +32,6 @@ public class PositionServices {
         preparedFunction.setString(1, deletePositionDTO.getPositionID());
         preparedFunction.execute();
         preparedFunction.close();
-        connection.close();
     }
     
     public void updatePosition(UpdatePositionDTO updatePositionDTO) throws SQLException, ClassNotFoundException{
@@ -44,7 +42,6 @@ public class PositionServices {
         preparedFunction.setString(2, updatePositionDTO.getPositionName());
         preparedFunction.execute();
         preparedFunction.close();
-        connection.close();
     }
     
     public ReadPositionDTO readPosition(ReadAPositionDTO readAPositionDTO) throws SQLException, ClassNotFoundException{
@@ -61,7 +58,7 @@ public class PositionServices {
         readPositionDTO = new ReadPositionDTO(resultSet.getString(1), resultSet.getString(2));
         resultSet.close();
         preparedFunction.close();
-        connection.close();
+
         return readPositionDTO;
         
     }
@@ -81,7 +78,7 @@ public class PositionServices {
         }
         resultSet.close();
         preparedFunction.close();
-        connection.close();
+
         return positions_list;
     }
 }

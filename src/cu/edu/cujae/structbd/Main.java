@@ -7,7 +7,8 @@ public class Main {
     public static void main(String[] args)  {
         try {
             initApp();
-        }catch(Exception exception){
+        }
+        catch(Exception exception){
             exception.printStackTrace();
         }
     }
