@@ -36,7 +36,6 @@ public class AppServices
         }
         resultSet.close();
         preparedFunction.close();
-        connection.close();
         return list;
     }
 
@@ -56,7 +55,6 @@ public class AppServices
         }
         resultSet.close();
         preparedFunction.close();
-        connection.close();
         return list;
     }
 }

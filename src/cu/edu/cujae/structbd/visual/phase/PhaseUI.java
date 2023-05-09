@@ -195,10 +195,10 @@ public class PhaseUI extends javax.swing.JFrame {
         int row = table.getSelectedRow();
         if (row > 0)
         {
-            String name = table.getValueAt(row - 1, 1).toString();
-            String start_date = table.getValueAt(row - 1, 2).toString();
-            String finish_date = table.getValueAt(row - 1, 3).toString();
-            int teams_amount = Integer.valueOf(table.getValueAt(row - 1, 4).toString());
+            String name = table.getValueAt(row, 0).toString();
+            String start_date = table.getValueAt(row, 1).toString();
+            String finish_date = table.getValueAt(row, 2).toString();
+            int teams_amount = Integer.valueOf(table.getValueAt(row, 3).toString());
             Iterator<ReadPhaseDTO> it_list = this.readPhaseDTO_list.iterator();
             String id = null;
             boolean found = false;

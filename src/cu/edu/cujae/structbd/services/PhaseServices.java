@@ -95,6 +95,7 @@ public class PhaseServices
 
     public void deletePhase(DeletePhaseDTO deletePhaseDTO) throws SQLException, ClassNotFoundException
     {
+        System.out.println(deletePhaseDTO.getPhase_id());
         String function = "{call phase_delete(?)}";
         java.sql.Connection connection = Connector.getConnection();
         CallableStatement preparedFunction = connection.prepareCall(function);
