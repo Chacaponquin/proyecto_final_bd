@@ -12,8 +12,10 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -32,8 +34,11 @@ public class UpdatePhaseUI extends javax.swing.JDialog
         this.updatePhaseDTO = updatePhaseDTO;
         this.field_name.setText(this.updatePhaseDTO.getPhase_name());
         this.spinner_team.setValue(this.updatePhaseDTO.getTeams_amount());
-        //this.date_start.setDate();
-        //this.date_finish.setDate();
+        ZoneId defaultZoneId = ZoneId.systemDefault();
+        Date start_date = Date.from(updatePhaseDTO.getStart_date().atStartOfDay(defaultZoneId).toInstant());
+        this.date_start.setDate(start_date);
+        Date finish_date = Date.from(updatePhaseDTO.getFinish_date().atStartOfDay(defaultZoneId).toInstant());
+        this.date_finish.setDate(finish_date);
     }
 
     /**
@@ -123,9 +128,45 @@ public class UpdatePhaseUI extends javax.swing.JDialog
 
         jLabel5.setText("Fecha de fin:");
         jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, -1, -1));
+
+        field_name.addKeyListener(new java.awt.event.KeyAdapter()
+        {
+            public void keyReleased(java.awt.event.KeyEvent evt)
+            {
+                field_nameKeyReleased(evt);
+            }
+        });
         jPanel2.add(field_name, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 10, 140, -1));
+
+        spinner_team.addKeyListener(new java.awt.event.KeyAdapter()
+        {
+            public void keyReleased(java.awt.event.KeyEvent evt)
+            {
+                spinner_teamKeyReleased(evt);
+            }
+        });
         jPanel2.add(spinner_team, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 40, -1, -1));
+
+        date_start.setMaxSelectableDate(new java.util.Date(1735707692000L));
+        date_start.setMinSelectableDate(new java.util.Date(1641013292000L));
+        date_start.addKeyListener(new java.awt.event.KeyAdapter()
+        {
+            public void keyReleased(java.awt.event.KeyEvent evt)
+            {
+                date_startKeyReleased(evt);
+            }
+        });
         jPanel2.add(date_start, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 70, 140, -1));
+
+        date_finish.setMaxSelectableDate(new java.util.Date(1735794092000L));
+        date_finish.setMinSelectableDate(new java.util.Date(1672549292000L));
+        date_finish.addKeyListener(new java.awt.event.KeyAdapter()
+        {
+            public void keyReleased(java.awt.event.KeyEvent evt)
+            {
+                date_finishKeyReleased(evt);
+            }
+        });
         jPanel2.add(date_finish, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 100, 140, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -149,6 +190,7 @@ public class UpdatePhaseUI extends javax.swing.JDialog
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton1ActionPerformed
@@ -193,6 +235,26 @@ public class UpdatePhaseUI extends javax.swing.JDialog
     {//GEN-HEADEREND:event_formFocusGained
         // TODO add your handling code here:
     }//GEN-LAST:event_formFocusGained
+
+    private void field_nameKeyReleased(java.awt.event.KeyEvent evt)//GEN-FIRST:event_field_nameKeyReleased
+    {//GEN-HEADEREND:event_field_nameKeyReleased
+        validateAll();
+    }//GEN-LAST:event_field_nameKeyReleased
+
+    private void spinner_teamKeyReleased(java.awt.event.KeyEvent evt)//GEN-FIRST:event_spinner_teamKeyReleased
+    {//GEN-HEADEREND:event_spinner_teamKeyReleased
+        validateAll();
+    }//GEN-LAST:event_spinner_teamKeyReleased
+
+    private void date_startKeyReleased(java.awt.event.KeyEvent evt)//GEN-FIRST:event_date_startKeyReleased
+    {//GEN-HEADEREND:event_date_startKeyReleased
+        validateAll();
+    }//GEN-LAST:event_date_startKeyReleased
+
+    private void date_finishKeyReleased(java.awt.event.KeyEvent evt)//GEN-FIRST:event_date_finishKeyReleased
+    {//GEN-HEADEREND:event_date_finishKeyReleased
+        validateAll();
+    }//GEN-LAST:event_date_finishKeyReleased
 
     /**
      * @param args the command line arguments
@@ -275,4 +337,47 @@ public class UpdatePhaseUI extends javax.swing.JDialog
     private javax.swing.JSpinner spinner_team;
     // End of variables declaration//GEN-END:variables
     private JCalendar jcalendar1;
+
+    public boolean validate_name()
+    {
+        boolean result = true;
+        boolean flag;
+        String nombre = field_name.getText();
+        for (int i = 0; i < nombre.length() && result; i++)
+        {
+            flag = Character.isUpperCase(nombre.charAt(0)) && nombre.charAt(0) != ' ' && (Character.isLetter(nombre.
+                                                                                          charAt(i)) || nombre.charAt(i) == ' ');
+            if (!flag)
+            {
+                result = false;
+                JOptionPane.showMessageDialog(null, "El nombre de la fase debe iniciar con letra mayúscula", "Nombre incorrecto",
+                                              JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        return result;
+    }
+    
+    /*public boolean validate_teams_amount(){
+       boolean result = true;
+        LinkedList<ReadTeamDTO> read_team_list = new LinkedList<>(ServicesLocator.TeamServices.getAllTeams());
+        int amount = (int) this.spinner_team.getValue();
+        int teams_amount  = read_team_list.size();
+        if (amount > teams_amount){
+            result = false;
+            JOptionPane.showMessageDialog(null,
+                                          "La cantidad de equipos de una fase no puede ser superior a la cantidad de equipos de la serie. La cantidad de equipos de la serie es: " String.valueOf(teams_amount), "Cantidad de equipos incorrecta", JOptionPane.ERROR
+        
+        );
+        }
+        return result;
+    }*/
+    
+    public boolean validateAll()
+    {
+        return !field_name.getText().isEmpty();
+    }
+    
+    
+    
+    
 }

@@ -95,6 +95,13 @@ public class PhaseUI extends javax.swing.JFrame {
         jPopupMenu1.add(menuDelete);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addFocusListener(new java.awt.event.FocusAdapter()
+        {
+            public void focusGained(java.awt.event.FocusEvent evt)
+            {
+                formFocusGained(evt);
+            }
+        });
 
         jButton1.setText("Cancelar");
         jButton1.addActionListener(new java.awt.event.ActionListener()
@@ -259,7 +266,6 @@ public class PhaseUI extends javax.swing.JFrame {
                 ReadPhaseDTO readPhaseDTO = it_list.next();
                 if (readPhaseDTO.getPhase_name().equals(name))
                 {
-                    System.out.println("siiiiiiiiii");
                     id = readPhaseDTO.getPhase_id();
                     found = true;
                 }
@@ -270,7 +276,8 @@ public class PhaseUI extends javax.swing.JFrame {
             {
                 try
                 {
-                    ServicesLocator.PhaseServices.deletePhase(new DeletePhaseDTO(id));
+                    DeletePhaseDTO deletePhaseDTO = new DeletePhaseDTO(id);
+                    ServicesLocator.PhaseServices.deletePhase(deletePhaseDTO);
                 }
                 catch (SQLException ex)
                 {
@@ -299,6 +306,33 @@ public class PhaseUI extends javax.swing.JFrame {
         CreatePhaseUI cpui = new CreatePhaseUI(this, rootPaneCheckingEnabled);
         cpui.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void formFocusGained(java.awt.event.FocusEvent evt)//GEN-FIRST:event_formFocusGained
+    {//GEN-HEADEREND:event_formFocusGained
+        try
+        {
+            this.readPhaseDTO_list.clear();
+            this.readPhaseDTO_list = new LinkedList<>(ServicesLocator.PhaseServices.readAllPhase());
+            Iterator<ReadPhaseDTO> it_readPhaseDTO_list = readPhaseDTO_list.iterator();
+            while (it_readPhaseDTO_list.hasNext())
+            {
+                ReadPhaseDTO readPhaseDTO = it_readPhaseDTO_list.next();
+                ((DefaultTableModel) table.getModel()).addRow(new Object[]
+                {
+                    readPhaseDTO.getPhase_name(), readPhaseDTO.getStart_date().toString(),
+                    readPhaseDTO.getFinish_date().toString(), readPhaseDTO.getTeams_amount()
+                });
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(PhaseUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        catch (ClassNotFoundException ex)
+        {
+            Logger.getLogger(PhaseUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_formFocusGained
 
     /**
      * @param args the command line arguments

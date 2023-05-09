@@ -28,7 +28,6 @@ public class PitcherServices {
         preparedFunction.setInt(8, createPitcherDTO.getYearsInTeam());
         preparedFunction.execute();
         preparedFunction.close();
-        connection.close();
     }
     
     public List<ReadPitcherDTO> readAllPitchers() throws SQLException, ClassNotFoundException{
@@ -48,7 +47,6 @@ public class PitcherServices {
         }
         resultSet.close();
         preparedFunction.close();
-        connection.close();
         return pitchers_list;
     }
     
@@ -68,7 +66,6 @@ public class PitcherServices {
                     resultSet.getInt(6), resultSet.getString(7), resultSet.getInt(8));
         resultSet.close();
         preparedFunction.close();
-        connection.close();
         return readPitcherDTO;
     }
     
@@ -86,7 +83,6 @@ public class PitcherServices {
         preparedFunction.setInt(8, updatePitcherDTO.getYearsInTeam());
         preparedFunction.execute();
         preparedFunction.close();
-        connection.close();
     }
     
     public void deletePitcher(DeletePitcherDTO deletePitcherDTO) throws SQLException, ClassNotFoundException{

@@ -5,6 +5,11 @@
 
 package cu.edu.cujae.structbd.visual.player;
 
+import cu.edu.cujae.structbd.dto.batter.ReadBatterDTO;
+import cu.edu.cujae.structbd.dto.pitcher.DeletePitcherDTO;
+import cu.edu.cujae.structbd.dto.pitcher.ReadAPitcherDTO;
+import cu.edu.cujae.structbd.dto.pitcher.ReadPitcherDTO;
+import cu.edu.cujae.structbd.dto.pitcher.UpdatePitcherDTO;
 import cu.edu.cujae.structbd.dto.player.ReadPlayerDTO;
 import cu.edu.cujae.structbd.services.ServicesLocator;
 import static java.awt.image.ImageObserver.HEIGHT;
@@ -31,7 +36,7 @@ public class Player_UI extends javax.swing.JFrame
         {
             this.list_player = new LinkedList<>(ServicesLocator.PlayerServices.readAllPlayer());
             Iterator<ReadPlayerDTO> it_list_player = list_player.iterator();
-            while (it_list_player.hasNext())
+            while(it_list_player.hasNext())
             {
                 ReadPlayerDTO readPlayerDTO = it_list_player.next();
                 ((DefaultTableModel) table.getModel()).addRow(new Object[]
@@ -69,7 +74,7 @@ public class Player_UI extends javax.swing.JFrame
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
-        menuMod.setText("jMenuItem1");
+        menuMod.setText("Modificar jugador");
         menuMod.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
@@ -79,7 +84,7 @@ public class Player_UI extends javax.swing.JFrame
         });
         jPopupMenu1.add(menuMod);
 
-        menuDel.setText("jMenuItem2");
+        menuDel.setText("Eliminar jugador");
         menuDel.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
@@ -90,6 +95,13 @@ public class Player_UI extends javax.swing.JFrame
         jPopupMenu1.add(menuDel);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addFocusListener(new java.awt.event.FocusAdapter()
+        {
+            public void focusGained(java.awt.event.FocusEvent evt)
+            {
+                formFocusGained(evt);
+            }
+        });
 
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][]
@@ -181,6 +193,7 @@ public class Player_UI extends javax.swing.JFrame
             String position = table.getValueAt(row, 3).toString();
             Integer years_in_team = Integer.valueOf(table.getValueAt(row, 4).toString());
             Iterator<ReadPlayerDTO> it_list = this.list_player.iterator();
+            String id = null;
             boolean found = false;
 
             //Buscando el id del player seleccionado 
@@ -190,7 +203,7 @@ public class Player_UI extends javax.swing.JFrame
                 if (readPlayerDTO.getTeam_name().
                     equalsIgnoreCase(team) && readPlayerDTO.getMember_number() == number)
                 {
-                    String id = readPlayerDTO.getTeam_member_ID();
+                    id = readPlayerDTO.getTeam_member_ID();
                     found = true;
                 }
             }
@@ -199,15 +212,36 @@ public class Player_UI extends javax.swing.JFrame
                 //Llamadas a los servicios de update
                 if (position == "P")
                 {
-                    //UpdatePitcherDTO updatePitcherDTO = new UpdatePitcherDTO();
-                    //ServicesLocator.PitcherServices.
-                    //repaint();
+                    try {
+                        ReadAPitcherDTO readAPitcherDTO = new ReadAPitcherDTO(id);
+                        ReadPitcherDTO readPitcherDTO = ServicesLocator.PitcherServices.readPitcher(readAPitcherDTO);
+                        UpdatePitcherDTO updatePitcherDTO = new UpdatePitcherDTO(readPitcherDTO.getTeamMemberID(),
+                                                                                 readPitcherDTO.getPositionID(),
+                                                                                 readPitcherDTO.getTeamMemberName(),
+                                                                                 readPitcherDTO.getMemberNumber(),
+                                                                                 readPitcherDTO.getTeamID(),
+                                                                                 readPitcherDTO.
+                                                                                     getYearsInTeam(), readPitcherDTO.
+                                                                                     getInningsPitched(),
+                                                                                 readPitcherDTO.
+                                                                                     getRunsAllowed());
+                        //Llamada a la ventana de updatepitcher
+                    }
+                    catch (SQLException ex)
+                    {
+                        Logger.getLogger(Player_UI.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    catch (ClassNotFoundException ex)
+                    {
+                        Logger.getLogger(Player_UI.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
                 }
                 else
                 {
-                    //UpdateBatterDTO updateBatterDTO = new UpdateBatterDTO();
-                    //ServicesLocator.BatterServices.
-                    //repaint();
+                    //ReadABatterDTO readABatterDTO = new ReadABatterDTO(id);
+                    //ReadBatterDTO readBatterDTO = ServicesLocator.BatterServices.readABatter(   );
+                    //UpdateBatterDTO updateBatterDTO = new UpdatePitcherDTO(          );
                 }
             }
             else
@@ -246,6 +280,7 @@ public class Player_UI extends javax.swing.JFrame
             String position = table.getValueAt(row, 3).toString();
             Integer years_in_team = Integer.valueOf(table.getValueAt(row, 4).toString());
             Iterator<ReadPlayerDTO> it_list = this.list_player.iterator();
+            String id = null;
             boolean found = false;
 
             //Buscando el id del player seleccionado 
@@ -255,7 +290,7 @@ public class Player_UI extends javax.swing.JFrame
                 if (readPlayerDTO.getTeam_name().
                     equalsIgnoreCase(team) && readPlayerDTO.getMember_number() == number)
                 {
-                    String id = readPlayerDTO.getTeam_member_ID();
+                    id = readPlayerDTO.getTeam_member_ID();
                     found = true;
                 }
             }
@@ -264,15 +299,23 @@ public class Player_UI extends javax.swing.JFrame
                 //Llamada a los servicios de delete
                 if (position == "P")
                 {
-                    //DeletePitcherDTO deletePitcherDTO = new DeletePitcherDTO();
-                    //ServicesLocator.PitcherServices.
-                    //repaint();
+                    try {
+                        DeletePitcherDTO deletePitcherDTO = new DeletePitcherDTO(id);
+                        ServicesLocator.PitcherServices.deletePitcher(deletePitcherDTO);
+                    }
+                    catch (SQLException ex)
+                    {
+                        Logger.getLogger(Player_UI.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    catch (ClassNotFoundException ex)
+                    {
+                        Logger.getLogger(Player_UI.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
                 else
                 {
-                    //DeleteBatterDTO deleteBatterDTO = new DeleteBatterDTO();
-                    //ServicesLocator.BatterServices.
-                    //repaint();
+                    //DeleteBatterDTO deleteBatterDTO = new DeleteBatterDTO(id);
+                    //ServicesLocator.BatterServices.deleteBatter(deleteBatterDTO);
                 }
             }
             else
@@ -289,6 +332,33 @@ public class Player_UI extends javax.swing.JFrame
                                           HEIGHT);
         }
     }//GEN-LAST:event_menuDelActionPerformed
+
+    private void formFocusGained(java.awt.event.FocusEvent evt)//GEN-FIRST:event_formFocusGained
+    {//GEN-HEADEREND:event_formFocusGained
+        try
+        {
+            this.list_player.clear();
+            this.list_player = new LinkedList<>(ServicesLocator.PlayerServices.readAllPlayer());
+            Iterator<ReadPlayerDTO> it_list_player = list_player.iterator();
+            while(it_list_player.hasNext())
+            {
+                ReadPlayerDTO readPlayerDTO = it_list_player.next();
+                ((DefaultTableModel) table.getModel()).addRow(new Object[]
+                {
+                    readPlayerDTO.getTeam_member_name(), readPlayerDTO.getTeam_name(), readPlayerDTO.getMember_number(),
+                    readPlayerDTO.getPosition_name(), readPlayerDTO.getYears_in_team()
+                });
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(Player_UI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        catch (ClassNotFoundException ex)
+        {
+            Logger.getLogger(Player_UI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_formFocusGained
 
     /**
      * @param args the command line arguments

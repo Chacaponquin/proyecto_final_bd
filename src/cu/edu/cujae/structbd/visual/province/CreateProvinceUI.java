@@ -67,6 +67,13 @@ public class CreateProvinceUI extends javax.swing.JDialog
 
         jLabel1.setText("Nombre:");
 
+        field_name.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                field_nameActionPerformed(evt);
+            }
+        });
         field_name.addKeyListener(new java.awt.event.KeyAdapter()
         {
             public void keyReleased(java.awt.event.KeyEvent evt)
@@ -150,6 +157,11 @@ public class CreateProvinceUI extends javax.swing.JDialog
             evt.consume();
         }
     }//GEN-LAST:event_field_nameKeyTyped
+
+    private void field_nameActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_field_nameActionPerformed
+    {//GEN-HEADEREND:event_field_nameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_field_nameActionPerformed
 
     /**
      * @param args the command line arguments

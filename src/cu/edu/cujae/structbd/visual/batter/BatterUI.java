@@ -21,6 +21,7 @@ public class BatterUI extends javax.swing.JFrame {
      * Creates new form BatterUI
      */
     public BatterUI() throws SQLException, ClassNotFoundException {
+        System.out.println("Buenas");
         initComponents();
         this.updateUI();
     }
