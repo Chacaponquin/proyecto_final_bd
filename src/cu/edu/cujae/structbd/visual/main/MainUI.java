@@ -14,15 +14,13 @@ import java.util.HashMap;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.lang.*;
+import javax.swing.JDialog;
 
 /**
  *
  * @author Hector Angel Gomez
  */
 public class MainUI extends javax.swing.JFrame {
-    
-    
-
     /**
      * Creates new form MainUI
      */
@@ -33,6 +31,7 @@ public class MainUI extends javax.swing.JFrame {
     
     public void updateMenuItems(){
         HashMap<String, JFrame> views = UtilsConnector.viewUtils.getViews();
+        HashMap<String, JDialog> reportsViews = UtilsConnector.viewUtils.getReportsViews();
         
         this.jMenu1.setText("Entidades");
         this.jMenu2.setText("Reportes");
@@ -45,9 +44,29 @@ public class MainUI extends javax.swing.JFrame {
             
             this.jMenu1.add(menuItem);
         });
+        
+        reportsViews.forEach((k, view) -> {
+            javax.swing.JMenuItem menuItem = new javax.swing.JMenuItem();
+            menuItem.setText(k);
+            
+            menuItem.addActionListener(this.clickReportMenuItem(this, view));
+            
+            this.jMenu2.add(menuItem);
+        });
     }
      
     public ActionListener clickMenuItem(MainUI mainWindow, JFrame view) {
+        return new ActionListener(){
+            @Override
+                public void actionPerformed(ActionEvent e){
+                mainWindow.setVisible(true);
+                    view.setVisible(true);
+                    view.setLocationRelativeTo(null);
+                } 
+         };
+    }
+    
+    public ActionListener clickReportMenuItem(MainUI mainWindow, JDialog view) {
         return new ActionListener(){
             @Override
                 public void actionPerformed(ActionEvent e){
@@ -75,10 +94,11 @@ public class MainUI extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(255, 255, 255));
 
         imagePanel = new JPanel(){
             public void paintComponent(Graphics g) {
-                Image img = Toolkit.getDefaultToolkit().getImage(MainUI.class.getResource("/cu/edu/cujae/structbd/assets/cat.jpg"));
+                Image img = Toolkit.getDefaultToolkit().getImage(MainUI.class.getResource("/cu/edu/cujae/structbd/assets/SNB.jpg"));
                 g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), this);
             }
         };
@@ -87,11 +107,11 @@ public class MainUI extends javax.swing.JFrame {
         imagePanel.setLayout(imagePanelLayout);
         imagePanelLayout.setHorizontalGroup(
             imagePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 375, Short.MAX_VALUE)
+            .addGap(0, 414, Short.MAX_VALUE)
         );
         imagePanelLayout.setVerticalGroup(
             imagePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 281, Short.MAX_VALUE)
+            .addGap(0, 312, Short.MAX_VALUE)
         );
 
         jMenu1.setText("File");
@@ -107,16 +127,16 @@ public class MainUI extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(128, 128, 128)
+                .addGap(101, 101, 101)
                 .addComponent(imagePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(121, Short.MAX_VALUE))
+                .addContainerGap(109, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(37, 37, 37)
                 .addComponent(imagePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(46, Short.MAX_VALUE))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
         pack();
