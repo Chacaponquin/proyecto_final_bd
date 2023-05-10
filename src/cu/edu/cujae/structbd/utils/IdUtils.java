@@ -4,12 +4,18 @@
  */
 package cu.edu.cujae.structbd.utils;
 
+import java.util.UUID;
+
 /**
  *
  * @author Hector Angel Gomez
  */
-public class UtilsConnector
-{
-    public static ViewUtils viewUtils = new ViewUtils();
-    public static IdUtils idUtils = new IdUtils();
+public class IdUtils {
+    public String generateUniqueID(){
+        UUID uuid = UUID.randomUUID();
+        String uuidAsString = uuid.toString();
+        
+        return uuidAsString;
+    }
+    
 }

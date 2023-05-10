@@ -6,6 +6,10 @@ package cu.edu.cujae.structbd.visual.province;
 
 import cu.edu.cujae.structbd.dto.province.CreateProvinceDTO;
 import cu.edu.cujae.structbd.services.ServicesLocator;
+import cu.edu.cujae.structbd.utils.UtilsConnector;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -45,7 +49,6 @@ public class CreateProvinceUI extends javax.swing.JDialog
         setResizable(false);
 
         aceptar_button.setText("Aceptar");
-        aceptar_button.setEnabled(false);
         aceptar_button.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
@@ -67,6 +70,13 @@ public class CreateProvinceUI extends javax.swing.JDialog
 
         jLabel1.setText("Nombre:");
 
+        field_name.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                field_nameActionPerformed(evt);
+            }
+        });
         field_name.addKeyListener(new java.awt.event.KeyAdapter()
         {
             public void keyReleased(java.awt.event.KeyEvent evt)
@@ -120,11 +130,21 @@ public class CreateProvinceUI extends javax.swing.JDialog
     {//GEN-HEADEREND:event_aceptar_buttonActionPerformed
         if (validarNombre())
         {
-            /*String province_name = field_name.getText();
-            String province_id = ;
-            CreateProvinceDTO createProvinceDTO = new CreateProvinceDTO(province_id, province_name);
-            ServicesLocator.ProvinceServices.createProvince(createProvinceDTO);*/
-            dispose();
+            try {
+                String province_name = field_name.getText();
+                String province_id = UtilsConnector.idUtils.generateUniqueID();
+                CreateProvinceDTO createProvinceDTO = new CreateProvinceDTO(province_id, province_name);
+                ServicesLocator.ProvinceServices.createProvince(createProvinceDTO);
+                dispose();
+            }
+            catch (SQLException ex)
+            {
+                Logger.getLogger(CreateProvinceUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            catch (ClassNotFoundException ex)
+            {
+                Logger.getLogger(CreateProvinceUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
 
     }//GEN-LAST:event_aceptar_buttonActionPerformed
@@ -150,6 +170,11 @@ public class CreateProvinceUI extends javax.swing.JDialog
             evt.consume();
         }
     }//GEN-LAST:event_field_nameKeyTyped
+
+    private void field_nameActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_field_nameActionPerformed
+    {//GEN-HEADEREND:event_field_nameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_field_nameActionPerformed
 
     /**
      * @param args the command line arguments

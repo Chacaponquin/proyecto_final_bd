@@ -31,7 +31,7 @@ public class Coach_UI extends javax.swing.JFrame
         initComponents();
         try
         {
-            readCoachDTO_list = new LinkedList<>(ServicesLocator.CoachServices.readAllCoaches());
+            this.readCoachDTO_list = new LinkedList<>(ServicesLocator.CoachServices.readAllCoaches());
             Iterator<ReadCoachDTO> it_list = readCoachDTO_list.iterator();
             while (it_list.hasNext())
             {
@@ -78,7 +78,7 @@ public class Coach_UI extends javax.swing.JFrame
         jScrollPane1 = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
 
-        menuUpdate.setText("jMenuItem1");
+        menuUpdate.setText("Modificar entrenador");
         menuUpdate.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
@@ -88,7 +88,7 @@ public class Coach_UI extends javax.swing.JFrame
         });
         jPopupMenu1.add(menuUpdate);
 
-        menuDelete.setText("jMenuItem2");
+        menuDelete.setText("Eliminar entrenador");
         menuDelete.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
@@ -98,7 +98,14 @@ public class Coach_UI extends javax.swing.JFrame
         });
         jPopupMenu1.add(menuDelete);
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addFocusListener(new java.awt.event.FocusAdapter()
+        {
+            public void focusGained(java.awt.event.FocusEvent evt)
+            {
+                formFocusGained(evt);
+            }
+        });
 
         jButton2.setText("Cancelar");
         jButton2.addActionListener(new java.awt.event.ActionListener()
@@ -313,6 +320,37 @@ public class Coach_UI extends javax.swing.JFrame
             JOptionPane.showMessageDialog(rootPane, "Seleccione un entrenador para poder modificar sus datos", "Información", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_menuDeleteActionPerformed
+
+    private void formFocusGained(java.awt.event.FocusEvent evt)//GEN-FIRST:event_formFocusGained
+    {//GEN-HEADEREND:event_formFocusGained
+        try
+        {
+            this.readCoachDTO_list.clear();
+            this.readCoachDTO_list = new LinkedList<>(ServicesLocator.CoachServices.readAllCoaches());
+            Iterator<ReadCoachDTO> it_list = readCoachDTO_list.iterator();
+            while (it_list.hasNext())
+            {
+                ReadCoachDTO readCoachDTO = it_list.next();
+                ((DefaultTableModel) table.getModel()).addRow(new Object[]
+                {
+                    readCoachDTO.getTeam_member_name(),
+                    readCoachDTO.getTeam_name(),
+                    readCoachDTO.getMember_number(),
+                    readCoachDTO.getExperience_years(),
+                    readCoachDTO.getYears_in_team()
+                }
+                );
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(Coach_UI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        catch (ClassNotFoundException ex)
+        {
+            Logger.getLogger(Coach_UI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_formFocusGained
 
     /**
      * @param args the command line arguments

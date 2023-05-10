@@ -26,6 +26,7 @@ public class PhaseServices
         String function = "{call phase_insert(?,?,?,?,?)}";
         java.sql.Connection connection = Connector.getConnection();
         CallableStatement preparedFunction = connection.prepareCall(function);
+        System.out.println(createPhaseDTO.getPhase_name());
         preparedFunction.setString(1, createPhaseDTO.getPhase_id());
         preparedFunction.setString(2, createPhaseDTO.getPhase_name());
         preparedFunction.setDate(3, java.sql.Date.valueOf(createPhaseDTO.getStart_date()));
@@ -33,6 +34,7 @@ public class PhaseServices
         preparedFunction.setInt(5, createPhaseDTO.getTeams_amount());
         preparedFunction.execute();
         preparedFunction.close();
+        connection.commit();
     }
 
     public void updatePhase(UpdatePhaseDTO updatePhaseDTO) throws SQLException, ClassNotFoundException
@@ -47,6 +49,7 @@ public class PhaseServices
         preparedFunction.setInt(5, updatePhaseDTO.getTeams_amount());
         preparedFunction.execute();
         preparedFunction.close();
+        connection.commit();
     }
 
     public List<ReadPhaseDTO> readAllPhase() throws SQLException, ClassNotFoundException
@@ -95,11 +98,13 @@ public class PhaseServices
 
     public void deletePhase(DeletePhaseDTO deletePhaseDTO) throws SQLException, ClassNotFoundException
     {
+        System.out.println(deletePhaseDTO.getPhase_id());
         String function = "{call phase_delete(?)}";
         java.sql.Connection connection = Connector.getConnection();
         CallableStatement preparedFunction = connection.prepareCall(function);
         preparedFunction.setString(1, deletePhaseDTO.getPhase_id());
         preparedFunction.execute();
         preparedFunction.close();
+        connection.commit();
     }
 }

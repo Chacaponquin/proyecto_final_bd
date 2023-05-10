@@ -89,7 +89,14 @@ public class PhaseUI extends javax.swing.JFrame {
         });
         jPopupMenu1.add(menuDelete);
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addFocusListener(new java.awt.event.FocusAdapter()
+        {
+            public void focusGained(java.awt.event.FocusEvent evt)
+            {
+                formFocusGained(evt);
+            }
+        });
 
         jButton1.setText("Cancelar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -175,12 +182,12 @@ public class PhaseUI extends javax.swing.JFrame {
     private void menuUpdateActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_menuUpdateActionPerformed
     {//GEN-HEADEREND:event_menuUpdateActionPerformed
         int row = table.getSelectedRow();
-        if (row > 0)
+        if (row >= 0)
         {
-            String name = table.getValueAt(row - 1, 1).toString();
-            String start_date = table.getValueAt(row - 1, 2).toString();
-            String finish_date = table.getValueAt(row - 1, 3).toString();
-            int teams_amount = Integer.valueOf(table.getValueAt(row - 1, 4).toString());
+            String name = table.getValueAt(row, 0).toString();
+            String start_date = table.getValueAt(row, 1).toString();
+            String finish_date = table.getValueAt(row, 2).toString();
+            int teams_amount = Integer.valueOf(table.getValueAt(row, 3).toString());
             Iterator<ReadPhaseDTO> it_list = this.readPhaseDTO_list.iterator();
             String id = null;
             boolean found = false;
@@ -223,8 +230,8 @@ public class PhaseUI extends javax.swing.JFrame {
     private void menuDeleteActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_menuDeleteActionPerformed
     {//GEN-HEADEREND:event_menuDeleteActionPerformed
         int row = table.getSelectedRow();
-        System.out.println(String.valueOf(row));
-        if (row > 0)
+
+        if (row >= 0)
         {
             String name = table.getValueAt(row, 0).toString();
             System.out.println(name);
@@ -241,7 +248,6 @@ public class PhaseUI extends javax.swing.JFrame {
                 ReadPhaseDTO readPhaseDTO = it_list.next();
                 if (readPhaseDTO.getPhase_name().equals(name))
                 {
-                    System.out.println("siiiiiiiiii");
                     id = readPhaseDTO.getPhase_id();
                     found = true;
                 }
@@ -252,7 +258,8 @@ public class PhaseUI extends javax.swing.JFrame {
             {
                 try
                 {
-                    ServicesLocator.PhaseServices.deletePhase(new DeletePhaseDTO(id));
+                    DeletePhaseDTO deletePhaseDTO = new DeletePhaseDTO(id);
+                    ServicesLocator.PhaseServices.deletePhase(deletePhaseDTO);
                 }
                 catch (SQLException ex)
                 {
@@ -278,9 +285,36 @@ public class PhaseUI extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton3ActionPerformed
     {//GEN-HEADEREND:event_jButton3ActionPerformed
-        CreatePhaseUI cpui = new CreatePhaseUI(this, rootPaneCheckingEnabled);
+        CreatePhase_UI1 cpui = new CreatePhase_UI1(this, rootPaneCheckingEnabled);
         cpui.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void formFocusGained(java.awt.event.FocusEvent evt)//GEN-FIRST:event_formFocusGained
+    {//GEN-HEADEREND:event_formFocusGained
+        try
+        {
+            this.readPhaseDTO_list.clear();
+            this.readPhaseDTO_list = new LinkedList<>(ServicesLocator.PhaseServices.readAllPhase());
+            Iterator<ReadPhaseDTO> it_readPhaseDTO_list = readPhaseDTO_list.iterator();
+            while (it_readPhaseDTO_list.hasNext())
+            {
+                ReadPhaseDTO readPhaseDTO = it_readPhaseDTO_list.next();
+                ((DefaultTableModel) table.getModel()).addRow(new Object[]
+                {
+                    readPhaseDTO.getPhase_name(), readPhaseDTO.getStart_date().toString(),
+                    readPhaseDTO.getFinish_date().toString(), readPhaseDTO.getTeams_amount()
+                });
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(PhaseUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        catch (ClassNotFoundException ex)
+        {
+            Logger.getLogger(PhaseUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_formFocusGained
 
     /**
      * @param args the command line arguments

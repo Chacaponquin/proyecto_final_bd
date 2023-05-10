@@ -5,8 +5,11 @@
 package cu.edu.cujae.structbd.visual.phase;
 
 import com.toedter.calendar.JCalendar;
+import cu.edu.cujae.structbd.dto.phase.CreatePhaseDTO;
 import cu.edu.cujae.structbd.dto.phase.UpdatePhaseDTO;
 import cu.edu.cujae.structbd.services.ServicesLocator;
+import cu.edu.cujae.structbd.utils.UtilsConnector;
+import cu.edu.cujae.structbd.utils.ViewUtils;
 import java.sql.SQLException;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -21,24 +24,15 @@ import javax.swing.JOptionPane;
  *
  * @author Jose
  */
-public class UpdatePhaseUI extends javax.swing.JDialog
+public class CreatePhase_UI1 extends javax.swing.JDialog
 {
-    private UpdatePhaseDTO updatePhaseDTO;
     /**
      * Creates new form PhaseUI
      */
-    public UpdatePhaseUI(java.awt.Frame parent, boolean modal, UpdatePhaseDTO updatePhaseDTO)
+    public CreatePhase_UI1(java.awt.Frame parent, boolean modal)
     {
         super(parent, modal);
         initComponents();
-        this.updatePhaseDTO = updatePhaseDTO;
-        this.field_name.setText(this.updatePhaseDTO.getPhase_name());
-        this.spinner_team.setValue(this.updatePhaseDTO.getTeams_amount());
-        ZoneId defaultZoneId = ZoneId.systemDefault();
-        Date start_date = Date.from(updatePhaseDTO.getStart_date().atStartOfDay(defaultZoneId).toInstant());
-        this.date_start.setDate(start_date);
-        Date finish_date = Date.from(updatePhaseDTO.getFinish_date().atStartOfDay(defaultZoneId).toInstant());
-        this.date_finish.setDate(finish_date);
     }
 
     /**
@@ -143,6 +137,7 @@ public class UpdatePhaseUI extends javax.swing.JDialog
         });
         jPanel2.add(field_name, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 10, 140, -1));
 
+        spinner_team.setModel(new javax.swing.SpinnerNumberModel(1, 1, 16, 1));
         spinner_team.addKeyListener(new java.awt.event.KeyAdapter()
         {
             public void keyReleased(java.awt.event.KeyEvent evt)
@@ -218,21 +213,18 @@ public class UpdatePhaseUI extends javax.swing.JDialog
             Date dFinish = date_finish.getDate();
             Instant iFinish = dFinish.toInstant();
             LocalDate finish_date = iFinish.atZone(defaultZoneId).toLocalDate();
-            updatePhaseDTO.setPhase_name(name);
-            updatePhaseDTO.setTeams_amount(teams);
-            updatePhaseDTO.setStart_date(start_date);
-            updatePhaseDTO.setFinish_date(finish_date);
-            
-            //Falta Validar
-            ServicesLocator.PhaseServices.updatePhase(updatePhaseDTO);
+            String new_phase_id = UtilsConnector.idUtils.generateUniqueID();
+            System.out.println(name);
+            CreatePhaseDTO createPhaseDTO = new CreatePhaseDTO(new_phase_id, name, start_date, finish_date, teams);
+            ServicesLocator.PhaseServices.createPhase(createPhaseDTO);
         }
         catch (SQLException ex)
         {
-            Logger.getLogger(UpdatePhaseUI.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CreatePhase_UI1.class.getName()).log(Level.SEVERE, null, ex);
         }
         catch (ClassNotFoundException ex)
         {
-            Logger.getLogger(UpdatePhaseUI.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CreatePhase_UI1.class.getName()).log(Level.SEVERE, null, ex);
             }
         dispose();
         }
@@ -296,24 +288,45 @@ public class UpdatePhaseUI extends javax.swing.JDialog
         }
         catch (ClassNotFoundException ex)
         {
-            java.util.logging.Logger.getLogger(UpdatePhaseUI.class.getName()).log(java.util.logging.Level.SEVERE, null,
+            java.util.logging.Logger.getLogger(CreatePhase_UI1.class.getName()).log(java.util.logging.Level.SEVERE, null,
                                                                                   ex);
         }
         catch (InstantiationException ex)
         {
-            java.util.logging.Logger.getLogger(UpdatePhaseUI.class.getName()).log(java.util.logging.Level.SEVERE, null,
+            java.util.logging.Logger.getLogger(CreatePhase_UI1.class.getName()).log(java.util.logging.Level.SEVERE, null,
                                                                                   ex);
         }
         catch (IllegalAccessException ex)
         {
-            java.util.logging.Logger.getLogger(UpdatePhaseUI.class.getName()).log(java.util.logging.Level.SEVERE, null,
+            java.util.logging.Logger.getLogger(CreatePhase_UI1.class.getName()).log(java.util.logging.Level.SEVERE, null,
                                                                                   ex);
         }
         catch (javax.swing.UnsupportedLookAndFeelException ex)
         {
-            java.util.logging.Logger.getLogger(UpdatePhaseUI.class.getName()).log(java.util.logging.Level.SEVERE, null,
+            java.util.logging.Logger.getLogger(CreatePhase_UI1.class.getName()).log(java.util.logging.Level.SEVERE, null,
                                                                                   ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+
+        /* Create and display the dialog */
+        /*java.awt.EventQueue.invokeLater(new Runnable()
+        {
+            public void run()
+            {
+                UpdatePhaseUI dialog = new UpdatePhaseUI(new javax.swing.JFrame());
+                dialog.addWindowListener(new java.awt.event.WindowAdapter()
+                {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e)
+                    {
+                        System.exit(0);
+                    }
+                });
+                dialog.setVisible(true);
+            }
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -398,7 +411,7 @@ public class UpdatePhaseUI extends javax.swing.JDialog
         Date dFinish = date_finish.getDate();
         Instant iFinish = dFinish.toInstant();
         LocalDate finish_date = iFinish.atZone(defaultZoneId).toLocalDate();
-        if (start_date.isBefore(finish_date))
+        if (finish_date.isBefore(start_date))
         {
             result = false;
             JOptionPane.showMessageDialog(null, "La fecha de finalización de la fase debe ser posterior a la de inicio",

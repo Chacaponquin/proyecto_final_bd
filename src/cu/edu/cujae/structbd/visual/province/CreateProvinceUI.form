@@ -71,7 +71,6 @@
             <Component class="javax.swing.JButton" name="aceptar_button">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Aceptar"/>
-                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="aceptar_buttonActionPerformed"/>
@@ -94,6 +93,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="field_name">
           <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="field_nameActionPerformed"/>
             <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="field_nameKeyReleased"/>
             <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="field_nameKeyTyped"/>
           </Events>

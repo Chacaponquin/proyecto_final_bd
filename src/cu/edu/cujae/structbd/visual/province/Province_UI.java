@@ -82,7 +82,14 @@ public class Province_UI extends javax.swing.JFrame
         });
         jPopupMenu1.add(menuDel);
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addFocusListener(new java.awt.event.FocusAdapter()
+        {
+            public void focusGained(java.awt.event.FocusEvent evt)
+            {
+                formFocusGained(evt);
+            }
+        });
 
         jButton1.setText("Cancelar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -206,6 +213,30 @@ public class Province_UI extends javax.swing.JFrame
 
         }
     }//GEN-LAST:event_menuDelActionPerformed
+
+    private void formFocusGained(java.awt.event.FocusEvent evt)//GEN-FIRST:event_formFocusGained
+    {//GEN-HEADEREND:event_formFocusGained
+        try
+        {
+            this.provinces_list.clear();
+            this.provinces_list = new LinkedList<>(ServicesLocator.ProvinceServices.readAllProvince());
+            for (ReadProvinceDTO rpdt : provinces_list)
+            {
+                ((DefaultTableModel) table.getModel()).addRow(new Object[]
+                {
+                    rpdt.getName()
+                });
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(Province_UI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        catch (ClassNotFoundException ex)
+        {
+            Logger.getLogger(Province_UI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_formFocusGained
 
     /**
      * @param args the command line arguments

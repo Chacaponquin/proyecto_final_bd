@@ -5,10 +5,14 @@
 package cu.edu.cujae.structbd.visual.coach;
 
 import cu.edu.cujae.structbd.dto.coach.CreateCoachDTO;
+import cu.edu.cujae.structbd.dto.team_member.ReadTeamMemberDTO;
 import cu.edu.cujae.structbd.services.ServicesLocator;
+import cu.edu.cujae.structbd.utils.UtilsConnector;
 import java.sql.SQLException;
+import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -51,10 +55,20 @@ public class CreateCoachUI extends javax.swing.JDialog
         setTitle("Insertar Entrenador");
 
         jButton1.setText("Cancelar");
+        jButton1.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Aceptar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jButton2.setEnabled(false);
+        jButton2.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jButton2ActionPerformed(evt);
             }
         });
@@ -97,16 +111,40 @@ public class CreateCoachUI extends javax.swing.JDialog
                 field_nameActionPerformed(evt);
             }
         });
+        field_name.addKeyListener(new java.awt.event.KeyAdapter()
+        {
+            public void keyReleased(java.awt.event.KeyEvent evt)
+            {
+                field_nameKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt)
+            {
+                field_nameKeyTyped(evt);
+            }
+        });
         jPanel2.add(field_name, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 20, 180, -1));
 
         combo_box_team.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        combo_box_team.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        combo_box_team.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 combo_box_teamActionPerformed(evt);
             }
         });
+        combo_box_team.addKeyListener(new java.awt.event.KeyAdapter()
+        {
+            public void keyReleased(java.awt.event.KeyEvent evt)
+            {
+                combo_box_teamKeyReleased(evt);
+            }
+        });
         jPanel2.add(combo_box_team, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 50, 180, -1));
+
+        spinner_number.setModel(new javax.swing.SpinnerNumberModel(1, 1, 99, 1));
         jPanel2.add(spinner_number, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 80, -1, -1));
+
+        spinner_exp.setModel(new javax.swing.SpinnerNumberModel(0, 0, 80, 1));
         jPanel2.add(spinner_exp, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 110, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -131,6 +169,7 @@ public class CreateCoachUI extends javax.swing.JDialog
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void field_nameActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_field_nameActionPerformed
@@ -140,16 +179,18 @@ public class CreateCoachUI extends javax.swing.JDialog
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton2ActionPerformed
     {//GEN-HEADEREND:event_jButton2ActionPerformed
-        try
+        if (validate_name())
+        {
+            try
         {
             String name = field_name.getText();
             String team = combo_box_team.getSelectedItem().toString();
             int number = (int) spinner_number.getValue();
             int y_exp = (int) spinner_exp.getValue();
-
-            //Falta generar el id y validar
-            CreateCoachDTO createCoachDTO = new CreateCoachDTO("    ", name, number, team, y_exp);
+            String id = UtilsConnector.idUtils.generateUniqueID();
+            CreateCoachDTO createCoachDTO = new CreateCoachDTO(id, name, number, team, y_exp);
             ServicesLocator.CoachServices.createCoach(createCoachDTO);
+            JOptionPane.showMessageDialog(null, name + " se ha insertado correctamente", "Confirmación", HEIGHT);
         }
         catch (SQLException ex)
         {
@@ -158,13 +199,40 @@ public class CreateCoachUI extends javax.swing.JDialog
         catch (ClassNotFoundException ex)
         {
             Logger.getLogger(CreateCoachUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            dispose();
         }
 
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void combo_box_teamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combo_box_teamActionPerformed
+    private void field_nameKeyReleased(java.awt.event.KeyEvent evt)//GEN-FIRST:event_field_nameKeyReleased
+    {//GEN-HEADEREND:event_field_nameKeyReleased
+        activate_button();
+    }//GEN-LAST:event_field_nameKeyReleased
+
+    private void combo_box_teamActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_combo_box_teamActionPerformed
+    {//GEN-HEADEREND:event_combo_box_teamActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_combo_box_teamActionPerformed
+
+    private void combo_box_teamKeyReleased(java.awt.event.KeyEvent evt)//GEN-FIRST:event_combo_box_teamKeyReleased
+    {//GEN-HEADEREND:event_combo_box_teamKeyReleased
+        activate_button();
+    }//GEN-LAST:event_combo_box_teamKeyReleased
+
+    private void field_nameKeyTyped(java.awt.event.KeyEvent evt)//GEN-FIRST:event_field_nameKeyTyped
+    {//GEN-HEADEREND:event_field_nameKeyTyped
+        char key = evt.getKeyChar();
+        if (!Character.isAlphabetic(key) && !Character.isSpaceChar(key))
+        {
+            evt.consume();
+        }
+    }//GEN-LAST:event_field_nameKeyTyped
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton1ActionPerformed
+    {//GEN-HEADEREND:event_jButton1ActionPerformed
+        dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -227,7 +295,34 @@ public class CreateCoachUI extends javax.swing.JDialog
             }
         });
     }
-
+    public boolean validate_name()
+    {
+        boolean result = true;
+        boolean flag;
+        String nombre = field_name.getText();
+        for (int i = 0; i < nombre.length() && result; i++)
+        {
+            flag = Character.isUpperCase(nombre.charAt(0)) && nombre.charAt(0) != ' ' && (Character.isLetter(nombre.
+                                                                                          charAt(i)) || nombre.charAt(i) == ' ');
+            if (!flag)
+            {
+                result = false;
+                JOptionPane.showMessageDialog(null, "El nombre debe iniciar con letra mayúscula", "Nombre incorrecto",
+                                              JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        return result;
+    }
+    
+    public void activate_button(){
+        if (field_name.getText().isEmpty()){
+            jButton2.setEnabled(false);
+        } else {
+            jButton2.setEnabled(true);
+        }
+        
+        
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> combo_box_team;
     private javax.swing.JTextField field_name;
