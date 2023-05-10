@@ -8,6 +8,7 @@ import cu.edu.cujae.structbd.visual.batter.BatterUI;
 
 import cu.edu.cujae.structbd.visual.coach.Coach_UI;
 import cu.edu.cujae.structbd.visual.game.GameUI;
+import cu.edu.cujae.structbd.visual.main.MainUI;
 import cu.edu.cujae.structbd.visual.phase.PhaseUI;
 
 import cu.edu.cujae.structbd.visual.pitcher.PitcherUI;
@@ -47,6 +48,13 @@ public class ViewUtils {
         }catch (Exception ex){
             System.out.println("Error por falta de Backup");
         }
+    }
+    
+    public void getBackHome(JFrame actualWindow){
+        actualWindow.setVisible(false);
+        MainUI main = new MainUI();
+        main.setVisible(true);
+        main.setLocationRelativeTo(null);
     }
     
     public HashMap<String, JFrame> getViews(){
