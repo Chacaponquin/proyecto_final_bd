@@ -47,8 +47,7 @@ public class UpdatePhaseUI extends javax.swing.JDialog
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents()
-    {
+    private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
@@ -68,29 +67,23 @@ public class UpdatePhaseUI extends javax.swing.JDialog
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Insertar fase");
-        addFocusListener(new java.awt.event.FocusAdapter()
-        {
-            public void focusGained(java.awt.event.FocusEvent evt)
-            {
+        addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
                 formFocusGained(evt);
             }
         });
 
-        jButton1.setText("Cancelar");
-        jButton1.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jButton1.setText("Cerrar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Aceptar");
+        jButton2.setText("Modificar");
         jButton2.setEnabled(false);
-        jButton2.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
@@ -130,34 +123,27 @@ public class UpdatePhaseUI extends javax.swing.JDialog
         jLabel5.setText("Fecha de fin:");
         jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, -1, -1));
 
-        field_name.addKeyListener(new java.awt.event.KeyAdapter()
-        {
-            public void keyReleased(java.awt.event.KeyEvent evt)
-            {
+        field_name.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
                 field_nameKeyReleased(evt);
             }
-            public void keyTyped(java.awt.event.KeyEvent evt)
-            {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
                 field_nameKeyTyped(evt);
             }
         });
         jPanel2.add(field_name, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 10, 140, -1));
 
-        spinner_team.addKeyListener(new java.awt.event.KeyAdapter()
-        {
-            public void keyReleased(java.awt.event.KeyEvent evt)
-            {
+        spinner_team.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
                 spinner_teamKeyReleased(evt);
             }
         });
-        jPanel2.add(spinner_team, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 40, -1, -1));
+        jPanel2.add(spinner_team, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 40, 140, -1));
 
         date_start.setMaxSelectableDate(new java.util.Date(1735707692000L));
         date_start.setMinSelectableDate(new java.util.Date(1641013292000L));
-        date_start.addKeyListener(new java.awt.event.KeyAdapter()
-        {
-            public void keyReleased(java.awt.event.KeyEvent evt)
-            {
+        date_start.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
                 date_startKeyReleased(evt);
             }
         });
@@ -165,10 +151,8 @@ public class UpdatePhaseUI extends javax.swing.JDialog
 
         date_finish.setMaxSelectableDate(new java.util.Date(1735794092000L));
         date_finish.setMinSelectableDate(new java.util.Date(1672549292000L));
-        date_finish.addKeyListener(new java.awt.event.KeyAdapter()
-        {
-            public void keyReleased(java.awt.event.KeyEvent evt)
-            {
+        date_finish.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
                 date_finishKeyReleased(evt);
             }
         });
@@ -235,6 +219,7 @@ public class UpdatePhaseUI extends javax.swing.JDialog
             Logger.getLogger(UpdatePhaseUI.class.getName()).log(Level.SEVERE, null, ex);
             }
         dispose();
+        
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 

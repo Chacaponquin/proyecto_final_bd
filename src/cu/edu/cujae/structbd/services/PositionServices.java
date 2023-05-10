@@ -74,7 +74,7 @@ public class PositionServices {
         ResultSet resultSet = (ResultSet) preparedFunction.getObject(1);
         while (resultSet.next())
         {
-            positions_list.add(new ReadPositionDTO(resultSet.getString(1), resultSet.getString(2)));
+            positions_list.add(new ReadPositionDTO(resultSet.getString("position_id"), resultSet.getString("position_name")));
         }
         resultSet.close();
         preparedFunction.close();

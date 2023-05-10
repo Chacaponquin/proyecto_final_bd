@@ -64,21 +64,21 @@ public class ViewUtils {
             System.out.println(ex);
             System.out.println("Error por falta de Backup");
         }catch (Exception ex){
+            System.out.println(ex);
             System.out.println("Error por falta de Backup");
         }
     }
     
     public void getBackHome(JFrame actualWindow){
         actualWindow.setVisible(false);
-        MainUI main = new MainUI();
-        main.setVisible(true);
-        main.setLocationRelativeTo(null);
+        actualWindow.dispose();
     }
     
     public void openWindow(JFrame actualWindow, JFrame newWindow){
         actualWindow.setVisible(false);
         newWindow.setVisible(true);
         newWindow.setLocationRelativeTo(null);
+        actualWindow.dispose();
     }
     
     public HashMap<String, JFrame> getViews(){
