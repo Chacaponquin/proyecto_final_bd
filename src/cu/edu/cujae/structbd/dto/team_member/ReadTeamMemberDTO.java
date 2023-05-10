@@ -5,14 +5,14 @@ public class ReadTeamMemberDTO {
     private int number;
     private int yearsInTeam;
     private String id;
-    private String team_id;
+    private String team_name;
 
-    public ReadTeamMemberDTO(String name, int number, int yearsInTeam, String id, String team_id) {
+    public ReadTeamMemberDTO(String name, int number, int yearsInTeam, String id, String team_name) {
         this.name = name;
         this.number = number;
         this.yearsInTeam = yearsInTeam;
         this.id = id;
-        this.team_id = team_id;
+        this.team_name = team_name;
     }
 
     public String getName() {
@@ -67,13 +67,13 @@ public class ReadTeamMemberDTO {
         }
     }
 
-    public String getTeam_id() {
-        return team_id;
+    public String getTeam_name() {
+        return team_name;
     }
 
-    public void setTeam_id(String team_id) {
-        if(team_id != null){
-            this.team_id = team_id;
+    public void setTeam_name(String team_name) {
+        if(team_name != null){
+            this.team_name = team_name;
         }
         else{
             throw new IllegalArgumentException();

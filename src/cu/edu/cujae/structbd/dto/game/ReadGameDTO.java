@@ -1,22 +1,21 @@
 package cu.edu.cujae.structbd.dto.game;
 
-import java.time.LocalDate;
 import java.util.Date;
 
 public class ReadGameDTO {
     private String id;
-    private String hcTeamID;
-    private String visTeamID;
-    private String phaseID;
+    private String hcTeamName;
+    private String visTeamName;
+    private String phaseName;
     private Date date;
     private String winner;
     private int audience;
 
-    public ReadGameDTO(String id, String hcTeamID, String visTeamID, String phaseID, Date date, String winner, int audience) {
+    public ReadGameDTO(String id, String hcTeamName, String visTeamName, String phaseName, Date date, String winner, int audience) {
         this.id = id;
-        this.hcTeamID = hcTeamID;
-        this.visTeamID = visTeamID;
-        this.phaseID = phaseID;
+        this.hcTeamName = hcTeamName;
+        this.visTeamName = visTeamName;
+        this.phaseName = phaseName;
         this.date = date;
         this.winner = winner;
         this.audience = audience;
@@ -35,39 +34,39 @@ public class ReadGameDTO {
         }
     }
 
-    public String getHcTeamID() {
-        return hcTeamID;
+    public String getHcTeamName() {
+        return hcTeamName;
     }
 
-    public void setHcTeamID(String hcTeamID) {
-        if(hcTeamID != null) {
-            this.hcTeamID = hcTeamID;
+    public void setHcTeamName(String hcTeamName) {
+        if(hcTeamName != null) {
+            this.hcTeamName = hcTeamName;
         }
         else{
             throw new IllegalArgumentException();
         }
     }
 
-    public String getVisTeamID() {
-        return visTeamID;
+    public String getVisTeamName() {
+        return visTeamName;
     }
 
-    public void setVisTeamID(String visTeamID) {
-        if(visTeamID != null){
-            this.visTeamID = visTeamID;
+    public void setVisTeamName(String visTeamName) {
+        if(visTeamName != null){
+            this.visTeamName = visTeamName;
         }
         else{
             throw new IllegalArgumentException();
         }
     }
 
-    public String getPhaseID() {
-        return phaseID;
+    public String getPhaseName() {
+        return phaseName;
     }
 
-    public void setPhaseID(String phaseID) {
-        if(phaseID != null) {
-            this.phaseID = phaseID;
+    public void setPhaseName(String phaseName) {
+        if(phaseName != null) {
+            this.phaseName = phaseName;
         }
         else{
             throw new IllegalArgumentException();

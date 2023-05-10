@@ -4,17 +4,50 @@
  */
 package cu.edu.cujae.structbd.visual.pitcher;
 
+import cu.edu.cujae.structbd.dto.pitcher.ReadPitcherDTO;
+import cu.edu.cujae.structbd.services.ServicesLocator;
+import java.sql.SQLException;
+import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.LinkedList;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Hector Angel Gomez
  */
 public class PitcherUI extends javax.swing.JFrame {
 
+    private LinkedList<ReadPitcherDTO> readPitcherDTO_list;
+    
     /**
      * Creates new form PitcherUI
      */
     public PitcherUI() {
         initComponents();
+        try{
+            this.readPitcherDTO_list = new LinkedList<>(ServicesLocator.PitcherServices.readAllPitchers());
+            Iterator<ReadPitcherDTO> it = readPitcherDTO_list.iterator();
+            while(it.hasNext()){
+                ReadPitcherDTO readPitcherDTO = it.next();
+                ((DefaultTableModel) jTable1.getModel()).addRow(new Object[]
+                {
+                    readPitcherDTO.getTeamMemberName(), readPitcherDTO.getMemberNumber(), 
+                    readPitcherDTO.getYearsInTeam(), readPitcherDTO.getTeam(), 
+                    readPitcherDTO.getInningsPitched(), readPitcherDTO.getRunsAllowed(),
+                    (readPitcherDTO.getInningsPitched()/readPitcherDTO.getRunsAllowed())
+                });
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(PitcherUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        catch (ClassNotFoundException ex)
+        {
+            Logger.getLogger(PitcherUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -26,21 +59,88 @@ public class PitcherUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        jButtonClose = new javax.swing.JButton();
+        jButtonInsert = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Pitchers");
+        setMinimumSize(new java.awt.Dimension(780, 440));
+
+        jButtonClose.setText("Cerrar");
+        jButtonClose.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCloseActionPerformed(evt);
+            }
+        });
+
+        jButtonInsert.setText("Insertar");
+        jButtonInsert.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonInsertActionPerformed(evt);
+            }
+        });
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "Nombre", "Número", "Años en equipo", "Equipo", "Lanzamientos", "Carreras permitidas", "Promedio"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, true, true, true, true, true, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(jTable1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButtonInsert, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButtonClose, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addContainerGap())
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 770, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addComponent(jButtonInsert)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 348, Short.MAX_VALUE)
+                .addGap(12, 12, 12)
+                .addComponent(jButtonClose)
+                .addGap(12, 12, 12))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButtonInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonInsertActionPerformed
+        // TODO add your handling code here:
+        CreatePitcherUI cpui = new CreatePitcherUI(this, true);
+        cpui.setLocationRelativeTo(null);
+        cpui.setVisible(rootPaneCheckingEnabled);
+    }//GEN-LAST:event_jButtonInsertActionPerformed
+
+    private void jButtonCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCloseActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_jButtonCloseActionPerformed
 
     /**
      * @param args the command line arguments
@@ -78,5 +178,14 @@ public class PitcherUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonClose;
+    private javax.swing.JButton jButtonInsert;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
+
+    public LinkedList<ReadPitcherDTO> getPitchers() {
+        return this.readPitcherDTO_list;
+    }
+
 }

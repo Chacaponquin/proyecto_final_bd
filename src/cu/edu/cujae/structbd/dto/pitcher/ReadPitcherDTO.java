@@ -4,23 +4,20 @@ public class ReadPitcherDTO {
     private String teamMemberID;
     private String teamMemberName;
     private int memberNumber;
-    private String teamID;
+    private String team;
     private int yearsInTeam;
     private int inningsPitched;
     private int runsAllowed;
-    private String positionID;
 
-    public ReadPitcherDTO(String teamMemberID, int inningsPitched, int runsAllowed, 
-            String positionID, String teamMemberName, int memberNumber, String teamID, 
+    public ReadPitcherDTO(String teamMemberID, int inningsPitched, int runsAllowed, String teamMemberName, int memberNumber, String team, 
             int yearsInTeam) {
         this.teamMemberID = teamMemberID;
         this.teamMemberName = teamMemberName;
         this.memberNumber = memberNumber;
-        this.teamID = teamID;
+        this.team = team;
         this.yearsInTeam = yearsInTeam;
         this.inningsPitched = inningsPitched;
         this.runsAllowed = runsAllowed;
-        this.positionID = positionID;
     }
 
     public String getTeamMemberID() {
@@ -62,13 +59,13 @@ public class ReadPitcherDTO {
         }
     }
 
-    public String getTeamID() {
-        return teamID;
+    public String getTeam() {
+        return team;
     }
 
-    public void setTeamID(String teamID) {
-        if(teamID != null){
-            this.teamID = teamID;
+    public void setTeam(String team) {
+        if(team != null){
+            this.team = team;
         }
         else{
             throw new IllegalArgumentException();
@@ -113,18 +110,4 @@ public class ReadPitcherDTO {
             throw new IllegalArgumentException();
         }
     }
-    
-     public String getPositionID() {
-        return positionID;
-    }
-
-    public void setPositionID(String positionID) {
-        if(positionID != null){
-            this.positionID = positionID;
-        }
-        else{
-            throw new IllegalArgumentException();
-        }
-    }
-    
 }
