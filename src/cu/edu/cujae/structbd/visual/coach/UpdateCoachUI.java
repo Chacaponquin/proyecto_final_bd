@@ -5,8 +5,10 @@
 package cu.edu.cujae.structbd.visual.coach;
 
 import cu.edu.cujae.structbd.dto.coach.UpdateCoachDTO;
+import cu.edu.cujae.structbd.dto.team.ReadTeamDTO;
 import cu.edu.cujae.structbd.services.ServicesLocator;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -24,13 +26,28 @@ public class UpdateCoachUI extends javax.swing.JDialog
     public UpdateCoachUI(java.awt.Frame parent, boolean modal, UpdateCoachDTO updateCoachDTO)
     {
         super(parent, modal);
-        initComponents();
-        this.updateCoachDTO = updateCoachDTO;
-        this.field_name.setText(this.updateCoachDTO.getTeam_member_name());
-        this.spinner_exp.setValue(this.updateCoachDTO.getExperience_years());
-        this.spinner_number.setValue(this.updateCoachDTO.getMember_number());
-        this.spinner_team.setValue(this.updateCoachDTO.getYears_in_team());
-        //Falta el combox
+        try
+        {
+            initComponents();
+            this.updateCoachDTO = updateCoachDTO;
+            this.field_name.setText(this.updateCoachDTO.getTeam_member_name());
+            this.spinner_exp.setValue(this.updateCoachDTO.getExperience_years());
+            this.spinner_number.setValue(this.updateCoachDTO.getMember_number());
+            this.spinner_team.setValue(this.updateCoachDTO.getYears_in_team());
+            ArrayList<ReadTeamDTO> teams_list = ServicesLocator.TeamServices.readTeams();
+            for (int i = 0; i < teams_list.size(); i++)
+            {
+                combo_box_team.addItem(teams_list.get(i).getTeam_name());
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(UpdateCoachUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        catch (ClassNotFoundException ex)
+        {
+            Logger.getLogger(UpdateCoachUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -128,7 +145,7 @@ public class UpdateCoachUI extends javax.swing.JDialog
         });
         jPanel2.add(field_name, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 20, 180, -1));
 
-        combo_box_team.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        combo_box_team.setMaximumRowCount(18);
         jPanel2.add(combo_box_team, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 50, 180, -1));
 
         spinner_number.setModel(new javax.swing.SpinnerNumberModel(1, 1, 99, 1));
@@ -182,11 +199,23 @@ public class UpdateCoachUI extends javax.swing.JDialog
             int number = (int) spinner_number.getValue();
             int y_exp = (int) spinner_exp.getValue();
             int y_team = (int) spinner_team.getValue();
-            updateCoachDTO.setTeam_name(team);
+            ArrayList<ReadTeamDTO> teams_list_2 = ServicesLocator.TeamServices.readTeams();
+            boolean found_team = false;
+            String team_id = null;
+            for (int i = 0; i < teams_list_2.size() && !found_team; i++)
+            {
+                if (teams_list_2.get(i).getTeam_name().equalsIgnoreCase(team))
+                {
+                    found_team = true;
+                    team_id = teams_list_2.get(i).getTeam_id();
+                }
+            }
+            updateCoachDTO.setTeam_name(team_id);
             updateCoachDTO.setExperience_years(y_exp);
             updateCoachDTO.setMember_number(number);
             updateCoachDTO.setTeam_member_name(name);
             updateCoachDTO.setYears_in_team(y_team);
+
             ServicesLocator.CoachServices.updateCoach(updateCoachDTO);
             JOptionPane.showMessageDialog(null, name + " se ha modificado correctamente", "Confirmación", HEIGHT);
         }

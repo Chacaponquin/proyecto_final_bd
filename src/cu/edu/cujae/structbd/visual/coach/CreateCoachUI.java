@@ -5,10 +5,12 @@
 package cu.edu.cujae.structbd.visual.coach;
 
 import cu.edu.cujae.structbd.dto.coach.CreateCoachDTO;
+import cu.edu.cujae.structbd.dto.team.ReadTeamDTO;
 import cu.edu.cujae.structbd.dto.team_member.ReadTeamMemberDTO;
 import cu.edu.cujae.structbd.services.ServicesLocator;
 import cu.edu.cujae.structbd.utils.UtilsConnector;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -28,6 +30,24 @@ public class CreateCoachUI extends javax.swing.JDialog
     {
         super(parent, modal);
         initComponents();
+        try
+        {
+            ArrayList<ReadTeamDTO> teams_list = ServicesLocator.TeamServices.readTeams();
+            for (int i = 0; i < teams_list.size(); i++)
+            {
+                combo_box_team.addItem(teams_list.get(i).getTeam_name());
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(CreateCoachUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        catch (ClassNotFoundException ex)
+        {
+            Logger.getLogger(CreateCoachUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+
     }
 
     /**
@@ -36,7 +56,8 @@ public class CreateCoachUI extends javax.swing.JDialog
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents()
+    {
 
         jPanel1 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
@@ -106,8 +127,10 @@ public class CreateCoachUI extends javax.swing.JDialog
         jLabel4.setText("Años de experiencia:");
         jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, -1, -1));
 
-        field_name.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        field_name.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 field_nameActionPerformed(evt);
             }
         });
@@ -124,7 +147,7 @@ public class CreateCoachUI extends javax.swing.JDialog
         });
         jPanel2.add(field_name, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 20, 180, -1));
 
-        combo_box_team.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        combo_box_team.setMaximumRowCount(18);
         combo_box_team.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
@@ -188,7 +211,18 @@ public class CreateCoachUI extends javax.swing.JDialog
             int number = (int) spinner_number.getValue();
             int y_exp = (int) spinner_exp.getValue();
             String id = UtilsConnector.idUtils.generateUniqueID();
-            CreateCoachDTO createCoachDTO = new CreateCoachDTO(id, name, number, team, y_exp);
+            ArrayList<ReadTeamDTO> teams_list_2 = ServicesLocator.TeamServices.readTeams();
+            boolean found_team = false;
+            String team_id = null;
+            for (int i = 0; i < teams_list_2.size() && !found_team; i++)
+            {
+                if (teams_list_2.get(i).getTeam_name().equalsIgnoreCase(team))
+                {
+                    found_team = true;
+                    team_id = teams_list_2.get(i).getTeam_id();
+                }
+            }
+            CreateCoachDTO createCoachDTO = new CreateCoachDTO(id, name, number, team_id, y_exp);
             ServicesLocator.CoachServices.createCoach(createCoachDTO);
             JOptionPane.showMessageDialog(null, name + " se ha insertado correctamente", "Confirmación", HEIGHT);
         }
