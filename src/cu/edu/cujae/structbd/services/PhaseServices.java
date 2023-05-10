@@ -26,6 +26,7 @@ public class PhaseServices
         String function = "{call phase_insert(?,?,?,?,?)}";
         java.sql.Connection connection = Connector.getConnection();
         CallableStatement preparedFunction = connection.prepareCall(function);
+        System.out.println(createPhaseDTO.getPhase_name());
         preparedFunction.setString(1, createPhaseDTO.getPhase_id());
         preparedFunction.setString(2, createPhaseDTO.getPhase_name());
         preparedFunction.setDate(3, java.sql.Date.valueOf(createPhaseDTO.getStart_date()));
@@ -105,25 +106,5 @@ public class PhaseServices
         preparedFunction.execute();
         preparedFunction.close();
         connection.commit();
-    }
-
-    public static void main(String args[])
-    {
-        try
-        {
-            String st = "3da4016e-1603-1603-bc49-ae82ea8cd7c5";
-            DeletePhaseDTO df = new DeletePhaseDTO(st);
-            PhaseServices ps = new PhaseServices();
-            ps.deletePhase(df);
-        }
-        catch (SQLException ex)
-        {
-            Logger.getLogger(PhaseServices.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        catch (ClassNotFoundException ex)
-        {
-            Logger.getLogger(PhaseServices.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
     }
 }

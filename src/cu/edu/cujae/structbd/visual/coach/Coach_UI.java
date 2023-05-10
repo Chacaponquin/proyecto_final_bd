@@ -78,7 +78,7 @@ public class Coach_UI extends javax.swing.JFrame
         jScrollPane1 = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
 
-        menuUpdate.setText("jMenuItem1");
+        menuUpdate.setText("Modificar entrenador");
         menuUpdate.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
@@ -88,7 +88,7 @@ public class Coach_UI extends javax.swing.JFrame
         });
         jPopupMenu1.add(menuUpdate);
 
-        menuDelete.setText("jMenuItem2");
+        menuDelete.setText("Eliminar entrenador");
         menuDelete.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
@@ -98,7 +98,7 @@ public class Coach_UI extends javax.swing.JFrame
         });
         jPopupMenu1.add(menuDelete);
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addFocusListener(new java.awt.event.FocusAdapter()
         {
             public void focusGained(java.awt.event.FocusEvent evt)

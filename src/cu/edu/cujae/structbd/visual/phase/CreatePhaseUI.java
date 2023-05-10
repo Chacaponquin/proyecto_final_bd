@@ -29,7 +29,6 @@ public class CreatePhaseUI extends javax.swing.JDialog
     {
         super(parent, modal);
         initComponents();
-        jButton2.setEnabled(true);
     }
 
     /**
@@ -140,6 +139,16 @@ public class CreatePhaseUI extends javax.swing.JDialog
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void field_nameKeyTyped(java.awt.event.KeyEvent evt)
+    {
+        char key = evt.getKeyChar();
+
+        if (!Character.isAlphabetic(key) && !Character.isSpaceChar(key))
+        {
+            evt.consume();
+        }
+    }
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton1ActionPerformed
     {//GEN-HEADEREND:event_jButton1ActionPerformed

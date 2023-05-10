@@ -9,6 +9,7 @@ import cu.edu.cujae.structbd.services.ServicesLocator;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -60,8 +61,16 @@ public class UpdateCoachUI extends javax.swing.JDialog
         setTitle("Insertar Entrenador");
 
         jButton1.setText("Cancelar");
+        jButton1.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Aceptar");
+        jButton2.setEnabled(false);
         jButton2.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
@@ -110,11 +119,22 @@ public class UpdateCoachUI extends javax.swing.JDialog
                 field_nameActionPerformed(evt);
             }
         });
+        field_name.addKeyListener(new java.awt.event.KeyAdapter()
+        {
+            public void keyTyped(java.awt.event.KeyEvent evt)
+            {
+                field_nameKeyTyped(evt);
+            }
+        });
         jPanel2.add(field_name, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 20, 180, -1));
 
         combo_box_team.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jPanel2.add(combo_box_team, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 50, 180, -1));
+
+        spinner_number.setModel(new javax.swing.SpinnerNumberModel(1, 1, 99, 1));
         jPanel2.add(spinner_number, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 80, -1, -1));
+
+        spinner_exp.setModel(new javax.swing.SpinnerNumberModel(0, 0, 40, 1));
         jPanel2.add(spinner_exp, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 110, -1, -1));
 
         jLabel5.setText("Años en el equipo:");
@@ -143,6 +163,7 @@ public class UpdateCoachUI extends javax.swing.JDialog
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void field_nameActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_field_nameActionPerformed
@@ -152,7 +173,9 @@ public class UpdateCoachUI extends javax.swing.JDialog
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton2ActionPerformed
     {//GEN-HEADEREND:event_jButton2ActionPerformed
-        try
+        if (validate_name())
+        {
+            try
         {
             String name = field_name.getText();
             String team = combo_box_team.getSelectedItem().toString();
@@ -164,9 +187,8 @@ public class UpdateCoachUI extends javax.swing.JDialog
             updateCoachDTO.setMember_number(number);
             updateCoachDTO.setTeam_member_name(name);
             updateCoachDTO.setYears_in_team(y_team);
-
-            //Falta validar
             ServicesLocator.CoachServices.updateCoach(updateCoachDTO);
+            JOptionPane.showMessageDialog(null, name + " se ha modificado correctamente", "Confirmación", HEIGHT);
         }
         catch (SQLException ex)
         {
@@ -175,8 +197,28 @@ public class UpdateCoachUI extends javax.swing.JDialog
         catch (ClassNotFoundException ex)
         {
             Logger.getLogger(UpdateCoachUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            dispose();
+        }
+        else
+        {
+
         }
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void field_nameKeyTyped(java.awt.event.KeyEvent evt)//GEN-FIRST:event_field_nameKeyTyped
+    {//GEN-HEADEREND:event_field_nameKeyTyped
+        char key = evt.getKeyChar();
+        if (!Character.isAlphabetic(key) && !Character.isSpaceChar(key))
+        {
+            evt.consume();
+        }
+    }//GEN-LAST:event_field_nameKeyTyped
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton1ActionPerformed
+    {//GEN-HEADEREND:event_jButton1ActionPerformed
+       dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -241,6 +283,35 @@ public class UpdateCoachUI extends javax.swing.JDialog
                 dialog.setVisible(true);
             }
         });*/
+    }
+    
+    public boolean validate_name()
+    {
+        boolean result = true;
+        boolean flag;
+        String nombre = field_name.getText();
+        for (int i = 0; i < nombre.length() && result; i++)
+        {
+            flag = Character.isUpperCase(nombre.charAt(0)) && nombre.charAt(0) != ' ' && (Character.isLetter(nombre.
+                                                                                          charAt(i)) || nombre.charAt(i) == ' ');
+            if (!flag)
+            {
+                result = false;
+                JOptionPane.showMessageDialog(null, "El nombre debe iniciar con letra mayúscula", "Nombre incorrecto",
+                                              JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        return result;
+    }
+    
+    public void activate_button(){
+        if (field_name.getText().isEmpty()){
+            jButton2.setEnabled(true);
+        } else {
+            jButton2.setEnabled(false);
+        }
+        
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -94,7 +94,7 @@ public class PhaseUI extends javax.swing.JFrame {
         });
         jPopupMenu1.add(menuDelete);
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addFocusListener(new java.awt.event.FocusAdapter()
         {
             public void focusGained(java.awt.event.FocusEvent evt)
@@ -200,7 +200,7 @@ public class PhaseUI extends javax.swing.JFrame {
     private void menuUpdateActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_menuUpdateActionPerformed
     {//GEN-HEADEREND:event_menuUpdateActionPerformed
         int row = table.getSelectedRow();
-        if (row > 0)
+        if (row >= 0)
         {
             String name = table.getValueAt(row, 0).toString();
             String start_date = table.getValueAt(row, 1).toString();
@@ -248,8 +248,8 @@ public class PhaseUI extends javax.swing.JFrame {
     private void menuDeleteActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_menuDeleteActionPerformed
     {//GEN-HEADEREND:event_menuDeleteActionPerformed
         int row = table.getSelectedRow();
-        System.out.println(String.valueOf(row));
-        if (row > 0)
+
+        if (row >= 0)
         {
             String name = table.getValueAt(row, 0).toString();
             System.out.println(name);
@@ -303,7 +303,7 @@ public class PhaseUI extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton3ActionPerformed
     {//GEN-HEADEREND:event_jButton3ActionPerformed
-        CreatePhaseUI cpui = new CreatePhaseUI(this, rootPaneCheckingEnabled);
+        CreatePhase_UI1 cpui = new CreatePhase_UI1(this, rootPaneCheckingEnabled);
         cpui.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
 

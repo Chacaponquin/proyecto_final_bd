@@ -26,7 +26,7 @@ import javax.swing.JFrame;
 public class ViewUtils {
     private final HashMap<String, JFrame> views = new HashMap<>();
     
-    public ViewUtils() throws SQLException, ClassNotFoundException
+    public ViewUtils()
     {
         try{
             this.views.put("Stadium", new StadiumUI());
