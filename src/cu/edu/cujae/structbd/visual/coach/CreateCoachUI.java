@@ -32,8 +32,7 @@ public class CreateCoachUI extends javax.swing.JDialog
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents()
-    {
+    private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
@@ -54,10 +53,8 @@ public class CreateCoachUI extends javax.swing.JDialog
         jButton1.setText("Cancelar");
 
         jButton2.setText("Aceptar");
-        jButton2.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
@@ -95,16 +92,19 @@ public class CreateCoachUI extends javax.swing.JDialog
         jLabel4.setText("Años de experiencia:");
         jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, -1, -1));
 
-        field_name.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        field_name.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 field_nameActionPerformed(evt);
             }
         });
         jPanel2.add(field_name, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 20, 180, -1));
 
         combo_box_team.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        combo_box_team.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                combo_box_teamActionPerformed(evt);
+            }
+        });
         jPanel2.add(combo_box_team, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 50, 180, -1));
         jPanel2.add(spinner_number, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 80, -1, -1));
         jPanel2.add(spinner_exp, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 110, -1, -1));
@@ -161,6 +161,10 @@ public class CreateCoachUI extends javax.swing.JDialog
         }
 
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void combo_box_teamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combo_box_teamActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_combo_box_teamActionPerformed
 
     /**
      * @param args the command line arguments

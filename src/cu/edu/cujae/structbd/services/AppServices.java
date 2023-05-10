@@ -7,6 +7,8 @@ package cu.edu.cujae.structbd.services;
 import cu.edu.cujae.structbd.dto.province.ReadProvinceDTO;
 import cu.edu.cujae.structbd.dto.reports.ReadReport_4DTO;
 import cu.edu.cujae.structbd.dto.reports.ReadReport_5DTO;
+import cu.edu.cujae.structbd.dto.reports.ReadReport_6DTO;
+import cu.edu.cujae.structbd.dto.reports.ReadReport_7DTO;
 import cu.edu.cujae.structbd.utils.Connector;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
@@ -57,6 +59,49 @@ public class AppServices
         resultSet.close();
         preparedFunction.close();
         
+        return list;
+    }
+    
+    public List<ReadReport_6DTO> getTeamStatus(String team_id) throws SQLException, ClassNotFoundException
+    {
+        LinkedList<ReadReport_6DTO> list = new LinkedList<>();
+        String function = "{?= call report_team_status(?)}";
+        java.sql.Connection connection = Connector.getConnection();
+        connection.setAutoCommit(false);
+        CallableStatement preparedFunction = connection.prepareCall(function);
+        preparedFunction.registerOutParameter(1, java.sql.Types.REF_CURSOR);
+        preparedFunction.setString(2, team_id);
+        preparedFunction.execute();
+        ResultSet resultSet = (ResultSet) preparedFunction.getObject(1);
+        while (resultSet.next())
+        {
+            list.add(new ReadReport_6DTO(resultSet.getString(1), resultSet.getInt(2), 
+                    resultSet.getInt(3), resultSet.getInt(4), resultSet.getInt(5), 
+                    resultSet.getInt(6), resultSet.getInt(7), resultSet.getInt(8))
+            );
+        }
+        resultSet.close();
+        preparedFunction.close();
+        return list;
+    }
+    
+    public List<ReadReport_7DTO> getAllStarTeam() throws SQLException, ClassNotFoundException
+    {
+        LinkedList<ReadReport_7DTO> list = new LinkedList<>();
+        String function = "{?= call report_all_star_team()}";
+        java.sql.Connection connection = Connector.getConnection();
+        connection.setAutoCommit(false);
+        CallableStatement preparedFunction = connection.prepareCall(function);
+        preparedFunction.registerOutParameter(1, java.sql.Types.REF_CURSOR);
+        preparedFunction.execute();
+        ResultSet resultSet = (ResultSet) preparedFunction.getObject(1);
+        while (resultSet.next())
+        {
+            list.add(new ReadReport_7DTO(resultSet.getString(1), resultSet.getString(2), 
+                    resultSet.getString(3), resultSet.getFloat(4)));
+        }
+        resultSet.close();
+        preparedFunction.close();
         return list;
     }
 }
