@@ -32,6 +32,7 @@ public class PhaseUI extends javax.swing.JFrame {
         initComponents();
         try
         {
+            readPhaseDTO_list.clear();
             this.readPhaseDTO_list = new LinkedList<>(ServicesLocator.PhaseServices.readAllPhase());
             Iterator<ReadPhaseDTO> it_readPhaseDTO_list = readPhaseDTO_list.iterator();
             while (it_readPhaseDTO_list.hasNext())
@@ -278,6 +279,11 @@ public class PhaseUI extends javax.swing.JFrame {
                 {
                     DeletePhaseDTO deletePhaseDTO = new DeletePhaseDTO(id);
                     ServicesLocator.PhaseServices.deletePhase(deletePhaseDTO);
+                    LinkedList<ReadPhaseDTO> listt = new LinkedList<>(ServicesLocator.PhaseServices.readAllPhase());
+                    for (ReadPhaseDTO rf : listt)
+                    {
+                        System.out.println(rf.getPhase_name());
+                    }
                 }
                 catch (SQLException ex)
                 {
