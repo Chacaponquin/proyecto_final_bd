@@ -32,7 +32,6 @@ public class PhaseUI extends javax.swing.JFrame {
         initComponents();
         try
         {
-            readPhaseDTO_list.clear();
             this.readPhaseDTO_list = new LinkedList<>(ServicesLocator.PhaseServices.readAllPhase());
             Iterator<ReadPhaseDTO> it_readPhaseDTO_list = readPhaseDTO_list.iterator();
             while (it_readPhaseDTO_list.hasNext())
@@ -220,6 +219,7 @@ public class PhaseUI extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(rootPane, "La fase no se encuentra en la base de datos", "Información",
                                               HEIGHT);
             }
+            actualizarTabla();
         }
         else
         {
@@ -355,6 +355,32 @@ public class PhaseUI extends javax.swing.JFrame {
                 new PhaseUI().setVisible(true);
             }
         });
+    }
+    
+    public void actualizarTabla(){
+        try
+        {
+            this.readPhaseDTO_list.clear();
+            this.readPhaseDTO_list = new LinkedList<>(ServicesLocator.PhaseServices.readAllPhase());
+            Iterator<ReadPhaseDTO> it_readPhaseDTO_list = readPhaseDTO_list.iterator();
+            while (it_readPhaseDTO_list.hasNext())
+            {
+                ReadPhaseDTO readPhaseDTO = it_readPhaseDTO_list.next();
+                ((DefaultTableModel) table.getModel()).addRow(new Object[]
+                {
+                    readPhaseDTO.getPhase_name(), readPhaseDTO.getStart_date().toString(),
+                    readPhaseDTO.getFinish_date().toString(), readPhaseDTO.getTeams_amount()
+                });
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(PhaseUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        catch (ClassNotFoundException ex)
+        {
+            Logger.getLogger(PhaseUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

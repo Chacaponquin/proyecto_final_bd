@@ -26,7 +26,7 @@ public class PitcherUI extends javax.swing.JFrame {
      */
     public PitcherUI() {
         initComponents();
-        try{
+        /*try{
             this.readPitcherDTO_list = new LinkedList<>(ServicesLocator.PitcherServices.readAllPitchers());
             Iterator<ReadPitcherDTO> it = readPitcherDTO_list.iterator();
             while(it.hasNext()){
@@ -47,7 +47,7 @@ public class PitcherUI extends javax.swing.JFrame {
         catch (ClassNotFoundException ex)
         {
             Logger.getLogger(PitcherUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }*/
     }
 
     /**

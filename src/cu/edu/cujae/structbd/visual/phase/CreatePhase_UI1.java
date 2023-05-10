@@ -217,6 +217,7 @@ public class CreatePhase_UI1 extends javax.swing.JDialog
             System.out.println(name);
             CreatePhaseDTO createPhaseDTO = new CreatePhaseDTO(new_phase_id, name, start_date, finish_date, teams);
             ServicesLocator.PhaseServices.createPhase(createPhaseDTO);
+            
         }
         catch (SQLException ex)
         {
