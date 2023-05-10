@@ -8,6 +8,7 @@ import cu.edu.cujae.structbd.visual.batter.BatterUI;
 
 import cu.edu.cujae.structbd.visual.coach.Coach_UI;
 import cu.edu.cujae.structbd.visual.game.GameUI;
+import cu.edu.cujae.structbd.visual.main.MainUI;
 import cu.edu.cujae.structbd.visual.phase.PhaseUI;
 
 import cu.edu.cujae.structbd.visual.pitcher.PitcherUI;
@@ -15,6 +16,7 @@ import cu.edu.cujae.structbd.visual.pitcher.PitcherUI;
 import cu.edu.cujae.structbd.visual.player.Player_UI;
 import cu.edu.cujae.structbd.visual.position.PositionUI;
 import cu.edu.cujae.structbd.visual.stadium.StadiumUI;
+import cu.edu.cujae.structbd.visual.team.TeamUI;
 import java.sql.SQLException;
 import java.util.HashMap;
 import javax.swing.JFrame;
@@ -28,6 +30,7 @@ public class ViewUtils {
     
     public ViewUtils()
     {
+        
         try{
             this.views.put("Stadium", new StadiumUI());
             this.views.put("Position", new PositionUI());
@@ -35,16 +38,23 @@ public class ViewUtils {
             this.views.put("Phase", new PhaseUI());
             this.views.put("Game", new GameUI());
             this.views.put("Coach", new Coach_UI());
+            this.views.put("Team", new TeamUI());
             this.views.put("Batter", new BatterUI());
             this.views.put("Player", new Player_UI());
         }
-        catch(SQLException ex){
+        catch(SQLException | ClassNotFoundException ex){
+            System.out.println(ex);
             System.out.println("Error por falta de Backup");
-            
+        }catch (Exception ex){
+            System.out.println("Error por falta de Backup");
         }
-        catch(ClassNotFoundException ex){
-            System.out.println("Error por falta de Backup");   
-        }
+    }
+    
+    public void getBackHome(JFrame actualWindow){
+        actualWindow.setVisible(false);
+        MainUI main = new MainUI();
+        main.setVisible(true);
+        main.setLocationRelativeTo(null);
     }
     
     public HashMap<String, JFrame> getViews(){
