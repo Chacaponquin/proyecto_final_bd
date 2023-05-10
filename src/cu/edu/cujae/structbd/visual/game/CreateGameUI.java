@@ -213,94 +213,73 @@ public class CreateGameUI extends javax.swing.JDialog {
 
     private void jButtonInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonInsertActionPerformed
         // TODO add your handling code here:
-        Integer teamHCIndex = jComboBoxHomeClub.getSelectedIndex() - 1;
-        Integer teamVIndex = jComboBoxVisitor.getSelectedIndex() - 1;
-        Integer phaseIndex = jComboBoxPhase.getSelectedIndex() - 1;
         Integer audience = (Integer) jSpinnerAudience.getValue();
         Date date = jCalendarDate.getDate();
-        String winner = jComboBoxWinner.getSelectedItem().toString();
 
-        boolean create = true;
-        if (teamHCIndex == 0 || teamVIndex == 0 || jComboBoxWinner.getSelectedIndex() == 0) {
-            JOptionPane.showMessageDialog(this, "Debe escoger todos los equipos", "ERROR", JOptionPane.ERROR);
-            create = false;
-        }
-        if (phaseIndex == 0) {
-            JOptionPane.showMessageDialog(this, "Debe escoger la fase", "ERROR", JOptionPane.ERROR);
-            create = false;
-        }
+        try {
 
-        if (create) {
-
-            try {
-
-                //recuperar id del equipo local
-                String teamHC = jComboBoxHomeClub.getSelectedItem().toString();
-                ArrayList<ReadTeamDTO> teamsListHC = ServicesLocator.TeamServices.readTeams();
-                boolean foundTeamHC = false;
-                String teamIdHC = null;
-                for (int i = 0; i < teamsListHC.size() && !foundTeamHC; i++) {
-                    if (teamsListHC.get(i).getTeam_name().equalsIgnoreCase(teamHC)) {
-                        foundTeamHC = true;
-                        teamIdHC = teamsListHC.get(i).getTeam_id();
-                    }
+            //recuperar id del equipo local
+            String teamHC = jComboBoxHomeClub.getSelectedItem().toString();
+            ArrayList<ReadTeamDTO> teamsListHC = ServicesLocator.TeamServices.readTeams();
+            boolean foundTeamHC = false;
+            String teamIdHC = null;
+            for (int i = 0; i < teamsListHC.size() && !foundTeamHC; i++) {
+                if (teamsListHC.get(i).getTeam_name().equalsIgnoreCase(teamHC)) {
+                    foundTeamHC = true;
+                    teamIdHC = teamsListHC.get(i).getTeam_id();
                 }
-                
-                //recuperar id del equipo visitante
-                String teamVis = jComboBoxHomeClub.getSelectedItem().toString();
-                ArrayList<ReadTeamDTO> teamsListVis = ServicesLocator.TeamServices.readTeams();
-                boolean foundTeamV = false;
-                String teamIdVis = null;
-                for (int i = 0; i < teamsListVis.size() && !foundTeamV; i++) {
-                    if (teamsListVis.get(i).getTeam_name().equalsIgnoreCase(teamVis)) {
-                        foundTeamV = true;
-                        teamIdVis = teamsListVis.get(i).getTeam_id();
-                    }
-                }
-                
-                //recuperar id del equipo ganador
-                String teamW = jComboBoxHomeClub.getSelectedItem().toString();
-                ArrayList<ReadTeamDTO> teamsListW = ServicesLocator.TeamServices.readTeams();
-                boolean foundTeamW = false;
-                String teamIdW = null;
-                for (int i = 0; i < teamsListW.size() && !foundTeamW; i++) {
-                    if (teamsListW.get(i).getTeam_name().equalsIgnoreCase(teamW)) {
-                        foundTeamW = true;
-                        teamIdW = teamsListW.get(i).getTeam_id();
-                    }
-                }
-                
-                //recuperar codigo de la fase
-                String phase = jComboBoxPhase.getSelectedItem().toString();
-                List<ReadPhaseDTO> phaseList = ServicesLocator.PhaseServices.readAllPhase();
-                boolean foundPhase = false;
-                String phaseId = null;
-                for (int i = 0; i < phaseList.size() && !foundPhase; i++){
-                    if(phaseList.get(i).getPhase_name().equalsIgnoreCase(phase)){
-                        foundPhase = true;
-                        phaseId = phaseList.get(i).getPhase_id();
-                    }
-                }
-                
-                //generar codigo del juego
-                String gameId = UtilsConnector.idUtils.generateUniqueID();
-                
-                //FALTA VALIDAR Y BUSCAR CODIGO DEL EQUIPO Y PONER LOS ERRORES QUE PUEDEN DARSE
-                CreateGameDTO createGameDTO = new CreateGameDTO(gameId, teamIdVis, teamIdVis, phaseId, date, teamIdW, audience);
-                this.dispose();
-                try {
-                    ServicesLocator.GameServices.createGame(createGameDTO);
-                } catch (SQLException ex) {
-                    Logger.getLogger(CreateGameUI.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(CreateGameUI.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            } catch (SQLException ex) {
-                Logger.getLogger(CreateGameUI.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(CreateGameUI.class.getName()).log(Level.SEVERE, null, ex);
             }
+
+            //recuperar id del equipo visitante
+            String teamVis = jComboBoxHomeClub.getSelectedItem().toString();
+            ArrayList<ReadTeamDTO> teamsListVis = ServicesLocator.TeamServices.readTeams();
+            boolean foundTeamV = false;
+            String teamIdVis = null;
+            for (int i = 0; i < teamsListVis.size() && !foundTeamV; i++) {
+                if (teamsListVis.get(i).getTeam_name().equalsIgnoreCase(teamVis)) {
+                    foundTeamV = true;
+                    teamIdVis = teamsListVis.get(i).getTeam_id();
+                }
+            }
+
+            //recuperar id del equipo ganador
+            String teamW = jComboBoxHomeClub.getSelectedItem().toString();
+            ArrayList<ReadTeamDTO> teamsListW = ServicesLocator.TeamServices.readTeams();
+            boolean foundTeamW = false;
+            String teamIdW = null;
+            for (int i = 0; i < teamsListW.size() && !foundTeamW; i++) {
+                if (teamsListW.get(i).getTeam_name().equalsIgnoreCase(teamW)) {
+                    foundTeamW = true;
+                    teamIdW = teamsListW.get(i).getTeam_id();
+                }
+            }
+
+            //recuperar codigo de la fase
+            String phase = jComboBoxPhase.getSelectedItem().toString();
+            List<ReadPhaseDTO> phaseList = ServicesLocator.PhaseServices.readAllPhase();
+            boolean foundPhase = false;
+            String phaseId = null;
+            for (int i = 0; i < phaseList.size() && !foundPhase; i++) {
+                if (phaseList.get(i).getPhase_name().equalsIgnoreCase(phase)) {
+                    foundPhase = true;
+                    phaseId = phaseList.get(i).getPhase_id();
+                }
+            }
+
+            //generar codigo del juego
+            String gameId = UtilsConnector.idUtils.generateUniqueID();
+
+            //FALTA VALIDAR Y BUSCAR CODIGO DEL EQUIPO Y PONER LOS ERRORES QUE PUEDEN DARSE
+            CreateGameDTO createGameDTO = new CreateGameDTO(gameId, teamIdVis, teamIdVis, phaseId, date, teamIdW, audience);
+            ServicesLocator.GameServices.createGame(createGameDTO);
+            this.dispose();
+   
+        } catch (SQLException ex) {
+            Logger.getLogger(CreateGameUI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(CreateGameUI.class.getName()).log(Level.SEVERE, null, ex);
         }
+
     }//GEN-LAST:event_jButtonInsertActionPerformed
 
     private void jComboBoxHomeClubActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxHomeClubActionPerformed

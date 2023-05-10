@@ -29,11 +29,22 @@ public class Coach_UI extends javax.swing.JFrame
     public Coach_UI()
     {
         initComponents();
+        this.updateList();
+    }
+    
+    public void updateList(){
         try
         {
+            DefaultTableModel model = (DefaultTableModel) this.table.getModel();
+            
+            int count = model.getRowCount();
+            for(int i = 0; i < count; i++){
+                model.removeRow(0);
+            }
+            
             this.readCoachDTO_list = new LinkedList<>(ServicesLocator.CoachServices.readAllCoaches());
             Iterator<ReadCoachDTO> it_list = readCoachDTO_list.iterator();
-            while (it_list.hasNext())
+            while(it_list.hasNext())
             {
                 ReadCoachDTO readCoachDTO = it_list.next();
                 ((DefaultTableModel) table.getModel()).addRow(new Object[]
@@ -55,7 +66,6 @@ public class Coach_UI extends javax.swing.JFrame
         {
             Logger.getLogger(Coach_UI.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
 
     /**
@@ -237,6 +247,8 @@ public class Coach_UI extends javax.swing.JFrame
                 UpdateCoachDTO updateCoachDTO = new UpdateCoachDTO(id, name, number, team, years_exp, years_team);
                 UpdateCoachUI upui = new UpdateCoachUI(null, true, updateCoachDTO);
                 upui.setVisible(true);
+                
+                this.updateList();
             }
         } else {
             JOptionPane.showMessageDialog(rootPane, "Seleccione un entrenador para poder modificar sus datos", "Información", JOptionPane.INFORMATION_MESSAGE);
@@ -281,6 +293,8 @@ public class Coach_UI extends javax.swing.JFrame
                 {
                     Logger.getLogger(Coach_UI.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                
+                this.updateList();
             }
         } else {
             JOptionPane.showMessageDialog(rootPane, "Seleccione un entrenador para poder modificar sus datos", "Información", JOptionPane.INFORMATION_MESSAGE);
@@ -289,33 +303,7 @@ public class Coach_UI extends javax.swing.JFrame
 
     private void formFocusGained(java.awt.event.FocusEvent evt)//GEN-FIRST:event_formFocusGained
     {//GEN-HEADEREND:event_formFocusGained
-        try
-        {
-            this.readCoachDTO_list.clear();
-            this.readCoachDTO_list = new LinkedList<>(ServicesLocator.CoachServices.readAllCoaches());
-            Iterator<ReadCoachDTO> it_list = readCoachDTO_list.iterator();
-            while (it_list.hasNext())
-            {
-                ReadCoachDTO readCoachDTO = it_list.next();
-                ((DefaultTableModel) table.getModel()).addRow(new Object[]
-                {
-                    readCoachDTO.getTeam_member_name(),
-                    readCoachDTO.getTeam_name(),
-                    readCoachDTO.getMember_number(),
-                    readCoachDTO.getExperience_years(),
-                    readCoachDTO.getYears_in_team()
-                }
-                );
-            }
-        }
-        catch (SQLException ex)
-        {
-            Logger.getLogger(Coach_UI.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        catch (ClassNotFoundException ex)
-        {
-            Logger.getLogger(Coach_UI.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        this.updateList();
     }//GEN-LAST:event_formFocusGained
 
     /**

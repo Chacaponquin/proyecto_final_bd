@@ -177,6 +177,8 @@ public class PhaseUI extends javax.swing.JFrame {
                 UpdatePhaseDTO updatePhaseDTO = new UpdatePhaseDTO(id, name, sd, fd, teams_amount);
                 UpdatePhaseUI ufui = new UpdatePhaseUI(null, true, updatePhaseDTO);
                 ufui.setVisible(true);
+                
+                this.updateList();
             }
             else
             {
