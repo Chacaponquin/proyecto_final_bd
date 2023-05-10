@@ -19,6 +19,9 @@
   </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
+    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+      <Color blue="ff" green="ff" red="ff" type="rgb"/>
+    </Property>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="menuBar" type="java.lang.String" value="jMenuBar1"/>
@@ -41,9 +44,9 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="128" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="101" max="-2" attributes="0"/>
               <Component id="imagePanel" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="121" max="32767" attributes="0"/>
+              <EmptySpace pref="109" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -52,7 +55,7 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
               <Component id="imagePanel" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="46" max="32767" attributes="0"/>
+              <EmptySpace pref="15" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -61,18 +64,18 @@
     <Container class="javax.swing.JPanel" name="imagePanel">
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JPanel()"/>
-        <AuxValue name="JavaCodeGenerator_LayoutCodePre" type="java.lang.String" value="imagePanel = new JPanel(){&#xa;    public void paintComponent(Graphics g) {&#xa;        Image img = Toolkit.getDefaultToolkit().getImage(MainUI.class.getResource(&quot;/cu/edu/cujae/structbd/assets/cat.jpg&quot;));&#xa;        g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), this);&#xa;    }&#xa;};"/>
+        <AuxValue name="JavaCodeGenerator_LayoutCodePre" type="java.lang.String" value="imagePanel = new JPanel(){&#xa;    public void paintComponent(Graphics g) {&#xa;        Image img = Toolkit.getDefaultToolkit().getImage(MainUI.class.getResource(&quot;/cu/edu/cujae/structbd/assets/SNB.jpg&quot;));&#xa;        g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), this);&#xa;    }&#xa;};"/>
       </AuxValues>
 
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="375" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="414" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="281" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="312" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>
