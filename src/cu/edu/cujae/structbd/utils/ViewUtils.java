@@ -64,6 +64,7 @@ public class ViewUtils {
             System.out.println(ex);
             System.out.println("Error por falta de Backup");
         }catch (Exception ex){
+            System.out.println(ex);
             System.out.println("Error por falta de Backup");
         }
     }

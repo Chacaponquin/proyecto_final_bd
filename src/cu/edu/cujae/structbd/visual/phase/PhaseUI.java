@@ -32,7 +32,6 @@ public class PhaseUI extends javax.swing.JFrame {
         initComponents();
         try
         {
-            readPhaseDTO_list.clear();
             this.readPhaseDTO_list = new LinkedList<>(ServicesLocator.PhaseServices.readAllPhase());
             Iterator<ReadPhaseDTO> it_readPhaseDTO_list = readPhaseDTO_list.iterator();
             while (it_readPhaseDTO_list.hasNext())

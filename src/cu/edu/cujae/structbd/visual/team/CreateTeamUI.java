@@ -4,17 +4,21 @@
  */
 package cu.edu.cujae.structbd.visual.team;
 
+import cu.edu.cujae.structbd.dto.team.CreateTeamDTO;
+
 /**
  *
  * @author Hector Angel Gomez
  */
 public class CreateTeamUI extends javax.swing.JFrame {
+    private CreateTeamDTO teamForm;
 
     /**
      * Creates new form CreateTeamUI
      */
     public CreateTeamUI() {
         initComponents();
+        this.teamForm = new CreateTeamDTO("", "", 0, 0,"", "", "", "");
     }
 
     /**

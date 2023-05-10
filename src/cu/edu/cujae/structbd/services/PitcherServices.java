@@ -41,9 +41,16 @@ public class PitcherServices {
         ResultSet resultSet = (ResultSet) preparedFunction.getObject(1);
         while (resultSet.next())
         {
-            pitchers_list.add(new ReadPitcherDTO(resultSet.getString(1), resultSet.getInt(2), 
-                    resultSet.getInt(3), resultSet.getString(4), resultSet.getInt(5),
-                    resultSet.getString(6), resultSet.getInt(7)));
+            String teamMemberID = resultSet.getString("member_id");
+            String teamMemberName = resultSet.getString("member_name");
+            int memberNumber = Integer.valueOf(resultSet.getString("member_number"));
+            String team = resultSet.getString("team_name");
+            int yearsInTeam = Integer.valueOf(resultSet.getString("years_in_team"));
+            int inningsPitched = Integer.valueOf(resultSet.getString("innings_pitched"));
+            int runsAllowed = Integer.valueOf(resultSet.getString("runs_allowed"));
+            
+            pitchers_list.add(new ReadPitcherDTO(teamMemberID, inningsPitched, runsAllowed, teamMemberName, memberNumber, team, 
+            yearsInTeam));
         }
         resultSet.close();
         preparedFunction.close();
