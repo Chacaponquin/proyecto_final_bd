@@ -166,7 +166,7 @@ public class CreatePitcherUI extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jSpinnerRuns)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonClose)
                     .addComponent(jButtonInsert))
@@ -183,7 +183,7 @@ public class CreatePitcherUI extends javax.swing.JDialog {
 
     private void jTextFieldNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldNameActionPerformed
         // TODO add your handling code here:
-        if(jTextFieldName.getText().strip() != "" || jComboBoxTeamName.getSelectedIndex() != 0){
+        if(jTextFieldName.getText().strip() != "" && jComboBoxTeamName.getSelectedIndex() != 0){
             jButtonInsert.setEnabled(true);
         }
         else{
@@ -224,7 +224,7 @@ public class CreatePitcherUI extends javax.swing.JDialog {
 
     private void jComboBoxTeamNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxTeamNameActionPerformed
         // TODO add your handling code here:
-        if(jTextFieldName.getText().strip() != "" || jComboBoxTeamName.getSelectedIndex() != 0){
+        if(jTextFieldName.getText().strip() != "" && jComboBoxTeamName.getSelectedIndex() != 0){
             jButtonInsert.setEnabled(true);
         }
         else{

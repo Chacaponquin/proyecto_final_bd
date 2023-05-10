@@ -54,12 +54,12 @@
                               <Component id="jComboBoxVisitor" alignment="0" max="32767" attributes="0"/>
                               <Component id="jComboBoxWinner" alignment="0" max="32767" attributes="0"/>
                               <Component id="jCalendarDate" alignment="0" max="32767" attributes="0"/>
-                              <Component id="jSpinnerAudience" min="-2" pref="110" max="-2" attributes="0"/>
+                              <Component id="jSpinnerAudience" alignment="1" min="-2" pref="110" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
               </Group>
-              <EmptySpace pref="22" max="32767" attributes="0"/>
+              <EmptySpace pref="42" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -188,6 +188,9 @@
         </Property>
         <Property name="enabled" type="boolean" value="false"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBoxWinnerActionPerformed"/>
+      </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
       </AuxValues>
@@ -212,7 +215,6 @@
     <Component class="javax.swing.JButton" name="jButtonInsert">
       <Properties>
         <Property name="text" type="java.lang.String" value="Insertar"/>
-        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonInsertActionPerformed"/>

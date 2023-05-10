@@ -30,28 +30,7 @@ public class PhaseUI extends javax.swing.JFrame {
      */
     public PhaseUI() {
         initComponents();
-        try
-        {
-            this.readPhaseDTO_list = new LinkedList<>(ServicesLocator.PhaseServices.readAllPhase());
-            Iterator<ReadPhaseDTO> it_readPhaseDTO_list = readPhaseDTO_list.iterator();
-            while (it_readPhaseDTO_list.hasNext())
-            {
-                ReadPhaseDTO readPhaseDTO = it_readPhaseDTO_list.next();
-                ((DefaultTableModel) table.getModel()).addRow(new Object[]
-                {
-                    readPhaseDTO.getPhase_name(), readPhaseDTO.getStart_date().toString(),
-                    readPhaseDTO.getFinish_date().toString(), readPhaseDTO.getTeams_amount()
-                });
-            }
-        }
-        catch (SQLException ex)
-        {
-            Logger.getLogger(PhaseUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        catch (ClassNotFoundException ex)
-        {
-            Logger.getLogger(PhaseUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        this.updateList();
     }
 
     /**
@@ -67,7 +46,6 @@ public class PhaseUI extends javax.swing.JFrame {
         menuUpdate = new javax.swing.JMenuItem();
         menuDelete = new javax.swing.JMenuItem();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
@@ -90,25 +68,16 @@ public class PhaseUI extends javax.swing.JFrame {
         jPopupMenu1.add(menuDelete);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        addFocusListener(new java.awt.event.FocusAdapter()
-        {
-            public void focusGained(java.awt.event.FocusEvent evt)
-            {
+        addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
                 formFocusGained(evt);
             }
         });
 
-        jButton1.setText("Cancelar");
+        jButton1.setText("Cerrar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
-            }
-        });
-
-        jButton2.setText("Aceptar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
             }
         });
 
@@ -151,12 +120,9 @@ public class PhaseUI extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(322, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jButton2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1))
+                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
@@ -169,9 +135,7 @@ public class PhaseUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 232, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                .addComponent(jButton1)
                 .addContainerGap())
         );
 
@@ -260,11 +224,8 @@ public class PhaseUI extends javax.swing.JFrame {
                 {
                     DeletePhaseDTO deletePhaseDTO = new DeletePhaseDTO(id);
                     ServicesLocator.PhaseServices.deletePhase(deletePhaseDTO);
-                    LinkedList<ReadPhaseDTO> listt = new LinkedList<>(ServicesLocator.PhaseServices.readAllPhase());
-                    for (ReadPhaseDTO rf : listt)
-                    {
-                        System.out.println(rf.getPhase_name());
-                    }
+                    
+                    this.updateList();
                 }
                 catch (SQLException ex)
                 {
@@ -277,11 +238,6 @@ public class PhaseUI extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_menuDeleteActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton2ActionPerformed
-    {//GEN-HEADEREND:event_jButton2ActionPerformed
-        dispose();
-    }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton1ActionPerformed
     {//GEN-HEADEREND:event_jButton1ActionPerformed
@@ -355,10 +311,40 @@ public class PhaseUI extends javax.swing.JFrame {
             }
         });
     }
+    
+    public void updateList(){
+                try
+        {
+            DefaultTableModel model = (DefaultTableModel) table.getModel();
+           int count = ((DefaultTableModel) table.getModel()).getRowCount();
+           for(int i = 0; i < count; i++){
+               model.removeRow(0);
+           }
+           
+            this.readPhaseDTO_list = new LinkedList<>(ServicesLocator.PhaseServices.readAllPhase());
+            Iterator<ReadPhaseDTO> it_readPhaseDTO_list = readPhaseDTO_list.iterator();
+            while (it_readPhaseDTO_list.hasNext())
+            {
+                ReadPhaseDTO readPhaseDTO = it_readPhaseDTO_list.next();
+                ((DefaultTableModel) table.getModel()).addRow(new Object[]
+                {
+                    readPhaseDTO.getPhase_name(), readPhaseDTO.getStart_date().toString(),
+                    readPhaseDTO.getFinish_date().toString(), readPhaseDTO.getTeams_amount()
+                });
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(PhaseUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        catch (ClassNotFoundException ex)
+        {
+            Logger.getLogger(PhaseUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;

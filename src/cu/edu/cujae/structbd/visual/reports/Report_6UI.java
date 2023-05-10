@@ -4,18 +4,41 @@
  */
 package cu.edu.cujae.structbd.visual.reports;
 
+import cu.edu.cujae.structbd.dto.reports.ReadReport_6DTO;
+import cu.edu.cujae.structbd.dto.team.ReadTeamDTO;
+import cu.edu.cujae.structbd.services.ServicesLocator;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
+
+
 /**
  *
- * @author Hector Angel Gomez
+ * @author Amaya
  */
 public class Report_6UI extends javax.swing.JDialog {
 
     /**
-     * Creates new form Report_6UI
+     * Creates new form Report_6DTO
      */
     public Report_6UI(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-        initComponents();
+        try {
+            initComponents();
+            ArrayList<ReadTeamDTO> teams_list = ServicesLocator.TeamServices.readTeams();
+            for (int i = 0; i < teams_list.size(); i++)
+            {
+                jComboBox1.addItem(teams_list.get(i).getTeam_name());
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Report_6UI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Report_6UI.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -27,21 +50,123 @@ public class Report_6UI extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jButtonClose = new javax.swing.JButton();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jLabel1 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Estado de un equipo");
+
+        jButtonClose.setText("Cerrar");
+        jButtonClose.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCloseActionPerformed(evt);
+            }
+        });
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<Seleccionar>" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("Escoger equipo:");
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Fase", "Jugados", "Ganados", "Perdidos", "Ganados Local", "Perdidos Local", "Ganados Visitante", "Perdidos Visitante"
+            }
+        ));
+        jTable1.setToolTipText("");
+        jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(625, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButtonClose)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButtonClose)
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+        if(jComboBox1.getSelectedIndex() != 0){
+            try {
+                String team = jComboBox1.getSelectedItem().toString();
+                ArrayList<ReadTeamDTO> teams_list_2 = ServicesLocator.TeamServices.readTeams();
+                boolean found_team = false;
+                String team_id = null;
+                for (int i = 0; i < teams_list_2.size() && !found_team; i++)
+                {
+                    if (teams_list_2.get(i).getTeam_name().equalsIgnoreCase(team))
+                    {
+                        found_team = true;
+                        team_id = teams_list_2.get(i).getTeam_id();
+                    }
+                }
+                
+                LinkedList<ReadReport_6DTO> list = new LinkedList<>(ServicesLocator.AppServices.getTeamStatus(team_id));
+                Iterator<ReadReport_6DTO> it_list = list.iterator();
+                while (it_list.hasNext())
+                {
+                    ReadReport_6DTO readReport_6DTO = it_list.next();
+                    ((DefaultTableModel) jTable1.getModel()).addRow(new Object[]
+                    {
+                        readReport_6DTO.getPhaseName(), readReport_6DTO.getPlayed(), readReport_6DTO.getWon(),
+                        readReport_6DTO.getLost(), readReport_6DTO.getWonAsHC(), readReport_6DTO.getLostAsHC(),
+                        readReport_6DTO.getWonAsVis(), readReport_6DTO.getLostAsVis()
+                    });
+                }
+            }
+            catch (SQLException ex)
+            {
+                Logger.getLogger(Report_4UI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            catch (ClassNotFoundException ex)
+            {
+                Logger.getLogger(Report_4UI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void jButtonCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCloseActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_jButtonCloseActionPerformed
 
     /**
      * @param args the command line arguments
@@ -69,6 +194,7 @@ public class Report_6UI extends javax.swing.JDialog {
             java.util.logging.Logger.getLogger(Report_6UI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -86,5 +212,10 @@ public class Report_6UI extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonClose;
+    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }

@@ -24,9 +24,10 @@ public class Report_7UI extends javax.swing.JDialog {
      */
     public Report_7UI(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-        try
+        initComponents();
+        /*try
         {
-            initComponents();
+            
             LinkedList<ReadReport_7DTO> list = new LinkedList<>(ServicesLocator.AppServices.getAllStarTeam());
             Iterator<ReadReport_7DTO> it_list = list.iterator();
             while (it_list.hasNext())
@@ -47,7 +48,7 @@ public class Report_7UI extends javax.swing.JDialog {
         catch (ClassNotFoundException ex)
         {
             Logger.getLogger(Report_4UI.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }*/
 
     }
 
@@ -92,15 +93,19 @@ public class Report_7UI extends javax.swing.JDialog {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButtonClose)
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 561, Short.MAX_VALUE)
+                        .addComponent(jButtonClose))
+                    .addComponent(jScrollPane2))
                 .addContainerGap())
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 619, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButtonClose)
                 .addContainerGap(12, Short.MAX_VALUE))

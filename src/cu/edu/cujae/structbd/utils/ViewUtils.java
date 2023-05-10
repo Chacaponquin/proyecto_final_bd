@@ -71,15 +71,14 @@ public class ViewUtils {
     
     public void getBackHome(JFrame actualWindow){
         actualWindow.setVisible(false);
-        MainUI main = new MainUI();
-        main.setVisible(true);
-        main.setLocationRelativeTo(null);
+        actualWindow.dispose();
     }
     
     public void openWindow(JFrame actualWindow, JFrame newWindow){
         actualWindow.setVisible(false);
         newWindow.setVisible(true);
         newWindow.setLocationRelativeTo(null);
+        actualWindow.dispose();
     }
     
     public HashMap<String, JFrame> getViews(){

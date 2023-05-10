@@ -5,10 +5,16 @@
 package cu.edu.cujae.structbd.visual.game;
 
 import cu.edu.cujae.structbd.dto.game.CreateGameDTO;
+import cu.edu.cujae.structbd.dto.phase.ReadPhaseDTO;
+import cu.edu.cujae.structbd.dto.team.ReadTeamDTO;
 import cu.edu.cujae.structbd.services.ServicesLocator;
+import cu.edu.cujae.structbd.utils.UtilsConnector;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -23,7 +29,32 @@ public class CreateGameUI extends javax.swing.JDialog {
      */
     public CreateGameUI(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-        initComponents();
+        try {
+            initComponents();
+
+            //llenar combo box de equipo local
+            ArrayList<ReadTeamDTO> teamsListHC = ServicesLocator.TeamServices.readTeams();
+            for (int i = 0; i < teamsListHC.size(); i++) {
+                jComboBoxHomeClub.addItem(teamsListHC.get(i).getTeam_name());
+            }
+
+            //llenar combo box de equipo visitante
+            ArrayList<ReadTeamDTO> teamsListVis = ServicesLocator.TeamServices.readTeams();
+            for (int i = 0; i < teamsListVis.size(); i++) {
+                jComboBoxVisitor.addItem(teamsListVis.get(i).getTeam_name());
+            }
+
+            //llenar combo box de fase
+            List<ReadPhaseDTO> phaseList = ServicesLocator.PhaseServices.readAllPhase();
+            for (int i = 0; i < phaseList.size(); i++) {
+                jComboBoxPhase.addItem(phaseList.get(i).getPhase_name());
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(CreateGameUI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(CreateGameUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -83,6 +114,11 @@ public class CreateGameUI extends javax.swing.JDialog {
 
         jComboBoxWinner.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<Seleccionar>" }));
         jComboBoxWinner.setEnabled(false);
+        jComboBoxWinner.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxWinnerActionPerformed(evt);
+            }
+        });
 
         jSpinnerAudience.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
 
@@ -94,7 +130,6 @@ public class CreateGameUI extends javax.swing.JDialog {
         });
 
         jButtonInsert.setText("Insertar");
-        jButtonInsert.setEnabled(false);
         jButtonInsert.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonInsertActionPerformed(evt);
@@ -131,8 +166,8 @@ public class CreateGameUI extends javax.swing.JDialog {
                                 .addComponent(jComboBoxVisitor, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jComboBoxWinner, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jCalendarDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jSpinnerAudience, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(22, Short.MAX_VALUE))
+                                .addComponent(jSpinnerAudience, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(42, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -178,29 +213,88 @@ public class CreateGameUI extends javax.swing.JDialog {
 
     private void jButtonInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonInsertActionPerformed
         // TODO add your handling code here:
-        Integer teamHCIndex = jComboBoxHomeClub.getSelectedIndex()-1;
-        Integer teamVIndex = jComboBoxVisitor.getSelectedIndex()-1;
-        Integer phaseIndex = jComboBoxPhase.getSelectedIndex()-1;
-        Integer audience = (Integer)jSpinnerAudience.getValue();
+        Integer teamHCIndex = jComboBoxHomeClub.getSelectedIndex() - 1;
+        Integer teamVIndex = jComboBoxVisitor.getSelectedIndex() - 1;
+        Integer phaseIndex = jComboBoxPhase.getSelectedIndex() - 1;
+        Integer audience = (Integer) jSpinnerAudience.getValue();
         Date date = jCalendarDate.getDate();
         String winner = jComboBoxWinner.getSelectedItem().toString();
-        
+
         boolean create = true;
-        if(teamHCIndex == 0 || teamVIndex == 0 || jComboBoxWinner.getSelectedIndex() == 0){
+        if (teamHCIndex == 0 || teamVIndex == 0 || jComboBoxWinner.getSelectedIndex() == 0) {
             JOptionPane.showMessageDialog(this, "Debe escoger todos los equipos", "ERROR", JOptionPane.ERROR);
             create = false;
         }
-        if(phaseIndex == 0){
+        if (phaseIndex == 0) {
             JOptionPane.showMessageDialog(this, "Debe escoger la fase", "ERROR", JOptionPane.ERROR);
             create = false;
         }
-        
-        if(create){
-            //FALTA VALIDAR Y BUSCAR CODIGO DEL EQUIPO Y PONER LOS ERRORES QUE PUEDEN DARSE
-            CreateGameDTO createGameDTO = new CreateGameDTO("", "", "", "", date, "", audience);
-            this.dispose();
+
+        if (create) {
+
             try {
-                ServicesLocator.GameServices.createGame(createGameDTO);
+
+                //recuperar id del equipo local
+                String teamHC = jComboBoxHomeClub.getSelectedItem().toString();
+                ArrayList<ReadTeamDTO> teamsListHC = ServicesLocator.TeamServices.readTeams();
+                boolean foundTeamHC = false;
+                String teamIdHC = null;
+                for (int i = 0; i < teamsListHC.size() && !foundTeamHC; i++) {
+                    if (teamsListHC.get(i).getTeam_name().equalsIgnoreCase(teamHC)) {
+                        foundTeamHC = true;
+                        teamIdHC = teamsListHC.get(i).getTeam_id();
+                    }
+                }
+                
+                //recuperar id del equipo visitante
+                String teamVis = jComboBoxHomeClub.getSelectedItem().toString();
+                ArrayList<ReadTeamDTO> teamsListVis = ServicesLocator.TeamServices.readTeams();
+                boolean foundTeamV = false;
+                String teamIdVis = null;
+                for (int i = 0; i < teamsListVis.size() && !foundTeamV; i++) {
+                    if (teamsListVis.get(i).getTeam_name().equalsIgnoreCase(teamVis)) {
+                        foundTeamV = true;
+                        teamIdVis = teamsListVis.get(i).getTeam_id();
+                    }
+                }
+                
+                //recuperar id del equipo ganador
+                String teamW = jComboBoxHomeClub.getSelectedItem().toString();
+                ArrayList<ReadTeamDTO> teamsListW = ServicesLocator.TeamServices.readTeams();
+                boolean foundTeamW = false;
+                String teamIdW = null;
+                for (int i = 0; i < teamsListW.size() && !foundTeamW; i++) {
+                    if (teamsListW.get(i).getTeam_name().equalsIgnoreCase(teamW)) {
+                        foundTeamW = true;
+                        teamIdW = teamsListW.get(i).getTeam_id();
+                    }
+                }
+                
+                //recuperar codigo de la fase
+                String phase = jComboBoxPhase.getSelectedItem().toString();
+                List<ReadPhaseDTO> phaseList = ServicesLocator.PhaseServices.readAllPhase();
+                boolean foundPhase = false;
+                String phaseId = null;
+                for (int i = 0; i < phaseList.size() && !foundPhase; i++){
+                    if(phaseList.get(i).getPhase_name().equalsIgnoreCase(phase)){
+                        foundPhase = true;
+                        phaseId = phaseList.get(i).getPhase_id();
+                    }
+                }
+                
+                //generar codigo del juego
+                String gameId = UtilsConnector.idUtils.generateUniqueID();
+                
+                //FALTA VALIDAR Y BUSCAR CODIGO DEL EQUIPO Y PONER LOS ERRORES QUE PUEDEN DARSE
+                CreateGameDTO createGameDTO = new CreateGameDTO(gameId, teamIdVis, teamIdVis, phaseId, date, teamIdW, audience);
+                this.dispose();
+                try {
+                    ServicesLocator.GameServices.createGame(createGameDTO);
+                } catch (SQLException ex) {
+                    Logger.getLogger(CreateGameUI.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(CreateGameUI.class.getName()).log(Level.SEVERE, null, ex);
+                }
             } catch (SQLException ex) {
                 Logger.getLogger(CreateGameUI.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ClassNotFoundException ex) {
@@ -211,27 +305,18 @@ public class CreateGameUI extends javax.swing.JDialog {
 
     private void jComboBoxHomeClubActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxHomeClubActionPerformed
         // TODO add your handling code here:
-        Integer hc = jComboBoxHomeClub.getSelectedIndex();
-        Integer v = jComboBoxVisitor.getSelectedIndex();
-        if(hc != v && hc != 0 && v != 0){
-            jComboBoxWinner.setEnabled(true);
-        }
-        else{
-            jComboBoxWinner.setEnabled(false);
-        }
+        this.setWinners();
     }//GEN-LAST:event_jComboBoxHomeClubActionPerformed
 
     private void jComboBoxVisitorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxVisitorActionPerformed
         // TODO add your handling code here:
-        Integer hc = jComboBoxHomeClub.getSelectedIndex();
-        Integer v = jComboBoxVisitor.getSelectedIndex();
-        if(hc != v && hc != 0 && v != 0){
-            jComboBoxWinner.setEnabled(true);
-        }
-        else{
-            jComboBoxWinner.setEnabled(false);
-        }
+        this.setWinners();
     }//GEN-LAST:event_jComboBoxVisitorActionPerformed
+
+    private void jComboBoxWinnerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxWinnerActionPerformed
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_jComboBoxWinnerActionPerformed
 
     /**
      * @param args the command line arguments
@@ -291,4 +376,21 @@ public class CreateGameUI extends javax.swing.JDialog {
     private javax.swing.JLabel jLabelWinner;
     private javax.swing.JSpinner jSpinnerAudience;
     // End of variables declaration//GEN-END:variables
+
+    private void setWinners() {
+        if (jComboBoxWinner.getItemCount() > 1) {
+            jComboBoxWinner.removeAllItems();
+            jComboBoxWinner.addItem("<Seleccionar>");
+        }
+        Integer hc = jComboBoxHomeClub.getSelectedIndex();
+        Integer v = jComboBoxVisitor.getSelectedIndex();
+        if (hc != v && hc != 0 && v != 0) {
+            jComboBoxWinner.setEnabled(true);
+            jComboBoxWinner.addItem(jComboBoxHomeClub.getSelectedItem().toString());
+            jComboBoxWinner.addItem(jComboBoxVisitor.getSelectedItem().toString());
+        } else {
+            jComboBoxWinner.setEnabled(false);
+        }
+    }
+
 }
