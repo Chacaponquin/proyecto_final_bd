@@ -41,23 +41,23 @@ public class ViewUtils {
     {
         
         try{
-            this.views.put("Stadium", new StadiumUI());
-            this.views.put("Position", new PositionUI());
-            this.views.put("Pitcher", new PitcherUI());
-            this.views.put("Phase", new PhaseUI());
-            this.views.put("Game", new GameUI());
-            this.views.put("Coach", new Coach_UI());
-            this.views.put("Team", new TeamUI());
-            this.views.put("Batter", new BatterUI());
-            this.views.put("Player", new Player_UI());
+            this.views.put("Estadios", new StadiumUI());
+            this.views.put("Posiciones", new PositionUI());
+            this.views.put("Pitchers", new PitcherUI());
+            this.views.put("Fases", new PhaseUI());
+            this.views.put("Juegos", new GameUI());
+            this.views.put("Entrenadores", new Coach_UI());
+            this.views.put("Equipos", new TeamUI());
+            this.views.put("Bateadores", new BatterUI());
+            this.views.put("Jugadores", new Player_UI());
             
-            this.reports.put("Report 1", new Report_1UI(null, false));
-            this.reports.put("Report 2", new Report_2UI(null, false));
-            this.reports.put("Report 3", new Report_3UI(null, false));
-            this.reports.put("Report 4", new Report_4UI(null, false));
-            this.reports.put("Report 5", new Report_5UI(null, false));
-            this.reports.put("Report 6", new Report_6UI(null, false));
-            this.reports.put("Report 7", new Report_7UI(null, false));
+            this.reports.put("Tabla de posiciones", new Report_1UI(null, false));
+            this.reports.put("Partidos por equipos", new Report_2UI(null, false));
+            this.reports.put("Partidos jugados por fecha", new Report_3UI(null, false));
+            this.reports.put("Entrenadores de más experiencia", new Report_4UI(null, false));
+            this.reports.put("Estadios con mayor audiencia", new Report_5UI(null, false));
+            this.reports.put("Estado de un equipo", new Report_6UI(null, false));
+            this.reports.put("Equipo todos estrellas", new Report_7UI(null, false));
             
         }
         catch(SQLException | ClassNotFoundException ex){
