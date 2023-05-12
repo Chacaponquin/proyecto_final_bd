@@ -8,13 +8,13 @@ import cu.edu.cujae.structbd.visual.batter.BatterUI;
 
 import cu.edu.cujae.structbd.visual.coach.Coach_UI;
 import cu.edu.cujae.structbd.visual.game.GameUI;
-import cu.edu.cujae.structbd.visual.main.MainUI;
 import cu.edu.cujae.structbd.visual.phase.PhaseUI;
 
 import cu.edu.cujae.structbd.visual.pitcher.PitcherUI;
 
 import cu.edu.cujae.structbd.visual.player.Player_UI;
 import cu.edu.cujae.structbd.visual.position.PositionUI;
+import cu.edu.cujae.structbd.visual.province.Province_UI;
 import cu.edu.cujae.structbd.visual.reports.Report_1UI;
 import cu.edu.cujae.structbd.visual.reports.Report_2UI;
 import cu.edu.cujae.structbd.visual.reports.Report_3UI;
@@ -52,6 +52,7 @@ public class ViewUtils {
             this.views.add(new ViewWindow("Equipos", new TeamUI()));
             this.views.add(new ViewWindow("Bateadores", new BatterUI()));
             this.views.add(new ViewWindow("Jugadores", new Player_UI()));
+            this.views.add(new ViewWindow("Provincias", new Province_UI()));
             
             this.reports.add(new ViewDialog("Tabla de posiciones", new Report_1UI(null, false)));
             this.reports.add(new ViewDialog("Partidos por equipos", new Report_2UI(null, false)));

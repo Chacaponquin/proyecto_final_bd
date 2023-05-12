@@ -4,6 +4,7 @@
  */
 package cu.edu.cujae.structbd.visual.main;
 
+import cu.edu.cujae.structbd.services.ServicesLocator;
 import cu.edu.cujae.structbd.utils.UtilsConnector;
 import cu.edu.cujae.structbd.utils.ViewDialog;
 import cu.edu.cujae.structbd.utils.ViewWindow;
@@ -17,6 +18,7 @@ import javax.swing.JPanel;
 import java.lang.*;
 import javax.swing.JDialog;
 import java.util.List;
+import javax.swing.JMenuItem;
 
 /**
  *
@@ -38,6 +40,7 @@ public class MainUI extends javax.swing.JFrame {
         this.jMenu1.setText("Entidades");
         this.jMenu2.setText("Reportes");
         
+        // añadir views
         views.forEach((view) -> {
             javax.swing.JMenuItem menuItem = new javax.swing.JMenuItem();
             menuItem.setText(view.getWindowName());
@@ -47,6 +50,8 @@ public class MainUI extends javax.swing.JFrame {
             this.jMenu1.add(menuItem);
         });
         
+        
+        // añadir reportes
         reportsViews.forEach((view) -> {
             javax.swing.JMenuItem menuItem = new javax.swing.JMenuItem();
             menuItem.setText(view.getViewName());
@@ -55,6 +60,12 @@ public class MainUI extends javax.swing.JFrame {
             
             this.jMenu2.add(menuItem);
         });
+        
+        if(ServicesLocator.UserServices.getActualUser() == null){
+            JMenuItem closeUserItem = new JMenuItem();
+            closeUserItem.setText("Cerrar Sesión");
+            this.jMenu3.add(closeUserItem);
+        }
     }
      
     public ActionListener clickMenuItem(MainUI mainWindow, JFrame view) {
@@ -92,8 +103,10 @@ public class MainUI extends javax.swing.JFrame {
 
         imagePanel = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu3 = new javax.swing.JMenu();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
+        jMenu4 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -116,11 +129,17 @@ public class MainUI extends javax.swing.JFrame {
             .addGap(0, 312, Short.MAX_VALUE)
         );
 
-        jMenu1.setText("File");
+        jMenu3.setText("Archivo");
+        jMenuBar1.add(jMenu3);
+
+        jMenu1.setText("Gestión");
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setText("Edit");
+        jMenu2.setText("Reportes");
         jMenuBar1.add(jMenu2);
+
+        jMenu4.setText("Ayuda");
+        jMenuBar1.add(jMenu4);
 
         setJMenuBar(jMenuBar1);
 
@@ -148,6 +167,8 @@ public class MainUI extends javax.swing.JFrame {
     private javax.swing.JPanel imagePanel;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
     // End of variables declaration//GEN-END:variables
 }

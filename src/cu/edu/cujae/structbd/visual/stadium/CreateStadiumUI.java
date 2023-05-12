@@ -4,16 +4,19 @@
  */
 package cu.edu.cujae.structbd.visual.stadium;
 
+import javax.swing.JFrame;
+
 /**
  *
  * @author Hector Angel Gomez
  */
-public class CreateStadiumUI extends javax.swing.JFrame {
+public class CreateStadiumUI extends javax.swing.JDialog {
 
     /**
      * Creates new form CreateStadiumUI
      */
-    public CreateStadiumUI() {
+    public CreateStadiumUI(JFrame parent) {
+        super(parent,true);
         initComponents();
     }
 
@@ -33,6 +36,8 @@ public class CreateStadiumUI extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jSpinner1 = new javax.swing.JSpinner();
 
+        setTitle("Crear Estadio");
+
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel2.setText("Nombre:");
 
@@ -40,6 +45,11 @@ public class CreateStadiumUI extends javax.swing.JFrame {
         jLabel3.setText("Capacidad:");
 
         jButton1.setText("Insertar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Cerrar");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -96,6 +106,10 @@ public class CreateStadiumUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
