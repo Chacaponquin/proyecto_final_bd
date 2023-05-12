@@ -5,16 +5,18 @@
 package cu.edu.cujae.structbd.visual.main;
 
 import cu.edu.cujae.structbd.utils.UtilsConnector;
+import cu.edu.cujae.structbd.utils.ViewDialog;
+import cu.edu.cujae.structbd.utils.ViewWindow;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.HashMap;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.lang.*;
 import javax.swing.JDialog;
+import java.util.List;
 
 /**
  *
@@ -30,26 +32,26 @@ public class MainUI extends javax.swing.JFrame {
     }
     
     public void updateMenuItems(){
-        HashMap<String, JFrame> views = UtilsConnector.viewUtils.getViews();
-        HashMap<String, JDialog> reportsViews = UtilsConnector.viewUtils.getReportsViews();
+        List<ViewWindow> views = UtilsConnector.viewUtils.getViews();
+        List<ViewDialog> reportsViews = UtilsConnector.viewUtils.getReportsViews();
         
         this.jMenu1.setText("Entidades");
         this.jMenu2.setText("Reportes");
         
-        views.forEach((k, view) -> {
+        views.forEach((view) -> {
             javax.swing.JMenuItem menuItem = new javax.swing.JMenuItem();
-            menuItem.setText(k);
+            menuItem.setText(view.getWindowName());
             
-            menuItem.addActionListener(this.clickMenuItem(this, view));
+            menuItem.addActionListener(this.clickMenuItem(this, view.getFrame()));
             
             this.jMenu1.add(menuItem);
         });
         
-        reportsViews.forEach((k, view) -> {
+        reportsViews.forEach((view) -> {
             javax.swing.JMenuItem menuItem = new javax.swing.JMenuItem();
-            menuItem.setText(k);
+            menuItem.setText(view.getViewName());
             
-            menuItem.addActionListener(this.clickReportMenuItem(this, view));
+            menuItem.addActionListener(this.clickReportMenuItem(this, view.getDialog()));
             
             this.jMenu2.add(menuItem);
         });
