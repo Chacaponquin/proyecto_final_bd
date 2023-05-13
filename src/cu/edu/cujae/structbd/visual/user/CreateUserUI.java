@@ -4,11 +4,14 @@
  */
 package cu.edu.cujae.structbd.visual.user;
 
+import cu.edu.cujae.structbd.dto.user.CreateUserDTO;
+
 /**
  *
  * @author Hector Angel Gomez
  */
 public class CreateUserUI extends javax.swing.JDialog {
+    private CreateUserDTO userForm = new CreateUserDTO("", "", "");
 
     /**
      * Creates new form CreateUserUI
@@ -46,11 +49,34 @@ public class CreateUserUI extends javax.swing.JDialog {
             }
         });
 
-        jPasswordField1.setText("jPasswordField1");
+        jPasswordField1.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+            }
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+                jPasswordField1InputMethodTextChanged(evt);
+            }
+        });
 
-        jPasswordField2.setText("jPasswordField2");
+        jPasswordField2.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+            }
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+                jPasswordField2InputMethodTextChanged(evt);
+            }
+        });
 
-        jTextField1.setText("jTextField1");
+        jTextField1.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+            }
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+                jTextField1InputMethodTextChanged(evt);
+            }
+        });
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("Confirmación de la contraseña");
 
@@ -74,8 +100,8 @@ public class CreateUserUI extends javax.swing.JDialog {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jButton1)
                             .addComponent(jTextField1)
-                            .addComponent(jPasswordField2, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
-                            .addComponent(jPasswordField1))))
+                            .addComponent(jPasswordField2)
+                            .addComponent(jPasswordField1, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE))))
                 .addGap(21, 21, 21))
         );
         layout.setVerticalGroup(
@@ -102,8 +128,26 @@ public class CreateUserUI extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+System.out.println(this.userForm.getUsername());        
+System.out.println(this.userForm.getPassword()); 
+System.out.println(this.userForm.getComfirmPassword()); // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void jTextField1InputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_jTextField1InputMethodTextChanged
+this.userForm.setUsername(this.jTextField1.getText());        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1InputMethodTextChanged
+
+    private void jPasswordField2InputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_jPasswordField2InputMethodTextChanged
+this.userForm.setPassword(this.jPasswordField2.getText());         // TODO add your handling code here:
+    }//GEN-LAST:event_jPasswordField2InputMethodTextChanged
+
+    private void jPasswordField1InputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_jPasswordField1InputMethodTextChanged
+this.userForm.setComfirmPassword(this.jPasswordField1.getText());         // TODO add your handling code here:
+    }//GEN-LAST:event_jPasswordField1InputMethodTextChanged
 
     /**
      * @param args the command line arguments

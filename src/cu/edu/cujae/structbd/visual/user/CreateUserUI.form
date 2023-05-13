@@ -37,8 +37,8 @@
                       <Group type="103" groupAlignment="1" max="-2" attributes="0">
                           <Component id="jButton1" min="-2" max="-2" attributes="0"/>
                           <Component id="jTextField1" alignment="1" max="32767" attributes="0"/>
-                          <Component id="jPasswordField2" alignment="1" pref="151" max="32767" attributes="0"/>
-                          <Component id="jPasswordField1" alignment="1" max="32767" attributes="0"/>
+                          <Component id="jPasswordField2" alignment="1" max="32767" attributes="0"/>
+                          <Component id="jPasswordField1" alignment="1" pref="151" max="32767" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -84,19 +84,20 @@
       </Events>
     </Component>
     <Component class="javax.swing.JPasswordField" name="jPasswordField1">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="jPasswordField1"/>
-      </Properties>
+      <Events>
+        <EventHandler event="inputMethodTextChanged" listener="java.awt.event.InputMethodListener" parameters="java.awt.event.InputMethodEvent" handler="jPasswordField1InputMethodTextChanged"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JPasswordField" name="jPasswordField2">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="jPasswordField2"/>
-      </Properties>
+      <Events>
+        <EventHandler event="inputMethodTextChanged" listener="java.awt.event.InputMethodListener" parameters="java.awt.event.InputMethodEvent" handler="jPasswordField2InputMethodTextChanged"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextField1">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="jTextField1"/>
-      </Properties>
+      <Events>
+        <EventHandler event="inputMethodTextChanged" listener="java.awt.event.InputMethodListener" parameters="java.awt.event.InputMethodEvent" handler="jTextField1InputMethodTextChanged"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField1ActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>

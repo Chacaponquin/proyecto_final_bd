@@ -108,9 +108,9 @@ public class UserUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        CreateUserUI modal = new CreateUserUI(null, true);
-modal.setVisible(true);
-modal.setLocationRelativeTo(null);
+        CreateUserUI modal = new CreateUserUI(this, true);
+        modal.setVisible(true);
+        modal.setLocationRelativeTo(null);
 // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
 

@@ -75,6 +75,7 @@ public class MainUI extends javax.swing.JFrame {
                 mainWindow.setVisible(true);
                     view.setVisible(true);
                     view.setLocationRelativeTo(null);
+                    view.setAlwaysOnTop(true);
                 } 
          };
     }
