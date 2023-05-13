@@ -24,7 +24,7 @@ public class TeamServices {
             String team_id = resultSet.getString("team_id");
             String team_name = resultSet.getString("team_name");
             int played_championships = Integer.valueOf(resultSet.getString("played_championships"));
-            int won_championships = Integer.valueOf(resultSet.getString("wonchampionships"));
+            int won_championships = Integer.valueOf(resultSet.getString("won_championships"));
             String color = resultSet.getString("color");
             String province = resultSet.getString("province_name");
             String pet = resultSet.getString("pet");

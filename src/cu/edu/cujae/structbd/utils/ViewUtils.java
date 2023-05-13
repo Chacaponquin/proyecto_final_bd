@@ -24,11 +24,10 @@ import cu.edu.cujae.structbd.visual.reports.Report_6UI;
 import cu.edu.cujae.structbd.visual.reports.Report_7UI;
 import cu.edu.cujae.structbd.visual.stadium.StadiumUI;
 import cu.edu.cujae.structbd.visual.team.TeamUI;
+import cu.edu.cujae.structbd.visual.user.UserUI;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 
 /**
@@ -53,6 +52,7 @@ public class ViewUtils {
             this.views.add(new ViewWindow("Bateadores", new BatterUI()));
             this.views.add(new ViewWindow("Jugadores", new Player_UI()));
             this.views.add(new ViewWindow("Provincias", new Province_UI()));
+            this.views.add(new ViewWindow("Usuarios", new UserUI()));
             
             this.reports.add(new ViewDialog("Tabla de posiciones", new Report_1UI(null, false)));
             this.reports.add(new ViewDialog("Partidos por equipos", new Report_2UI(null, false)));
