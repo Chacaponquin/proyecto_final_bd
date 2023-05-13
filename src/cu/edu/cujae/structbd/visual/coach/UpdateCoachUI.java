@@ -26,9 +26,10 @@ public class UpdateCoachUI extends javax.swing.JDialog
     public UpdateCoachUI(java.awt.Frame parent, boolean modal, UpdateCoachDTO updateCoachDTO)
     {
         super(parent, modal);
+        initComponents();
+         
         try
         {
-            initComponents();
             this.updateCoachDTO = updateCoachDTO;
             this.field_name.setText(this.updateCoachDTO.getTeam_member_name());
             this.spinner_exp.setValue(this.updateCoachDTO.getExperience_years());
@@ -39,6 +40,8 @@ public class UpdateCoachUI extends javax.swing.JDialog
             {
                 combo_box_team.addItem(teams_list.get(i).getTeam_name());
             }
+            
+             this.activate_button();
         }
         catch (SQLException ex)
         {
@@ -48,6 +51,8 @@ public class UpdateCoachUI extends javax.swing.JDialog
         {
             Logger.getLogger(UpdateCoachUI.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+       
     }
 
     /**
@@ -130,6 +135,9 @@ public class UpdateCoachUI extends javax.swing.JDialog
             }
         });
         field_name.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                field_nameKeyReleased(evt);
+            }
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 field_nameKeyTyped(evt);
             }
@@ -240,6 +248,10 @@ public class UpdateCoachUI extends javax.swing.JDialog
        dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void field_nameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_field_nameKeyReleased
+this.activate_button();        // TODO add your handling code here:
+    }//GEN-LAST:event_field_nameKeyReleased
+
     /**
      * @param args the command line arguments
      */
@@ -326,9 +338,9 @@ public class UpdateCoachUI extends javax.swing.JDialog
     
     public void activate_button(){
         if (field_name.getText().isEmpty()){
-            jButton2.setEnabled(true);
-        } else {
             jButton2.setEnabled(false);
+        } else {
+            jButton2.setEnabled(true);
         }
         
         

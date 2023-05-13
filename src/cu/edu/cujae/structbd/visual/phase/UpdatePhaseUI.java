@@ -39,6 +39,8 @@ public class UpdatePhaseUI extends javax.swing.JDialog
         this.date_start.setDate(start_date);
         Date finish_date = Date.from(updatePhaseDTO.getFinish_date().atStartOfDay(defaultZoneId).toInstant());
         this.date_finish.setDate(finish_date);
+        
+        this.activate_button();
     }
 
     /**
@@ -209,6 +211,10 @@ public class UpdatePhaseUI extends javax.swing.JDialog
             
             //Falta Validar
             ServicesLocator.PhaseServices.updatePhase(updatePhaseDTO);
+            
+            this.dispose();
+            
+            ((PhaseUI)this.getParent()).updateList();
         }
         catch (SQLException ex)
         {
@@ -383,12 +389,13 @@ public class UpdatePhaseUI extends javax.swing.JDialog
         Date dFinish = date_finish.getDate();
         Instant iFinish = dFinish.toInstant();
         LocalDate finish_date = iFinish.atZone(defaultZoneId).toLocalDate();
-        if (start_date.isBefore(finish_date))
+        if (start_date.isAfter(finish_date))
         {
             result = false;
             JOptionPane.showMessageDialog(null, "La fecha de finalización de la fase debe ser posterior a la de inicio",
                                           "Fechas incorrectas", HEIGHT);
         }
+        
         return result;
     }
     

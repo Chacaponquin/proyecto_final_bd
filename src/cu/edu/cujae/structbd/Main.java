@@ -1,5 +1,5 @@
 package cu.edu.cujae.structbd;
-import cu.edu.cujae.structbd.visual.main.MainUI;
+import cu.edu.cujae.structbd.visual.user.LoginUI;
 
 import java.sql.SQLException;
 
@@ -14,8 +14,8 @@ public class Main {
     }
 
     private static void initApp() throws SQLException, ClassNotFoundException {
-          MainUI mainWindow = new MainUI();
-          mainWindow.setVisible(true);
-          mainWindow.setLocationRelativeTo(null);
+          LoginUI login = new LoginUI();
+          login.setLocationRelativeTo(null);
+          login.setVisible(true);
     }
 }

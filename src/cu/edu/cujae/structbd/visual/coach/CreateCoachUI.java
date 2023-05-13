@@ -211,6 +211,8 @@ public class CreateCoachUI extends javax.swing.JDialog
             CreateCoachDTO createCoachDTO = new CreateCoachDTO(id, name, number, team_id, y_exp);
             ServicesLocator.CoachServices.createCoach(createCoachDTO);
             JOptionPane.showMessageDialog(null, name + " se ha insertado correctamente", "Confirmación", HEIGHT);
+            
+            ((Coach_UI)this.getParent()).updateList();
         }
         catch (SQLException ex)
         {

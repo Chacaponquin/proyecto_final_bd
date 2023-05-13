@@ -13,7 +13,7 @@ public abstract class ServicesLocator {
     public static ProvinceServices ProvinceServices = new ProvinceServices();
     public static StadiumServices StadiumServices = new StadiumServices();
     public static TeamServices TeamServices = new TeamServices();
-
+    public static UserServices UserServices = new UserServices();
     public static TeamMemberServices TeamMemberServices = new TeamMemberServices();
     public static AppServices AppServices = new AppServices();
 
