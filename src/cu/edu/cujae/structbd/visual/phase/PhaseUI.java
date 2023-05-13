@@ -30,32 +30,8 @@ public class PhaseUI extends javax.swing.JFrame {
      */
     public PhaseUI() {
         initComponents();
-<<<<<<< HEAD
-        try
-        {
-            this.readPhaseDTO_list = new LinkedList<>(ServicesLocator.PhaseServices.readAllPhase());
-            Iterator<ReadPhaseDTO> it_readPhaseDTO_list = readPhaseDTO_list.iterator();
-            while (it_readPhaseDTO_list.hasNext())
-            {
-                ReadPhaseDTO readPhaseDTO = it_readPhaseDTO_list.next();
-                ((DefaultTableModel) table.getModel()).addRow(new Object[]
-                {
-                    readPhaseDTO.getPhase_name(), readPhaseDTO.getStart_date().toString(),
-                    readPhaseDTO.getFinish_date().toString(), readPhaseDTO.getTeams_amount()
-                });
-            }
-        }
-        catch (SQLException ex)
-        {
-            Logger.getLogger(PhaseUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        catch (ClassNotFoundException ex)
-        {
-            Logger.getLogger(PhaseUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
-=======
         this.updateList();
->>>>>>> 33a64415a46a382cbe31d9e0da02ba2c40ed8409
+
     }
 
     /**
@@ -208,7 +184,6 @@ public class PhaseUI extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(rootPane, "La fase no se encuentra en la base de datos", "Información",
                                               HEIGHT);
             }
-            actualizarTabla();
         }
         else
         {
@@ -250,7 +225,6 @@ public class PhaseUI extends javax.swing.JFrame {
                 {
                     DeletePhaseDTO deletePhaseDTO = new DeletePhaseDTO(id);
                     ServicesLocator.PhaseServices.deletePhase(deletePhaseDTO);
-                    
                     this.updateList();
                 }
                 catch (SQLException ex)
@@ -337,13 +311,7 @@ public class PhaseUI extends javax.swing.JFrame {
             }
         });
     }
-    
-<<<<<<< HEAD
-    public void actualizarTabla(){
-        try
-        {
-            this.readPhaseDTO_list.clear();
-=======
+
     public void updateList(){
                 try
         {
@@ -352,8 +320,7 @@ public class PhaseUI extends javax.swing.JFrame {
            for(int i = 0; i < count; i++){
                model.removeRow(0);
            }
-           
->>>>>>> 33a64415a46a382cbe31d9e0da02ba2c40ed8409
+
             this.readPhaseDTO_list = new LinkedList<>(ServicesLocator.PhaseServices.readAllPhase());
             Iterator<ReadPhaseDTO> it_readPhaseDTO_list = readPhaseDTO_list.iterator();
             while (it_readPhaseDTO_list.hasNext())
