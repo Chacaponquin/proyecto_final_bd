@@ -4,7 +4,14 @@
  */
 package cu.edu.cujae.structbd.visual.user;
 
+import cu.edu.cujae.structbd.dto.user.ReadUserDTO;
+import cu.edu.cujae.structbd.services.ServicesLocator;
 import cu.edu.cujae.structbd.utils.UtilsConnector;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -17,6 +24,28 @@ public class UserUI extends javax.swing.JFrame {
      */
     public UserUI() {
         initComponents();
+        this.updateUI();
+    }
+    
+    public void updateUI(){
+        try {
+            List<ReadUserDTO> users = ServicesLocator.UserServices.readUsers();
+            
+            DefaultTableModel model = (DefaultTableModel) this.jTable1.getModel();
+            
+            // limpiar tabla
+            for(int i = 0; i < model.getRowCount(); i++){
+                model.removeRow(0);
+            }
+            
+            users.forEach(u -> {
+                model.addRow(new Object[]{u.getUsername(), u.getRole()});
+            });
+        } catch (SQLException ex) {
+            UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
+        } catch (ClassNotFoundException ex) {
+            UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
+        }
     }
 
     /**
@@ -108,46 +137,20 @@ public class UserUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        CreateUserUI modal = new CreateUserUI(this, true);
-        modal.setVisible(true);
-        modal.setLocationRelativeTo(null);
+        CreateUserUI modal;
+        try {
+            modal = new CreateUserUI(this, true);
+            
+            modal.setVisible(true);
+            modal.setLocationRelativeTo(null);
+        } catch (SQLException ex) {
+            Logger.getLogger(UserUI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(UserUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
 // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(UserUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(UserUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(UserUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(UserUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new UserUI().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

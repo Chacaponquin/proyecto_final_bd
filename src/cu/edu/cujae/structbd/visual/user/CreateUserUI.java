@@ -5,20 +5,42 @@
 package cu.edu.cujae.structbd.visual.user;
 
 import cu.edu.cujae.structbd.dto.user.CreateUserDTO;
+import cu.edu.cujae.structbd.dto.user_role.ReadUserRoleDTO;
+import cu.edu.cujae.structbd.exceptions.app.EmptyFieldFormException;
+import cu.edu.cujae.structbd.exceptions.user.DifferentPasswordsException;
+import cu.edu.cujae.structbd.exceptions.user.DuplicateUserException;
+import cu.edu.cujae.structbd.exceptions.user.ShortUsernameException;
+import cu.edu.cujae.structbd.services.ServicesLocator;
+import cu.edu.cujae.structbd.utils.UtilsConnector;
+import java.awt.MenuItem;
+import java.sql.SQLException;
+import java.util.List;
 
 /**
  *
  * @author Hector Angel Gomez
  */
 public class CreateUserUI extends javax.swing.JDialog {
-    private CreateUserDTO userForm = new CreateUserDTO("", "", "");
+    private final CreateUserDTO userForm = new CreateUserDTO("", "", "", "");
+    private List<ReadUserRoleDTO> roles = ServicesLocator.UserRoleServices.readUserRoles();
 
     /**
      * Creates new form CreateUserUI
      */
-    public CreateUserUI(java.awt.Frame parent, boolean modal) {
+    public CreateUserUI(java.awt.Frame parent, boolean modal) throws SQLException, ClassNotFoundException {
         super(parent, modal);
         initComponents();
+        this.updateUI();
+    }
+    
+    private void updateUI() throws SQLException, ClassNotFoundException{
+        jComboBox1.removeAllItems();
+        roles.forEach(r -> {  
+            jComboBox1.addItem(r.getRoleName());
+        });
+        
+        jComboBox1.setSelectedIndex(0);
+        
     }
 
     /**
@@ -37,6 +59,8 @@ public class CreateUserUI extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Crear Usuario");
@@ -56,12 +80,22 @@ public class CreateUserUI extends javax.swing.JDialog {
                 jPasswordField1InputMethodTextChanged(evt);
             }
         });
+        jPasswordField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jPasswordField1KeyPressed(evt);
+            }
+        });
 
         jPasswordField2.addInputMethodListener(new java.awt.event.InputMethodListener() {
             public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
             }
             public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
                 jPasswordField2InputMethodTextChanged(evt);
+            }
+        });
+        jPasswordField2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jPasswordField2KeyPressed(evt);
             }
         });
 
@@ -77,12 +111,26 @@ public class CreateUserUI extends javax.swing.JDialog {
                 jTextField1ActionPerformed(evt);
             }
         });
+        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextField1KeyPressed(evt);
+            }
+        });
 
         jLabel1.setText("Confirmación de la contraseña");
 
         jLabel2.setText("Contraseña");
 
         jLabel3.setText("Nombre de Usuario");
+
+        jLabel4.setText("Rol");
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -95,22 +143,28 @@ public class CreateUserUI extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jButton1)
                             .addComponent(jTextField1)
                             .addComponent(jPasswordField2)
-                            .addComponent(jPasswordField1, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE))))
+                            .addComponent(jPasswordField1)
+                            .addComponent(jComboBox1, 0, 151, Short.MAX_VALUE))))
                 .addGap(21, 21, 21))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(33, Short.MAX_VALUE)
+                .addContainerGap(47, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jPasswordField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -128,9 +182,37 @@ public class CreateUserUI extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-System.out.println(this.userForm.getUsername());        
-System.out.println(this.userForm.getPassword()); 
-System.out.println(this.userForm.getComfirmPassword()); // TODO add your handling code here:
+       
+        try{
+            this.userForm.setUsername(this.jTextField1.getText());
+            this.userForm.setPassword(this.jPasswordField2.getText());
+            this.userForm.setComfirmPassword(this.jPasswordField1.getText());
+            
+            int selectIndex = this.jComboBox1.getSelectedIndex();
+            userForm.setUserRoleID(roles.get(selectIndex).getUserRoleID());
+            
+            ServicesLocator.UserServices.createUser(userForm);
+            
+            UtilsConnector.viewMessagesUtils.showSuccessMessage(this, "Usuario creado satisfactoriamente.");
+        }
+       catch(DifferentPasswordsException ex){
+           UtilsConnector.viewMessagesUtils.showErrorMessage(this, "No coinciden las contraseñas");
+       }
+        catch(SQLException ex){
+            UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
+       }
+        catch(EmptyFieldFormException ex){
+            UtilsConnector.viewMessagesUtils.showErrorMessage(this, ex.getMessage());
+       }
+        catch(ClassNotFoundException ex){
+            UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
+       }
+        catch(ShortUsernameException ex){
+            UtilsConnector.viewMessagesUtils.showErrorMessage(this, "El nombre de usuario no puede ser menor a 5 caracteres");
+       }
+        catch(DuplicateUserException ex){
+            UtilsConnector.viewMessagesUtils.showErrorMessage(this, "Ya existe un usuario con ese nombre");
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
@@ -138,64 +220,42 @@ System.out.println(this.userForm.getComfirmPassword()); // TODO add your handlin
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jTextField1InputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_jTextField1InputMethodTextChanged
-this.userForm.setUsername(this.jTextField1.getText());        // TODO add your handling code here:
+      // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1InputMethodTextChanged
 
     private void jPasswordField2InputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_jPasswordField2InputMethodTextChanged
-this.userForm.setPassword(this.jPasswordField2.getText());         // TODO add your handling code here:
+        // TODO add your handling code here:
     }//GEN-LAST:event_jPasswordField2InputMethodTextChanged
 
     private void jPasswordField1InputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_jPasswordField1InputMethodTextChanged
-this.userForm.setComfirmPassword(this.jPasswordField1.getText());         // TODO add your handling code here:
+        // TODO add your handling code here:
     }//GEN-LAST:event_jPasswordField1InputMethodTextChanged
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CreateUserUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CreateUserUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CreateUserUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CreateUserUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    private void jTextField1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyPressed
+          // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1KeyPressed
 
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                CreateUserUI dialog = new CreateUserUI(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
+    private void jPasswordField2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPasswordField2KeyPressed
+         // TODO add your handling code here:
+    }//GEN-LAST:event_jPasswordField2KeyPressed
+
+    private void jPasswordField1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPasswordField1KeyPressed
+         // TODO add your handling code here:
+    }//GEN-LAST:event_jPasswordField1KeyPressed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JPasswordField jPasswordField2;
     private javax.swing.JTextField jTextField1;
