@@ -8,36 +8,31 @@ package cu.edu.cujae.structbd.dto.user;
  *
  * @author Hector Angel Gomez
  */
-public class ReadUserDTO {
-    private final String userID;
-    private final String username;
-    private final String role;
-    private final String password;
+public class LoginUserDTO {
+    private String username;
+    private String password;
 
-    public ReadUserDTO(String userID, String username, String role, String password) {
+    public LoginUserDTO(String username, String password) {
         this.username = username;
-        this.role = role;
         this.password = password;
-        this.userID = userID;
     }
 
     public String getUsername() {
         return username;
     }
 
-    public String getRole() {
-        return role;
-    }
-
     public String getPassword() {
         return password;
     }
 
-    public String getUserID() {
-        return userID;
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
     
     
-
     
 }

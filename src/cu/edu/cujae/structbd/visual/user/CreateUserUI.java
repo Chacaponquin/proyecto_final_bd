@@ -12,7 +12,6 @@ import cu.edu.cujae.structbd.exceptions.user.DuplicateUserException;
 import cu.edu.cujae.structbd.exceptions.user.ShortUsernameException;
 import cu.edu.cujae.structbd.services.ServicesLocator;
 import cu.edu.cujae.structbd.utils.UtilsConnector;
-import java.awt.MenuItem;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -22,7 +21,7 @@ import java.util.List;
  */
 public class CreateUserUI extends javax.swing.JDialog {
     private final CreateUserDTO userForm = new CreateUserDTO("", "", "", "");
-    private List<ReadUserRoleDTO> roles = ServicesLocator.UserRoleServices.readUserRoles();
+    private final List<ReadUserRoleDTO> roles = ServicesLocator.UserRoleServices.readUserRoles();
 
     /**
      * Creates new form CreateUserUI
@@ -194,6 +193,11 @@ public class CreateUserUI extends javax.swing.JDialog {
             ServicesLocator.UserServices.createUser(userForm);
             
             UtilsConnector.viewMessagesUtils.showSuccessMessage(this, "Usuario creado satisfactoriamente.");
+            
+            
+            ((UserUI) this.getParent()).updateUI();
+            
+            this.dispose();
         }
        catch(DifferentPasswordsException ex){
            UtilsConnector.viewMessagesUtils.showErrorMessage(this, "No coinciden las contraseñas");

@@ -4,10 +4,12 @@
  */
 package cu.edu.cujae.structbd.visual.user;
 
+import cu.edu.cujae.structbd.dto.user.DeleteUserDTO;
 import cu.edu.cujae.structbd.dto.user.ReadUserDTO;
 import cu.edu.cujae.structbd.services.ServicesLocator;
 import cu.edu.cujae.structbd.utils.UtilsConnector;
 import java.sql.SQLException;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,25 +20,29 @@ import javax.swing.table.DefaultTableModel;
  * @author Hector Angel Gomez
  */
 public class UserUI extends javax.swing.JFrame {
+    private List<ReadUserDTO> users = new LinkedList<>();
 
     /**
      * Creates new form UserUI
      */
     public UserUI() {
         initComponents();
+        
+        this.jTable1.setComponentPopupMenu(this.jPopupMenu1);
+        
         this.updateUI();
     }
     
-    public void updateUI(){
+    public void updateUI(){ 
         try {
-            List<ReadUserDTO> users = ServicesLocator.UserServices.readUsers();
-            
             DefaultTableModel model = (DefaultTableModel) this.jTable1.getModel();
             
             // limpiar tabla
             for(int i = 0; i < model.getRowCount(); i++){
                 model.removeRow(0);
             }
+            
+            this.users = ServicesLocator.UserServices.readUsers();
             
             users.forEach(u -> {
                 model.addRow(new Object[]{u.getUsername(), u.getRole()});
@@ -58,26 +64,26 @@ public class UserUI extends javax.swing.JFrame {
     private void initComponents() {
 
         jPopupMenu1 = new javax.swing.JPopupMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        deleteMenu = new javax.swing.JMenuItem();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
-        jMenuItem1.setText("Eliminar Usuario");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        deleteMenu.setText("Eliminar Usuario");
+        deleteMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                deleteMenuActionPerformed(evt);
             }
         });
-        jPopupMenu1.add(jMenuItem1);
+        jPopupMenu1.add(deleteMenu);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Usuarios");
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-
+                {null, null}
             },
             new String [] {
                 "Nombre de Usuario", "Rol"
@@ -132,9 +138,17 @@ public class UserUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    private void deleteMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteMenuActionPerformed
+        try {
+            int selectRow = this.jTable1.getSelectedRow();
+            DeleteUserDTO userToSelect = new DeleteUserDTO(this.users.get(selectRow).getUserID());
+            ServicesLocator.UserServices.deleteUser(userToSelect);
+            
+            this.updateUI();
+        } catch (SQLException | ClassNotFoundException ex) {
+            UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
+        } 
+    }//GEN-LAST:event_deleteMenuActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         CreateUserUI modal;
@@ -153,9 +167,9 @@ public class UserUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem deleteMenu;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;

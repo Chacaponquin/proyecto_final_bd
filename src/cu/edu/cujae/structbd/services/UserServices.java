@@ -7,10 +7,13 @@ package cu.edu.cujae.structbd.services;
 
 import cu.edu.cujae.structbd.dto.user.ActualUserDTO;
 import cu.edu.cujae.structbd.dto.user.CreateUserDTO;
+import cu.edu.cujae.structbd.dto.user.DeleteUserDTO;
+import cu.edu.cujae.structbd.dto.user.LoginUserDTO;
 import cu.edu.cujae.structbd.dto.user.ReadUserDTO;
 import cu.edu.cujae.structbd.exceptions.app.EmptyFieldFormException;
 import cu.edu.cujae.structbd.exceptions.user.DifferentPasswordsException;
 import cu.edu.cujae.structbd.exceptions.user.DuplicateUserException;
+import cu.edu.cujae.structbd.exceptions.user.IncorrectLoginException;
 import cu.edu.cujae.structbd.exceptions.user.ShortUsernameException;
 import cu.edu.cujae.structbd.utils.Connector;
 import java.sql.CallableStatement;
@@ -47,11 +50,12 @@ public class UserServices {
         ResultSet resultSet = (ResultSet) preparedFunction.getObject(1);
         while (resultSet.next())
         {
+            String id = resultSet.getString("user_id");
             String username = resultSet.getString("username");
             String role = resultSet.getString("role_name");
             String password = resultSet.getString("password");
             
-            users.add(new ReadUserDTO(username, role, password));
+            users.add(new ReadUserDTO(id, username, role, password));
         }
         resultSet.close();
         preparedFunction.close();
@@ -88,6 +92,38 @@ public class UserServices {
         connection.commit();
     }
     
+    public void loginUser(LoginUserDTO user) throws SQLException, ClassNotFoundException, IncorrectLoginException{
+        List<ReadUserDTO> users = this.readUsers();
+        
+        ReadUserDTO foundUser = null;
+        for(int i = 0; i < users.size() && foundUser == null; i++){
+            ReadUserDTO u = users.get(i);
+            
+            if(u.getUsername().equals(user.getUsername())){
+                if(this.verifyPassword(user.getPassword(), u.getPassword())){
+                    foundUser = u;
+                }
+            }
+        }
+        
+        if(foundUser == null){
+            throw new IncorrectLoginException();
+        }else {
+            this.setActualUser(new ActualUserDTO(foundUser.getUsername(), foundUser.getRole()));
+        }
+    }
+    
+    public void deleteUser(DeleteUserDTO user) throws SQLException, ClassNotFoundException{
+        String function = "{call user_delete(?)}";
+        java.sql.Connection connection = Connector.getConnection();
+        CallableStatement preparedFunction = connection.prepareCall(function);
+        preparedFunction.setString(1, user.getUserID());
+        preparedFunction.execute();
+        preparedFunction.close();
+        
+        connection.commit();
+    }
+    
     private boolean validateNotExistsDuplicateUsername(String username) throws SQLException, ClassNotFoundException{
         boolean validate = true;
         
@@ -103,8 +139,13 @@ public class UserServices {
         return validate;
     }
     
+    
     private String hashPassword(String password){
         return BCrypt.hashpw(password, BCrypt.gensalt(10));
+    }
+    
+    private boolean verifyPassword(String loginPassword, String hashPassword){
+        return BCrypt.checkpw(loginPassword, hashPassword);
     }
     
 }

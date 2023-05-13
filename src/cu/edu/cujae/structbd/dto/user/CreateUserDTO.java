@@ -11,7 +11,7 @@ import cu.edu.cujae.structbd.utils.UtilsConnector;
  * @author Hector Angel Gomez
  */
 public class CreateUserDTO {
-    private String id = UtilsConnector.idUtils.generateUniqueID();
+    private final String id = UtilsConnector.idUtils.generateUniqueID();
     private String username;
     private String password;
     private String userRoleID;
