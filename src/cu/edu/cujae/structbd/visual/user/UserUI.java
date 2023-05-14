@@ -47,9 +47,7 @@ public class UserUI extends javax.swing.JFrame {
             users.forEach(u -> {
                 model.addRow(new Object[]{u.getUsername(), u.getRole()});
             });
-        } catch (SQLException ex) {
-            UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
-        } catch (ClassNotFoundException ex) {
+        } catch (SQLException | ClassNotFoundException ex) {
             UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
         }
     }
