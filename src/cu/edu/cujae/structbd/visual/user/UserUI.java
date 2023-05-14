@@ -35,22 +35,30 @@ public class UserUI extends javax.swing.JFrame {
     
     public void updateUI(){ 
         try {
-            DefaultTableModel model = (DefaultTableModel) this.jTable1.getModel();
-            
-            // limpiar tabla
-            for(int i = 0; i <= model.getRowCount(); i++){
-                model.removeRow(0);
-            }
+            this.cleanTable();
             
             this.users.clear();
-            this.users = new LinkedList<>(ServicesLocator.UserServices.readUsers());
+            this.users = ServicesLocator.UserServices.readUsers();
             
-            users.forEach(u -> {
+            DefaultTableModel model = (DefaultTableModel) this.jTable1.getModel();
+                      
+            this.users.forEach(u -> {
                 model.addRow(new Object[]{u.getUsername(), u.getRole()});
             });
         } catch (SQLException | ClassNotFoundException ex) {
             UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
         }
+    }
+    
+    public void cleanTable(){
+        DefaultTableModel model = (DefaultTableModel) this.jTable1.getModel();
+            
+        int count = model.getRowCount();
+        for(int i = 0; i < count; i++){
+            model.removeRow(0);
+        }
+        
+        System.out.println(model.getRowCount());
     }
 
     /**
@@ -77,12 +85,12 @@ public class UserUI extends javax.swing.JFrame {
         });
         jPopupMenu1.add(deleteMenu);
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Usuarios");
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null}
+
             },
             new String [] {
                 "Nombre de Usuario", "Rol"
@@ -140,6 +148,7 @@ public class UserUI extends javax.swing.JFrame {
     private void deleteMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteMenuActionPerformed
         try {
             int selectRow = this.jTable1.getSelectedRow();
+            System.out.println(selectRow);
             DeleteUserDTO userToSelect = new DeleteUserDTO(this.users.get(selectRow).getUserID());
             ServicesLocator.UserServices.deleteUser(userToSelect);
             
