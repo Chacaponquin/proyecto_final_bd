@@ -1,7 +1,6 @@
 package cu.edu.cujae.structbd.services;
 
 
-
 public abstract class ServicesLocator {
     public static BatterServices BatterServices = new BatterServices();
     public static CoachServices CoachServices = new CoachServices();
