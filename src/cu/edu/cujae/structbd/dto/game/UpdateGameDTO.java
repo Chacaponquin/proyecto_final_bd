@@ -8,11 +8,15 @@ public class UpdateGameDTO {
     private String hcTeamID;
     private String visTeamID;
     private String phaseID;
-    private Date date;
+    private LocalDate date;
     private String winner;
     private int audience;
+    private int runs_home_club;
+    private int runs_visitant;
 
-    public UpdateGameDTO(String id, String hcTeamID, String visTeamID, String phaseID, Date date, String winner, int audience) {
+    public UpdateGameDTO(String id, String hcTeamID, String visTeamID, String phaseID, LocalDate date, String winner,
+                         int audience, int runs_home_club, int runs_visitant)
+    {
         this.id = id;
         this.hcTeamID = hcTeamID;
         this.visTeamID = visTeamID;
@@ -20,6 +24,8 @@ public class UpdateGameDTO {
         this.date = date;
         this.winner = winner;
         this.audience = audience;
+        this.runs_home_club = runs_home_club;
+        this.runs_visitant = runs_visitant;
     }
 
     public String getId() {
@@ -74,11 +80,13 @@ public class UpdateGameDTO {
         }
     }
 
-    public Date getDate() {
+    public LocalDate getDate()
+    {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date)
+    {
         if(date != null){
             this.date = date;
         }
@@ -109,6 +117,40 @@ public class UpdateGameDTO {
             this.audience = audience;
         }
         else{
+            throw new IllegalArgumentException();
+        }
+    }
+
+    public int getRuns_home_club()
+    {
+        return runs_home_club;
+    }
+
+    public void setRuns_home_club(int runs_home_club)
+    {
+        if (audience > 0)
+        {
+            this.runs_home_club = runs_home_club;
+        }
+        else
+        {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    public int getRuns_visitant()
+    {
+        return runs_visitant;
+    }
+
+    public void setRuns_visitant(int runs_visitant)
+    {
+        if (audience > 0)
+        {
+            this.runs_visitant = runs_visitant;
+        }
+        else
+        {
             throw new IllegalArgumentException();
         }
     }

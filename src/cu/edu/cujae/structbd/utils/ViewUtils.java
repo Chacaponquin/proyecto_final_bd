@@ -22,6 +22,7 @@ import cu.edu.cujae.structbd.visual.reports.Report_4UI;
 import cu.edu.cujae.structbd.visual.reports.Report_5UI;
 import cu.edu.cujae.structbd.visual.reports.Report_6UI;
 import cu.edu.cujae.structbd.visual.reports.Report_7UI;
+import cu.edu.cujae.structbd.visual.snb.SerieUI;
 import cu.edu.cujae.structbd.visual.stadium.StadiumUI;
 import cu.edu.cujae.structbd.visual.team.TeamUI;
 import java.sql.SQLException;
@@ -53,7 +54,7 @@ public class ViewUtils {
             this.views.add(new ViewWindow("Bateadores", new BatterUI()));
             this.views.add(new ViewWindow("Jugadores", new Player_UI()));
             this.views.add(new ViewWindow("Provincias", new Province_UI()));
-            
+            this.views.add(new ViewWindow("SNB", new SerieUI()));
             this.reports.add(new ViewDialog("Tabla de posiciones", new Report_1UI(null, false)));
             this.reports.add(new ViewDialog("Partidos por equipos", new Report_2UI(null, false)));
             this.reports.add(new ViewDialog("Partidos jugados por fecha", new Report_3UI(null, false)));
@@ -65,7 +66,7 @@ public class ViewUtils {
         }
         catch(SQLException | ClassNotFoundException ex){
             System.out.println(ex);
-            System.out.println("Error por falta de Backup");
+            System.out.println("Error por falta de Backup" + ex.getClass().getCanonicalName());
         }catch (Exception ex){
             System.out.println(ex);
             System.out.println("Error por falta de Backup");

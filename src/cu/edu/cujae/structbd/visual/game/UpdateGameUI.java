@@ -263,9 +263,10 @@ public class UpdateGameUI extends javax.swing.JDialog {
                 }
             }
             //FALTA VALIDAR Y BUSCAR CODIGO DEL EQUIPO Y PONER LOS ERRORES QUE PUEDEN DARSE
-            UpdateGameDTO updateGameDTO = new UpdateGameDTO("", teamIdVis, teamIdVis, phaseId, date, teamIdW, audience);
+            //UpdateGameDTO updateGameDTO = new UpdateGameDTO("", teamIdVis, teamIdVis, phaseId, date, teamIdW, audience);
+            //ServicesLocator.GameServices.updateGame(updateGameDTO);
             this.dispose();
-            ServicesLocator.GameServices.updateGame(updateGameDTO);
+
         } catch (SQLException ex) {
             Logger.getLogger(CreateGameUI.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {

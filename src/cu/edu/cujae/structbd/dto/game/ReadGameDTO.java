@@ -1,5 +1,6 @@
 package cu.edu.cujae.structbd.dto.game;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class ReadGameDTO {
@@ -7,11 +8,15 @@ public class ReadGameDTO {
     private String hcTeamName;
     private String visTeamName;
     private String phaseName;
-    private Date date;
+    private LocalDate date;
     private String winner;
     private int audience;
+    private int runs_home_club;
+    private int runs_visitant;
 
-    public ReadGameDTO(String id, String hcTeamName, String visTeamName, String phaseName, Date date, String winner, int audience) {
+    public ReadGameDTO(String id, String hcTeamName, String visTeamName, String phaseName, LocalDate date, String winner,
+                       int audience, int runs_home_club, int runs_visitant)
+    {
         this.id = id;
         this.hcTeamName = hcTeamName;
         this.visTeamName = visTeamName;
@@ -19,6 +24,8 @@ public class ReadGameDTO {
         this.date = date;
         this.winner = winner;
         this.audience = audience;
+        this.runs_home_club = runs_home_club;
+        this.runs_visitant = runs_visitant;
     }
 
     public String getId() {
@@ -73,11 +80,13 @@ public class ReadGameDTO {
         }
     }
 
-    public Date getDate() {
+    public LocalDate getDate()
+    {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date)
+    {
         if(date != null){
             this.date = date;
         }
@@ -108,6 +117,41 @@ public class ReadGameDTO {
             this.audience = audience;
         }
         else{
+            throw new IllegalArgumentException();
+        }
+    }
+
+
+    public int getRuns_home_club()
+    {
+        return runs_home_club;
+    }
+
+    public void setRuns_home_club(int runs_home_club)
+    {
+        if (audience > 0)
+        {
+            this.runs_home_club = runs_home_club;
+        }
+        else
+        {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    public int getRuns_visitant()
+    {
+        return runs_visitant;
+    }
+
+    public void setRuns_visitant(int runs_visitant)
+    {
+        if (audience > 0)
+        {
+            this.runs_visitant = runs_visitant;
+        }
+        else
+        {
             throw new IllegalArgumentException();
         }
     }

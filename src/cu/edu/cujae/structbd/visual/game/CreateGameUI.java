@@ -270,8 +270,8 @@ public class CreateGameUI extends javax.swing.JDialog {
             String gameId = UtilsConnector.idUtils.generateUniqueID();
 
             //FALTA VALIDAR Y BUSCAR CODIGO DEL EQUIPO Y PONER LOS ERRORES QUE PUEDEN DARSE
-            CreateGameDTO createGameDTO = new CreateGameDTO(gameId, teamIdVis, teamIdVis, phaseId, date, teamIdW, audience);
-            ServicesLocator.GameServices.createGame(createGameDTO);
+            //CreateGameDTO createGameDTO = new CreateGameDTO(gameId, teamIdVis, teamIdVis, phaseId, date, teamIdW, audience);
+            //ServicesLocator.GameServices.createGame(createGameDTO);
             this.dispose();
    
         } catch (SQLException ex) {

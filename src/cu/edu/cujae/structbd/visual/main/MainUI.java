@@ -4,6 +4,8 @@
  */
 package cu.edu.cujae.structbd.visual.main;
 
+import com.formdev.flatlaf.intellijthemes.FlatLightFlatIJTheme;
+import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatGitHubDarkIJTheme;
 import cu.edu.cujae.structbd.services.ServicesLocator;
 import cu.edu.cujae.structbd.utils.UtilsConnector;
 import cu.edu.cujae.structbd.utils.ViewDialog;
@@ -18,7 +20,11 @@ import javax.swing.JPanel;
 import java.lang.*;
 import javax.swing.JDialog;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JMenuItem;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 /**
  *
@@ -28,9 +34,11 @@ public class MainUI extends javax.swing.JFrame {
     /**
      * Creates new form MainUI
      */
-    public MainUI() {
-        initComponents();
-        this.updateMenuItems();
+    public MainUI()
+    {
+            initComponents();
+            this.updateMenuItems();
+
     }
     
     public void updateMenuItems(){
