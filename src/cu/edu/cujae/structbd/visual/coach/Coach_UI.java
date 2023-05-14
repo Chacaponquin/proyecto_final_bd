@@ -8,6 +8,7 @@ import cu.edu.cujae.structbd.dto.coach.DeleteCoachDTO;
 import cu.edu.cujae.structbd.dto.coach.ReadCoachDTO;
 import cu.edu.cujae.structbd.dto.coach.UpdateCoachDTO;
 import cu.edu.cujae.structbd.services.ServicesLocator;
+import cu.edu.cujae.structbd.utils.UtilsConnector;
 import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -58,13 +59,9 @@ public class Coach_UI extends javax.swing.JFrame
                 );
             }
         }
-        catch (SQLException ex)
+        catch (SQLException | ClassNotFoundException ex)
         {
-            Logger.getLogger(Coach_UI.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        catch (ClassNotFoundException ex)
-        {
-            Logger.getLogger(Coach_UI.class.getName()).log(Level.SEVERE, null, ex);
+            UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
         }
     }
 

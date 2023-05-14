@@ -42,7 +42,8 @@ public class UserUI extends javax.swing.JFrame {
                 model.removeRow(0);
             }
             
-            this.users = ServicesLocator.UserServices.readUsers();
+            this.users.clear();
+            this.users = new LinkedList<>(ServicesLocator.UserServices.readUsers());
             
             users.forEach(u -> {
                 model.addRow(new Object[]{u.getUsername(), u.getRole()});
