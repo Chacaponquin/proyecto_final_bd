@@ -57,8 +57,6 @@ public class UserUI extends javax.swing.JFrame {
         for(int i = 0; i < count; i++){
             model.removeRow(0);
         }
-        
-        System.out.println(model.getRowCount());
     }
 
     /**
@@ -142,7 +140,7 @@ public class UserUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+this.dispose();        // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void deleteMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteMenuActionPerformed
