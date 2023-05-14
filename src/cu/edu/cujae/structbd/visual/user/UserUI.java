@@ -38,7 +38,7 @@ public class UserUI extends javax.swing.JFrame {
             DefaultTableModel model = (DefaultTableModel) this.jTable1.getModel();
             
             // limpiar tabla
-            for(int i = 0; i < model.getRowCount(); i++){
+            for(int i = 0; i <= model.getRowCount(); i++){
                 model.removeRow(0);
             }
             
