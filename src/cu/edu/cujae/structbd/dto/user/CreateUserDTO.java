@@ -11,15 +11,25 @@ import cu.edu.cujae.structbd.utils.UtilsConnector;
  * @author Hector Angel Gomez
  */
 public class CreateUserDTO {
-    private String id = UtilsConnector.idUtils.generateUniqueID();
+    private final String id = UtilsConnector.idUtils.generateUniqueID();
     private String username;
     private String password;
+    private String userRoleID;
     private String comfirmPassword;
 
-    public CreateUserDTO(String username, String password, String comfirmPassword) {
-        this.username = username;
-        this.password = password;
-        this.comfirmPassword = comfirmPassword;
+    public CreateUserDTO(String username, String password, String comfirmPassword, String userRoleID) {
+        this.username = username.trim();
+        this.password = password.trim();
+        this.comfirmPassword = comfirmPassword.trim();
+        this.userRoleID = userRoleID;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getUserRoleID() {
+        return userRoleID;
     }
     
     public String getID(){
@@ -49,7 +59,8 @@ public class CreateUserDTO {
     public void setComfirmPassword(String comfirmPassword) {
         this.comfirmPassword = comfirmPassword;
     }
-    
-    
-    
+
+    public void setUserRoleID(String userRoleID) {
+        this.userRoleID = userRoleID;
+    }
 }
