@@ -20,7 +20,7 @@
     </Container>
   </NonVisualComponents>
   <Properties>
-    <Property name="defaultCloseOperation" type="int" value="3"/>
+    <Property name="defaultCloseOperation" type="int" value="2"/>
     <Property name="title" type="java.lang.String" value="Usuarios"/>
   </Properties>
   <SyntheticProperties>
@@ -78,7 +78,7 @@
         <Component class="javax.swing.JTable" name="jTable1">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="2" rowCount="1">
+              <Table columnCount="2" rowCount="0">
                 <Column editable="true" title="Nombre de Usuario" type="java.lang.Object"/>
                 <Column editable="true" title="Rol" type="java.lang.Object"/>
               </Table>

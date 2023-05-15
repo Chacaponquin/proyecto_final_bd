@@ -41,8 +41,8 @@ public class ViewUtils {
     
     public ViewUtils()
     {
-        
         try{
+            this.views.add(new ViewWindow("Usuarios", new UserUI()));
             this.views.add(new ViewWindow("Estadios", new StadiumUI()));
             this.views.add(new ViewWindow("Posiciones", new PositionUI()));
             this.views.add(new ViewWindow("Pitchers", new PitcherUI()));
@@ -54,8 +54,12 @@ public class ViewUtils {
             this.views.add(new ViewWindow("Jugadores", new Player_UI()));
             this.views.add(new ViewWindow("Provincias", new Province_UI()));
             this.views.add(new ViewWindow("SNB", new SerieUI()));
+<<<<<<< HEAD
             this.views.add(new ViewWindow("Usuarios", new UserUI()));
 
+=======
+           
+>>>>>>> 56d321e75e2835f3a9e797bcec56038f96e2d062
             this.reports.add(new ViewDialog("Tabla de posiciones", new Report_1UI(null, false)));
             this.reports.add(new ViewDialog("Partidos por equipos", new Report_2UI(null, false)));
             this.reports.add(new ViewDialog("Partidos jugados por fecha", new Report_3UI(null, false)));
@@ -67,10 +71,9 @@ public class ViewUtils {
         }
         catch(SQLException | ClassNotFoundException ex){
             System.out.println(ex);
-            System.out.println("Error por falta de Backup" + ex.getClass().getCanonicalName());
+            System.out.println("Error por falta de Backup " + ex.getClass().getCanonicalName());
         }catch (Exception ex){
-            System.out.println(ex);
-            System.out.println("Error por falta de Backup");
+            ex.printStackTrace();
         }
     }
     

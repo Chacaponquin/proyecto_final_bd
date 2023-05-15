@@ -38,13 +38,9 @@ public class CreateCoachUI extends javax.swing.JDialog
                 combo_box_team.addItem(teams_list.get(i).getTeam_name());
             }
         }
-        catch (SQLException ex)
+        catch (SQLException | ClassNotFoundException ex)
         {
-            Logger.getLogger(CreateCoachUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        catch (ClassNotFoundException ex)
-        {
-            Logger.getLogger(CreateCoachUI.class.getName()).log(Level.SEVERE, null, ex);
+           UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
         }
 
 

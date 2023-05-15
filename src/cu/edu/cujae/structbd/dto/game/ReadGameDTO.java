@@ -1,7 +1,6 @@
 package cu.edu.cujae.structbd.dto.game;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 public class ReadGameDTO {
     private String id;

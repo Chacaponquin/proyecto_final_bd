@@ -57,6 +57,7 @@ public class UserServices {
             
             users.add(new ReadUserDTO(id, username, role, password));
         }
+        
         resultSet.close();
         preparedFunction.close();
         

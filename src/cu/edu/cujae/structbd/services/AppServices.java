@@ -4,8 +4,13 @@
  */
 package cu.edu.cujae.structbd.services;
 
+<<<<<<< HEAD
 import cu.edu.cujae.structbd.dto.phase.ReadAPhaseDTO;
 import cu.edu.cujae.structbd.dto.province.ReadProvinceDTO;
+=======
+import cu.edu.cujae.structbd.dto.reports.ReadReport_1DTO;
+import cu.edu.cujae.structbd.dto.reports.ReadReport_2DTO;
+>>>>>>> 56d321e75e2835f3a9e797bcec56038f96e2d062
 import cu.edu.cujae.structbd.dto.reports.ReadReport_4DTO;
 import cu.edu.cujae.structbd.dto.reports.ReadReport_5DTO;
 import cu.edu.cujae.structbd.dto.reports.ReadReport_6DTO;
@@ -15,6 +20,7 @@ import cu.edu.cujae.structbd.utils.Connector;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -106,6 +112,7 @@ public class AppServices
         preparedFunction.close();
         return list;
     }
+<<<<<<< HEAD
 
     //Obtener la tabla de posiciones de una fase
     public List<TeamPositionDTO> getPositionsTablebyPhase(ReadAPhaseDTO readAPhaseDTO) throws SQLException,
@@ -113,20 +120,72 @@ public class AppServices
     {
         LinkedList<TeamPositionDTO> list = new LinkedList<>();
         String function = "{?= call positions_table_by_phase(?)}";
+=======
+    
+    public List<ReadReport_1DTO> getPositionTable() throws SQLException, ClassNotFoundException{
+        LinkedList<ReadReport_1DTO> list = new LinkedList<>();
+        
+        String function = "{?= call report_position_table()}";
+>>>>>>> 56d321e75e2835f3a9e797bcec56038f96e2d062
         java.sql.Connection connection = Connector.getConnection();
         connection.setAutoCommit(false);
         CallableStatement preparedFunction = connection.prepareCall(function);
         preparedFunction.registerOutParameter(1, java.sql.Types.REF_CURSOR);
+<<<<<<< HEAD
         preparedFunction.setString(2, readAPhaseDTO.getPhase_id());
+=======
+>>>>>>> 56d321e75e2835f3a9e797bcec56038f96e2d062
         preparedFunction.execute();
         ResultSet resultSet = (ResultSet) preparedFunction.getObject(1);
         while (resultSet.next())
         {
+<<<<<<< HEAD
             list.add(new TeamPositionDTO(resultSet.getString(1), resultSet.getInt(2), resultSet.getInt(3), resultSet.
                                          getInt(4), resultSet.getInt(5)));
         }
         resultSet.close();
         preparedFunction.close();
+=======
+            list.add(new ReadReport_1DTO(resultSet.getString("team_name"), resultSet.getInt("points"), 0, 0));
+        }
+        resultSet.close();
+        preparedFunction.close();
+        
+        return list;
+    }
+    
+    public List<ReadReport_2DTO> getGamesByTeams(String firstTeamID, String secondTeamID) throws SQLException, ClassNotFoundException{
+        LinkedList<ReadReport_2DTO> list = new LinkedList<>();
+        
+        if(firstTeamID != null && secondTeamID != null){
+            String function = "{?= call report_games_by_teams(?,?)}";
+            java.sql.Connection connection = Connector.getConnection();
+            connection.setAutoCommit(false);
+            CallableStatement preparedFunction = connection.prepareCall(function);
+            preparedFunction.registerOutParameter(1, java.sql.Types.REF_CURSOR);
+            
+            preparedFunction.setString(2, firstTeamID);
+            preparedFunction.setString(3, secondTeamID);
+            preparedFunction.execute();
+            
+            ResultSet resultSet = (ResultSet) preparedFunction.getObject(1);
+            while (resultSet.next())
+            {
+                String phaseName = resultSet.getString("phase_name");
+                LocalDate date = resultSet.getDate("game_date").toLocalDate();
+                String winner = resultSet.getString("team_winner_name");
+                int audience = resultSet.getInt("total_audience");
+                int runs_home_club = resultSet.getInt("runs_home_club");
+                int runs_visitant = resultSet.getInt("runs_visitant");
+                String stadiumName = resultSet.getString("stadium_name");
+                
+                list.add(new ReadReport_2DTO(phaseName, date, winner, audience, runs_home_club, runs_visitant, stadiumName));
+            }
+            resultSet.close();
+            preparedFunction.close();
+        }
+        
+>>>>>>> 56d321e75e2835f3a9e797bcec56038f96e2d062
         return list;
     }
 }
