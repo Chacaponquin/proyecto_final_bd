@@ -105,11 +105,8 @@ public class LoginUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-<<<<<<< HEAD
 
-=======
        // TODO add your handling code here:
->>>>>>> 56d321e75e2835f3a9e797bcec56038f96e2d062
         try {
             String username = this.jTextField2.getText();
             String password = this.jPasswordField1.getText();
@@ -123,12 +120,7 @@ public class LoginUI extends javax.swing.JFrame {
              UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
         } catch (IncorrectLoginException ex) {
             UtilsConnector.viewMessagesUtils.showErrorMessage(this, "No existe este usuario");
-<<<<<<< HEAD
         }
-=======
-        } 
-
->>>>>>> 56d321e75e2835f3a9e797bcec56038f96e2d062
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jPasswordField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField1ActionPerformed

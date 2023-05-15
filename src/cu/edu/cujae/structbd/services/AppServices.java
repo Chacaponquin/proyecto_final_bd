@@ -4,13 +4,10 @@
  */
 package cu.edu.cujae.structbd.services;
 
-<<<<<<< HEAD
 import cu.edu.cujae.structbd.dto.phase.ReadAPhaseDTO;
 import cu.edu.cujae.structbd.dto.province.ReadProvinceDTO;
-=======
 import cu.edu.cujae.structbd.dto.reports.ReadReport_1DTO;
 import cu.edu.cujae.structbd.dto.reports.ReadReport_2DTO;
->>>>>>> 56d321e75e2835f3a9e797bcec56038f96e2d062
 import cu.edu.cujae.structbd.dto.reports.ReadReport_4DTO;
 import cu.edu.cujae.structbd.dto.reports.ReadReport_5DTO;
 import cu.edu.cujae.structbd.dto.reports.ReadReport_6DTO;
@@ -112,7 +109,6 @@ public class AppServices
         preparedFunction.close();
         return list;
     }
-<<<<<<< HEAD
 
     //Obtener la tabla de posiciones de una fase
     public List<TeamPositionDTO> getPositionsTablebyPhase(ReadAPhaseDTO readAPhaseDTO) throws SQLException,
@@ -120,37 +116,38 @@ public class AppServices
     {
         LinkedList<TeamPositionDTO> list = new LinkedList<>();
         String function = "{?= call positions_table_by_phase(?)}";
-=======
-    
-    public List<ReadReport_1DTO> getPositionTable() throws SQLException, ClassNotFoundException{
-        LinkedList<ReadReport_1DTO> list = new LinkedList<>();
-        
-        String function = "{?= call report_position_table()}";
->>>>>>> 56d321e75e2835f3a9e797bcec56038f96e2d062
         java.sql.Connection connection = Connector.getConnection();
         connection.setAutoCommit(false);
         CallableStatement preparedFunction = connection.prepareCall(function);
         preparedFunction.registerOutParameter(1, java.sql.Types.REF_CURSOR);
-<<<<<<< HEAD
         preparedFunction.setString(2, readAPhaseDTO.getPhase_id());
-=======
->>>>>>> 56d321e75e2835f3a9e797bcec56038f96e2d062
         preparedFunction.execute();
         ResultSet resultSet = (ResultSet) preparedFunction.getObject(1);
         while (resultSet.next())
         {
-<<<<<<< HEAD
             list.add(new TeamPositionDTO(resultSet.getString(1), resultSet.getInt(2), resultSet.getInt(3), resultSet.
                                          getInt(4), resultSet.getInt(5)));
         }
         resultSet.close();
         preparedFunction.close();
-=======
+        return list;
+    }
+    
+    public List<ReadReport_1DTO> getPositionTable() throws SQLException, ClassNotFoundException{
+        LinkedList<ReadReport_1DTO> list = new LinkedList<>();
+        String function = "{?= call report_position_table()}";
+        java.sql.Connection connection = Connector.getConnection();
+        connection.setAutoCommit(false);
+        CallableStatement preparedFunction = connection.prepareCall(function);
+        preparedFunction.registerOutParameter(1, java.sql.Types.REF_CURSOR);
+        preparedFunction.execute();
+        ResultSet resultSet = (ResultSet) preparedFunction.getObject(1);
+        while (resultSet.next())
+        {
             list.add(new ReadReport_1DTO(resultSet.getString("team_name"), resultSet.getInt("points"), 0, 0));
         }
         resultSet.close();
         preparedFunction.close();
-        
         return list;
     }
     
@@ -184,8 +181,6 @@ public class AppServices
             resultSet.close();
             preparedFunction.close();
         }
-        
->>>>>>> 56d321e75e2835f3a9e797bcec56038f96e2d062
         return list;
     }
 }
