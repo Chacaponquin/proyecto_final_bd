@@ -4,11 +4,13 @@
  */
 package cu.edu.cujae.structbd.services;
 
+import cu.edu.cujae.structbd.dto.phase.ReadAPhaseDTO;
 import cu.edu.cujae.structbd.dto.province.ReadProvinceDTO;
 import cu.edu.cujae.structbd.dto.reports.ReadReport_4DTO;
 import cu.edu.cujae.structbd.dto.reports.ReadReport_5DTO;
 import cu.edu.cujae.structbd.dto.reports.ReadReport_6DTO;
 import cu.edu.cujae.structbd.dto.reports.ReadReport_7DTO;
+import cu.edu.cujae.structbd.dto.snb.TeamPositionDTO;
 import cu.edu.cujae.structbd.utils.Connector;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
@@ -99,6 +101,29 @@ public class AppServices
         {
             list.add(new ReadReport_7DTO(resultSet.getString(1), resultSet.getString(2), 
                     resultSet.getString(3), resultSet.getFloat(4)));
+        }
+        resultSet.close();
+        preparedFunction.close();
+        return list;
+    }
+
+    //Obtener la tabla de posiciones de una fase
+    public List<TeamPositionDTO> getPositionsTablebyPhase(ReadAPhaseDTO readAPhaseDTO) throws SQLException,
+                                                                                              ClassNotFoundException
+    {
+        LinkedList<TeamPositionDTO> list = new LinkedList<>();
+        String function = "{?= call positions_table_by_phase(?)}";
+        java.sql.Connection connection = Connector.getConnection();
+        connection.setAutoCommit(false);
+        CallableStatement preparedFunction = connection.prepareCall(function);
+        preparedFunction.registerOutParameter(1, java.sql.Types.REF_CURSOR);
+        preparedFunction.setString(2, readAPhaseDTO.getPhase_id());
+        preparedFunction.execute();
+        ResultSet resultSet = (ResultSet) preparedFunction.getObject(1);
+        while (resultSet.next())
+        {
+            list.add(new TeamPositionDTO(resultSet.getString(1), resultSet.getInt(2), resultSet.getInt(3), resultSet.
+                                         getInt(4), resultSet.getInt(5)));
         }
         resultSet.close();
         preparedFunction.close();

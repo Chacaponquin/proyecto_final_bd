@@ -6,6 +6,8 @@ package cu.edu.cujae.structbd.visual.snb;
 
 import cu.edu.cujae.structbd.dto.game.ReadGameDTO;
 import cu.edu.cujae.structbd.dto.phase.ReadAPhaseDTO;
+import cu.edu.cujae.structbd.dto.phase.ReadPhaseDTO;
+import cu.edu.cujae.structbd.dto.snb.TeamPositionDTO;
 import cu.edu.cujae.structbd.services.ServicesLocator;
 import java.sql.SQLException;
 import java.util.Iterator;
@@ -22,27 +24,16 @@ import javax.swing.table.DefaultTableModel;
 public class SerieUI extends javax.swing.JFrame
 {
 
-    /**
-     * Creates new form SerieUI
-     */
+    private LinkedList<ReadPhaseDTO> phases_list;
     public SerieUI()
     {
         initComponents();
         try
         {
-            String ronda = "6a554b24-4828-4d61-82a9-48ae01b62284";
-            LinkedList<ReadGameDTO> games_list = new LinkedList<>(ServicesLocator.GameServices.readAllGamesByPhase(
-                new ReadAPhaseDTO(ronda)));
-            jTableGames.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-            for (ReadGameDTO readGameDTO : games_list)
+            this.phases_list = new LinkedList<>(ServicesLocator.PhaseServices.readActivePhase());
+            for (ReadPhaseDTO rp : phases_list)
             {
-                ((DefaultTableModel) jTableGames.getModel()).addRow(new Object[]
-                {
-                    readGameDTO.getDate().toString(), readGameDTO.getHcTeamName(), readGameDTO.getRuns_home_club(),
-                    readGameDTO.getRuns_visitant(),
-                    readGameDTO.getVisTeamName(),
-                    readGameDTO.getWinner(), readGameDTO.getAudience()
-                });
+                combo_phases.addItem(rp.getPhase_name());
             }
         }
         catch (SQLException ex)
@@ -66,35 +57,51 @@ public class SerieUI extends javax.swing.JFrame
     private void initComponents()
     {
 
-        jComboBox1 = new javax.swing.JComboBox<>();
+        combo_phases = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        close_button = new javax.swing.JButton();
+        insert_button = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTableGames = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTablePosition = new javax.swing.JTable();
         jButton4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Serie Nacional de Béisbol");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Primera Ronda", "<Seleccione>" }));
+        combo_phases.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<Seleccione>" }));
+        combo_phases.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                combo_phasesActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("Fase:");
 
-        jButton1.setText("Cerrar fase");
-        jButton1.setMaximumSize(new java.awt.Dimension(100, 22));
-        jButton1.setMinimumSize(new java.awt.Dimension(100, 22));
-        jButton1.setPreferredSize(new java.awt.Dimension(100, 22));
+        close_button.setText("Cerrar fase");
+        close_button.setEnabled(false);
+        close_button.setMaximumSize(new java.awt.Dimension(100, 22));
+        close_button.setMinimumSize(new java.awt.Dimension(100, 22));
+        close_button.setPreferredSize(new java.awt.Dimension(100, 22));
+        close_button.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                close_buttonActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("Insertar juego");
-        jButton2.setMaximumSize(new java.awt.Dimension(120, 22));
-        jButton2.setMinimumSize(new java.awt.Dimension(120, 22));
-        jButton2.setPreferredSize(new java.awt.Dimension(120, 22));
+        insert_button.setText("Insertar juego");
+        insert_button.setEnabled(false);
+        insert_button.setMaximumSize(new java.awt.Dimension(120, 22));
+        insert_button.setMinimumSize(new java.awt.Dimension(120, 22));
+        insert_button.setPreferredSize(new java.awt.Dimension(120, 22));
 
         jTableGames.setAutoCreateRowSorter(true);
         jTableGames.setModel(new javax.swing.table.DefaultTableModel(
@@ -155,24 +162,24 @@ public class SerieUI extends javax.swing.JFrame
 
         jTabbedPane1.addTab("Juegos", jPanel1);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTablePosition.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][]
             {
 
             },
             new String []
             {
-                "Posición", "Equipo", "Puntos", "Juegos Ganados", "Juegos Perdidos"
+                "Posición", "Equipo", "JJ", "JG", "JP", "Puntos"
             }
         )
         {
             Class[] types = new Class []
             {
-                java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class
+                java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean []
             {
-                false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex)
@@ -185,13 +192,24 @@ public class SerieUI extends javax.swing.JFrame
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(jTablePosition);
+        if (jTablePosition.getColumnModel().getColumnCount() > 0)
+        {
+            jTablePosition.getColumnModel().getColumn(0).setPreferredWidth(20);
+            jTablePosition.getColumnModel().getColumn(1).setPreferredWidth(120);
+            jTablePosition.getColumnModel().getColumn(2).setPreferredWidth(20);
+            jTablePosition.getColumnModel().getColumn(3).setPreferredWidth(20);
+            jTablePosition.getColumnModel().getColumn(4).setPreferredWidth(20);
+            jTablePosition.getColumnModel().getColumn(5).setPreferredWidth(20);
+        }
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 800, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 794, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -222,11 +240,11 @@ public class SerieUI extends javax.swing.JFrame
                         .addGap(18, 18, 18)
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(combo_phases, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(insert_button, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(close_button, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jTabbedPane1))
@@ -239,11 +257,12 @@ public class SerieUI extends javax.swing.JFrame
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(insert_button, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(combo_phases, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel1)
+                        .addComponent(close_button, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -260,6 +279,131 @@ public class SerieUI extends javax.swing.JFrame
     {//GEN-HEADEREND:event_jButton4ActionPerformed
         dispose();
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void combo_phasesActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_combo_phasesActionPerformed
+    {//GEN-HEADEREND:event_combo_phasesActionPerformed
+        this.update_tables();
+    }//GEN-LAST:event_combo_phasesActionPerformed
+
+    public void update_tables(){
+        if (combo_phases.getSelectedIndex() != 0)
+        {
+                try {
+            DefaultTableModel model = (DefaultTableModel) this.jTableGames.getModel();
+            int count = model.getRowCount();
+            for(int i = 0; i < count; i++){
+                model.removeRow(0);
+            }
+            DefaultTableModel model_1 = (DefaultTableModel) this.jTablePosition.getModel();
+            int count_1 = model_1.getRowCount();
+            for(int i = 0; i < count_1; i++){
+            model_1.removeRow(0);
+                    }
+                    //Obteniendo los datos de la fase seleccionada
+                    String phase_id = null;
+                    boolean found = false;
+                    Iterator<ReadPhaseDTO> it_list = this.phases_list.iterator();
+                    while (it_list.hasNext() && !found)
+                    {
+                        ReadPhaseDTO rf = it_list.next();
+                        if (rf.getPhase_name().equalsIgnoreCase(combo_phases.getSelectedItem().toString()))
+                        {
+                            phase_id = rf.getPhase_id();
+                            found = true;
+                            //Si la fase está se puede insertar juego y cerrar la fase, se habilitan los botones
+                            if (!rf.getIs_active()){
+                                close_button.setEnabled(false);
+                                insert_button.setEnabled(false);
+                            }else{
+                                close_button.setEnabled(true);
+                                insert_button.setEnabled(true);
+                            }
+                        }
+                    }
+                    //Buscando y mostrando los juegos de la fase seleccionada
+                    LinkedList<ReadGameDTO> games_list = new LinkedList<>(ServicesLocator.GameServices.
+                        readAllGamesByPhase(
+                            new ReadAPhaseDTO(phase_id)));
+                    jTableGames.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+                    for (ReadGameDTO readGameDTO : games_list)
+                    {
+                        ((DefaultTableModel) jTableGames.getModel()).addRow(new Object[]
+                        {
+                            readGameDTO.getDate().toString(), readGameDTO.getHcTeamName(), readGameDTO.
+                            getRuns_home_club(),
+                            readGameDTO.getRuns_visitant(),
+                            readGameDTO.getVisTeamName(),
+                            readGameDTO.getWinner(), readGameDTO.getAudience()
+                        });
+                    }
+                    //Mostrando la tabla de posiciones de la fase seleccionada
+                    ReadAPhaseDTO readAPhaseDTO = new ReadAPhaseDTO(phase_id);
+                    LinkedList<TeamPositionDTO> position_table = new LinkedList<>(ServicesLocator.AppServices.
+                        getPositionsTablebyPhase(readAPhaseDTO));
+                    int position = 1;
+                    jTablePosition.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+                    for (TeamPositionDTO teamPositionDTO : position_table){
+                        ((DefaultTableModel) jTablePosition.getModel()).addRow(new Object[]{
+                            Integer.valueOf(position), teamPositionDTO.getTeam_name().toString(), teamPositionDTO.
+                            getPlayed_games(), teamPositionDTO.getWon_playes(), teamPositionDTO.getLost_playes(),
+                            teamPositionDTO.getPoints()
+                        });
+                        position++;
+                    }
+                    
+                }
+                catch (SQLException ex)
+                {
+                    Logger.getLogger(SerieUI.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                catch (ClassNotFoundException ex)
+                {
+                    Logger.getLogger(SerieUI.class.getName()).log(Level.SEVERE, null, ex);
+                }
+        }
+        else
+        {
+            DefaultTableModel model = (DefaultTableModel) this.jTableGames.getModel();
+            int count = model.getRowCount();
+            for (int i = 0; i < count; i++)
+            {
+                model.removeRow(0);
+            }
+            DefaultTableModel model_1 = (DefaultTableModel) this.jTablePosition.getModel();
+            int count_1 = model_1.getRowCount();
+            for (int i = 0; i < count_1; i++)
+            {
+                model_1.removeRow(0);
+            }
+        }
+    }
+    private void close_buttonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_close_buttonActionPerformed
+    {//GEN-HEADEREND:event_close_buttonActionPerformed
+        String phase_id = null;
+        boolean found = false;
+        Iterator<ReadPhaseDTO> it_list = this.phases_list.iterator();
+        while (it_list.hasNext() && !found)
+        {
+            ReadPhaseDTO rf = it_list.next();
+            if (rf.getPhase_name().equalsIgnoreCase(combo_phases.getSelectedItem().toString()))
+            {
+                try {
+                    phase_id = rf.getPhase_id();
+                    found = true;
+                    ServicesLocator.PhaseServices.closePhase(phase_id);
+                    insert_button.setEnabled(true);
+                }
+                catch (SQLException ex)
+                {
+                    Logger.getLogger(SerieUI.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                catch (ClassNotFoundException ex)
+                {
+                    Logger.getLogger(SerieUI.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+    }//GEN-LAST:event_close_buttonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -311,17 +455,17 @@ public class SerieUI extends javax.swing.JFrame
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton close_button;
+    private javax.swing.JComboBox<String> combo_phases;
+    private javax.swing.JButton insert_button;
     private javax.swing.JButton jButton4;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTable jTableGames;
+    private javax.swing.JTable jTablePosition;
     // End of variables declaration//GEN-END:variables
 }

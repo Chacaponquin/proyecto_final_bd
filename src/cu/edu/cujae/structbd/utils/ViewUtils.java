@@ -53,12 +53,9 @@ public class ViewUtils {
             this.views.add(new ViewWindow("Bateadores", new BatterUI()));
             this.views.add(new ViewWindow("Jugadores", new Player_UI()));
             this.views.add(new ViewWindow("Provincias", new Province_UI()));
-<<<<<<< HEAD
             this.views.add(new ViewWindow("SNB", new SerieUI()));
-=======
             this.views.add(new ViewWindow("Usuarios", new UserUI()));
-            
->>>>>>> d1a9a594455c9f1fb28bcb7acf0d475e2a29128a
+
             this.reports.add(new ViewDialog("Tabla de posiciones", new Report_1UI(null, false)));
             this.reports.add(new ViewDialog("Partidos por equipos", new Report_2UI(null, false)));
             this.reports.add(new ViewDialog("Partidos jugados por fecha", new Report_3UI(null, false)));

@@ -39,7 +39,7 @@ public class PhaseServices
 
     public void updatePhase(UpdatePhaseDTO updatePhaseDTO) throws SQLException, ClassNotFoundException
     {
-        String function = "{call phase_update(?,?,?,?,?)}";
+        String function = "{call phase_update(?,?,?,?,?,?)}";
         java.sql.Connection connection = Connector.getConnection();
         CallableStatement preparedFunction = connection.prepareCall(function);
         preparedFunction.setString(1, updatePhaseDTO.getPhase_id());
@@ -47,6 +47,7 @@ public class PhaseServices
         preparedFunction.setDate(3, java.sql.Date.valueOf(updatePhaseDTO.getStart_date()));
         preparedFunction.setDate(4, java.sql.Date.valueOf(updatePhaseDTO.getFinish_date()));
         preparedFunction.setInt(5, updatePhaseDTO.getTeams_amount());
+        preparedFunction.setBoolean(6, updatePhaseDTO.getIs_active());
         preparedFunction.execute();
         preparedFunction.close();
         connection.commit();
@@ -67,7 +68,7 @@ public class PhaseServices
             phase_list.add(new ReadPhaseDTO(resultSet.getString(1), resultSet.getString(2), resultSet.getDate(3).
                                             toLocalDate(),
                                             resultSet.
-                                                getDate(4).toLocalDate(), resultSet.getInt(5)));
+                                                getDate(4).toLocalDate(), resultSet.getInt(5), resultSet.getBoolean(6)));
         }
         resultSet.close();
         preparedFunction.close();
@@ -89,7 +90,7 @@ public class PhaseServices
         resultSet.next();
         readPhaseDTO = new ReadPhaseDTO(resultSet.getString(1), resultSet.getString(2), resultSet.getDate(3).
                                         toLocalDate(),
-                                        resultSet.getDate(4).toLocalDate(), resultSet.getInt(5));
+                                        resultSet.getDate(4).toLocalDate(), resultSet.getInt(5), resultSet.getBoolean(6));
         
         resultSet.close();
         preparedFunction.close();
@@ -98,11 +99,44 @@ public class PhaseServices
 
     public void deletePhase(DeletePhaseDTO deletePhaseDTO) throws SQLException, ClassNotFoundException
     {
-        System.out.println(deletePhaseDTO.getPhase_id());
         String function = "{call phase_delete(?)}";
         java.sql.Connection connection = Connector.getConnection();
         CallableStatement preparedFunction = connection.prepareCall(function);
         preparedFunction.setString(1, deletePhaseDTO.getPhase_id());
+        preparedFunction.execute();
+        preparedFunction.close();
+        connection.commit();
+    }
+
+    public List<ReadPhaseDTO> readActivePhase() throws SQLException, ClassNotFoundException
+    {
+        LinkedList<ReadPhaseDTO> phase_list = new LinkedList<>();
+        String function = "{?= call actives_phases()}";
+        java.sql.Connection connection = Connector.getConnection();
+        connection.setAutoCommit(false);
+        CallableStatement preparedFunction = connection.prepareCall(function);
+        preparedFunction.registerOutParameter(1, java.sql.Types.REF_CURSOR);
+        preparedFunction.execute();
+        ResultSet resultSet = (ResultSet) preparedFunction.getObject(1);
+        while (resultSet.next())
+        {
+            phase_list.add(new ReadPhaseDTO(resultSet.getString(1), resultSet.getString(2), resultSet.getDate(3).
+                                            toLocalDate(),
+                                            resultSet.
+                                                getDate(4).toLocalDate(), resultSet.getInt(5), resultSet.getBoolean(6)));
+        }
+        resultSet.close();
+        preparedFunction.close();
+
+        return phase_list;
+    }
+
+    public void closePhase(String phase_id) throws SQLException, ClassNotFoundException
+    {
+        String function = "{call close_phase(?)}";
+        java.sql.Connection connection = Connector.getConnection();
+        CallableStatement preparedFunction = connection.prepareCall(function);
+        preparedFunction.setString(1, phase_id);
         preparedFunction.execute();
         preparedFunction.close();
         connection.commit();
