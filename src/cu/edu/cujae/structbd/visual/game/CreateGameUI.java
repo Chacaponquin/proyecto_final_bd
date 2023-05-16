@@ -44,11 +44,6 @@ public class CreateGameUI extends javax.swing.JDialog {
                 jComboBoxVisitor.addItem(teamsListVis.get(i).getTeam_name());
             }
 
-            //llenar combo box de fase
-            List<ReadPhaseDTO> phaseList = ServicesLocator.PhaseServices.readAllPhase();
-            for (int i = 0; i < phaseList.size(); i++) {
-                jComboBoxPhase.addItem(phaseList.get(i).getPhase_name());
-            }
 
         } catch (SQLException ex) {
             Logger.getLogger(CreateGameUI.class.getName()).log(Level.SEVERE, null, ex);
@@ -64,146 +59,177 @@ public class CreateGameUI extends javax.swing.JDialog {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents()
+    {
 
+        jPanel1 = new javax.swing.JPanel();
         jLabelHomeClub = new javax.swing.JLabel();
-        jLabelVisitor = new javax.swing.JLabel();
-        jLabelPhase = new javax.swing.JLabel();
-        jLabelDate = new javax.swing.JLabel();
-        jLabelWinner = new javax.swing.JLabel();
-        jLabelAudience = new javax.swing.JLabel();
         jComboBoxHomeClub = new javax.swing.JComboBox<>();
+        jLabelVisitor = new javax.swing.JLabel();
         jComboBoxVisitor = new javax.swing.JComboBox<>();
-        jComboBoxPhase = new javax.swing.JComboBox<>();
-        jComboBoxWinner = new javax.swing.JComboBox<>();
+        jLabelHomeClub1 = new javax.swing.JLabel();
+        jSpinner1 = new javax.swing.JSpinner();
+        jLabelVisitor1 = new javax.swing.JLabel();
+        jSpinner2 = new javax.swing.JSpinner();
+        jLabelDate = new javax.swing.JLabel();
         jCalendarDate = new com.toedter.calendar.JDateChooser();
         jSpinnerAudience = new javax.swing.JSpinner();
+        jLabelAudience = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
         jButtonClose = new javax.swing.JButton();
         jButtonInsert = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Insertar Juego");
+        setModal(true);
+        setResizable(false);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabelHomeClub.setText("Equipo Local:");
 
-        jLabelVisitor.setText("Equipo Visitante:");
-
-        jLabelPhase.setText("Fase:");
-
-        jLabelDate.setText("Fecha:");
-
-        jLabelWinner.setText("Equipo ganador:");
-
-        jLabelAudience.setText("Audiencia:");
-
         jComboBoxHomeClub.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<Seleccionar>" }));
-        jComboBoxHomeClub.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jComboBoxHomeClub.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jComboBoxHomeClubActionPerformed(evt);
             }
         });
 
+        jLabelVisitor.setText("Equipo Visitante:");
+
         jComboBoxVisitor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<Seleccionar>" }));
-        jComboBoxVisitor.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jComboBoxVisitor.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jComboBoxVisitorActionPerformed(evt);
             }
         });
 
-        jComboBoxPhase.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<Seleccionar>" }));
+        jLabelHomeClub1.setText("Carreas equipo local:");
 
-        jComboBoxWinner.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<Seleccionar>" }));
-        jComboBoxWinner.setEnabled(false);
-        jComboBoxWinner.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBoxWinnerActionPerformed(evt);
-            }
-        });
+        jSpinner1.setModel(new javax.swing.SpinnerNumberModel(0, 0, 50, 1));
+
+        jLabelVisitor1.setText("Carreras equipo visitante:");
+
+        jSpinner2.setModel(new javax.swing.SpinnerNumberModel(0, 0, 50, 1));
+
+        jLabelDate.setText("Fecha:");
 
         jSpinnerAudience.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
 
+        jLabelAudience.setText("Audiencia:");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabelHomeClub1)
+                        .addGap(31, 31, 31)
+                        .addComponent(jSpinner1)
+                        .addContainerGap())
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabelHomeClub)
+                                .addGap(69, 69, 69)
+                                .addComponent(jComboBoxHomeClub, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabelVisitor)
+                                .addGap(52, 52, 52)
+                                .addComponent(jComboBoxVisitor, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabelVisitor1)
+                                .addGap(8, 8, 8)
+                                .addComponent(jSpinner2))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabelDate)
+                                .addGap(106, 106, 106)
+                                .addComponent(jCalendarDate, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabelAudience)
+                                .addGap(84, 84, 84)
+                                .addComponent(jSpinnerAudience, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 6, Short.MAX_VALUE))))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabelHomeClub)
+                    .addComponent(jComboBoxHomeClub, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(8, 8, 8)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabelVisitor)
+                    .addComponent(jComboBoxVisitor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(8, 8, 8)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabelHomeClub1)
+                    .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(8, 8, 8)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabelVisitor1)
+                    .addComponent(jSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(8, 8, 8)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabelDate)
+                    .addComponent(jCalendarDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(8, 8, 8)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabelAudience)
+                    .addComponent(jSpinnerAudience, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        );
+
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 300, 180));
+
         jButtonClose.setText("Cerrar");
-        jButtonClose.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jButtonClose.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jButtonCloseActionPerformed(evt);
             }
         });
 
         jButtonInsert.setText("Insertar");
-        jButtonInsert.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jButtonInsert.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jButtonInsertActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButtonInsert)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonClose))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabelHomeClub)
-                            .addGap(35, 35, 35)
-                            .addComponent(jComboBoxHomeClub, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabelPhase)
-                                    .addComponent(jLabelWinner)
-                                    .addComponent(jLabelAudience)
-                                    .addComponent(jLabelDate))
-                                .addComponent(jLabelVisitor, javax.swing.GroupLayout.Alignment.TRAILING))
-                            .addGap(18, 18, 18)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jComboBoxPhase, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jComboBoxVisitor, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jComboBoxWinner, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jCalendarDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jSpinnerAudience, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(42, Short.MAX_VALUE))
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(144, Short.MAX_VALUE)
+                .addComponent(jButtonInsert)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonClose)
+                .addContainerGap())
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBoxHomeClub, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelHomeClub))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBoxVisitor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelVisitor))
-                .addGap(9, 9, 9)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelWinner)
-                    .addComponent(jComboBoxWinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(6, 6, 6)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBoxPhase, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelPhase))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jCalendarDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelDate))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jSpinnerAudience, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelAudience))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonClose)
                     .addComponent(jButtonInsert))
-                .addGap(22, 22, 22))
+                .addGap(0, 8, Short.MAX_VALUE))
         );
 
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 200, 300, 30));
+
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCloseActionPerformed
@@ -254,21 +280,6 @@ public class CreateGameUI extends javax.swing.JDialog {
                 }
             }
 
-            //recuperar codigo de la fase
-            String phase = jComboBoxPhase.getSelectedItem().toString();
-            List<ReadPhaseDTO> phaseList = ServicesLocator.PhaseServices.readAllPhase();
-            boolean foundPhase = false;
-            String phaseId = null;
-            for (int i = 0; i < phaseList.size() && !foundPhase; i++) {
-                if (phaseList.get(i).getPhase_name().equalsIgnoreCase(phase)) {
-                    foundPhase = true;
-                    phaseId = phaseList.get(i).getPhase_id();
-                }
-            }
-
-            //generar codigo del juego
-            String gameId = UtilsConnector.idUtils.generateUniqueID();
-
             //FALTA VALIDAR Y BUSCAR CODIGO DEL EQUIPO Y PONER LOS ERRORES QUE PUEDEN DARSE
             //CreateGameDTO createGameDTO = new CreateGameDTO(gameId, teamIdVis, teamIdVis, phaseId, date, teamIdW, audience);
             //ServicesLocator.GameServices.createGame(createGameDTO);
@@ -282,20 +293,15 @@ public class CreateGameUI extends javax.swing.JDialog {
 
     }//GEN-LAST:event_jButtonInsertActionPerformed
 
-    private void jComboBoxHomeClubActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxHomeClubActionPerformed
-        // TODO add your handling code here:
-        this.setWinners();
-    }//GEN-LAST:event_jComboBoxHomeClubActionPerformed
+    private void jComboBoxVisitorActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jComboBoxVisitorActionPerformed
+    {//GEN-HEADEREND:event_jComboBoxVisitorActionPerformed
 
-    private void jComboBoxVisitorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxVisitorActionPerformed
-        // TODO add your handling code here:
-        this.setWinners();
     }//GEN-LAST:event_jComboBoxVisitorActionPerformed
 
-    private void jComboBoxWinnerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxWinnerActionPerformed
-        // TODO add your handling code here:
+    private void jComboBoxHomeClubActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jComboBoxHomeClubActionPerformed
+    {//GEN-HEADEREND:event_jComboBoxHomeClubActionPerformed
 
-    }//GEN-LAST:event_jComboBoxWinnerActionPerformed
+    }//GEN-LAST:event_jComboBoxHomeClubActionPerformed
 
     /**
      * @param args the command line arguments
@@ -344,32 +350,19 @@ public class CreateGameUI extends javax.swing.JDialog {
     private javax.swing.JButton jButtonInsert;
     private com.toedter.calendar.JDateChooser jCalendarDate;
     private javax.swing.JComboBox<String> jComboBoxHomeClub;
-    private javax.swing.JComboBox<String> jComboBoxPhase;
     private javax.swing.JComboBox<String> jComboBoxVisitor;
-    private javax.swing.JComboBox<String> jComboBoxWinner;
     private javax.swing.JLabel jLabelAudience;
     private javax.swing.JLabel jLabelDate;
     private javax.swing.JLabel jLabelHomeClub;
-    private javax.swing.JLabel jLabelPhase;
+    private javax.swing.JLabel jLabelHomeClub1;
     private javax.swing.JLabel jLabelVisitor;
-    private javax.swing.JLabel jLabelWinner;
+    private javax.swing.JLabel jLabelVisitor1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JSpinner jSpinner1;
+    private javax.swing.JSpinner jSpinner2;
     private javax.swing.JSpinner jSpinnerAudience;
     // End of variables declaration//GEN-END:variables
 
-    private void setWinners() {
-        if (jComboBoxWinner.getItemCount() > 1) {
-            jComboBoxWinner.removeAllItems();
-            jComboBoxWinner.addItem("<Seleccionar>");
-        }
-        Integer hc = jComboBoxHomeClub.getSelectedIndex();
-        Integer v = jComboBoxVisitor.getSelectedIndex();
-        if (hc != v && hc != 0 && v != 0) {
-            jComboBoxWinner.setEnabled(true);
-            jComboBoxWinner.addItem(jComboBoxHomeClub.getSelectedItem().toString());
-            jComboBoxWinner.addItem(jComboBoxVisitor.getSelectedItem().toString());
-        } else {
-            jComboBoxWinner.setEnabled(false);
-        }
-    }
 
 }

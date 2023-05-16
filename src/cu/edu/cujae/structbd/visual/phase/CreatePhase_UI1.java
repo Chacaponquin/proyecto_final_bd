@@ -197,9 +197,7 @@ public class CreatePhase_UI1 extends javax.swing.JDialog
             Date dFinish = date_finish.getDate();
             Instant iFinish = dFinish.toInstant();
             LocalDate finish_date = iFinish.atZone(defaultZoneId).toLocalDate();
-            String new_phase_id = UtilsConnector.idUtils.generateUniqueID();
-            System.out.println(name);
-            CreatePhaseDTO createPhaseDTO = new CreatePhaseDTO(new_phase_id, name, start_date, finish_date, teams);
+            CreatePhaseDTO createPhaseDTO = new CreatePhaseDTO(name, start_date, finish_date, teams);
             ServicesLocator.PhaseServices.createPhase(createPhaseDTO);
             
         }

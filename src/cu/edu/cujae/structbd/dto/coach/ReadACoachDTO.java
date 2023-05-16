@@ -10,27 +10,21 @@ package cu.edu.cujae.structbd.dto.coach;
  */
 public class ReadACoachDTO
 {
-    private String team_member_ID;
+    private int team_member_ID;
 
-    public ReadACoachDTO(String team_member_ID)
+    public ReadACoachDTO(int team_member_ID)
     {
         this.team_member_ID = team_member_ID;
     }
 
-    public String getTeam_member_ID()
+    public int getTeam_member_ID()
     {
         return team_member_ID;
     }
 
-    public void setTeam_member_ID(String team_member_ID)
+    public void setTeam_member_ID(int team_member_ID)
     {
-        if (team_member_ID != null)
-        {
             this.team_member_ID = team_member_ID;
-        }
-        else
-        {
-            throw new IllegalArgumentException();
-        }
+
     }
 }

@@ -226,7 +226,7 @@ public class Coach_UI extends javax.swing.JFrame
             Integer number = Integer.valueOf(table.getValueAt(row, 2).toString());
             Integer years_exp = Integer.valueOf(table.getValueAt(row, 3).toString());
             Integer years_team = Integer.valueOf(table.getValueAt(row, 4).toString());
-            String id = null;
+            int id = -1;
             boolean found = false;
             Iterator<ReadCoachDTO> it = this.readCoachDTO_list.iterator();
             while (it.hasNext() && !found)
@@ -263,7 +263,7 @@ public class Coach_UI extends javax.swing.JFrame
             Integer number = Integer.valueOf(table.getValueAt(row, 2).toString());
             Integer years_exp = Integer.valueOf(table.getValueAt(row, 3).toString());
             Integer years_team = Integer.valueOf(table.getValueAt(row, 4).toString());
-            String id = null;
+            int id = -1;
             boolean found = false;
             Iterator<ReadCoachDTO> it = this.readCoachDTO_list.iterator();
             while (it.hasNext() && !found)

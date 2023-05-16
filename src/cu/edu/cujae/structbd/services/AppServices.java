@@ -120,7 +120,7 @@ public class AppServices
         connection.setAutoCommit(false);
         CallableStatement preparedFunction = connection.prepareCall(function);
         preparedFunction.registerOutParameter(1, java.sql.Types.REF_CURSOR);
-        preparedFunction.setString(2, readAPhaseDTO.getPhase_id());
+        preparedFunction.setInt(2, readAPhaseDTO.getPhase_id());
         preparedFunction.execute();
         ResultSet resultSet = (ResultSet) preparedFunction.getObject(1);
         while (resultSet.next())

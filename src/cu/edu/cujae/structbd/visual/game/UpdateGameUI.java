@@ -255,7 +255,7 @@ public class UpdateGameUI extends javax.swing.JDialog {
             String phase = jComboBoxPhase.getSelectedItem().toString();
             List<ReadPhaseDTO> phaseList = ServicesLocator.PhaseServices.readAllPhase();
             boolean foundPhase = false;
-            String phaseId = null;
+            int phaseId = -1;
             for (int i = 0; i < phaseList.size() && !foundPhase; i++) {
                 if (phaseList.get(i).getPhase_name().equalsIgnoreCase(phase)) {
                     foundPhase = true;

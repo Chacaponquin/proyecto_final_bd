@@ -25,28 +25,7 @@ public class GameUI extends javax.swing.JFrame {
      */
     public GameUI() {
         initComponents();
-        try
-        {
-            this.readGameDTO_list = new LinkedList<>(ServicesLocator.GameServices.readAllGames());
-            Iterator<ReadGameDTO> it_readGameDTO_list = readGameDTO_list.iterator();
-            while (it_readGameDTO_list.hasNext())
-            {
-                ReadGameDTO readGameDTO = it_readGameDTO_list.next();
-                ((DefaultTableModel) jTableGames.getModel()).addRow(new Object[]
-                {
-                    readGameDTO.getHcTeamName(), readGameDTO.getVisTeamName(), readGameDTO.getPhaseName(),
-                    readGameDTO.getDate().toString(), readGameDTO.getWinner(), readGameDTO.getAudience()
-                });
-            }
-        }
-        catch (SQLException ex)
-        {
-            Logger.getLogger(GameUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        catch (ClassNotFoundException ex)
-        {
-            Logger.getLogger(GameUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        update_list();
     }
 
     /**
@@ -56,9 +35,9 @@ public class GameUI extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents()
+    {
 
-        jButtonInsert = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTableGames = new javax.swing.JTable();
@@ -66,30 +45,47 @@ public class GameUI extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Juegos");
 
-        jButtonInsert.setText("Insertar");
-        jButtonInsert.setToolTipText("");
-        jButtonInsert.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonInsertActionPerformed(evt);
-            }
-        });
-
         jButton1.setText("Cerrar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jButton1.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jButton1ActionPerformed(evt);
             }
         });
 
         jTableGames.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
+            new Object [][]
+            {
 
             },
-            new String [] {
-                "Equipo HomeClub", "Equipo Visitante", "Fase", "Fecha", "Ganador", "Audiencia"
+            new String []
+            {
+                "Fecha", "Equipo Local", "C", "C", "Equipo Visitante", "Fase", "Ganador", "Audiencia"
             }
-        ));
+        )
+        {
+            boolean[] canEdit = new boolean []
+            {
+                false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex)
+            {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane2.setViewportView(jTableGames);
+        if (jTableGames.getColumnModel().getColumnCount() > 0)
+        {
+            jTableGames.getColumnModel().getColumn(1).setPreferredWidth(100);
+            jTableGames.getColumnModel().getColumn(2).setPreferredWidth(30);
+            jTableGames.getColumnModel().getColumn(3).setPreferredWidth(30);
+            jTableGames.getColumnModel().getColumn(4).setPreferredWidth(100);
+            jTableGames.getColumnModel().getColumn(5).setPreferredWidth(50);
+            jTableGames.getColumnModel().getColumn(6).setPreferredWidth(100);
+            jTableGames.getColumnModel().getColumn(7).setPreferredWidth(40);
+        }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -97,38 +93,31 @@ public class GameUI extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButtonInsert, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 800, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jButton1)
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 800, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(12, 12, 12)
-                .addComponent(jButtonInsert)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addContainerGap()
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1)
                 .addContainerGap())
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButtonInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonInsertActionPerformed
-        // TODO add your handling code here:
-        CreateGameUI createGameUI = new CreateGameUI(this, rootPaneCheckingEnabled);
-        createGameUI.setLocationRelativeTo(null);
-        createGameUI.setVisible(true);
-    }//GEN-LAST:event_jButtonInsertActionPerformed
 
     /**
      * @param args the command line arguments
@@ -165,10 +154,41 @@ public class GameUI extends javax.swing.JFrame {
             }
         });
     }
+    
+    public void update_list(){
+        try
+        {
+            DefaultTableModel model = (DefaultTableModel) this.jTableGames.getModel();
+            
+            int count = model.getRowCount();
+            for(int i = 0; i < count; i++){
+                model.removeRow(0);
+            }
+            this.readGameDTO_list = new LinkedList<>(ServicesLocator.GameServices.readAllGames());
+            Iterator<ReadGameDTO> it_readGameDTO_list = readGameDTO_list.iterator();
+            while (it_readGameDTO_list.hasNext())
+            {
+                ReadGameDTO readGameDTO = it_readGameDTO_list.next();
+                ((DefaultTableModel) jTableGames.getModel()).addRow(new Object[]
+                {
+                    readGameDTO.getDate().toString(), readGameDTO.getHcTeamName(), readGameDTO.getRuns_home_club(),
+                    readGameDTO.getRuns_visitant(), readGameDTO.getVisTeamName(), readGameDTO.getPhaseName(),
+                    readGameDTO.getWinner(), readGameDTO.getAudience()
+                });
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(GameUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        catch (ClassNotFoundException ex)
+        {
+            Logger.getLogger(GameUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButtonInsert;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTableGames;
     // End of variables declaration//GEN-END:variables

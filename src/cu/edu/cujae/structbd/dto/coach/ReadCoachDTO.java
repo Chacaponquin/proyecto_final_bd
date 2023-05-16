@@ -11,14 +11,14 @@ package cu.edu.cujae.structbd.dto.coach;
 public class ReadCoachDTO
 {
 
-    private String team_member_ID;
+    private int team_member_ID;
     private String team_member_name;
     private int member_number;
     private String team_name;
     private int experience_years;
     private int years_in_team;
 
-    public ReadCoachDTO(String team_member_ID, String team_member_name, int member_number, String team_name,
+    public ReadCoachDTO(int team_member_ID, String team_member_name, int member_number, String team_name,
                         int experience_years, int years_in_team)
     {
         this.team_member_ID = team_member_ID;
@@ -29,21 +29,15 @@ public class ReadCoachDTO
         this.years_in_team = years_in_team;
     }
 
-    public String getTeam_member_ID()
+    public int getTeam_member_ID()
     {
         return team_member_ID;
     }
 
-    public void setTeam_member_ID(String team_member_ID)
+    public void setTeam_member_ID(int team_member_ID)
     {
-        if (team_member_ID != null)
-        {
             this.team_member_ID = team_member_ID;
-        }
-        else
-        {
-            throw new IllegalArgumentException();
-        }
+
     }
 
     public String getTeam_member_name()

@@ -154,7 +154,7 @@ public class PhaseUI extends javax.swing.JFrame {
             String finish_date = table.getValueAt(row, 2).toString();
             int teams_amount = Integer.valueOf(table.getValueAt(row, 3).toString());
             Iterator<ReadPhaseDTO> it_list = this.readPhaseDTO_list.iterator();
-            String id = null;
+            int id = -1;
             boolean found = false;
 
             //Buscando el id de la fase seleccionada 
@@ -206,7 +206,7 @@ public class PhaseUI extends javax.swing.JFrame {
             String finish_date = table.getValueAt(row, 2).toString();
             int teams_amount = Integer.valueOf(table.getValueAt(row, 3).toString());
             Iterator<ReadPhaseDTO> it_list = this.readPhaseDTO_list.iterator();
-            String id = null;
+            int id = -1;
             boolean found = false;
 
             //Buscando el id de la fase seleccionada 

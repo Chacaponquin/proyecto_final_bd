@@ -10,27 +10,20 @@ package cu.edu.cujae.structbd.dto.phase;
  */
 public class ReadAPhaseDTO
 {
-    private String phase_id;
+    private int phase_id;
 
-    public ReadAPhaseDTO(String phase_id)
+    public ReadAPhaseDTO(int phase_id)
     {
         this.phase_id = phase_id;
     }
 
-    public String getPhase_id()
+    public int getPhase_id()
     {
         return phase_id;
     }
 
-    public void setPhase_id(String phase_id)
+    public void setPhase_id(int phase_id)
     {
-        if (phase_id != null)
-        {
-            this.phase_id = phase_id;
-        }
-        else
-        {
-            throw new IllegalArgumentException();
-        }
+        this.phase_id = phase_id;
     }
 }

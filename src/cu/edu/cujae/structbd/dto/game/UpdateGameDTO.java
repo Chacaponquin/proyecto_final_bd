@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.Date;
 
 public class UpdateGameDTO {
-    private String id;
+    private int id;
     private String hcTeamID;
     private String visTeamID;
     private String phaseID;
@@ -14,7 +14,7 @@ public class UpdateGameDTO {
     private int runs_home_club;
     private int runs_visitant;
 
-    public UpdateGameDTO(String id, String hcTeamID, String visTeamID, String phaseID, LocalDate date, String winner,
+    public UpdateGameDTO(int id, String hcTeamID, String visTeamID, String phaseID, LocalDate date, String winner,
                          int audience, int runs_home_club, int runs_visitant)
     {
         this.id = id;
@@ -28,17 +28,14 @@ public class UpdateGameDTO {
         this.runs_visitant = runs_visitant;
     }
 
-    public String getId() {
+    public int getId()
+    {
         return id;
     }
 
-    public void setId(String id) {
-        if(id != null){
-            this.id = id;
-        }
-        else{
-            throw new IllegalArgumentException();
-        }
+    public void setId(int id)
+    {
+        this.id = id;
     }
 
     public String getHcTeamID() {
