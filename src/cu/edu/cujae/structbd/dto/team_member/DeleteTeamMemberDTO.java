@@ -1,22 +1,17 @@
 package cu.edu.cujae.structbd.dto.team_member;
 
 public class DeleteTeamMemberDTO {
-    private String id;
+    private int id;
 
-    public DeleteTeamMemberDTO(String id) {
+    public DeleteTeamMemberDTO(int id) {
         this.id = id;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
-        if(id != null){
-            this.id = id;
-        }
-        else{
-            throw new IllegalArgumentException();
-        }
+    public void setId(int id) {
+       this.id = id;
     }
 }
