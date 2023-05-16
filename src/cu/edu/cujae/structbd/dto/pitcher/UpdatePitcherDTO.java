@@ -1,7 +1,7 @@
 package cu.edu.cujae.structbd.dto.pitcher;
 
 public class UpdatePitcherDTO {
-    private String teamMemberID;
+    private int teamMemberID;
     private String teamMemberName;
     private int memberNumber;
     private String teamID;
@@ -10,7 +10,7 @@ public class UpdatePitcherDTO {
     private int runsAllowed;
     private String positionID;
 
-    public UpdatePitcherDTO(String teamMemberID, String positionID, String teamMemberName, int memberNumber, String teamID, int yearsInTeam, int inningsPitched, int runsAllowed) {
+    public UpdatePitcherDTO(int teamMemberID, String positionID, String teamMemberName, int memberNumber, String teamID, int yearsInTeam, int inningsPitched, int runsAllowed) {
         this.teamMemberID = teamMemberID;
         this.teamMemberName = teamMemberName;
         this.memberNumber = memberNumber;
@@ -21,17 +21,12 @@ public class UpdatePitcherDTO {
         this.positionID = positionID;
     }
 
-    public String getTeamMemberID() {
+    public int getTeamMemberID() {
         return teamMemberID;
     }
 
-    public void setTeamMemberID(String teamMemberID) {
-        if(teamMemberID != null){
-            this.teamMemberID = teamMemberID;
-        }
-        else{
-            throw new IllegalArgumentException();
-        }
+    public void setTeamMemberID(int teamMemberID) {
+        this.teamMemberID = teamMemberID;
     }
 
     public String getTeamMemberName() {

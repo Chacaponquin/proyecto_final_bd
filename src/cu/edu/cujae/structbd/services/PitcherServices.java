@@ -15,10 +15,9 @@ import java.sql.ResultSet;
 public class PitcherServices {
     
     public void createPitcher(CreatePitcherDTO createPitcherDTO) throws SQLException, ClassNotFoundException{
-        String function = "{call pitcher_insert(?,?,?,?,?,?,?,?)}";
+        String function = "{call pitcher_insert(?,?,?,?,?,?,?)}";
         java.sql.Connection connection = Connector.getConnection();
         CallableStatement preparedFunction = connection.prepareCall(function);
-        preparedFunction.setString(1, createPitcherDTO.getTeamMemberID());
         preparedFunction.setInt(2, createPitcherDTO.getInningsPitched());
         preparedFunction.setInt(3, createPitcherDTO.getRunsAllowed());
         preparedFunction.setString(4, createPitcherDTO.getPositionID());
@@ -41,7 +40,7 @@ public class PitcherServices {
         ResultSet resultSet = (ResultSet) preparedFunction.getObject(1);
         while (resultSet.next())
         {
-            String teamMemberID = resultSet.getString("member_id");
+            int teamMemberID = resultSet.getInt("member_id");
             String teamMemberName = resultSet.getString("member_name");
             int memberNumber = Integer.valueOf(resultSet.getString("member_number"));
             String team = resultSet.getString("team_name");
@@ -68,7 +67,7 @@ public class PitcherServices {
         preparedFunction.execute();
         ResultSet resultSet = (ResultSet) preparedFunction.getObject(1);
         resultSet.next();
-        readPitcherDTO = new ReadPitcherDTO(resultSet.getString(1), resultSet.getInt(2), 
+        readPitcherDTO = new ReadPitcherDTO(resultSet.getInt(1), resultSet.getInt(2), 
                     resultSet.getInt(3), resultSet.getString(4), resultSet.getInt(5), 
                     resultSet.getString(6), resultSet.getInt(7));
         resultSet.close();
@@ -80,7 +79,7 @@ public class PitcherServices {
         String function = "{call pitcher_update(?,?,?,?,?,?,?,?)}";
         java.sql.Connection connection = Connector.getConnection();
         CallableStatement preparedFunction = connection.prepareCall(function);
-        preparedFunction.setString(1, updatePitcherDTO.getTeamMemberID());
+        preparedFunction.setInt(1, updatePitcherDTO.getTeamMemberID());
         preparedFunction.setInt(2, updatePitcherDTO.getInningsPitched());
         preparedFunction.setInt(3, updatePitcherDTO.getRunsAllowed());
         preparedFunction.setString(4, updatePitcherDTO.getPositionID());
@@ -96,7 +95,7 @@ public class PitcherServices {
         String function = "{call pitcher_delete(?)}";
         java.sql.Connection connection = Connector.getConnection();
         CallableStatement preparedFunction = connection.prepareCall(function);
-        preparedFunction.setString(1, deletePitcherDTO.getTeamMemberID());
+        preparedFunction.setInt(1, deletePitcherDTO.getTeamMemberID());
         preparedFunction.execute();
         preparedFunction.close();
         connection.close();

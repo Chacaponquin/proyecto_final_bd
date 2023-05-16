@@ -1,7 +1,7 @@
 package cu.edu.cujae.structbd.dto.pitcher;
 
 public class ReadPitcherDTO {
-    private String teamMemberID;
+    private int teamMemberID;
     private String teamMemberName;
     private int memberNumber;
     private String team;
@@ -9,7 +9,7 @@ public class ReadPitcherDTO {
     private int inningsPitched;
     private int runsAllowed;
 
-    public ReadPitcherDTO(String teamMemberID, int inningsPitched, int runsAllowed, String teamMemberName, int memberNumber, String team, 
+    public ReadPitcherDTO(int teamMemberID, int inningsPitched, int runsAllowed, String teamMemberName, int memberNumber, String team, 
             int yearsInTeam) {
         this.teamMemberID = teamMemberID;
         this.teamMemberName = teamMemberName;
@@ -20,17 +20,12 @@ public class ReadPitcherDTO {
         this.runsAllowed = runsAllowed;
     }
 
-    public String getTeamMemberID() {
+    public int getTeamMemberID() {
         return teamMemberID;
     }
 
-    public void setTeamMemberID(String teamMemberID) {
-        if(teamMemberID != null){
-            this.teamMemberID = teamMemberID;
-        }
-        else{
-            throw new IllegalArgumentException();
-        }
+    public void setTeamMemberID(int teamMemberID) {
+        this.teamMemberID = teamMemberID;
     }
 
     public String getTeamMemberName() {
