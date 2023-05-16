@@ -4,7 +4,6 @@
  */
 package cu.edu.cujae.structbd.visual.player;
 
-import cu.edu.cujae.structbd.dto.batter.ReadBatterDTO;
 import cu.edu.cujae.structbd.dto.pitcher.DeletePitcherDTO;
 import cu.edu.cujae.structbd.dto.pitcher.ReadAPitcherDTO;
 import cu.edu.cujae.structbd.dto.pitcher.ReadPitcherDTO;
@@ -171,7 +170,7 @@ public class Player_UI extends javax.swing.JFrame
             String position = table.getValueAt(row, 3).toString();
             Integer years_in_team = Integer.valueOf(table.getValueAt(row, 4).toString());
             Iterator<ReadPlayerDTO> it_list = this.list_player.iterator();
-            String id = null;
+            int id = 0;
             boolean found = false;
 
             //Buscando el id del player seleccionado 
@@ -264,7 +263,7 @@ public class Player_UI extends javax.swing.JFrame
             String position = table.getValueAt(row, 3).toString();
             Integer years_in_team = Integer.valueOf(table.getValueAt(row, 4).toString());
             Iterator<ReadPlayerDTO> it_list = this.list_player.iterator();
-            String id = null;
+            int id = 0;
             boolean found = false;
 
             //Buscando el id del player seleccionado 
@@ -345,54 +344,6 @@ public class Player_UI extends javax.swing.JFrame
         }
     }//GEN-LAST:event_formFocusGained
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[])
-    {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try
-        {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels())
-            {
-                if ("Nimbus".equals(info.getName()))
-                {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        }
-        catch (ClassNotFoundException ex)
-        {
-            java.util.logging.Logger.getLogger(Player_UI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        catch (InstantiationException ex)
-        {
-            java.util.logging.Logger.getLogger(Player_UI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        catch (IllegalAccessException ex)
-        {
-            java.util.logging.Logger.getLogger(Player_UI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        catch (javax.swing.UnsupportedLookAndFeelException ex)
-        {
-            java.util.logging.Logger.getLogger(Player_UI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable()
-        {
-            public void run()
-            {
-                new Player_UI().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

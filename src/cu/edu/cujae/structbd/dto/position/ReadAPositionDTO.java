@@ -1,22 +1,17 @@
 package cu.edu.cujae.structbd.dto.position;
 
 public class ReadAPositionDTO {
-    private String positionID;
+    private int positionID;
 
-    public ReadAPositionDTO(String positionID) {
+    public ReadAPositionDTO(int positionID) {
         this.positionID = positionID;
     }
 
-    public String getPositionID() {
+    public int getPositionID() {
         return positionID;
     }
 
-    public void setPositionID(String positionID) {
-        if(positionID != null){
-            this.positionID = positionID;
-        }
-        else{
-            throw new IllegalArgumentException();
-        }
+    public void setPositionID(int positionID) {
+        this.positionID = positionID;
     }
 }

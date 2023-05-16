@@ -10,14 +10,14 @@ package cu.edu.cujae.structbd.dto.player;
  */
 public class ReadPlayerDTO
 {
-    private String team_member_ID;
+    private int team_member_ID;
     private String team_member_name;
     private int member_number;
     private String team_name;
     private String position_name;
     private int years_in_team;
 
-    public ReadPlayerDTO(String team_member_ID, String team_member_name, int member_number, String team_name,
+    public ReadPlayerDTO(int team_member_ID, String team_member_name, int member_number, String team_name,
                          String position_name, int years_in_team)
     {
         this.team_member_ID = team_member_ID;
@@ -28,21 +28,14 @@ public class ReadPlayerDTO
         this.years_in_team = years_in_team;
     }
 
-    public String getTeam_member_ID()
+    public int getTeam_member_ID()
     {
         return team_member_ID;
     }
 
-    public void setTeam_member_ID(String team_member_ID)
+    public void setTeam_member_ID(int team_member_ID)
     {
-        if (team_member_ID != null)
-        {
-            this.team_member_ID = team_member_ID;
-        }
-        else
-        {
-            throw new IllegalArgumentException();
-        }
+        this.team_member_ID = team_member_ID;
     }
 
     public String getTeam_member_name()

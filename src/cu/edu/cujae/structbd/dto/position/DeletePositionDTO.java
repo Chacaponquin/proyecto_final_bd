@@ -1,22 +1,17 @@
 package cu.edu.cujae.structbd.dto.position;
 
 public class DeletePositionDTO {
-    private String positionID;
+    private int positionID;
 
-    public DeletePositionDTO(String positionID) {
+    public DeletePositionDTO(int positionID) {
         this.positionID = positionID;
     }
 
-    public String getPositionID() {
+    public int getPositionID() {
         return positionID;
     }
 
-    public void setPositionID(String positionID) {
-        if(positionID != null){
-            this.positionID = positionID;
-        }
-        else{
-            throw new IllegalArgumentException();
-        }
+    public void setPositionID(int positionID) {
+        this.positionID = positionID;
     }
 }

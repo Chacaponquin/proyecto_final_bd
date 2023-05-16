@@ -1,10 +1,10 @@
 package cu.edu.cujae.structbd.dto.position;
 
 public class CreatePositionDTO {
-    private String positionID;
+    private int positionID;
     private String positionName;
 
-    public CreatePositionDTO(String positionName, String positionID) {
+    public CreatePositionDTO(String positionName, int positionID) {
         this.positionID = positionID;
         this.positionName = positionName;
     }
@@ -22,17 +22,12 @@ public class CreatePositionDTO {
         }
     }
 
-    public String getPositionID() {
+    public int getPositionID() {
         return positionID;
     }
 
-    public void setPositionID(String positionID) {
-        if(positionID != null){
-            this.positionID = positionID;
-        }
-        else{
-            throw new IllegalArgumentException();
-        }
+    public void setPositionID(int positionID) {
+        this.positionID = positionID;
     }
     
     

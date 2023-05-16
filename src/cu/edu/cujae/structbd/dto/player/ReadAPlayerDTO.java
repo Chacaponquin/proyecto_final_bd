@@ -10,28 +10,21 @@ package cu.edu.cujae.structbd.dto.player;
  */
 public class ReadAPlayerDTO
 {
-    private String ID;
+    private int ID;
 
-    public ReadAPlayerDTO(String ID)
+    public ReadAPlayerDTO(int ID)
     {
         this.ID = ID;
     }
 
-    public String getID()
+    public int getID()
     {
         return ID;
     }
 
-    public void setID(String ID)
+    public void setID(int id)
     {
-        if (ID != null)
-        {
-            this.ID = ID;
-        }
-        else
-        {
-            throw new IllegalArgumentException();
-        }
+        this.ID = id;
     }
 
 }

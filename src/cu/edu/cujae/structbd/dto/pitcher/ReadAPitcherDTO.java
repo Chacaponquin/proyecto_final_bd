@@ -1,22 +1,17 @@
 package cu.edu.cujae.structbd.dto.pitcher;
 
 public class ReadAPitcherDTO {
-    private String teamMemberID;
+    private int teamMemberID;
 
-    public ReadAPitcherDTO(String teamMemberID) {
+    public ReadAPitcherDTO(int teamMemberID) {
         this.teamMemberID = teamMemberID;
     }
 
-    public String getTeamMemberID() {
+    public int getTeamMemberID() {
         return teamMemberID;
     }
 
-    public void setTeamMemberID(String teamMemberID) {
-        if(teamMemberID != null){
-            this.teamMemberID = teamMemberID;
-        }
-        else{
-            throw new IllegalArgumentException();
-        }
+    public void setTeamMemberID(int teamMemberID) {
+        this.teamMemberID = teamMemberID;
     }
 }
