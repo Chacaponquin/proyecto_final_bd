@@ -85,7 +85,7 @@ public class PitcherServices {
         preparedFunction.setString(4, updatePitcherDTO.getPositionID());
         preparedFunction.setString(5, updatePitcherDTO.getTeamMemberName());
         preparedFunction.setInt(6, updatePitcherDTO.getMemberNumber());
-        preparedFunction.setString(7, updatePitcherDTO.getTeamID());
+        preparedFunction.setInt(7, updatePitcherDTO.getTeamID());
         preparedFunction.setInt(8, updatePitcherDTO.getYearsInTeam());
         preparedFunction.execute();
         preparedFunction.close();

@@ -11,6 +11,7 @@ import cu.edu.cujae.structbd.dto.pitcher.UpdatePitcherDTO;
 import cu.edu.cujae.structbd.dto.player.ReadPlayerDTO;
 import cu.edu.cujae.structbd.dto.team.ReadTeamDTO;
 import cu.edu.cujae.structbd.services.ServicesLocator;
+import cu.edu.cujae.structbd.utils.UtilsConnector;
 import cu.edu.cujae.structbd.visual.pitcher.UpdatePitcherUI;
 import static java.awt.image.ImageObserver.HEIGHT;
 import java.sql.SQLException;
@@ -51,13 +52,9 @@ public class Player_UI extends javax.swing.JFrame
                 });
             }
         }
-        catch (SQLException ex)
+        catch (SQLException | ClassNotFoundException  ex)
         {
-            Logger.getLogger(Player_UI.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        catch (ClassNotFoundException ex)
-        {
-            Logger.getLogger(Player_UI.class.getName()).log(Level.SEVERE, null, ex);
+            UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
         }
     }
 
@@ -195,7 +192,7 @@ public class Player_UI extends javax.swing.JFrame
                         ReadPitcherDTO readPitcherDTO = ServicesLocator.PitcherServices.readPitcher(readAPitcherDTO);
                         ArrayList<ReadTeamDTO> teams_list = ServicesLocator.TeamServices.readTeams();
                         boolean found_team = false;
-                        String team_id = null;
+                        int team_id = 0;
                         for (int i = 0; i < teams_list.size() && !found_team; i++)
                         {
                             if (teams_list.get(i).getTeam_name().equalsIgnoreCase(team))
