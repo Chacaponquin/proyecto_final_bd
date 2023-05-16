@@ -20,14 +20,13 @@ public class CoachServices
 
     public void createCoach(CreateCoachDTO createCoachDTO) throws SQLException, ClassNotFoundException
     {
-        String function = "{call coach_insert(?,?,?,?,?)}";
+        String function = "{call coach_insert(?,?,?,?)}";
         java.sql.Connection connection = Connector.getConnection();
         CallableStatement preparedFunction = connection.prepareCall(function);
-        preparedFunction.setString(1, createCoachDTO.getTeam_member_ID());
-        preparedFunction.setString(2, createCoachDTO.getTeam_member_name());
-        preparedFunction.setInt(3, createCoachDTO.getMember_number());
-        preparedFunction.setString(4, createCoachDTO.getTeam_ID());
-        preparedFunction.setInt(5, createCoachDTO.getExperience_years());
+        preparedFunction.setString(1, createCoachDTO.getTeam_member_name());
+        preparedFunction.setInt(2, createCoachDTO.getMember_number());
+        preparedFunction.setString(3, createCoachDTO.getTeam_ID());
+        preparedFunction.setInt(4, createCoachDTO.getExperience_years());
         preparedFunction.execute();
         preparedFunction.close();
         connection.commit();
@@ -38,7 +37,7 @@ public class CoachServices
         String function = "{call coach_update(?,?,?,?,?,?)}";
         java.sql.Connection connection = Connector.getConnection();
         CallableStatement preparedFunction = connection.prepareCall(function);
-        preparedFunction.setString(1, updateCoachDTO.getTeam_member_ID());
+        preparedFunction.setInt(1, updateCoachDTO.getTeam_member_ID());
         preparedFunction.setString(2, updateCoachDTO.getTeam_member_name());
         preparedFunction.setString(3, updateCoachDTO.getTeam_name());
         preparedFunction.setInt(4, updateCoachDTO.getMember_number());
@@ -54,7 +53,7 @@ public class CoachServices
         String function = "{call coach_delete(?)}";
         java.sql.Connection connection = Connector.getConnection();
         CallableStatement preparedFunction = connection.prepareCall(function);
-        preparedFunction.setString(1, deleteCoachDTO.getTeam_member_ID());
+        preparedFunction.setInt(1, deleteCoachDTO.getTeam_member_ID());
         preparedFunction.execute();
         preparedFunction.close();
         connection.commit();
@@ -72,7 +71,7 @@ public class CoachServices
         ResultSet resultSet = (ResultSet) preparedFunction.getObject(1);
         while (resultSet.next())
         {
-            coaches_list.add(new ReadCoachDTO(resultSet.getString(1), resultSet.getString(2), resultSet.getInt(4),
+            coaches_list.add(new ReadCoachDTO(resultSet.getInt(1), resultSet.getString(2), resultSet.getInt(4),
                                               resultSet.getString(3), resultSet.getInt(5), resultSet.getInt(6)));
         }
         resultSet.close();
@@ -89,11 +88,11 @@ public class CoachServices
         connection.setAutoCommit(false);
         CallableStatement preparedFunction = connection.prepareCall(function);
         preparedFunction.registerOutParameter(1, java.sql.Types.REF_CURSOR);
-        preparedFunction.setString(2, readACoachDTO.getTeam_member_ID());
+        preparedFunction.setInt(2, readACoachDTO.getTeam_member_ID());
         preparedFunction.execute();
         ResultSet resultSet = (ResultSet) preparedFunction.getObject(1);
         resultSet.next();
-        readCoachDTO = new ReadCoachDTO(resultSet.getString(1), resultSet.getString(2), resultSet.getInt(4),
+        readCoachDTO = new ReadCoachDTO(resultSet.getInt(1), resultSet.getString(2), resultSet.getInt(4),
                                         resultSet.getString(3), resultSet.getInt(5), resultSet.getInt(6));
         preparedFunction.close();
         return readCoachDTO;

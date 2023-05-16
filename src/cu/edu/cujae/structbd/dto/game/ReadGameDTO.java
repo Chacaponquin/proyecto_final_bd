@@ -3,7 +3,7 @@ package cu.edu.cujae.structbd.dto.game;
 import java.time.LocalDate;
 
 public class ReadGameDTO {
-    private String id;
+    private int id;
     private String hcTeamName;
     private String visTeamName;
     private String phaseName;
@@ -13,7 +13,7 @@ public class ReadGameDTO {
     private int runs_home_club;
     private int runs_visitant;
 
-    public ReadGameDTO(String id, String hcTeamName, String visTeamName, String phaseName, LocalDate date, String winner,
+    public ReadGameDTO(int id, String hcTeamName, String visTeamName, String phaseName, LocalDate date, String winner,
                        int audience, int runs_home_club, int runs_visitant)
     {
         this.id = id;
@@ -27,17 +27,14 @@ public class ReadGameDTO {
         this.runs_visitant = runs_visitant;
     }
 
-    public String getId() {
+    public int getId()
+    {
         return id;
     }
 
-    public void setId(String id) {
-        if(id != null){
-            this.id = id;
-        }
-        else{
-            throw new IllegalArgumentException();
-        }
+    public void setId(int id)
+    {
+        this.id = id;
     }
 
     public String getHcTeamName() {

@@ -2,38 +2,18 @@ package cu.edu.cujae.structbd.dto.coach;
 
 public class CreateCoachDTO
 {
-
-    private String team_member_ID;
     private String team_member_name;
     private int member_number;
     private String team_ID;
     private int experience_years;
 
-    public CreateCoachDTO(String team_member_ID, String team_member_name, int member_number, String team_ID,
+    public CreateCoachDTO(String team_member_name, int member_number, String team_ID,
                           int experience_years)
     {
-        this.team_member_ID = team_member_ID;
         this.team_member_name = team_member_name;
         this.member_number = member_number;
         this.team_ID = team_ID;
         this.experience_years = experience_years;
-    }
-
-    public String getTeam_member_ID()
-    {
-        return team_member_ID;
-    }
-
-    public void setTeam_member_ID(String team_member_ID)
-    {
-        if (team_member_ID != null)
-        {
-            this.team_member_ID = team_member_ID;
-        }
-        else
-        {
-            throw new IllegalArgumentException();
-        }
     }
 
     public String getTeam_member_name()

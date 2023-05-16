@@ -207,7 +207,6 @@ public class CreateCoachUI extends javax.swing.JDialog
             String team = combo_box_team.getSelectedItem().toString();
             int number = (int) spinner_number.getValue();
             int y_exp = (int) spinner_exp.getValue();
-            String id = UtilsConnector.idUtils.generateUniqueID();
             ArrayList<ReadTeamDTO> teams_list_2 = ServicesLocator.TeamServices.readTeams();
             boolean found_team = false;
             String team_id = null;
@@ -219,7 +218,7 @@ public class CreateCoachUI extends javax.swing.JDialog
                     team_id = teams_list_2.get(i).getTeam_id();
                 }
             }
-            CreateCoachDTO createCoachDTO = new CreateCoachDTO(id, name, number, team_id, y_exp);
+            CreateCoachDTO createCoachDTO = new CreateCoachDTO(name, number, team_id, y_exp);
             ServicesLocator.CoachServices.createCoach(createCoachDTO);
             JOptionPane.showMessageDialog(null, name + " se ha insertado correctamente", "Confirmación", HEIGHT);
             

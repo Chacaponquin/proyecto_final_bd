@@ -195,12 +195,12 @@ public class SerieUI extends javax.swing.JFrame
         jScrollPane1.setViewportView(jTablePosition);
         if (jTablePosition.getColumnModel().getColumnCount() > 0)
         {
-            jTablePosition.getColumnModel().getColumn(0).setPreferredWidth(20);
+            jTablePosition.getColumnModel().getColumn(0).setPreferredWidth(50);
             jTablePosition.getColumnModel().getColumn(1).setPreferredWidth(120);
-            jTablePosition.getColumnModel().getColumn(2).setPreferredWidth(20);
-            jTablePosition.getColumnModel().getColumn(3).setPreferredWidth(20);
-            jTablePosition.getColumnModel().getColumn(4).setPreferredWidth(20);
-            jTablePosition.getColumnModel().getColumn(5).setPreferredWidth(20);
+            jTablePosition.getColumnModel().getColumn(2).setPreferredWidth(30);
+            jTablePosition.getColumnModel().getColumn(3).setPreferredWidth(30);
+            jTablePosition.getColumnModel().getColumn(4).setPreferredWidth(30);
+            jTablePosition.getColumnModel().getColumn(5).setPreferredWidth(30);
         }
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -300,7 +300,7 @@ public class SerieUI extends javax.swing.JFrame
             model_1.removeRow(0);
                     }
                     //Obteniendo los datos de la fase seleccionada
-                    String phase_id = null;
+                    int phase_id = -1;
                     boolean found = false;
                     Iterator<ReadPhaseDTO> it_list = this.phases_list.iterator();
                     while (it_list.hasNext() && !found)
@@ -379,7 +379,7 @@ public class SerieUI extends javax.swing.JFrame
     }
     private void close_buttonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_close_buttonActionPerformed
     {//GEN-HEADEREND:event_close_buttonActionPerformed
-        String phase_id = null;
+        int phase_id = -1;
         boolean found = false;
         Iterator<ReadPhaseDTO> it_list = this.phases_list.iterator();
         while (it_list.hasNext() && !found)

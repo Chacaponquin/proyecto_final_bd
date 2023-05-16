@@ -18,18 +18,17 @@ import java.time.LocalDate;
 public class GameServices {
     
     public void createGame(CreateGameDTO createGameDTO) throws SQLException, ClassNotFoundException{
-        String function = "{call game_insert(?,?,?,?,?,?,?,?,?)}";
+        String function = "{call game_insert(?,?,?,?,?,?,?,?)}";
         java.sql.Connection connection = Connector.getConnection();
         CallableStatement preparedFunction = connection.prepareCall(function);
-        preparedFunction.setString(1, createGameDTO.getId());
-        preparedFunction.setString(2, createGameDTO.getHcTeamID());
-        preparedFunction.setString(3, createGameDTO.getVisTeamID());
-        preparedFunction.setString(4, createGameDTO.getPhaseID());
-        preparedFunction.setDate(5, java.sql.Date.valueOf(createGameDTO.getDate()));
-        preparedFunction.setString(6, createGameDTO.getWinner());
-        preparedFunction.setInt(7, createGameDTO.getAudience());
-        preparedFunction.setInt(8, createGameDTO.getRuns_home_club());
-        preparedFunction.setInt(9, createGameDTO.getRuns_visitant());
+        preparedFunction.setString(1, createGameDTO.getHcTeamID());
+        preparedFunction.setString(2, createGameDTO.getVisTeamID());
+        preparedFunction.setString(3, createGameDTO.getPhaseID());
+        preparedFunction.setDate(4, java.sql.Date.valueOf(createGameDTO.getDate()));
+        preparedFunction.setInt(5, createGameDTO.getRuns_home_club());
+        preparedFunction.setInt(6, createGameDTO.getRuns_visitant());
+        preparedFunction.setString(7, createGameDTO.getWinner());
+        preparedFunction.setInt(8, createGameDTO.getAudience());
         preparedFunction.execute();
         preparedFunction.close();
     }
@@ -45,7 +44,7 @@ public class GameServices {
         ResultSet resultSet = (ResultSet) preparedFunction.getObject(1);
         while (resultSet.next())
         {
-            games_list.add(new ReadGameDTO(resultSet.getString(1), resultSet.getString(2), 
+            games_list.add(new ReadGameDTO(resultSet.getInt(1), resultSet.getString(2),
                                            resultSet.getString(3), resultSet.getString(4), resultSet.getDate(5).
                                            toLocalDate(), resultSet.getString(6), resultSet.getInt(7), resultSet.
                                            getInt(8), resultSet.
@@ -64,11 +63,11 @@ public class GameServices {
         connection.setAutoCommit(false);
         CallableStatement preparedFunction = connection.prepareCall(function);
         preparedFunction.registerOutParameter(1, java.sql.Types.REF_CURSOR);
-        preparedFunction.setString(2, readAGameDTO.getId());
+        preparedFunction.setInt(2, readAGameDTO.getId());
         preparedFunction.execute();
         ResultSet resultSet = (ResultSet) preparedFunction.getObject(1);
         resultSet.next();
-        readGameDTO = new ReadGameDTO(resultSet.getString(1), resultSet.getString(2), 
+        readGameDTO = new ReadGameDTO(resultSet.getInt(1), resultSet.getString(2),
                                       resultSet.getString(3), resultSet.getString(4), resultSet.getDate(1).toLocalDate(),
                                       resultSet.getString(6), resultSet.getInt(7), resultSet.
                                       getInt(8), resultSet.getInt(9));
@@ -83,16 +82,16 @@ public class GameServices {
         String function = "{call game_update(?,?,?,?,?,?,?,?,?)}";
         java.sql.Connection connection = Connector.getConnection();
         CallableStatement preparedFunction = connection.prepareCall(function);
-        preparedFunction.setString(1, updateGameDTO.getId());
+        preparedFunction.setInt(1, updateGameDTO.getId());
         preparedFunction.setString(2, updateGameDTO.getHcTeamID());
         preparedFunction.setString(3, updateGameDTO.getVisTeamID());
         preparedFunction.setString(4, updateGameDTO.getPhaseID());
         preparedFunction.setDate(5, java.sql.Date.valueOf(updateGameDTO.getDate())
         );
-        preparedFunction.setString(6, updateGameDTO.getWinner());
-        preparedFunction.setInt(7, updateGameDTO.getAudience());
-        preparedFunction.setInt(8, updateGameDTO.getRuns_home_club());
-        preparedFunction.setInt(9, updateGameDTO.getRuns_visitant());
+        preparedFunction.setInt(6, updateGameDTO.getRuns_home_club());
+        preparedFunction.setInt(7, updateGameDTO.getRuns_visitant());
+        preparedFunction.setString(8, updateGameDTO.getWinner());
+        preparedFunction.setInt(9, updateGameDTO.getAudience());
         preparedFunction.execute();
         preparedFunction.close();
     }
@@ -101,7 +100,7 @@ public class GameServices {
         String function = "{call game_delete(?)}";
         java.sql.Connection connection = Connector.getConnection();
         CallableStatement preparedFunction = connection.prepareCall(function);
-        preparedFunction.setString(1, deleteGameDTO.getId());
+        preparedFunction.setInt(1, deleteGameDTO.getId());
         preparedFunction.execute();
         preparedFunction.close();
     }
@@ -115,12 +114,12 @@ public class GameServices {
         connection.setAutoCommit(false);
         CallableStatement preparedFunction = connection.prepareCall(function);
         preparedFunction.registerOutParameter(1, java.sql.Types.REF_CURSOR);
-        preparedFunction.setString(2, readAPhaseDTO.getPhase_id());
+        preparedFunction.setInt(2, readAPhaseDTO.getPhase_id());
         preparedFunction.execute();
         ResultSet resultSet = (ResultSet) preparedFunction.getObject(1);
         while (resultSet.next())
         {
-            games_list.add(new ReadGameDTO(resultSet.getString(1), resultSet.getString(2),
+            games_list.add(new ReadGameDTO(resultSet.getInt(1), resultSet.getString(2),
                                            resultSet.getString(3), null, resultSet.getDate(4).
                                            toLocalDate(), resultSet.getString(5), resultSet.getInt(6), resultSet.
                                            getInt(7), resultSet.

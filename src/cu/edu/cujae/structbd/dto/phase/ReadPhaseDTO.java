@@ -13,14 +13,14 @@ import java.util.Date;
  */
 public class ReadPhaseDTO
 {
-    private String phase_id;
+    private int phase_id;
     private String phase_name;
     private LocalDate start_date;
     private LocalDate finish_date;
     private int teams_amount;
     private boolean is_active;
 
-    public ReadPhaseDTO(String phase_id, String phase_name, LocalDate start_date, LocalDate finish_date,
+    public ReadPhaseDTO(int phase_id, String phase_name, LocalDate start_date, LocalDate finish_date,
                         int teams_amount, boolean is_active)
     {
         this.phase_id = phase_id;
@@ -31,21 +31,14 @@ public class ReadPhaseDTO
         this.is_active = is_active;
     }
 
-    public String getPhase_id()
+    public int getPhase_id()
     {
         return phase_id;
     }
 
-    public void setPhase_id(String phase_id)
+    public void setPhase_id(int phase_id)
     {
-        if (phase_id != null)
-        {
-            this.phase_id = phase_id;
-        }
-        else
-        {
-            throw new IllegalArgumentException();
-        }
+        this.phase_id = phase_id;
     }
 
     public String getPhase_name()

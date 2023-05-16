@@ -169,8 +169,8 @@ public class CreatePhaseUI extends javax.swing.JDialog
             Instant iFinish = dFinish.toInstant();
             LocalDate finish_date = iFinish.atZone(defaultZoneId).toLocalDate();
             
-            //Falta validar y generar el id para pdoer insertar
-            CreatePhaseDTO createPhaseDTO = new CreatePhaseDTO("        ", name, start_date, finish_date, teams);
+            //Falta validar
+            CreatePhaseDTO createPhaseDTO = new CreatePhaseDTO(name, start_date, finish_date, teams);
             ServicesLocator.PhaseServices.createPhase(createPhaseDTO);
             dispose();
         }
