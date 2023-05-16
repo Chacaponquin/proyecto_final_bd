@@ -224,7 +224,7 @@ public class UpdatePitcherUI extends javax.swing.JDialog {
         }
         
         //FALTA VALIDAR Y BUSCAR CODIGO DEL EQUIPO Y PONER LOS ERRORES QUE PUEDEN DARSE
-        UpdatePitcherDTO updatePitcherDTO = new UpdatePitcherDTO("", "P", name, number, 
+        UpdatePitcherDTO updatePitcherDTO = new UpdatePitcherDTO(0, "P", name, number, 
                 "", yearsInTeam, innings, runs);
         try {
             ServicesLocator.PitcherServices.updatePitcher(updatePitcherDTO);

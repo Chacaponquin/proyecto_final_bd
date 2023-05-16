@@ -3,16 +3,16 @@ package cu.edu.cujae.structbd.dto.province;
 public class CreateProvinceDTO
 {
 
-    private String ID;
+    private int ID;
     private String name;
 
-    public CreateProvinceDTO(String ID, String name)
+    public CreateProvinceDTO(int ID, String name)
     {
         this.ID = ID;
         this.name = name;
     }
 
-    public String getID()
+    public int getID()
     {
         return ID;
     }
@@ -22,16 +22,9 @@ public class CreateProvinceDTO
         return name;
     }
 
-    public void setID(String ID)
+    public void setID(int id)
     {
-        if (ID != null)
-        {
-            this.ID = ID;
-        }
-        else
-        {
-            throw new IllegalArgumentException();
-        }
+        this.ID = id;
     }
 
     public void setName(String name)

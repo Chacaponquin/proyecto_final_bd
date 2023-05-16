@@ -6,6 +6,7 @@ package cu.edu.cujae.structbd.visual.pitcher;
 
 import cu.edu.cujae.structbd.dto.pitcher.CreatePitcherDTO;
 import cu.edu.cujae.structbd.services.ServicesLocator;
+import cu.edu.cujae.structbd.utils.UtilsConnector;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -201,7 +202,7 @@ public class CreatePitcherUI extends javax.swing.JDialog {
         Integer innings = (Integer) jSpinnerInnings.getValue();
         Integer runs = (Integer) jSpinnerRuns.getValue();
         
-        if(name == ""){
+        if(name.equals("")){
             JOptionPane.showMessageDialog(this, "El nombre no puede estar vacío", "ERROR", JOptionPane.ERROR);
         }
         if(jComboBoxTeamName.getSelectedIndex()==0){
@@ -209,22 +210,19 @@ public class CreatePitcherUI extends javax.swing.JDialog {
         }
         
         //FALTA VALIDAR Y BUSCAR CODIGO DEL EQUIPO Y PONER LOS ERRORES QUE PUEDEN DARSE
-        CreatePitcherDTO createPitcherDTO = new CreatePitcherDTO("", "P", name, number, 
-                "", yearsInTeam, innings, runs);
-        this.dispose();
+        CreatePitcherDTO createPitcherDTO = new CreatePitcherDTO(0, "P", name, number, "", yearsInTeam, innings, runs);
+        
         try {
             ServicesLocator.PitcherServices.createPitcher(createPitcherDTO);
-        } catch (SQLException ex) {
-            Logger.getLogger(CreatePitcherUI.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(CreatePitcherUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
+            this.dispose();
+        } catch (SQLException | ClassNotFoundException ex) {
+            UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
+        } 
     }//GEN-LAST:event_jButtonInsertActionPerformed
 
     private void jComboBoxTeamNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxTeamNameActionPerformed
         // TODO add your handling code here:
-        if(jTextFieldName.getText().strip() != "" && jComboBoxTeamName.getSelectedIndex() != 0){
+        if(!jTextFieldName.getText().strip().equals("") && jComboBoxTeamName.getSelectedIndex() != 0){
             jButtonInsert.setEnabled(true);
         }
         else{
