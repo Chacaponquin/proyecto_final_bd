@@ -16,11 +16,10 @@ import java.sql.ResultSet;
 public class PositionServices {
     
     public void createPosition(CreatePositionDTO createPositionDTO) throws SQLException, ClassNotFoundException{
-        String function = "{call position_insert(?,?)}";
+        String function = "{call position_insert(?)}";
         java.sql.Connection connection = Connector.getConnection();
         CallableStatement preparedFunction = connection.prepareCall(function);
-        preparedFunction.setString(1, createPositionDTO.getPositionID());
-        preparedFunction.setString(2, createPositionDTO.getPositionName());
+        preparedFunction.setString(1, createPositionDTO.getPositionName());
         preparedFunction.execute();
         preparedFunction.close();
     }
@@ -29,7 +28,7 @@ public class PositionServices {
         String function = "{call position_delete(?)}";
         java.sql.Connection connection = Connector.getConnection();
         CallableStatement preparedFunction = connection.prepareCall(function);
-        preparedFunction.setString(1, deletePositionDTO.getPositionID());
+        preparedFunction.setInt(1, deletePositionDTO.getPositionID());
         preparedFunction.execute();
         preparedFunction.close();
     }
@@ -38,7 +37,7 @@ public class PositionServices {
         String function = "{call position_update(?,?)}";
         java.sql.Connection connection = Connector.getConnection();
         CallableStatement preparedFunction = connection.prepareCall(function);
-        preparedFunction.setString(1, updatePositionDTO.getPositionID());
+        preparedFunction.setInt(1, updatePositionDTO.getPositionID());
         preparedFunction.setString(2, updatePositionDTO.getPositionName());
         preparedFunction.execute();
         preparedFunction.close();
@@ -51,11 +50,11 @@ public class PositionServices {
         connection.setAutoCommit(false);
         CallableStatement preparedFunction = connection.prepareCall(function);
         preparedFunction.registerOutParameter(1, java.sql.Types.REF_CURSOR);
-        preparedFunction.setString(2, readAPositionDTO.getPositionID());
+        preparedFunction.setInt(2, readAPositionDTO.getPositionID());
         preparedFunction.execute();
         ResultSet resultSet = (ResultSet) preparedFunction.getObject(1);
         resultSet.next();
-        readPositionDTO = new ReadPositionDTO(resultSet.getString(1), resultSet.getString(2));
+        readPositionDTO = new ReadPositionDTO(resultSet.getInt(1), resultSet.getString(2));
         resultSet.close();
         preparedFunction.close();
 
@@ -74,7 +73,7 @@ public class PositionServices {
         ResultSet resultSet = (ResultSet) preparedFunction.getObject(1);
         while (resultSet.next())
         {
-            positions_list.add(new ReadPositionDTO(resultSet.getString("position_id"), resultSet.getString("position_name")));
+            positions_list.add(new ReadPositionDTO(resultSet.getInt("position_id"), resultSet.getString("position_name")));
         }
         resultSet.close();
         preparedFunction.close();

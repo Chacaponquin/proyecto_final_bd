@@ -17,11 +17,10 @@ public class ProvinceServices
 
     public void createProvince(CreateProvinceDTO createProvinceDTO) throws SQLException, ClassNotFoundException
     {
-        String function = "{call province_insert(?,?)}";
+        String function = "{call province_insert(?)}";
         java.sql.Connection connection = Connector.getConnection();
         CallableStatement preparedFunction = connection.prepareCall(function);
-        preparedFunction.setString(1, createProvinceDTO.getID());
-        preparedFunction.setString(2, createProvinceDTO.getName());
+        preparedFunction.setString(1, createProvinceDTO.getName());
         preparedFunction.execute();
         preparedFunction.close();
 
@@ -32,7 +31,7 @@ public class ProvinceServices
         String function = "{call province_update(?,?)}";
         java.sql.Connection connection = Connector.getConnection();
         CallableStatement preparedFunction = connection.prepareCall(function);
-        preparedFunction.setString(1, updateProvinceDTO.getID());
+        preparedFunction.setInt(1, updateProvinceDTO.getID());
         preparedFunction.setString(2, updateProvinceDTO.getName());
         preparedFunction.execute();
         preparedFunction.close();
@@ -43,7 +42,7 @@ public class ProvinceServices
         String function = "{call province_delete(?)}";
         java.sql.Connection connection = Connector.getConnection();
         CallableStatement preparedFunction = connection.prepareCall(function);
-        preparedFunction.setString(1, deleteProvinceDTO.getID());
+        preparedFunction.setInt(1, deleteProvinceDTO.getID());
         preparedFunction.execute();
         preparedFunction.close();
     }
@@ -60,7 +59,7 @@ public class ProvinceServices
         ResultSet resultSet = (ResultSet) preparedFunction.getObject(1);
         while (resultSet.next())
         {
-            provinces_list.add(new ReadProvinceDTO(resultSet.getString(1), resultSet.getString(2)));
+            provinces_list.add(new ReadProvinceDTO(resultSet.getInt(1), resultSet.getString(2)));
         }
         resultSet.close();
         preparedFunction.close();
@@ -70,17 +69,16 @@ public class ProvinceServices
 
     public ReadProvinceDTO readAProvince(ReadAProvinceDTO readAProvinceDTO) throws SQLException, ClassNotFoundException
     {        
-        ReadProvinceDTO readProvinceDTO = null;
         String function = "{?= call province_load_by_id(?)}";
         java.sql.Connection connection = Connector.getConnection();
         connection.setAutoCommit(false);
         CallableStatement preparedFunction = connection.prepareCall(function);
         preparedFunction.registerOutParameter(1, java.sql.Types.REF_CURSOR);
-        preparedFunction.setString(2, readAProvinceDTO.getID());
+        preparedFunction.setInt(2, readAProvinceDTO.getID());
         preparedFunction.execute();
         ResultSet resultSet = (ResultSet) preparedFunction.getObject(1);
         resultSet.next();
-        readProvinceDTO = new ReadProvinceDTO(resultSet.getString(1), resultSet.getString(2));
+        ReadProvinceDTO readProvinceDTO = new ReadProvinceDTO(resultSet.getInt(1), resultSet.getString(2));
         resultSet.close();
         preparedFunction.close();
 
