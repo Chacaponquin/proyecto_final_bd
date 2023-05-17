@@ -9,7 +9,7 @@ public class CreatePitcherDTO {
     private int runsAllowed;
     private int positionID;
 
-    public CreatePitcherDTO(int positionID, String teamMemberName, 
+    public CreatePitcherDTO(String teamMemberName, 
             int memberNumber, int teamID, int yearsInTeam, int inningsPitched, int runsAllowed) {
         this.teamMemberName = teamMemberName;
         this.memberNumber = memberNumber;
@@ -17,7 +17,6 @@ public class CreatePitcherDTO {
         this.yearsInTeam = yearsInTeam;
         this.inningsPitched = inningsPitched;
         this.runsAllowed = runsAllowed;
-        this.positionID = positionID;
     }
 
     public String getTeamMemberName() {

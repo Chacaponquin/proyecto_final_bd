@@ -26,6 +26,10 @@ public class Province_UI extends javax.swing.JFrame
     public Province_UI()
     {
         initComponents();
+        this.updateUI();
+    }
+    
+    public void updateUI(){
         try
         {
 
