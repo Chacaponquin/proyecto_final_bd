@@ -66,7 +66,7 @@ public class AppServices
         return list;
     }
     
-    public List<ReadReport_6DTO> getTeamStatus(String team_id) throws SQLException, ClassNotFoundException
+    public List<ReadReport_6DTO> getTeamStatus(int team_id) throws SQLException, ClassNotFoundException
     {
         LinkedList<ReadReport_6DTO> list = new LinkedList<>();
         String function = "{?= call report_team_status(?)}";
@@ -74,7 +74,7 @@ public class AppServices
         connection.setAutoCommit(false);
         CallableStatement preparedFunction = connection.prepareCall(function);
         preparedFunction.registerOutParameter(1, java.sql.Types.REF_CURSOR);
-        preparedFunction.setString(2, team_id);
+        preparedFunction.setInt(2, team_id);
         preparedFunction.execute();
         ResultSet resultSet = (ResultSet) preparedFunction.getObject(1);
         while (resultSet.next())
