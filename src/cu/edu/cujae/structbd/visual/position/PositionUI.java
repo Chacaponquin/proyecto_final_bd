@@ -6,6 +6,7 @@ package cu.edu.cujae.structbd.visual.position;
 
 import cu.edu.cujae.structbd.dto.position.ReadPositionDTO;
 import cu.edu.cujae.structbd.services.ServicesLocator;
+import cu.edu.cujae.structbd.utils.UtilsConnector;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.logging.Level;
@@ -25,6 +26,10 @@ public class PositionUI extends javax.swing.JFrame {
      */
     public PositionUI() {
         initComponents();
+        this.updateUI();
+    }
+    
+    public void updateUI(){
         try
         {
             this.positions_list = new LinkedList<>(ServicesLocator.PositionServices.readAllPositions());
@@ -36,13 +41,9 @@ public class PositionUI extends javax.swing.JFrame {
                 });
             }
         }
-        catch (SQLException ex)
+        catch (SQLException | ClassNotFoundException ex)
         {
-            Logger.getLogger(PositionUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        catch (ClassNotFoundException ex)
-        {
-            Logger.getLogger(PositionUI.class.getName()).log(Level.SEVERE, null, ex);
+            UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
         }
     }
 
