@@ -6,6 +6,7 @@ package cu.edu.cujae.structbd.visual.reports;
 
 import cu.edu.cujae.structbd.dto.stadium.ReadStadiumDTO;
 import cu.edu.cujae.structbd.services.ServicesLocator;
+import cu.edu.cujae.structbd.utils.AppCustomDialog;
 import cu.edu.cujae.structbd.utils.UtilsConnector;
 import java.awt.event.ItemEvent;
 import java.sql.SQLException;
@@ -16,7 +17,7 @@ import java.util.List;
  *
  * @author Hector Angel Gomez
  */
-public class Report_3UI extends javax.swing.JDialog {
+public class Report_3UI extends AppCustomDialog {
     private List<ReadStadiumDTO> stadiums = new LinkedList<>();
 
     /**
@@ -24,6 +25,9 @@ public class Report_3UI extends javax.swing.JDialog {
      */
     public Report_3UI(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
+    }
+    
+    public void start(){
         initComponents();
         this.updateUI();
     }

@@ -6,24 +6,27 @@ package cu.edu.cujae.structbd.visual.reports;
 
 import cu.edu.cujae.structbd.dto.reports.ReadReport_7DTO;
 import cu.edu.cujae.structbd.services.ServicesLocator;
+import cu.edu.cujae.structbd.utils.AppCustomDialog;
+import cu.edu.cujae.structbd.utils.UtilsConnector;
 import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author Amaya
  */
-public class Report_7UI extends javax.swing.JDialog {
+public class Report_7UI extends AppCustomDialog {
 
     /**
      * Creates new form Report_7UI
      */
     public Report_7UI(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
+    }
+    
+    public void start(){
         initComponents();
         try
         {
@@ -41,15 +44,10 @@ public class Report_7UI extends javax.swing.JDialog {
             }
 
         }
-        catch (SQLException ex)
+        catch (SQLException | ClassNotFoundException ex)
         {
-            Logger.getLogger(Report_4UI.class.getName()).log(Level.SEVERE, null, ex);
+            UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
         }
-        catch (ClassNotFoundException ex)
-        {
-            Logger.getLogger(Report_4UI.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
     }
 
     /**

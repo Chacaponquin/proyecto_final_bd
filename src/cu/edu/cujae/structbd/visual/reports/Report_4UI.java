@@ -6,6 +6,8 @@ package cu.edu.cujae.structbd.visual.reports;
 
 import cu.edu.cujae.structbd.dto.reports.ReadReport_4DTO;
 import cu.edu.cujae.structbd.services.ServicesLocator;
+import cu.edu.cujae.structbd.utils.AppCustomDialog;
+import cu.edu.cujae.structbd.utils.UtilsConnector;
 import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -17,7 +19,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Jose
  */
-public class Report_4UI extends javax.swing.JDialog
+public class Report_4UI extends AppCustomDialog
 {
 
     /**
@@ -26,6 +28,9 @@ public class Report_4UI extends javax.swing.JDialog
     public Report_4UI(java.awt.Frame parent, boolean modal)
     {
         super(parent, modal);
+    }
+    
+    public void start(){
         try
         {
             initComponents();
@@ -43,15 +48,10 @@ public class Report_4UI extends javax.swing.JDialog
             }
 
         }
-        catch (SQLException ex)
+        catch (SQLException | ClassNotFoundException ex)
         {
-            Logger.getLogger(Report_4UI.class.getName()).log(Level.SEVERE, null, ex);
+            UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
         }
-        catch (ClassNotFoundException ex)
-        {
-            Logger.getLogger(Report_4UI.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
     }
 
     /**

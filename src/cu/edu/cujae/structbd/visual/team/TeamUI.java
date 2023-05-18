@@ -6,25 +6,27 @@ package cu.edu.cujae.structbd.visual.team;
 
 import cu.edu.cujae.structbd.dto.team.ReadTeamDTO;
 import cu.edu.cujae.structbd.services.ServicesLocator;
+import cu.edu.cujae.structbd.utils.AppCustomWindow;
 import cu.edu.cujae.structbd.utils.UtilsConnector;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author Hector Angel Gomez
  */
-public class TeamUI extends javax.swing.JFrame {
-
-    /**
-     * Creates new form TeamUI
-     */
-    public TeamUI() throws SQLException, ClassNotFoundException {
-        initComponents();
-        this.updateUI();
+public class TeamUI extends AppCustomWindow {
+    
+    public void start(){
+        try {
+            initComponents();
+            this.updateUI();
+        } catch (SQLException | ClassNotFoundException ex) {
+            UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
+        }
     }
     
     public void updateUI() throws SQLException, ClassNotFoundException {
@@ -35,9 +37,6 @@ public class TeamUI extends javax.swing.JFrame {
         for(ReadTeamDTO team:  teams){
             model.addRow(new Object[]{team.getTeam_name(), team.getPlayed_championships(), team.getColor(), team.getProvince(), team.getPet(), team.getWon_championships(), team.getStadium()});
         }
-        
-        
- 
     }
 
     /**

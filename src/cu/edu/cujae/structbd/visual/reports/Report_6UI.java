@@ -7,6 +7,7 @@ package cu.edu.cujae.structbd.visual.reports;
 import cu.edu.cujae.structbd.dto.reports.ReadReport_6DTO;
 import cu.edu.cujae.structbd.dto.team.ReadTeamDTO;
 import cu.edu.cujae.structbd.services.ServicesLocator;
+import cu.edu.cujae.structbd.utils.AppCustomDialog;
 import cu.edu.cujae.structbd.utils.UtilsConnector;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -21,13 +22,16 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Amaya
  */
-public class Report_6UI extends javax.swing.JDialog {
+public class Report_6UI extends AppCustomDialog{
 
     /**
      * Creates new form Report_6DTO
      */
     public Report_6UI(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
+    }
+    
+    public void start(){
         try {
             initComponents();
             ArrayList<ReadTeamDTO> teams_list = ServicesLocator.TeamServices.readTeams();

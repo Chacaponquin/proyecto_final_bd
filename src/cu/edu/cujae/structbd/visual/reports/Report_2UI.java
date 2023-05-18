@@ -7,6 +7,7 @@ package cu.edu.cujae.structbd.visual.reports;
 import cu.edu.cujae.structbd.dto.reports.ReadReport_2DTO;
 import cu.edu.cujae.structbd.dto.team.ReadTeamDTO;
 import cu.edu.cujae.structbd.services.ServicesLocator;
+import cu.edu.cujae.structbd.utils.AppCustomDialog;
 import cu.edu.cujae.structbd.utils.UtilsConnector;
 import java.awt.event.ItemEvent;
 import java.sql.SQLException;
@@ -18,8 +19,8 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Hector Angel Gomez
  */
-public class Report_2UI extends javax.swing.JDialog {
-    private final String SELECT_TEXT = "<Seleccionar>";
+public class Report_2UI extends AppCustomDialog {
+    private final String SELECT_TEXT = "<Seleccione>";
     private List<ReadTeamDTO> teams = new LinkedList<>();
 
     /**
@@ -27,8 +28,12 @@ public class Report_2UI extends javax.swing.JDialog {
      */
     public Report_2UI(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-            initComponents();
-            this.updateUI();
+            
+    }
+    
+    public void start(){
+        initComponents();
+        this.updateUI();
     }
 
     /**

@@ -6,6 +6,7 @@ package cu.edu.cujae.structbd.visual.province;
 
 import cu.edu.cujae.structbd.dto.province.ReadProvinceDTO;
 import cu.edu.cujae.structbd.services.ServicesLocator;
+import cu.edu.cujae.structbd.utils.AppCustomWindow;
 import cu.edu.cujae.structbd.utils.UtilsConnector;
 import java.sql.SQLException;
 import java.util.LinkedList;
@@ -15,16 +16,11 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Jose
  */
-public class Province_UI extends javax.swing.JFrame
+public class Province_UI extends AppCustomWindow
 {
-
     private LinkedList<ReadProvinceDTO> provinces_list;
-
-    /**
-     * Creates new form Province_UI
-     */
-    public Province_UI()
-    {
+    
+    public void start(){
         initComponents();
         this.updateUI();
     }
