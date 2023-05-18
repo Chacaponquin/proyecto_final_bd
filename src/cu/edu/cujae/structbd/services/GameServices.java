@@ -21,13 +21,13 @@ public class GameServices {
         String function = "{call game_insert(?,?,?,?,?,?,?,?)}";
         java.sql.Connection connection = Connector.getConnection();
         CallableStatement preparedFunction = connection.prepareCall(function);
-        preparedFunction.setString(1, createGameDTO.getHcTeamID());
-        preparedFunction.setString(2, createGameDTO.getVisTeamID());
-        preparedFunction.setString(3, createGameDTO.getPhaseID());
+        preparedFunction.setInt(1, createGameDTO.getHcTeamID());
+        preparedFunction.setInt(2, createGameDTO.getVisTeamID());
+        preparedFunction.setInt(3, createGameDTO.getPhaseID());
         preparedFunction.setDate(4, java.sql.Date.valueOf(createGameDTO.getDate()));
         preparedFunction.setInt(5, createGameDTO.getRuns_home_club());
         preparedFunction.setInt(6, createGameDTO.getRuns_visitant());
-        preparedFunction.setString(7, createGameDTO.getWinner());
+        preparedFunction.setInt(7, createGameDTO.getWinner());
         preparedFunction.setInt(8, createGameDTO.getAudience());
         preparedFunction.execute();
         preparedFunction.close();
@@ -83,14 +83,14 @@ public class GameServices {
         java.sql.Connection connection = Connector.getConnection();
         CallableStatement preparedFunction = connection.prepareCall(function);
         preparedFunction.setInt(1, updateGameDTO.getId());
-        preparedFunction.setString(2, updateGameDTO.getHcTeamID());
-        preparedFunction.setString(3, updateGameDTO.getVisTeamID());
-        preparedFunction.setString(4, updateGameDTO.getPhaseID());
+        preparedFunction.setInt(2, updateGameDTO.getHcTeamID());
+        preparedFunction.setInt(3, updateGameDTO.getVisTeamID());
+        preparedFunction.setInt(4, updateGameDTO.getPhaseID());
         preparedFunction.setDate(5, java.sql.Date.valueOf(updateGameDTO.getDate())
         );
         preparedFunction.setInt(6, updateGameDTO.getRuns_home_club());
         preparedFunction.setInt(7, updateGameDTO.getRuns_visitant());
-        preparedFunction.setString(8, updateGameDTO.getWinner());
+        preparedFunction.setInt(8, updateGameDTO.getWinner());
         preparedFunction.setInt(9, updateGameDTO.getAudience());
         preparedFunction.execute();
         preparedFunction.close();
@@ -119,6 +119,7 @@ public class GameServices {
         ResultSet resultSet = (ResultSet) preparedFunction.getObject(1);
         while (resultSet.next())
         {
+            //El null es porque no me hace falta la fase
             games_list.add(new ReadGameDTO(resultSet.getInt(1), resultSet.getString(2),
                                            resultSet.getString(3), null, resultSet.getDate(4).
                                            toLocalDate(), resultSet.getString(5), resultSet.getInt(6), resultSet.

@@ -12,6 +12,8 @@ import cu.edu.cujae.structbd.dto.reports.ReadReport_5DTO;
 import cu.edu.cujae.structbd.dto.reports.ReadReport_6DTO;
 import cu.edu.cujae.structbd.dto.reports.ReadReport_7DTO;
 import cu.edu.cujae.structbd.dto.snb.TeamPositionDTO;
+import cu.edu.cujae.structbd.dto.team.ReadATeamDTO;
+import cu.edu.cujae.structbd.dto.team.ReadTeamDTO;
 import cu.edu.cujae.structbd.utils.Connector;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
@@ -181,5 +183,69 @@ public class AppServices
             preparedFunction.close();
         }
         return list;
+    }
+
+    //Obtener los equipos que estan en una fase
+    public List<ReadTeamDTO> getTeamsInPhase(ReadAPhaseDTO readAPhaseDTO) throws ClassNotFoundException, SQLException
+    {
+        LinkedList<ReadTeamDTO> list = new LinkedList<>();
+        String function = "{?= call teams_in_phase(?)}";
+        java.sql.Connection connection = Connector.getConnection();
+        connection.setAutoCommit(false);
+        CallableStatement preparedFunction = connection.prepareCall(function);
+        preparedFunction.registerOutParameter(1, java.sql.Types.REF_CURSOR);
+        preparedFunction.setInt(2, readAPhaseDTO.getPhase_id());
+        preparedFunction.execute();
+        ResultSet resultSet = (ResultSet) preparedFunction.getObject(1);
+        while (resultSet.next())
+        {
+            list.add(new ReadTeamDTO(resultSet.getInt(1), resultSet.getString(2), resultSet.getInt(3), 0, null, null,
+                                     null, null));
+        }
+        resultSet.close();
+        preparedFunction.close();
+        return list;
+    }
+
+    //Obtener los posibles rivales en una fase
+    public List<ReadTeamDTO> getTeamsPosibleRivals(ReadAPhaseDTO readAPhaseDTO, ReadATeamDTO readATeamDTO) throws
+        ClassNotFoundException,                                                                                       SQLException
+    {
+        LinkedList<ReadTeamDTO> list = new LinkedList<>();
+        String function = "{?= call teams_posible_rivals(?,?)}";
+        java.sql.Connection connection = Connector.getConnection();
+        connection.setAutoCommit(false);
+        CallableStatement preparedFunction = connection.prepareCall(function);
+        preparedFunction.registerOutParameter(1, java.sql.Types.REF_CURSOR);
+        preparedFunction.setInt(2, readAPhaseDTO.getPhase_id());
+        preparedFunction.setInt(3, readATeamDTO.getTeam_id());
+        preparedFunction.execute();
+        ResultSet resultSet = (ResultSet) preparedFunction.getObject(1);
+        while (resultSet.next())
+        {
+            list.add(new ReadTeamDTO(resultSet.getInt(1), resultSet.getString(2), 0, 0, null, null, null, null));
+        }
+        resultSet.close();
+        preparedFunction.close();
+        return list;
+    }
+    
+    public ReadReport_1DTO getWinner() throws SQLException, ClassNotFoundException
+    {
+        ReadReport_1DTO readReport_1DTO = null;
+        String function = "{?= call team_winner()";
+        java.sql.Connection connection = Connector.getConnection();
+        connection.setAutoCommit(false);
+        CallableStatement preparedFunction = connection.prepareCall(function);
+        preparedFunction.registerOutParameter(1, java.sql.Types.REF_CURSOR);
+        preparedFunction.execute();
+        ResultSet resultSet = (ResultSet) preparedFunction.getObject(1);
+        while (resultSet.next())
+        {
+            new ReadReport_1DTO(resultSet.getString(1), resultSet.getInt(2), 0, 0);
+        }
+        resultSet.close();
+        preparedFunction.close();
+        return readReport_1DTO;
     }
 }

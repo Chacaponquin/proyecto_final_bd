@@ -5,16 +5,16 @@ import java.util.Date;
 
 public class CreateGameDTO
 {
-    private String hcTeamID;
-    private String visTeamID;
-    private String phaseID;
+    private int hcTeamID;
+    private int visTeamID;
+    private int phaseID;
     private LocalDate date;
-    private String winner;
+    private int winner;
     private int audience;
     private int runs_home_club;
     private int runs_visitant;
 
-    public CreateGameDTO(String hcTeamID, String visTeamID, String phaseID, LocalDate date, String winner,
+    public CreateGameDTO(int hcTeamID, int visTeamID, int phaseID, LocalDate date, int winner,
                          int audience, int runs_home_club, int runs_visitant)
     {
         this.hcTeamID = hcTeamID;
@@ -27,55 +27,40 @@ public class CreateGameDTO
         this.runs_visitant = runs_visitant;
     }
 
-    public String getHcTeamID()
+    public int getHcTeamID()
     {
         return hcTeamID;
     }
 
-    public void setHcTeamID(String hcTeamID)
+    public void setHcTeamID(int hcTeamID)
     {
-        if (hcTeamID != null)
-        {
+
             this.hcTeamID = hcTeamID;
-        }
-        else
-        {
-            throw new IllegalArgumentException();
-        }
+
     }
 
-    public String getVisTeamID()
+    public int getVisTeamID()
     {
         return visTeamID;
     }
 
-    public void setVisTeamID(String visTeamID)
+    public void setVisTeamID(int visTeamID)
     {
-        if (visTeamID != null)
-        {
+
             this.visTeamID = visTeamID;
-        }
-        else
-        {
-            throw new IllegalArgumentException();
-        }
+
     }
 
-    public String getPhaseID()
+    public int getPhaseID()
     {
         return phaseID;
     }
 
-    public void setPhaseID(String phaseID)
+    public void setPhaseID(int phaseID)
     {
-        if (phaseID != null)
-        {
+
             this.phaseID = phaseID;
-        }
-        else
-        {
-            throw new IllegalArgumentException();
-        }
+
     }
 
     public LocalDate getDate()
@@ -95,21 +80,16 @@ public class CreateGameDTO
         }
     }
 
-    public String getWinner()
+    public int getWinner()
     {
         return winner;
     }
 
-    public void setWinner(String winner)
+    public void setWinner(int winner)
     {
-        if (winner != null)
-        {
+
             this.winner = winner;
-        }
-        else
-        {
-            throw new IllegalArgumentException();
-        }
+
     }
 
     public int getAudience()

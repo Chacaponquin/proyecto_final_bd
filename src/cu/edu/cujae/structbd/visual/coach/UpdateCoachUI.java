@@ -211,7 +211,7 @@ public class UpdateCoachUI extends javax.swing.JDialog
             int y_team = (int) spinner_team.getValue();
             ArrayList<ReadTeamDTO> teams_list_2 = ServicesLocator.TeamServices.readTeams();
             boolean found_team = false;
-            String team_id = null;
+            int team_id = -1;
             for (int i = 0; i < teams_list_2.size() && !found_team; i++)
             {
                 if (teams_list_2.get(i).getTeam_name().equalsIgnoreCase(team))
@@ -220,7 +220,7 @@ public class UpdateCoachUI extends javax.swing.JDialog
                     team_id = teams_list_2.get(i).getTeam_id();
                 }
             }
-            updateCoachDTO.setTeam_name(team_id);
+            updateCoachDTO.setTeam_id(team_id);
             updateCoachDTO.setExperience_years(y_exp);
             updateCoachDTO.setMember_number(number);
             updateCoachDTO.setTeam_member_name(name);

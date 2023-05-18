@@ -14,17 +14,17 @@ public class UpdateCoachDTO
     private int team_member_ID;
     private String team_member_name;
     private int member_number;
-    private String team_name;
+    private int team_id;
     private int experience_years;
     private int years_in_team;
 
-    public UpdateCoachDTO(int team_member_ID, String team_member_name, int member_number, String team_name,
+    public UpdateCoachDTO(int team_member_ID, String team_member_name, int member_number, int team_id,
                           int experience_years, int years_in_team)
     {
         this.team_member_ID = team_member_ID;
         this.team_member_name = team_member_name;
         this.member_number = member_number;
-        this.team_name = team_name;
+        this.team_id = team_id;
         this.experience_years = experience_years;
         this.years_in_team = years_in_team;
     }
@@ -73,21 +73,14 @@ public class UpdateCoachDTO
         }
     }
 
-    public String getTeam_name()
+    public int getTeam_id()
     {
-        return team_name;
+        return team_id;
     }
 
-    public void setTeam_name(String team_name)
+    public void setTeam_id(int team_name)
     {
-        if (team_name != null)
-        {
-            this.team_name = team_name;
-        }
-        else
-        {
-            throw new IllegalArgumentException();
-        }
+        this.team_id = team_name;
     }
 
     public int getExperience_years()

@@ -41,8 +41,8 @@ public class ViewUtils {
     
     public ViewUtils()
     {
-        try{
-            this.views.add(new ViewWindow("Usuarios", new UserUI()));
+        try
+        {
             this.views.add(new ViewWindow("Estadios", new StadiumUI()));
             this.views.add(new ViewWindow("Posiciones", new PositionUI()));
             this.views.add(new ViewWindow("Pitchers", new PitcherUI()));

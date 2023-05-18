@@ -7,13 +7,16 @@ package cu.edu.cujae.structbd.visual.snb;
 import cu.edu.cujae.structbd.dto.game.ReadGameDTO;
 import cu.edu.cujae.structbd.dto.phase.ReadAPhaseDTO;
 import cu.edu.cujae.structbd.dto.phase.ReadPhaseDTO;
+import cu.edu.cujae.structbd.dto.reports.ReadReport_1DTO;
 import cu.edu.cujae.structbd.dto.snb.TeamPositionDTO;
 import cu.edu.cujae.structbd.services.ServicesLocator;
+import cu.edu.cujae.structbd.visual.game.CreateGameUI;
 import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -57,6 +60,9 @@ public class SerieUI extends javax.swing.JFrame
     private void initComponents()
     {
 
+        jPopupMenu1 = new javax.swing.JPopupMenu();
+        jMenuMod = new javax.swing.JMenuItem();
+        jMenuDel = new javax.swing.JMenuItem();
         combo_phases = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         close_button = new javax.swing.JButton();
@@ -69,6 +75,12 @@ public class SerieUI extends javax.swing.JFrame
         jScrollPane1 = new javax.swing.JScrollPane();
         jTablePosition = new javax.swing.JTable();
         jButton4 = new javax.swing.JButton();
+
+        jMenuMod.setText("Modificar juego");
+        jPopupMenu1.add(jMenuMod);
+
+        jMenuDel.setText("Eliminar juego");
+        jPopupMenu1.add(jMenuDel);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Serie Nacional de Béisbol");
@@ -102,6 +114,13 @@ public class SerieUI extends javax.swing.JFrame
         insert_button.setMaximumSize(new java.awt.Dimension(120, 22));
         insert_button.setMinimumSize(new java.awt.Dimension(120, 22));
         insert_button.setPreferredSize(new java.awt.Dimension(120, 22));
+        insert_button.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                insert_buttonActionPerformed(evt);
+            }
+        });
 
         jTableGames.setAutoCreateRowSorter(true);
         jTableGames.setModel(new javax.swing.table.DefaultTableModel(
@@ -134,6 +153,7 @@ public class SerieUI extends javax.swing.JFrame
                 return canEdit [columnIndex];
             }
         });
+        jTableGames.setComponentPopupMenu(jPopupMenu1);
         jScrollPane2.setViewportView(jTableGames);
         if (jTableGames.getColumnModel().getColumnCount() > 0)
         {
@@ -391,7 +411,17 @@ public class SerieUI extends javax.swing.JFrame
                     phase_id = rf.getPhase_id();
                     found = true;
                     ServicesLocator.PhaseServices.closePhase(phase_id);
-                    insert_button.setEnabled(true);
+                    if (phase_id == 4){
+                        ReadReport_1DTO winner = ServicesLocator.AppServices.getWinner();
+                        JOptionPane.showMessageDialog(rootPane,
+                                                      "Finaliza la Serie Nacional de Béisbol, equipo ganador: " + winner,
+                                                      "Final", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                    else
+                    {
+                        ClassifiedUI c = new ClassifiedUI(this, true, new ReadAPhaseDTO(phase_id));
+                    }
+
                 }
                 catch (SQLException ex)
                 {
@@ -404,6 +434,37 @@ public class SerieUI extends javax.swing.JFrame
             }
         }
     }//GEN-LAST:event_close_buttonActionPerformed
+
+    private void insert_buttonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_insert_buttonActionPerformed
+    {//GEN-HEADEREND:event_insert_buttonActionPerformed
+        try
+        {
+            String phase_name = combo_phases.getSelectedItem().toString();
+            LinkedList<ReadPhaseDTO> lis_readPhaseDTO = new LinkedList<>(ServicesLocator.PhaseServices.readAllPhase());
+            Iterator<ReadPhaseDTO> list_it = lis_readPhaseDTO.iterator();
+            boolean found = false;
+            int phase_id = -1;
+            while (list_it.hasNext() && !found)
+            {
+                ReadPhaseDTO readPhaseDTO = list_it.next();
+                if (readPhaseDTO.getPhase_name().equalsIgnoreCase(phase_name))
+                {
+                    found = true;
+                    phase_id = readPhaseDTO.getPhase_id();
+                }
+            }
+            CreateGameUI createGameUI = new CreateGameUI(this, rootPaneCheckingEnabled, new ReadAPhaseDTO(phase_id));
+            createGameUI.setVisible(true);
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(SerieUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        catch (ClassNotFoundException ex)
+        {
+            Logger.getLogger(SerieUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_insert_buttonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -453,6 +514,7 @@ public class SerieUI extends javax.swing.JFrame
             }
         });
     }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton close_button;
@@ -460,8 +522,11 @@ public class SerieUI extends javax.swing.JFrame
     private javax.swing.JButton insert_button;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JMenuItem jMenuDel;
+    private javax.swing.JMenuItem jMenuMod;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;

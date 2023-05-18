@@ -7,9 +7,11 @@ package cu.edu.cujae.structbd.visual.coach;
 import cu.edu.cujae.structbd.dto.coach.DeleteCoachDTO;
 import cu.edu.cujae.structbd.dto.coach.ReadCoachDTO;
 import cu.edu.cujae.structbd.dto.coach.UpdateCoachDTO;
+import cu.edu.cujae.structbd.dto.team.ReadTeamDTO;
 import cu.edu.cujae.structbd.services.ServicesLocator;
 import cu.edu.cujae.structbd.utils.UtilsConnector;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.logging.Level;
@@ -242,11 +244,33 @@ public class Coach_UI extends javax.swing.JFrame
 
             if (found)
             {
-                UpdateCoachDTO updateCoachDTO = new UpdateCoachDTO(id, name, number, team, years_exp, years_team);
-                UpdateCoachUI upui = new UpdateCoachUI(null, true, updateCoachDTO);
-                upui.setVisible(true);
-                
-                this.updateList();
+                try {
+                    ArrayList<ReadTeamDTO> list_teams = ServicesLocator.TeamServices.readTeams();
+                    boolean found_team = false;
+                    int team_id = -1;
+                    for (int i = 0; i < list_teams.size() && !found_team; i++)
+                    {
+                        ReadTeamDTO readTeamDTO = list_teams.get(i);
+                        if (readTeamDTO.getTeam_name().equalsIgnoreCase(team))
+                        {
+                            found_team = true;
+                            team_id = readTeamDTO.getTeam_id();
+                        }
+                    }
+                    UpdateCoachDTO updateCoachDTO = new UpdateCoachDTO(id, name, number, team_id, years_exp, years_team);
+                    UpdateCoachUI upui = new UpdateCoachUI(null, true, updateCoachDTO);
+                    upui.setVisible(true);
+
+                    this.updateList();
+                }
+                catch (SQLException ex)
+                {
+                    Logger.getLogger(Coach_UI.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                catch (ClassNotFoundException ex)
+                {
+                    Logger.getLogger(Coach_UI.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         } else {
             JOptionPane.showMessageDialog(rootPane, "Seleccione un entrenador para poder modificar sus datos", "Información", JOptionPane.INFORMATION_MESSAGE);

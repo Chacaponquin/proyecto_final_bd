@@ -7,7 +7,9 @@ package cu.edu.cujae.structbd.visual.reports;
 import cu.edu.cujae.structbd.dto.reports.ReadReport_4DTO;
 import cu.edu.cujae.structbd.dto.reports.ReadReport_5DTO;
 import cu.edu.cujae.structbd.services.ServicesLocator;
+import cu.edu.cujae.structbd.utils.Connector;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.logging.Level;
@@ -179,18 +181,21 @@ public class Report_5UI extends javax.swing.JDialog
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
-<<<<<<< HEAD
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton2ActionPerformed
     {//GEN-HEADEREND:event_jButton2ActionPerformed
         try
         {
             String jrxPath = "src/cu/edu/cujae/structbd/reports/Report_5.jrxml";
             JasperReport report = JasperCompileManager.compileReport(jrxPath);
-            JasperPrint print = JasperFillManager.fillReport(jrxPath, null);
+            JasperPrint print = JasperFillManager.fillReport(report, new HashMap<>(), Connector.getConnection());
             String exportPath = "src/cu/edu/cujae/structbd/reports/Report_5.pdf";
             JasperExportManager.exportReportToPdfFile(print, exportPath);
         }
-        catch (JRException ex)
+        catch (JRException | SQLException ex)
+        {
+            Logger.getLogger(Report_5UI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        catch (ClassNotFoundException ex)
         {
             Logger.getLogger(Report_5UI.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -255,8 +260,6 @@ public class Report_5UI extends javax.swing.JDialog
             }
         });
     }
-=======
->>>>>>> aced8173e02b5f19a0868f7dd3dd33fa2a95dd2e
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

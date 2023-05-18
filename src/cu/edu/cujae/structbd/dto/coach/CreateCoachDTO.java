@@ -4,10 +4,10 @@ public class CreateCoachDTO
 {
     private String team_member_name;
     private int member_number;
-    private String team_ID;
+    private int team_ID;
     private int experience_years;
 
-    public CreateCoachDTO(String team_member_name, int member_number, String team_ID,
+    public CreateCoachDTO(String team_member_name, int member_number, int team_ID,
                           int experience_years)
     {
         this.team_member_name = team_member_name;
@@ -50,21 +50,14 @@ public class CreateCoachDTO
         }
     }
 
-    public String getTeam_ID()
+    public int getTeam_ID()
     {
         return team_ID;
     }
 
-    public void setTeam_ID(String team_ID)
+    public void setTeam_ID(int team_ID)
     {
-        if (team_ID != null)
-        {
-            this.team_ID = team_ID;
-        }
-        else
-        {
-            throw new IllegalArgumentException();
-        }
+        this.team_ID = team_ID;
     }
 
     public int getExperience_years()

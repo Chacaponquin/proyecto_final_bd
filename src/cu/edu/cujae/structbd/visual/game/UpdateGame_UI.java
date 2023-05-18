@@ -5,13 +5,12 @@
 package cu.edu.cujae.structbd.visual.game;
 
 import cu.edu.cujae.structbd.dto.game.CreateGameDTO;
+import cu.edu.cujae.structbd.dto.game.UpdateGameDTO;
 import cu.edu.cujae.structbd.dto.phase.ReadAPhaseDTO;
 import cu.edu.cujae.structbd.dto.phase.ReadPhaseDTO;
-import cu.edu.cujae.structbd.dto.team.ReadATeamDTO;
 import cu.edu.cujae.structbd.dto.team.ReadTeamDTO;
 import cu.edu.cujae.structbd.services.ServicesLocator;
 import cu.edu.cujae.structbd.utils.UtilsConnector;
-import cu.edu.cujae.structbd.visual.snb.SerieUI;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import java.sql.SQLException;
@@ -30,41 +29,65 @@ import java.util.logging.Logger;
  *
  * @author Amaya
  */
-public class CreateGameUI extends javax.swing.JDialog {
+public class UpdateGame_UI extends javax.swing.JDialog {
 
     private ReadAPhaseDTO readAPhaseDTO;
-    private LinkedList<ReadTeamDTO> list_teams_in_phase;
     /**
      * Creates new form CreateGameUI
      */
-    public CreateGameUI(java.awt.Frame parent, boolean modal, ReadAPhaseDTO readAPhaseDTO)
+    public UpdateGame_UI(java.awt.Frame parent, boolean modal, UpdateGameDTO updateGameDTO)
     {
         super(parent, modal);
         try {
             initComponents();
-            jComboBoxHomeClub.addItem("<Seleccione>");
             //Contiene el codigo de la fase activa actualmente para buscar los equipos
             this.readAPhaseDTO = readAPhaseDTO;
-            this.list_teams_in_phase = new LinkedList<>(ServicesLocator.AppServices.getTeamsInPhase(
-                this.readAPhaseDTO));
+            LinkedList<ReadTeamDTO> list_teams_in_phase = new LinkedList<>(ServicesLocator.AppServices.getTeamsInPhase(
+                readAPhaseDTO));
             for (ReadTeamDTO readTeamDTO : list_teams_in_phase)
             {
                 jComboBoxHomeClub.addItem(readTeamDTO.getTeam_name());
             }
-            ReadPhaseDTO readPhaseDTO = ServicesLocator.PhaseServices.readAPhase(readAPhaseDTO);
-            ZoneId defaultZoneId = ZoneId.systemDefault();
-            Date start_date = Date.from(readPhaseDTO.getStart_date().atStartOfDay(defaultZoneId).toInstant());
-            jDate_Game.setMinSelectableDate(start_date);
-            jDate_Game.setDate(start_date);
-            Date finish_date = Date.from(readPhaseDTO.getFinish_date().atStartOfDay(defaultZoneId).toInstant());
-            jDate_Game.setMaxSelectableDate(finish_date);
 
+            Iterator<ReadTeamDTO> it_list_teams_in_phase = list_teams_in_phase.iterator();
+            boolean found_hc = false;
+            String name_hc = null;
+            while (it_list_teams_in_phase.hasNext() && !found_hc)
+            {
+                ReadTeamDTO readTeamDTO = it_list_teams_in_phase.next();
+                if (readTeamDTO.getTeam_id() == updateGameDTO.getHcTeamID())
+                {
+                    name_hc = readTeamDTO.getTeam_name();
+                }
+            }
 
+            Iterator<ReadTeamDTO> it_2_list_teams_in_phase = list_teams_in_phase.iterator();
+            boolean found_v = false;
+            String name_v = null;
+            while (it_2_list_teams_in_phase.hasNext() && !found_v)
+            {
+                ReadTeamDTO readTeamDTO = it_2_list_teams_in_phase.next();
+                if (readTeamDTO.getTeam_id() == updateGameDTO.getHcTeamID())
+                {
+                    name_v = readTeamDTO.getTeam_name();
+                    found_v = true;
+                }
+            }
+            jComboBoxHomeClub.addItem(name_hc);
+            LinkedList<ReadTeamDTO> list_teams = new LinkedList<>(ServicesLocator.AppServices.getTeamsInPhase(
+                readAPhaseDTO));
+            for (ReadTeamDTO readTeamDTO : list_teams_in_phase)
+            {
+                if (readTeamDTO.getTeam_id() != updateGameDTO.getHcTeamID())
+                {
+                    jComboBoxHomeClub.addItem(readTeamDTO.getTeam_name());
+                }
+            }
 
         } catch (SQLException ex) {
-            Logger.getLogger(CreateGameUI.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UpdateGame_UI.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(CreateGameUI.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UpdateGame_UI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -88,7 +111,7 @@ public class CreateGameUI extends javax.swing.JDialog {
         jLabelVisitor1 = new javax.swing.JLabel();
         jSpinnerRV = new javax.swing.JSpinner();
         jLabelDate = new javax.swing.JLabel();
-        jDate_Game = new com.toedter.calendar.JDateChooser();
+        jCalendarDate = new com.toedter.calendar.JDateChooser();
         jSpinnerAudience = new javax.swing.JSpinner();
         jLabelAudience = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
@@ -103,13 +126,7 @@ public class CreateGameUI extends javax.swing.JDialog {
 
         jLabelHomeClub.setText("Equipo Local:");
 
-        jComboBoxHomeClub.addItemListener(new java.awt.event.ItemListener()
-        {
-            public void itemStateChanged(java.awt.event.ItemEvent evt)
-            {
-                jComboBoxHomeClubItemStateChanged(evt);
-            }
-        });
+        jComboBoxHomeClub.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<Seleccionar>" }));
         jComboBoxHomeClub.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
@@ -127,26 +144,13 @@ public class CreateGameUI extends javax.swing.JDialog {
 
         jLabelVisitor.setText("Equipo Visitante:");
 
+        jComboBoxVisitor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<Seleccionar>" }));
         jComboBoxVisitor.setEnabled(false);
-        jComboBoxVisitor.addItemListener(new java.awt.event.ItemListener()
-        {
-            public void itemStateChanged(java.awt.event.ItemEvent evt)
-            {
-                jComboBoxVisitorItemStateChanged(evt);
-            }
-        });
         jComboBoxVisitor.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
                 jComboBoxVisitorActionPerformed(evt);
-            }
-        });
-        jComboBoxVisitor.addKeyListener(new java.awt.event.KeyAdapter()
-        {
-            public void keyReleased(java.awt.event.KeyEvent evt)
-            {
-                jComboBoxVisitorKeyReleased(evt);
             }
         });
 
@@ -159,14 +163,6 @@ public class CreateGameUI extends javax.swing.JDialog {
         jSpinnerRV.setModel(new javax.swing.SpinnerNumberModel(0, 0, 50, 1));
 
         jLabelDate.setText("Fecha:");
-
-        jDate_Game.addKeyListener(new java.awt.event.KeyAdapter()
-        {
-            public void keyReleased(java.awt.event.KeyEvent evt)
-            {
-                jDate_GameKeyReleased(evt);
-            }
-        });
 
         jSpinnerAudience.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
 
@@ -201,7 +197,7 @@ public class CreateGameUI extends javax.swing.JDialog {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabelDate)
                                 .addGap(106, 106, 106)
-                                .addComponent(jDate_Game, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jCalendarDate, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabelAudience)
                                 .addGap(84, 84, 84)
@@ -230,14 +226,14 @@ public class CreateGameUI extends javax.swing.JDialog {
                 .addGap(8, 8, 8)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabelDate)
-                    .addComponent(jDate_Game, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jCalendarDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(8, 8, 8)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabelAudience)
                     .addComponent(jSpinnerAudience, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 300, 210));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 300, 180));
 
         jButtonClose.setText("Cerrar");
         jButtonClose.addActionListener(new java.awt.event.ActionListener()
@@ -249,7 +245,6 @@ public class CreateGameUI extends javax.swing.JDialog {
         });
 
         jButtonInsert.setText("Insertar");
-        jButtonInsert.setEnabled(false);
         jButtonInsert.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
@@ -278,96 +273,37 @@ public class CreateGameUI extends javax.swing.JDialog {
                 .addGap(0, 8, Short.MAX_VALUE))
         );
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 220, 300, 30));
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 200, 300, 30));
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jComboBoxVisitorActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jComboBoxVisitorActionPerformed
-    {//GEN-HEADEREND:event_jComboBoxVisitorActionPerformed
-        activate_button();
-    }//GEN-LAST:event_jComboBoxVisitorActionPerformed
+    private void jButtonCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCloseActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_jButtonCloseActionPerformed
 
-    private void jComboBoxHomeClubActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jComboBoxHomeClubActionPerformed
-    {//GEN-HEADEREND:event_jComboBoxHomeClubActionPerformed
-         if (!jComboBoxHomeClub.getSelectedItem().toString().equalsIgnoreCase("<Seleccione>"))
-        {
-            try
-            {
-                jComboBoxVisitor.removeAllItems();
-                jComboBoxVisitor.addItem("<Seleccione>");
-                
-                
-                //Buscando el id del equipo local para obtener sus posibles rivales dado su id y la fase
-                String team_local_name = jComboBoxHomeClub.getSelectedItem().toString();
-                Iterator<ReadTeamDTO> it_list = this.list_teams_in_phase.iterator();
-                boolean found = false;
-                int visitant_id = -1;
-                while (it_list.hasNext() && !found)
-                {
-                    ReadTeamDTO readTeamDTO = it_list.next();
-                    if (readTeamDTO.getTeam_name().equalsIgnoreCase(team_local_name))
-                    {
-                        found = true;
-                        visitant_id = readTeamDTO.getTeam_id();
-                    }
-                }
-                ReadATeamDTO readATeamDTO = new ReadATeamDTO(visitant_id);
-                LinkedList<ReadTeamDTO> list_teams_posible_rivals = new LinkedList<>(ServicesLocator.AppServices.
-                    getTeamsPosibleRivals(readAPhaseDTO, readATeamDTO));
-
-                for (ReadTeamDTO readTeamDTO : list_teams_posible_rivals)
-                {
-                    jComboBoxVisitor.addItem(readTeamDTO.getTeam_name());
-                }
-                jComboBoxVisitor.setEnabled(true);
-                activate_button();
-            }
-            catch (ClassNotFoundException ex)
-            {
-                Logger.getLogger(CreateGameUI.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            catch (SQLException ex)
-            {
-                Logger.getLogger(CreateGameUI.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        else
-        {
-            jComboBoxVisitor.setEnabled(false);
-        }
-    }//GEN-LAST:event_jComboBoxHomeClubActionPerformed
-
-    private void jComboBoxHomeClubKeyReleased(java.awt.event.KeyEvent evt)//GEN-FIRST:event_jComboBoxHomeClubKeyReleased
-    {//GEN-HEADEREND:event_jComboBoxHomeClubKeyReleased
-        activate_button();
-    }//GEN-LAST:event_jComboBoxHomeClubKeyReleased
-
-    private void jButtonInsertActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonInsertActionPerformed
-    {//GEN-HEADEREND:event_jButtonInsertActionPerformed
+    private void jButtonInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonInsertActionPerformed
         // TODO add your handling code here:
         int audience = (int) jSpinnerAudience.getValue();
-
-        Date date = jDate_Game.getDate();
+        
+        Date date = jCalendarDate.getDate();
         ZoneId defaultZoneId = ZoneId.systemDefault();
         Instant iStart = date.toInstant();
         LocalDate game_date = iStart.atZone(defaultZoneId).toLocalDate();
 
         int runs_home_club = (int) jSpinnerRHC.getValue();
         int runs_visitant = (int) jSpinnerRV.getValue();
-        try
-        {
+        try {
 
             //recuperar id del equipo local
             String teamHC = jComboBoxHomeClub.getSelectedItem().toString();
             ArrayList<ReadTeamDTO> teamsListHC = ServicesLocator.TeamServices.readTeams();
             boolean foundTeamHC = false;
             int teamIdHC = -1;
-            for (int i = 0; i < teamsListHC.size() && !foundTeamHC; i++)
-            {
-                if (teamsListHC.get(i).getTeam_name().equalsIgnoreCase(teamHC))
-                {
+            for (int i = 0; i < teamsListHC.size() && !foundTeamHC; i++) {
+                if (teamsListHC.get(i).getTeam_name().equalsIgnoreCase(teamHC)) {
                     foundTeamHC = true;
                     teamIdHC = teamsListHC.get(i).getTeam_id();
                 }
@@ -378,10 +314,8 @@ public class CreateGameUI extends javax.swing.JDialog {
             ArrayList<ReadTeamDTO> teamsListVis = ServicesLocator.TeamServices.readTeams();
             boolean foundTeamV = false;
             int teamIdVis = -1;
-            for (int i = 0; i < teamsListVis.size() && !foundTeamV; i++)
-            {
-                if (teamsListVis.get(i).getTeam_name().equalsIgnoreCase(teamVis))
-                {
+            for (int i = 0; i < teamsListVis.size() && !foundTeamV; i++) {
+                if (teamsListVis.get(i).getTeam_name().equalsIgnoreCase(teamVis)) {
                     foundTeamV = true;
                     teamIdVis = teamsListVis.get(i).getTeam_id();
                 }
@@ -389,47 +323,36 @@ public class CreateGameUI extends javax.swing.JDialog {
 
             //Determinando ganador
             int winner = runs_home_club > runs_visitant ? teamIdHC : teamIdVis;
-            CreateGameDTO createGameDTO
-                              = new CreateGameDTO(teamIdHC, teamIdVis, readAPhaseDTO.getPhase_id(), game_date, winner,
-                                                  audience, runs_home_club, runs_visitant);
-            ServicesLocator.GameServices.createGame(createGameDTO);
+            //BUSCAR CODIGO DE JUEGO
+            //UpdateGameDTO updateGameDTO
+            //           = new UpdateGameDTO(teamIdVis, teamIdVis, readAPhaseDTO.getPhase_id(), game_date, winner,                                                  audience, runs_home_club, runs_visitant);
+            //ServicesLocator.GameServices.createGame(createGameDTO);
             this.dispose();
-
-        } catch (SQLException ex)
-        {
-            Logger.getLogger(CreateGameUI.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex)
-        {
-            Logger.getLogger(CreateGameUI.class.getName()).log(Level.SEVERE, null, ex);
+   
+        } catch (SQLException ex) {
+            Logger.getLogger(UpdateGame_UI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(UpdateGame_UI.class.getName()).log(Level.SEVERE, null, ex);
         }
-        ((SerieUI) this.getParent()).update_tables();
+
     }//GEN-LAST:event_jButtonInsertActionPerformed
 
-    private void jButtonCloseActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonCloseActionPerformed
-    {//GEN-HEADEREND:event_jButtonCloseActionPerformed
-        // TODO add your handling code here:
-        this.dispose();
-    }//GEN-LAST:event_jButtonCloseActionPerformed
+    private void jComboBoxVisitorActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jComboBoxVisitorActionPerformed
+    {//GEN-HEADEREND:event_jComboBoxVisitorActionPerformed
 
-    private void jComboBoxVisitorKeyReleased(java.awt.event.KeyEvent evt)//GEN-FIRST:event_jComboBoxVisitorKeyReleased
-    {//GEN-HEADEREND:event_jComboBoxVisitorKeyReleased
-        activate_button();
-    }//GEN-LAST:event_jComboBoxVisitorKeyReleased
+    }//GEN-LAST:event_jComboBoxVisitorActionPerformed
 
-    private void jDate_GameKeyReleased(java.awt.event.KeyEvent evt)//GEN-FIRST:event_jDate_GameKeyReleased
-    {//GEN-HEADEREND:event_jDate_GameKeyReleased
-       activate_button();
-    }//GEN-LAST:event_jDate_GameKeyReleased
+    private void jComboBoxHomeClubActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jComboBoxHomeClubActionPerformed
+    {//GEN-HEADEREND:event_jComboBoxHomeClubActionPerformed
+         
+    }//GEN-LAST:event_jComboBoxHomeClubActionPerformed
 
-    private void jComboBoxHomeClubItemStateChanged(java.awt.event.ItemEvent evt)//GEN-FIRST:event_jComboBoxHomeClubItemStateChanged
-    {//GEN-HEADEREND:event_jComboBoxHomeClubItemStateChanged
-        activate_button();
-    }//GEN-LAST:event_jComboBoxHomeClubItemStateChanged
-
-    private void jComboBoxVisitorItemStateChanged(java.awt.event.ItemEvent evt)//GEN-FIRST:event_jComboBoxVisitorItemStateChanged
-    {//GEN-HEADEREND:event_jComboBoxVisitorItemStateChanged
-        activate_button();
-    }//GEN-LAST:event_jComboBoxVisitorItemStateChanged
+    private void jComboBoxHomeClubKeyReleased(java.awt.event.KeyEvent evt)//GEN-FIRST:event_jComboBoxHomeClubKeyReleased
+    {//GEN-HEADEREND:event_jComboBoxHomeClubKeyReleased
+        if (!jComboBoxHomeClub.getSelectedItem().toString().equalsIgnoreCase("<Seleccione>"))
+        {
+        }
+    }//GEN-LAST:event_jComboBoxHomeClubKeyReleased
 
     /**
      * @param args the command line arguments
@@ -438,9 +361,9 @@ public class CreateGameUI extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonClose;
     private javax.swing.JButton jButtonInsert;
+    private com.toedter.calendar.JDateChooser jCalendarDate;
     private javax.swing.JComboBox<String> jComboBoxHomeClub;
     private javax.swing.JComboBox<String> jComboBoxVisitor;
-    private com.toedter.calendar.JDateChooser jDate_Game;
     private javax.swing.JLabel jLabelAudience;
     private javax.swing.JLabel jLabelDate;
     private javax.swing.JLabel jLabelHomeClub;
@@ -454,13 +377,5 @@ public class CreateGameUI extends javax.swing.JDialog {
     private javax.swing.JSpinner jSpinnerRV;
     // End of variables declaration//GEN-END:variables
 
-public void activate_button(){
-    if (jComboBoxHomeClub.getSelectedIndex() != 0 && jComboBoxVisitor.
-        getSelectedIndex() != 0 && jDate_Game.getDate() != null)
-    {
-        jButtonInsert.setEnabled(true);
-    } else {
-        jButtonInsert.setEnabled(false);
-    }
-}
+
 }

@@ -45,9 +45,6 @@ public class MainUI extends javax.swing.JFrame {
         List<ViewWindow> views = UtilsConnector.viewUtils.getViews();
         List<ViewDialog> reportsViews = UtilsConnector.viewUtils.getReportsViews();
         
-        this.jMenu1.setText("Entidades");
-        this.jMenu2.setText("Reportes");
-        
         // añadir views
         views.forEach((view) -> {
             javax.swing.JMenuItem menuItem = new javax.swing.JMenuItem();

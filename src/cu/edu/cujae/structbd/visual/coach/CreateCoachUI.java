@@ -209,7 +209,7 @@ public class CreateCoachUI extends javax.swing.JDialog
             int y_exp = (int) spinner_exp.getValue();
             ArrayList<ReadTeamDTO> teams_list_2 = ServicesLocator.TeamServices.readTeams();
             boolean found_team = false;
-            String team_id = null;
+            int team_id = -1;
             for (int i = 0; i < teams_list_2.size() && !found_team; i++)
             {
                 if (teams_list_2.get(i).getTeam_name().equalsIgnoreCase(team))

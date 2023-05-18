@@ -25,7 +25,7 @@ public class CoachServices
         CallableStatement preparedFunction = connection.prepareCall(function);
         preparedFunction.setString(1, createCoachDTO.getTeam_member_name());
         preparedFunction.setInt(2, createCoachDTO.getMember_number());
-        preparedFunction.setString(3, createCoachDTO.getTeam_ID());
+        preparedFunction.setInt(3, createCoachDTO.getTeam_ID());
         preparedFunction.setInt(4, createCoachDTO.getExperience_years());
         preparedFunction.execute();
         preparedFunction.close();
@@ -39,7 +39,7 @@ public class CoachServices
         CallableStatement preparedFunction = connection.prepareCall(function);
         preparedFunction.setInt(1, updateCoachDTO.getTeam_member_ID());
         preparedFunction.setString(2, updateCoachDTO.getTeam_member_name());
-        preparedFunction.setString(3, updateCoachDTO.getTeam_name());
+        preparedFunction.setInt(3, updateCoachDTO.getTeam_id());
         preparedFunction.setInt(4, updateCoachDTO.getMember_number());
         preparedFunction.setInt(5, updateCoachDTO.getExperience_years());
         preparedFunction.setInt(6, updateCoachDTO.getYears_in_team());
