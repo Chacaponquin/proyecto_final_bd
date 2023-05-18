@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.3.final using JasperReports Library version 6.20.3-415f9428cffdb6805c6f85bbb29ebaf18813a2ab  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Report_5" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ffbcb68d-2467-40fd-9ab6-1a6262eb6324">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="caseBaseball"/>
+	<parameter name="imagen" class="inputSream"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT stadium.stadium_name,((sum(game.total_audience)*100.00)/(stadium.capacity*count(game.game_id))) as porc
+  FROM team
+  JOIN game ON team.team_id = game.team_home_club
+  JOIN stadium ON team.stadium_id = team.stadium_id
+  GROUP BY stadium.stadium_name,stadium.capacity
+  ORDER BY porc DESC]]>
+	</queryString>
+	<field name="stadium_name" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="stadium_name"/>
+		<property name="com.jaspersoft.studio.field.label" value="stadium_name"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="stadium"/>
+	</field>
+	<field name="porc" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="porc"/>
+		<property name="com.jaspersoft.studio.field.label" value="porc"/>
+	</field>
+	<background>
+		<band/>
+	</background>
+	<title>
+		<band height="77">
+			<frame>
+				<reportElement mode="Opaque" x="-20" y="-10" width="595" height="82" backcolor="#006699" uuid="629c4da4-41b3-498a-a97a-aca88f0a7e4f"/>
+				<staticText>
+					<reportElement x="50" y="11" width="494" height="60" forecolor="#FFFFFF" uuid="f1971854-d43e-4d0a-ae01-6ff14406de5f"/>
+					<textElement textAlignment="Center">
+						<font fontName="Felix Titling" size="34" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Audiencia de los estadios]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="13"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="21">
+			<line>
+				<reportElement x="-20" y="20" width="595" height="1" forecolor="#666666" uuid="afca2587-c5de-4605-8c0b-309a7444b27e"/>
+			</line>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="277" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="bfa0efe8-95d3-4d88-923d-464eef6e01d5">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d9901691-8ad2-4d7c-85ba-9989b87ac511"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Estadio]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="277" y="0" width="277" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="8d802a0f-43e9-4948-afa9-8fbb988a2b96">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ecd77700-c431-45d4-a260-f6705131dadb"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Audiencia]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="19" width="555" height="1" uuid="e7eaf330-9c36-4391-a064-013dd395c8bd"/>
+			</line>
+			<textField textAdjust="StretchHeight">
+				<reportElement x="0" y="0" width="277" height="20" uuid="eaf8aeba-7bc8-47da-a9d9-fa017abd0d0a">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d9901691-8ad2-4d7c-85ba-9989b87ac511"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{stadium_name}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight">
+				<reportElement x="277" y="0" width="277" height="20" uuid="f0b652dc-b34c-413b-ba8a-8e44f607905f">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ecd77700-c431-45d4-a260-f6705131dadb"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{porc}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band/>
+	</columnFooter>
+	<pageFooter>
+		<band height="68">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<textField>
+				<reportElement mode="Opaque" x="0" y="4" width="515" height="13" backcolor="#E6E6E6" uuid="03227a83-ea18-4236-909d-d57702afd6e9"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement mode="Opaque" x="515" y="4" width="40" height="13" backcolor="#E6E6E6" uuid="8f31c482-92b4-4a23-9a5c-92578ab58e64"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<frame>
+				<reportElement mode="Opaque" x="-20" y="30" width="595" height="38" backcolor="#006699" uuid="60673410-523b-4888-9c08-4f4c13ef0b06">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band/>
+	</summary>
+</jasperReport>

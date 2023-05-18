@@ -13,6 +13,13 @@ import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.design.JasperDesign;
 
 /**
  *
@@ -130,6 +137,13 @@ public class Report_5UI extends javax.swing.JDialog
         jScrollPane1.setViewportView(table);
 
         jButton2.setText("Exportar");
+        jButton2.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -164,6 +178,23 @@ public class Report_5UI extends javax.swing.JDialog
     {//GEN-HEADEREND:event_jButton1ActionPerformed
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton2ActionPerformed
+    {//GEN-HEADEREND:event_jButton2ActionPerformed
+        try
+        {
+            String jrxPath = "src/cu/edu/cujae/structbd/reports/Report_5.jrxml";
+            JasperReport report = JasperCompileManager.compileReport(jrxPath);
+            JasperPrint print = JasperFillManager.fillReport(jrxPath, null);
+            String exportPath = "src/cu/edu/cujae/structbd/reports/Report_5.pdf";
+            JasperExportManager.exportReportToPdfFile(print, exportPath);
+        }
+        catch (JRException ex)
+        {
+            Logger.getLogger(Report_5UI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
