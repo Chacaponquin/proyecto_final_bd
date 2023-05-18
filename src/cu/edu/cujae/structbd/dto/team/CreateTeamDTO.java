@@ -1,7 +1,6 @@
 package cu.edu.cujae.structbd.dto.team;
 
 public class CreateTeamDTO {
-    private String team_id;
     private String team_name;
     private int played_championships;
     private int won_championships;
@@ -10,8 +9,7 @@ public class CreateTeamDTO {
     private String pet;
     private String stadium;
 
-    public CreateTeamDTO(String team_id, String team_name, int played_championships, int won_championships, String color, String province, String pet, String stadium) {
-        this.team_id = team_id;
+    public CreateTeamDTO(String team_name, int played_championships, int won_championships, String color, String province, String pet, String stadium) {
         this.team_name = team_name;
         this.played_championships = played_championships;
         this.won_championships = won_championships;
@@ -19,10 +17,6 @@ public class CreateTeamDTO {
         this.province = province;
         this.pet = pet;
         this.stadium = stadium;
-    }
-
-    public String getTeam_id() {
-        return team_id;
     }
 
     public String getTeam_name() {
@@ -51,10 +45,6 @@ public class CreateTeamDTO {
 
     public String getStadium() {
         return stadium;
-    }
-
-    public void setTeam_id(String team_id) {
-        this.team_id = team_id;
     }
 
     public void setTeam_name(String team_name) {

@@ -1,22 +1,13 @@
 package cu.edu.cujae.structbd.dto.team_member;
 
 public class ReadATeamMemberDTO {
-    private String id;
+    private int id;
 
-    public ReadATeamMemberDTO(String id) {
+    public ReadATeamMemberDTO(int id) {
         this.id = id;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
-    }
-
-    public void setId(String id) {
-        if(id != null){
-            this.id = id;
-        }
-        else{
-            throw new IllegalArgumentException();
-        }
     }
 }

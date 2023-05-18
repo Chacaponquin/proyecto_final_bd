@@ -20,10 +20,10 @@ public class PitcherServices {
         CallableStatement preparedFunction = connection.prepareCall(function);
         preparedFunction.setInt(2, createPitcherDTO.getInningsPitched());
         preparedFunction.setInt(3, createPitcherDTO.getRunsAllowed());
-        preparedFunction.setString(4, createPitcherDTO.getPositionID());
+        preparedFunction.setInt(4, createPitcherDTO.getPositionID());
         preparedFunction.setString(5, createPitcherDTO.getTeamMemberName());
         preparedFunction.setInt(6, createPitcherDTO.getMemberNumber());
-        preparedFunction.setString(7, createPitcherDTO.getTeamID());
+        preparedFunction.setInt(7, createPitcherDTO.getTeamID());
         preparedFunction.setInt(8, createPitcherDTO.getYearsInTeam());
         preparedFunction.execute();
         preparedFunction.close();
@@ -42,11 +42,11 @@ public class PitcherServices {
         {
             int teamMemberID = resultSet.getInt("member_id");
             String teamMemberName = resultSet.getString("member_name");
-            int memberNumber = Integer.valueOf(resultSet.getString("member_number"));
+            int memberNumber = resultSet.getInt("member_number");
             String team = resultSet.getString("team_name");
-            int yearsInTeam = Integer.valueOf(resultSet.getString("years_in_team"));
-            int inningsPitched = Integer.valueOf(resultSet.getString("innings_pitched"));
-            int runsAllowed = Integer.valueOf(resultSet.getString("runs_allowed"));
+            int yearsInTeam = resultSet.getInt("years_in_team");
+            int inningsPitched = resultSet.getInt("innings_pitched");
+            int runsAllowed = resultSet.getInt("runs_allowed");
             
             pitchers_list.add(new ReadPitcherDTO(teamMemberID, inningsPitched, runsAllowed, teamMemberName, memberNumber, team, 
             yearsInTeam));
@@ -56,22 +56,22 @@ public class PitcherServices {
         return pitchers_list;
     }
     
-    public ReadPitcherDTO readPitcher(ReadAPitcherDTO readAPitcherDTO) throws SQLException, ClassNotFoundException{
-        ReadPitcherDTO readPitcherDTO = null;
+    public ReadPitcherDTO readPitcher(ReadAPitcherDTO readAPitcherDTO) throws SQLException, ClassNotFoundException{        
         String function = "{?= call pitcher_load_by_id(?)}";
         java.sql.Connection connection = Connector.getConnection();
         connection.setAutoCommit(false);
         CallableStatement preparedFunction = connection.prepareCall(function);
         preparedFunction.registerOutParameter(1, java.sql.Types.REF_CURSOR);
-        preparedFunction.setString(2, readAPitcherDTO.getTeamMemberID());
+        preparedFunction.setInt(2, readAPitcherDTO.getTeamMemberID());
         preparedFunction.execute();
         ResultSet resultSet = (ResultSet) preparedFunction.getObject(1);
         resultSet.next();
-        readPitcherDTO = new ReadPitcherDTO(resultSet.getInt(1), resultSet.getInt(2), 
+        ReadPitcherDTO  readPitcherDTO = new ReadPitcherDTO(resultSet.getInt(1), resultSet.getInt(2), 
                     resultSet.getInt(3), resultSet.getString(4), resultSet.getInt(5), 
                     resultSet.getString(6), resultSet.getInt(7));
         resultSet.close();
         preparedFunction.close();
+        
         return readPitcherDTO;
     }
     
@@ -85,7 +85,7 @@ public class PitcherServices {
         preparedFunction.setString(4, updatePitcherDTO.getPositionID());
         preparedFunction.setString(5, updatePitcherDTO.getTeamMemberName());
         preparedFunction.setInt(6, updatePitcherDTO.getMemberNumber());
-        preparedFunction.setString(7, updatePitcherDTO.getTeamID());
+        preparedFunction.setInt(7, updatePitcherDTO.getTeamID());
         preparedFunction.setInt(8, updatePitcherDTO.getYearsInTeam());
         preparedFunction.execute();
         preparedFunction.close();

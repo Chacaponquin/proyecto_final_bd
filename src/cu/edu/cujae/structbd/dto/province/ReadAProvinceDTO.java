@@ -10,27 +10,20 @@ package cu.edu.cujae.structbd.dto.province;
  */
 public class ReadAProvinceDTO
 {
-    private String ID;
+    private int ID;
 
-    public ReadAProvinceDTO(String ID)
+    public ReadAProvinceDTO(int ID)
     {
         this.ID = ID;
     }
 
-    public String getID()
+    public int getID()
     {
         return ID;
     }
 
-    public void setID(String ID)
+    public void setID(int ID)
     {
-        if (ID != null)
-        {
-            this.ID = ID;
-        }
-        else
-        {
-            throw new IllegalArgumentException();
-        }
+        this.ID = ID;
     }
 }

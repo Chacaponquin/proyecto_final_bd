@@ -5,7 +5,6 @@
 package cu.edu.cujae.structbd.services;
 
 import cu.edu.cujae.structbd.dto.phase.ReadAPhaseDTO;
-import cu.edu.cujae.structbd.dto.province.ReadProvinceDTO;
 import cu.edu.cujae.structbd.dto.reports.ReadReport_1DTO;
 import cu.edu.cujae.structbd.dto.reports.ReadReport_2DTO;
 import cu.edu.cujae.structbd.dto.reports.ReadReport_4DTO;
@@ -67,7 +66,7 @@ public class AppServices
         return list;
     }
     
-    public List<ReadReport_6DTO> getTeamStatus(String team_id) throws SQLException, ClassNotFoundException
+    public List<ReadReport_6DTO> getTeamStatus(int team_id) throws SQLException, ClassNotFoundException
     {
         LinkedList<ReadReport_6DTO> list = new LinkedList<>();
         String function = "{?= call report_team_status(?)}";
@@ -75,7 +74,7 @@ public class AppServices
         connection.setAutoCommit(false);
         CallableStatement preparedFunction = connection.prepareCall(function);
         preparedFunction.registerOutParameter(1, java.sql.Types.REF_CURSOR);
-        preparedFunction.setString(2, team_id);
+        preparedFunction.setInt(2, team_id);
         preparedFunction.execute();
         ResultSet resultSet = (ResultSet) preparedFunction.getObject(1);
         while (resultSet.next())
@@ -151,18 +150,18 @@ public class AppServices
         return list;
     }
     
-    public List<ReadReport_2DTO> getGamesByTeams(String firstTeamID, String secondTeamID) throws SQLException, ClassNotFoundException{
+    public List<ReadReport_2DTO> getGamesByTeams(int firstTeamID, int secondTeamID) throws SQLException, ClassNotFoundException{
         LinkedList<ReadReport_2DTO> list = new LinkedList<>();
         
-        if(firstTeamID != null && secondTeamID != null){
+        if(firstTeamID != -1 && secondTeamID != -1){
             String function = "{?= call report_games_by_teams(?,?)}";
             java.sql.Connection connection = Connector.getConnection();
             connection.setAutoCommit(false);
             CallableStatement preparedFunction = connection.prepareCall(function);
             preparedFunction.registerOutParameter(1, java.sql.Types.REF_CURSOR);
             
-            preparedFunction.setString(2, firstTeamID);
-            preparedFunction.setString(3, secondTeamID);
+            preparedFunction.setInt(2, firstTeamID);
+            preparedFunction.setInt(3, secondTeamID);
             preparedFunction.execute();
             
             ResultSet resultSet = (ResultSet) preparedFunction.getObject(1);

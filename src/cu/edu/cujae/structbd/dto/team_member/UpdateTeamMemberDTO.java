@@ -4,10 +4,10 @@ public class UpdateTeamMemberDTO {
     private String name;
     private int number;
     private int yearsInTeam;
-    private String id;
-    private String team_id;
+    private int id;
+    private int team_id;
 
-    public UpdateTeamMemberDTO(String name, int number, int yearsInTeam, String id, String team_id) {
+    public UpdateTeamMemberDTO(String name, int number, int yearsInTeam, int id, int team_id) {
         this.name = name;
         this.number = number;
         this.yearsInTeam = yearsInTeam;
@@ -54,29 +54,19 @@ public class UpdateTeamMemberDTO {
         }
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
-        if(id != null){
-            this.id = id;
-        }
-        else{
-            throw new IllegalArgumentException();
-        }
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public String getTeam_id() {
+    public int getTeam_id() {
         return team_id;
     }
 
-    public void setTeam_id(String team_id) {
-        if(team_id != null){
-            this.team_id = team_id;
-        }
-        else{
-            throw new IllegalArgumentException();
-        }
+    public void setTeam_id(int team_id) {
+        this.team_id = team_id;
     }
 }

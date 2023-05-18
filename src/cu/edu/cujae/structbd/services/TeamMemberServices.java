@@ -20,12 +20,12 @@ public class TeamMemberServices {
         connection.setAutoCommit(false);
         CallableStatement preparedFunction = connection.prepareCall(function);
         preparedFunction.registerOutParameter(1, java.sql.Types.REF_CURSOR);
-        preparedFunction.setString(2, readATeamMemberDTO.getId());
+        preparedFunction.setInt(2, readATeamMemberDTO.getId());
         preparedFunction.execute();
         ResultSet resultSet = (ResultSet) preparedFunction.getObject(1);
         resultSet.next();
         readTeamMemberDTO = new ReadTeamMemberDTO(resultSet.getString(1), resultSet.getInt(2), 
-                    resultSet.getInt(3), resultSet.getString(4), resultSet.getString(5));
+                    resultSet.getInt(3), resultSet.getInt(4), resultSet.getString(5));
         resultSet.close();
         preparedFunction.close();
 
@@ -45,7 +45,7 @@ public class TeamMemberServices {
         while (resultSet.next())
         {
             teamMembersList.add(new ReadTeamMemberDTO(resultSet.getString(1), resultSet.getInt(2), 
-                    resultSet.getInt(3), resultSet.getString(4), resultSet.getString(5)));
+                    resultSet.getInt(3), resultSet.getInt(4), resultSet.getString(5)));
         }
         resultSet.close();
         preparedFunction.close();
@@ -60,8 +60,8 @@ public class TeamMemberServices {
         preparedFunction.setString(1, updateTeamMemberDTO.getName());
         preparedFunction.setInt(2, updateTeamMemberDTO.getNumber());
         preparedFunction.setInt(3, updateTeamMemberDTO.getYearsInTeam());
-        preparedFunction.setString(4, updateTeamMemberDTO.getId());
-        preparedFunction.setString(5, updateTeamMemberDTO.getTeam_id());
+        preparedFunction.setInt(4, updateTeamMemberDTO.getId());
+        preparedFunction.setInt(5, updateTeamMemberDTO.getTeam_id());
         preparedFunction.execute();
         preparedFunction.close();
     }
@@ -70,7 +70,7 @@ public class TeamMemberServices {
         String function = "{call team_member_delete(?)}";
         java.sql.Connection connection = Connector.getConnection();
         CallableStatement preparedFunction = connection.prepareCall(function);
-        preparedFunction.setString(1, deleteTeamMemberDTO.getId());
+        preparedFunction.setInt(1, deleteTeamMemberDTO.getId());
         preparedFunction.execute();
         preparedFunction.close();
     }

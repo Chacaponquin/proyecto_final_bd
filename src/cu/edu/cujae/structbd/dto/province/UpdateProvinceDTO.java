@@ -10,16 +10,16 @@ package cu.edu.cujae.structbd.dto.province;
  */
 public class UpdateProvinceDTO
 {
-    private String ID;
+    private int ID;
     private String name;
 
-    public UpdateProvinceDTO(String ID, String name)
+    public UpdateProvinceDTO(int ID, String name)
     {
         this.ID = ID;
         this.name = name;
     }
 
-    public String getID()
+    public int getID()
     {
         return ID;
     }
@@ -29,16 +29,9 @@ public class UpdateProvinceDTO
         return name;
     }
 
-    public void setID(String ID)
+    public void setID(int ID)
     {
-        if (ID != null)
-        {
-            this.ID = ID;
-        }
-        else
-        {
-            throw new IllegalArgumentException();
-        }
+        this.ID = ID;
     }
 
     public void setName(String name)

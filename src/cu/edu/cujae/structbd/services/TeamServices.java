@@ -21,10 +21,10 @@ public class TeamServices {
         
         while (resultSet.next())
         {
-            String team_id = resultSet.getString("team_id");
+            int team_id = resultSet.getInt("team_id");
             String team_name = resultSet.getString("team_name");
-            int played_championships = Integer.valueOf(resultSet.getString("played_championships"));
-            int won_championships = Integer.valueOf(resultSet.getString("won_championships"));
+            int played_championships = resultSet.getInt("played_championships");
+            int won_championships = resultSet.getInt("won_championships");
             String color = resultSet.getString("color");
             String province = resultSet.getString("province_name");
             String pet = resultSet.getString("pet");

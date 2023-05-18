@@ -7,6 +7,7 @@ package cu.edu.cujae.structbd.visual.pitcher;
 import cu.edu.cujae.structbd.dto.pitcher.CreatePitcherDTO;
 import cu.edu.cujae.structbd.dto.pitcher.UpdatePitcherDTO;
 import cu.edu.cujae.structbd.services.ServicesLocator;
+import cu.edu.cujae.structbd.utils.UtilsConnector;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -141,11 +142,16 @@ public class UpdatePitcherUI extends javax.swing.JDialog {
                                     .addComponent(jLabelNumber)
                                     .addComponent(jLabelYearsInTeam)
                                     .addComponent(jLabelInnings))
-                                .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jSpinnerNumber)
-                                    .addComponent(jSpinnerInnings)
-                                    .addComponent(jSpinnerYearsInTeam, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(18, 18, 18)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jSpinnerNumber)
+                                            .addComponent(jSpinnerYearsInTeam, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(17, 17, 17)
+                                        .addComponent(jSpinnerInnings, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, Short.MAX_VALUE))))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel3)
                                 .addGap(18, 18, 18)
@@ -177,11 +183,11 @@ public class UpdatePitcherUI extends javax.swing.JDialog {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jSpinnerInnings, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabelInnings)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jSpinnerRuns, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButtonModify))
@@ -210,35 +216,33 @@ public class UpdatePitcherUI extends javax.swing.JDialog {
         // TODO add your handling code here:
         String name = jTextFieldName.getText();
         Integer team_index = jComboBoxTeamName.getSelectedIndex()-1;
-        String team = jComboBoxTeamName.getSelectedItem().toString();
+        int team = jComboBoxTeamName.getSelectedIndex();
         Integer yearsInTeam = (Integer) jSpinnerYearsInTeam.getValue();
         Integer number = (Integer) jSpinnerNumber.getValue();
         Integer innings = (Integer) jSpinnerInnings.getValue();
         Integer runs = (Integer) jSpinnerRuns.getValue();
         
-        if(name == ""){
+        if(name.equals("")){
             JOptionPane.showMessageDialog(this, "El nombre no puede estar vacío", "ERROR", JOptionPane.ERROR);
         }
         if(jComboBoxTeamName.getSelectedIndex()==0){
             JOptionPane.showMessageDialog(this, "Debe elegir un equipo", "ERROR", JOptionPane.ERROR);
         }
         
-        //FALTA VALIDAR Y BUSCAR CODIGO DEL EQUIPO Y PONER LOS ERRORES QUE PUEDEN DARSE
-        UpdatePitcherDTO updatePitcherDTO = new UpdatePitcherDTO("", "P", name, number, 
-                "", yearsInTeam, innings, runs);
         try {
+            UpdatePitcherDTO updatePitcherDTO = new UpdatePitcherDTO(0, "P", name, number, 
+                team, yearsInTeam, innings, runs);
             ServicesLocator.PitcherServices.updatePitcher(updatePitcherDTO);
-        } catch (SQLException ex) {
-            Logger.getLogger(UpdatePitcherUI.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(UpdatePitcherUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            //FALTA VALIDAR Y BUSCAR CODIGO DEL EQUIPO Y PONER LOS ERRORES QUE PUEDEN DARSE
+        } catch (SQLException | ClassNotFoundException ex) {
+            UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
+        } 
         this.dispose();
     }//GEN-LAST:event_jButtonModifyActionPerformed
 
     private void jComboBoxTeamNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxTeamNameActionPerformed
         // TODO add your handling code here:
-        if(jTextFieldName.getText().strip() != "" || jComboBoxTeamName.getSelectedIndex() != 0){
+        if(jTextFieldName.getText().strip().equals("") || jComboBoxTeamName.getSelectedIndex() != 0){
             jButtonModify.setEnabled(true);
         }
         else{

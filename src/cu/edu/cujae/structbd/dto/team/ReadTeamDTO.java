@@ -9,16 +9,16 @@ package cu.edu.cujae.structbd.dto.team;
  * @author Hector Angel Gomez
  */
 public class ReadTeamDTO {
-    private String team_id;
-    private String team_name;
-    private int played_championships;
-    private int won_championships;
-    private String color;
-    private String province;
-    private String pet;
-    private String stadium;
+    private final int team_id;
+    private final String team_name;
+    private final int played_championships;
+    private final int won_championships;
+    private final String color;
+    private final String province;
+    private final String pet;
+    private final String stadium;
 
-    public ReadTeamDTO(String team_id, String team_name, int played_championships, int won_championships,String color, String province, String pet, String stadium) {
+    public ReadTeamDTO(int team_id, String team_name, int played_championships, int won_championships,String color, String province, String pet, String stadium) {
         this.team_id = team_id;
         this.team_name = team_name;
         this.played_championships = played_championships;
@@ -30,7 +30,7 @@ public class ReadTeamDTO {
     }
     
 
-    public String getTeam_id() {
+    public int getTeam_id() {
         return team_id;
     }
     

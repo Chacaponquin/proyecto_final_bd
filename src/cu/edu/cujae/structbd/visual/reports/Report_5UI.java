@@ -179,6 +179,7 @@ public class Report_5UI extends javax.swing.JDialog
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
+<<<<<<< HEAD
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton2ActionPerformed
     {//GEN-HEADEREND:event_jButton2ActionPerformed
         try
@@ -254,6 +255,8 @@ public class Report_5UI extends javax.swing.JDialog
             }
         });
     }
+=======
+>>>>>>> aced8173e02b5f19a0868f7dd3dd33fa2a95dd2e
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
