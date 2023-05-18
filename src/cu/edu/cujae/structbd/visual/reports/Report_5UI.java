@@ -202,6 +202,7 @@ public class Report_5UI extends javax.swing.JDialog
 
     }//GEN-LAST:event_jButton2ActionPerformed
 
+<<<<<<< HEAD
     /**
      * @param args the command line arguments
      */
@@ -260,6 +261,8 @@ public class Report_5UI extends javax.swing.JDialog
             }
         });
     }
+=======
+>>>>>>> 3658c66f93d0699e94f597916e0807bc8bed1582
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
