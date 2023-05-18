@@ -5,26 +5,18 @@
 package cu.edu.cujae.structbd.visual.pitcher;
 
 import cu.edu.cujae.structbd.dto.pitcher.ReadPitcherDTO;
-import cu.edu.cujae.structbd.services.ServicesLocator;
-import java.sql.SQLException;
-import java.util.Iterator;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import cu.edu.cujae.structbd.utils.AppCustomWindow;
 import java.util.LinkedList;
-import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author Hector Angel Gomez
  */
-public class PitcherUI extends javax.swing.JFrame {
+public class PitcherUI extends AppCustomWindow {
 
     private LinkedList<ReadPitcherDTO> readPitcherDTO_list;
     
-    /**
-     * Creates new form PitcherUI
-     */
-    public PitcherUI() {
+    public void start(){
         initComponents();
         /*try{
             this.readPitcherDTO_list = new LinkedList<>(ServicesLocator.PitcherServices.readAllPitchers());

@@ -1,10 +1,5 @@
 package cu.edu.cujae.structbd;
-import com.formdev.flatlaf.intellijthemes.FlatLightFlatIJTheme;
-import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatAtomOneLightIJTheme;
 import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatGitHubContrastIJTheme;
-import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatLightOwlIJTheme;
-import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMaterialLighterContrastIJTheme;
-import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMaterialLighterIJTheme;
 import cu.edu.cujae.structbd.visual.user.LoginUI;
 
 import java.sql.SQLException;

@@ -13,7 +13,6 @@ import cu.edu.cujae.structbd.services.ServicesLocator;
 import cu.edu.cujae.structbd.utils.UtilsConnector;
 import cu.edu.cujae.structbd.visual.snb.SerieUI;
 import java.util.Date;
-import javax.swing.JOptionPane;
 import java.sql.SQLException;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -21,16 +20,15 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JDialog;
 
 /**
  *
  * @author Amaya
  */
-public class CreateGameUI extends javax.swing.JDialog {
+public class CreateGameUI extends JDialog {
 
     private ReadAPhaseDTO readAPhaseDTO;
     private LinkedList<ReadTeamDTO> list_teams_in_phase;
@@ -58,15 +56,11 @@ public class CreateGameUI extends javax.swing.JDialog {
             jDate_Game.setDate(start_date);
             Date finish_date = Date.from(readPhaseDTO.getFinish_date().atStartOfDay(defaultZoneId).toInstant());
             jDate_Game.setMaxSelectableDate(finish_date);
-
-
-
-        } catch (SQLException ex) {
-            Logger.getLogger(CreateGameUI.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(CreateGameUI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException | ClassNotFoundException ex) {
+            UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
         }
     }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.

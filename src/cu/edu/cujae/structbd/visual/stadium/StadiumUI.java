@@ -6,24 +6,26 @@ package cu.edu.cujae.structbd.visual.stadium;
 
 import cu.edu.cujae.structbd.dto.stadium.ReadStadiumDTO;
 import cu.edu.cujae.structbd.services.ServicesLocator;
+import cu.edu.cujae.structbd.utils.AppCustomWindow;
 import cu.edu.cujae.structbd.utils.UtilsConnector;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import javax.swing.JFrame;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author Hector Angel Gomez
  */
-public class StadiumUI extends javax.swing.JFrame {
-
-    /**
-     * Creates new form StadiumUI
-     */
-    public StadiumUI() throws SQLException, ClassNotFoundException {
-        initComponents();
-        this.updateUI();
+public class StadiumUI extends AppCustomWindow {
+    public void start(){
+        try {
+            initComponents();
+            this.updateUI();
+        } catch (SQLException | ClassNotFoundException ex) {
+            UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
+        }
     }
     
     public void updateUI() throws SQLException, ClassNotFoundException{

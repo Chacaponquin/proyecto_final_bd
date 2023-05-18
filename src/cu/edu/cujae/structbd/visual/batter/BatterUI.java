@@ -5,8 +5,8 @@
 package cu.edu.cujae.structbd.visual.batter;
 
 import cu.edu.cujae.structbd.dto.batter.ReadBatterDTO;
-import cu.edu.cujae.structbd.dto.stadium.ReadStadiumDTO;
 import cu.edu.cujae.structbd.services.ServicesLocator;
+import cu.edu.cujae.structbd.utils.AppCustomWindow;
 import cu.edu.cujae.structbd.utils.UtilsConnector;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -16,23 +16,23 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Hector Angel Gomez
  */
-public class BatterUI extends javax.swing.JFrame {
-
-    /**
-     * Creates new form BatterUI
-     */
-    public BatterUI() throws SQLException, ClassNotFoundException {
+public class BatterUI extends AppCustomWindow {
+    public void start(){
         initComponents();
         this.updateUI();
     }
     
-    public void updateUI() throws SQLException, ClassNotFoundException{
-        ArrayList<ReadBatterDTO> stadiumns = ServicesLocator.BatterServices.readBatters();
-        
-        DefaultTableModel model = (DefaultTableModel) this.jTable1.getModel();
-        
-        for(ReadBatterDTO b:  stadiumns){
-            model.addRow(b.getArrayValues());
+    public void updateUI(){
+        try {
+            ArrayList<ReadBatterDTO> stadiumns = ServicesLocator.BatterServices.readBatters();
+            
+            DefaultTableModel model = (DefaultTableModel) this.jTable1.getModel();
+            
+            for(ReadBatterDTO b:  stadiumns){
+                model.addRow(b.getArrayValues());
+            }
+        } catch (SQLException | ClassNotFoundException ex) {
+           UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
         }
     }
 
@@ -84,8 +84,8 @@ public class BatterUI extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton2)
                     .addComponent(jButton1)
+                    .addComponent(jButton2)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 810, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(22, Short.MAX_VALUE))
         );
@@ -105,11 +105,11 @@ public class BatterUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-UtilsConnector.viewUtils.openWindow(this, new CreateBatterUI());        // TODO add your handling code here:
+        UtilsConnector.viewUtils.openDialog(this, new CreateBatterUI(this, true));        // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-UtilsConnector.viewUtils.getBackHome(this);        // TODO add your handling code here:
+        UtilsConnector.viewUtils.getBackHome(this);        // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
 
 

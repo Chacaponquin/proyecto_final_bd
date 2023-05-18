@@ -7,6 +7,7 @@ package cu.edu.cujae.structbd.visual.user;
 import cu.edu.cujae.structbd.dto.user.DeleteUserDTO;
 import cu.edu.cujae.structbd.dto.user.ReadUserDTO;
 import cu.edu.cujae.structbd.services.ServicesLocator;
+import cu.edu.cujae.structbd.utils.AppCustomWindow;
 import cu.edu.cujae.structbd.utils.UtilsConnector;
 import java.sql.SQLException;
 import java.util.LinkedList;
@@ -19,17 +20,12 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Hector Angel Gomez
  */
-public class UserUI extends javax.swing.JFrame {
+public class UserUI extends AppCustomWindow {
     private List<ReadUserDTO> users = new LinkedList<>();
-
-    /**
-     * Creates new form UserUI
-     */
-    public UserUI() {
+    
+    public void start(){
         initComponents();
-        
         this.jTable1.setComponentPopupMenu(this.jPopupMenu1);
-        
         this.updateUI();
     }
     

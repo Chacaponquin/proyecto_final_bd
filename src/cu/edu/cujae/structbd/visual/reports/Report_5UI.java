@@ -4,16 +4,15 @@
  */
 package cu.edu.cujae.structbd.visual.reports;
 
-import cu.edu.cujae.structbd.dto.reports.ReadReport_4DTO;
 import cu.edu.cujae.structbd.dto.reports.ReadReport_5DTO;
 import cu.edu.cujae.structbd.services.ServicesLocator;
+import cu.edu.cujae.structbd.utils.AppCustomDialog;
 import cu.edu.cujae.structbd.utils.Connector;
+import cu.edu.cujae.structbd.utils.UtilsConnector;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
@@ -27,7 +26,7 @@ import net.sf.jasperreports.engine.design.JasperDesign;
  *
  * @author Jose
  */
-public class Report_5UI extends javax.swing.JDialog
+public class Report_5UI extends AppCustomDialog
 {
 
     /**
@@ -36,6 +35,9 @@ public class Report_5UI extends javax.swing.JDialog
     public Report_5UI(java.awt.Frame parent, boolean modal)
     {
         super(parent, modal);
+    }
+    
+    public void start(){
         try
         {
             initComponents();
@@ -51,13 +53,9 @@ public class Report_5UI extends javax.swing.JDialog
                 });
             }
         }
-        catch (SQLException ex)
+        catch (SQLException | ClassNotFoundException ex)
         {
-            Logger.getLogger(Report_5UI.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        catch (ClassNotFoundException ex)
-        {
-            Logger.getLogger(Report_5UI.class.getName()).log(Level.SEVERE, null, ex);
+            UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
         }
     }
 
@@ -191,78 +189,13 @@ public class Report_5UI extends javax.swing.JDialog
             String exportPath = "src/cu/edu/cujae/structbd/reports/Report_5.pdf";
             JasperExportManager.exportReportToPdfFile(print, exportPath);
         }
-        catch (JRException | SQLException ex)
+        catch (JRException | SQLException | ClassNotFoundException ex)
         {
-            Logger.getLogger(Report_5UI.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        catch (ClassNotFoundException ex)
-        {
-            Logger.getLogger(Report_5UI.class.getName()).log(Level.SEVERE, null, ex);
+            UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
         }
 
     }//GEN-LAST:event_jButton2ActionPerformed
 
-<<<<<<< HEAD
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[])
-    {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try
-        {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels())
-            {
-                if ("Nimbus".equals(info.getName()))
-                {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        }
-        catch (ClassNotFoundException ex)
-        {
-            java.util.logging.Logger.getLogger(Report_5UI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        catch (InstantiationException ex)
-        {
-            java.util.logging.Logger.getLogger(Report_5UI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        catch (IllegalAccessException ex)
-        {
-            java.util.logging.Logger.getLogger(Report_5UI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        catch (javax.swing.UnsupportedLookAndFeelException ex)
-        {
-            java.util.logging.Logger.getLogger(Report_5UI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable()
-        {
-            public void run()
-            {
-                Report_5UI dialog = new Report_5UI(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter()
-                {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e)
-                    {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
-=======
->>>>>>> 3658c66f93d0699e94f597916e0807bc8bed1582
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

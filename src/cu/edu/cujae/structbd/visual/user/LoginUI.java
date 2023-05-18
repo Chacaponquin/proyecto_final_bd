@@ -10,21 +10,20 @@ import cu.edu.cujae.structbd.services.ServicesLocator;
 import cu.edu.cujae.structbd.utils.UtilsConnector;
 import cu.edu.cujae.structbd.visual.main.MainUI;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
  * @author Hector Angel Gomez
  */
 public class LoginUI extends javax.swing.JFrame {
-    private final LoginUserDTO loginForm = new LoginUserDTO("", "");
+    private final LoginUserDTO loginForm;
 
     /**
      * Creates new form LoginUI
      */
     public LoginUI() {
         initComponents();
+        this.loginForm = new LoginUserDTO("", "");
     }
 
     /**

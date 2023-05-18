@@ -11,6 +11,7 @@ import cu.edu.cujae.structbd.dto.pitcher.UpdatePitcherDTO;
 import cu.edu.cujae.structbd.dto.player.ReadPlayerDTO;
 import cu.edu.cujae.structbd.dto.team.ReadTeamDTO;
 import cu.edu.cujae.structbd.services.ServicesLocator;
+import cu.edu.cujae.structbd.utils.AppCustomWindow;
 import cu.edu.cujae.structbd.utils.UtilsConnector;
 import cu.edu.cujae.structbd.visual.pitcher.UpdatePitcherUI;
 import static java.awt.image.ImageObserver.HEIGHT;
@@ -27,16 +28,11 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Jose
  */
-public class Player_UI extends javax.swing.JFrame
+public class Player_UI extends AppCustomWindow
 {
-
     private LinkedList<ReadPlayerDTO> list_player;
-
-    /**
-     * Creates new form Player_UI
-     */
-    public Player_UI()
-    {
+    
+    public void start(){
         initComponents();
         try
         {

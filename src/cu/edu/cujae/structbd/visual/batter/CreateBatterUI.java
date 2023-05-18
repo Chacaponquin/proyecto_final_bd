@@ -5,22 +5,24 @@
 package cu.edu.cujae.structbd.visual.batter;
 
 import cu.edu.cujae.structbd.utils.UtilsConnector;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.awt.Frame;
+import javax.swing.JDialog;
 
 /**
  *
  * @author Hector Angel Gomez
  */
-public class CreateBatterUI extends javax.swing.JFrame {
-
-    /**
-     * Creates new form CreateBatterUI
-     */
-    public CreateBatterUI() {
-        initComponents();
+public class CreateBatterUI extends JDialog {
+    public CreateBatterUI(Frame parent, boolean modal){
+        super(parent, modal);
+        this.start();
     }
+    
+    public void start() {
+       initComponents();
+    }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -44,7 +46,6 @@ public class CreateBatterUI extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Crear Bateador");
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -61,6 +62,11 @@ public class CreateBatterUI extends javax.swing.JFrame {
         jLabel2.setText("Equipo");
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel3.setText("Años en el equipo:");
@@ -153,18 +159,16 @@ public class CreateBatterUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        try {
-            UtilsConnector.viewUtils.openWindow(this, new BatterUI());
-        } catch (SQLException ex) {
-            Logger.getLogger(CreateBatterUI.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(CreateBatterUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        UtilsConnector.viewUtils.openWindow(this, new BatterUI());
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

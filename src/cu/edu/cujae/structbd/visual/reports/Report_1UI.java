@@ -6,6 +6,7 @@ package cu.edu.cujae.structbd.visual.reports;
 
 import cu.edu.cujae.structbd.dto.reports.ReadReport_1DTO;
 import cu.edu.cujae.structbd.services.ServicesLocator;
+import cu.edu.cujae.structbd.utils.AppCustomDialog;
 import cu.edu.cujae.structbd.utils.UtilsConnector;
 import java.sql.SQLException;
 import java.util.LinkedList;
@@ -16,7 +17,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Hector Angel Gomez
  */
-public class Report_1UI extends javax.swing.JDialog {
+public class Report_1UI extends AppCustomDialog {
     List<ReadReport_1DTO> positionTable = new LinkedList<>();
 
     /**
@@ -24,8 +25,11 @@ public class Report_1UI extends javax.swing.JDialog {
      */
     public Report_1UI(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-        initComponents();
         
+    }
+    
+    public void start(){
+        initComponents();
         this.updateUI();
     }
     

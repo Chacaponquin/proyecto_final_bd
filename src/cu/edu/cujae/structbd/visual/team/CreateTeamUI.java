@@ -194,11 +194,8 @@ public class CreateTeamUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        try {
-            UtilsConnector.viewUtils.openWindow(this, new TeamUI());        // TODO add your handling code here:
-        } catch (SQLException | ClassNotFoundException ex) {
-            UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
-        } 
+
+        UtilsConnector.viewUtils.openWindow(this, new TeamUI());        // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
 

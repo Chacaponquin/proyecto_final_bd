@@ -12,9 +12,9 @@ import javax.swing.JFrame;
  */
 public class ViewWindow {
     private final String windowName;
-    private final JFrame frame;
+    private final AppCustomWindow frame;
 
-    public ViewWindow(String windowName, JFrame frame) {
+    public ViewWindow(String windowName, AppCustomWindow frame) {
         this.windowName = windowName;
         this.frame = frame;
     }
@@ -23,7 +23,7 @@ public class ViewWindow {
         return windowName;
     }
 
-    public JFrame getFrame() {
+    public AppCustomWindow getFrame() {
         return frame;
     }
 }

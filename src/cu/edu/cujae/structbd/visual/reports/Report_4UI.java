@@ -6,6 +6,8 @@ package cu.edu.cujae.structbd.visual.reports;
 
 import cu.edu.cujae.structbd.dto.reports.ReadReport_4DTO;
 import cu.edu.cujae.structbd.services.ServicesLocator;
+import cu.edu.cujae.structbd.utils.AppCustomDialog;
+import cu.edu.cujae.structbd.utils.UtilsConnector;
 import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -17,7 +19,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Jose
  */
-public class Report_4UI extends javax.swing.JDialog
+public class Report_4UI extends AppCustomDialog
 {
 
     /**
@@ -26,6 +28,9 @@ public class Report_4UI extends javax.swing.JDialog
     public Report_4UI(java.awt.Frame parent, boolean modal)
     {
         super(parent, modal);
+    }
+    
+    public void start(){
         try
         {
             initComponents();
@@ -43,15 +48,10 @@ public class Report_4UI extends javax.swing.JDialog
             }
 
         }
-        catch (SQLException ex)
+        catch (SQLException | ClassNotFoundException ex)
         {
-            Logger.getLogger(Report_4UI.class.getName()).log(Level.SEVERE, null, ex);
+            UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
         }
-        catch (ClassNotFoundException ex)
-        {
-            Logger.getLogger(Report_4UI.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
     }
 
     /**
@@ -187,28 +187,6 @@ public class Report_4UI extends javax.swing.JDialog
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
 
-
-<<<<<<< HEAD
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable()
-        {
-            public void run()
-            {
-                Report_4UI dialog = new Report_4UI(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter()
-                {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e)
-                    {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
-=======
->>>>>>> 3658c66f93d0699e94f597916e0807bc8bed1582
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

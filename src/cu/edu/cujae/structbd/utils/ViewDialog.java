@@ -4,17 +4,15 @@
  */
 package cu.edu.cujae.structbd.utils;
 
-import javax.swing.JDialog;
-
 /**
  *
  * @author Hector Angel Gomez
  */
 public class ViewDialog {
     private final String viewName;
-    private final JDialog dialog;
+    private final AppCustomDialog dialog;
 
-    public ViewDialog(String viewName, JDialog dialog) {
+    public ViewDialog(String viewName, AppCustomDialog dialog) {
         this.viewName = viewName;
         this.dialog = dialog;
     }
@@ -23,7 +21,7 @@ public class ViewDialog {
         return viewName;
     }
 
-    public JDialog getDialog() {
+    public AppCustomDialog getDialog() {
         return dialog;
     }
 }

@@ -4,9 +4,9 @@
  */
 package cu.edu.cujae.structbd.visual.main;
 
-import com.formdev.flatlaf.intellijthemes.FlatLightFlatIJTheme;
-import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatGitHubDarkIJTheme;
 import cu.edu.cujae.structbd.services.ServicesLocator;
+import cu.edu.cujae.structbd.utils.AppCustomDialog;
+import cu.edu.cujae.structbd.utils.AppCustomWindow;
 import cu.edu.cujae.structbd.utils.UtilsConnector;
 import cu.edu.cujae.structbd.utils.ViewDialog;
 import cu.edu.cujae.structbd.utils.ViewWindow;
@@ -15,16 +15,10 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.lang.*;
-import javax.swing.JDialog;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JMenuItem;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 
 /**
  *
@@ -36,8 +30,8 @@ public class MainUI extends javax.swing.JFrame {
      */
     public MainUI()
     {
-            initComponents();
-            this.updateMenuItems();
+        initComponents();
+        this.updateMenuItems();
 
     }
     
@@ -73,7 +67,7 @@ public class MainUI extends javax.swing.JFrame {
         }
     }
      
-    public ActionListener clickMenuItem(MainUI mainWindow, JFrame view) {
+    public ActionListener clickMenuItem(MainUI mainWindow, AppCustomWindow view) {
         return new ActionListener(){
             @Override
                 public void actionPerformed(ActionEvent e){
@@ -81,17 +75,19 @@ public class MainUI extends javax.swing.JFrame {
                     view.setVisible(true);
                     view.setLocationRelativeTo(null);
                     view.setAlwaysOnTop(true);
+                    view.start();
                 } 
          };
     }
     
-    public ActionListener clickReportMenuItem(MainUI mainWindow, JDialog view) {
+    public ActionListener clickReportMenuItem(MainUI mainWindow, AppCustomDialog view) {
         return new ActionListener(){
             @Override
                 public void actionPerformed(ActionEvent e){
-                mainWindow.setVisible(true);
+                    mainWindow.setVisible(true);
                     view.setVisible(true);
-                    view.setLocationRelativeTo(null);
+                    view.setLocationRelativeTo(null);    
+                    view.start();
                 } 
          };
     }

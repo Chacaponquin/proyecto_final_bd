@@ -7,17 +7,20 @@ package cu.edu.cujae.structbd.visual.coach;
 import cu.edu.cujae.structbd.dto.coach.UpdateCoachDTO;
 import cu.edu.cujae.structbd.dto.team.ReadTeamDTO;
 import cu.edu.cujae.structbd.services.ServicesLocator;
+import cu.edu.cujae.structbd.utils.AppCustomDialog;
+import cu.edu.cujae.structbd.utils.UtilsConnector;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
 /**
  *
  * @author Jose
  */
-public class UpdateCoachUI extends javax.swing.JDialog
+public class UpdateCoachUI extends JDialog
 {
     private UpdateCoachDTO updateCoachDTO;
     /**
@@ -26,6 +29,10 @@ public class UpdateCoachUI extends javax.swing.JDialog
     public UpdateCoachUI(java.awt.Frame parent, boolean modal, UpdateCoachDTO updateCoachDTO)
     {
         super(parent, modal);
+        this.start();
+    }
+    
+    public void start(){
         initComponents();
          
         try
@@ -43,16 +50,10 @@ public class UpdateCoachUI extends javax.swing.JDialog
             
              this.activate_button();
         }
-        catch (SQLException ex)
+        catch (SQLException | ClassNotFoundException ex)
         {
-            Logger.getLogger(UpdateCoachUI.class.getName()).log(Level.SEVERE, null, ex);
+            UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
         }
-        catch (ClassNotFoundException ex)
-        {
-            Logger.getLogger(UpdateCoachUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-       
     }
 
     /**
@@ -260,73 +261,8 @@ public class UpdateCoachUI extends javax.swing.JDialog
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void field_nameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_field_nameKeyReleased
-this.activate_button();        // TODO add your handling code here:
+        this.activate_button();        // TODO add your handling code here:
     }//GEN-LAST:event_field_nameKeyReleased
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[])
-    {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try
-        {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels())
-            {
-                if ("Nimbus".equals(info.getName()))
-                {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        }
-        catch (ClassNotFoundException ex)
-        {
-            java.util.logging.Logger.getLogger(UpdateCoachUI.class.getName()).log(java.util.logging.Level.SEVERE, null,
-                                                                                  ex);
-        }
-        catch (InstantiationException ex)
-        {
-            java.util.logging.Logger.getLogger(UpdateCoachUI.class.getName()).log(java.util.logging.Level.SEVERE, null,
-                                                                                  ex);
-        }
-        catch (IllegalAccessException ex)
-        {
-            java.util.logging.Logger.getLogger(UpdateCoachUI.class.getName()).log(java.util.logging.Level.SEVERE, null,
-                                                                                  ex);
-        }
-        catch (javax.swing.UnsupportedLookAndFeelException ex)
-        {
-            java.util.logging.Logger.getLogger(UpdateCoachUI.class.getName()).log(java.util.logging.Level.SEVERE, null,
-                                                                                  ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the dialog */
-        /*java.awt.EventQueue.invokeLater(new Runnable()
-        {
-            public void run()
-            {
-                UpdateCoachUI dialog = new UpdateCoachUI(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter()
-                {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e)
-                    {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });*/
-    }
     
     public boolean validate_name()
     {

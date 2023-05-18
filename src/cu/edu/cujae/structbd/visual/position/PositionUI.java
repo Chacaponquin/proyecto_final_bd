@@ -6,25 +6,20 @@ package cu.edu.cujae.structbd.visual.position;
 
 import cu.edu.cujae.structbd.dto.position.ReadPositionDTO;
 import cu.edu.cujae.structbd.services.ServicesLocator;
+import cu.edu.cujae.structbd.utils.AppCustomWindow;
 import cu.edu.cujae.structbd.utils.UtilsConnector;
 import java.sql.SQLException;
 import java.util.LinkedList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author Amaya
  */
-public class PositionUI extends javax.swing.JFrame {
-    
+public class PositionUI extends AppCustomWindow {   
     private LinkedList<ReadPositionDTO> positions_list;
-
-    /**
-     * Creates new form PositionUI
-     */
-    public PositionUI() {
+    
+    public void start(){
         initComponents();
         this.updateUI();
     }
