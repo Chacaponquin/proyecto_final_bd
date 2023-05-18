@@ -4,11 +4,20 @@
  */
 package cu.edu.cujae.structbd.visual.reports;
 
+import cu.edu.cujae.structbd.dto.stadium.ReadStadiumDTO;
+import cu.edu.cujae.structbd.services.ServicesLocator;
+import cu.edu.cujae.structbd.utils.UtilsConnector;
+import java.awt.event.ItemEvent;
+import java.sql.SQLException;
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  *
  * @author Hector Angel Gomez
  */
 public class Report_3UI extends javax.swing.JDialog {
+    private List<ReadStadiumDTO> stadiums = new LinkedList<>();
 
     /**
      * Creates new form Report_3UI
@@ -19,8 +28,24 @@ public class Report_3UI extends javax.swing.JDialog {
         this.updateUI();
     }
     
+    private void getStadiums(){
+        try {
+            this.jComboBox1.removeAllItems();
+            this.stadiums = ServicesLocator.StadiumServices.getStadiums();
+            
+            this.stadiums.forEach(s -> {
+                this.jComboBox1.addItem(s.getStadiumName());
+            });
+        } catch (SQLException | ClassNotFoundException ex) {
+            UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
+        }
+    }
+    
     public void updateUI(){
-        this.jComboBox1.removeAllItems();
+        this.getStadiums();  
+    }
+    
+    private void updateTable(){
         
     }
 
@@ -46,9 +71,22 @@ public class Report_3UI extends javax.swing.JDialog {
 
         jLabel1.setText("Fecha:");
 
+        jCalendarDate.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+            }
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+                jCalendarDateInputMethodTextChanged(evt);
+            }
+        });
+
         jLabel2.setText("Estadio");
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBox1ItemStateChanged(evt);
+            }
+        });
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -115,6 +153,16 @@ public class Report_3UI extends javax.swing.JDialog {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 this.dispose();        // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox1ItemStateChanged
+        if(evt.getStateChange() == ItemEvent.SELECTED){ 
+            this.updateTable();
+        }     // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox1ItemStateChanged
+
+    private void jCalendarDateInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_jCalendarDateInputMethodTextChanged
+System.out.println("Buenas");        // TODO add your handling code here:
+    }//GEN-LAST:event_jCalendarDateInputMethodTextChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
