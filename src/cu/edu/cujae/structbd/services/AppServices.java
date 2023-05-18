@@ -248,4 +248,18 @@ public class AppServices
         preparedFunction.close();
         return readReport_1DTO;
     }
+
+    public int getCountGamesInPhase(ReadAPhaseDTO readAPhaseDTO) throws SQLException, ClassNotFoundException
+    {
+        int result = -1;
+        String function = "{?= call count_teams_in_phase(?)";
+        java.sql.Connection connection = Connector.getConnection();
+        connection.setAutoCommit(false);
+        CallableStatement preparedFunction = connection.prepareCall(function);
+        preparedFunction.registerOutParameter(1, java.sql.Types.INTEGER);
+        preparedFunction.execute();
+        result = (int) preparedFunction.getObject(1);
+        preparedFunction.close();
+        return result;
+    }
 }

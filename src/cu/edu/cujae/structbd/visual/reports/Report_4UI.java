@@ -188,28 +188,6 @@ public class Report_4UI extends javax.swing.JDialog
     }//GEN-LAST:event_jButton2ActionPerformed
 
 
-<<<<<<< HEAD
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable()
-        {
-            public void run()
-            {
-                Report_4UI dialog = new Report_4UI(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter()
-                {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e)
-                    {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
-=======
->>>>>>> 3658c66f93d0699e94f597916e0807bc8bed1582
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
