@@ -10,8 +10,6 @@ import cu.edu.cujae.structbd.utils.AppCustomWindow;
 import cu.edu.cujae.structbd.utils.UtilsConnector;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -19,6 +17,7 @@ import javax.swing.table.DefaultTableModel;
  * @author Hector Angel Gomez
  */
 public class TeamUI extends AppCustomWindow {
+    private ArrayList<ReadTeamDTO> teams = new ArrayList<>();
     
     public void start(){
         try {
@@ -30,7 +29,7 @@ public class TeamUI extends AppCustomWindow {
     }
     
     public void updateUI() throws SQLException, ClassNotFoundException {
-        ArrayList<ReadTeamDTO> teams =ServicesLocator.TeamServices.readTeams();
+        this.teams = ServicesLocator.TeamServices.readTeams();
         
         DefaultTableModel model = (DefaultTableModel) this.jTable1.getModel();
         
@@ -49,10 +48,19 @@ public class TeamUI extends AppCustomWindow {
     private void initComponents() {
 
         jPopupMenu1 = new javax.swing.JPopupMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+
+        jMenuItem1.setText("Ver miembros");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(jMenuItem1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Teams");
@@ -123,10 +131,17 @@ public class TeamUI extends AppCustomWindow {
         UtilsConnector.viewUtils.openWindow(this, new CreateTeamUI());
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        int selectTeam = this.jTable1.getSelectedRow();
+        ReadTeamDTO team = this.teams.get(selectTeam);
+        UtilsConnector.viewUtils.openDialog(this, new TeamMembersUI(this, true,team));        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;

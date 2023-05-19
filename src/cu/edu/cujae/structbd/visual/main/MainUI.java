@@ -73,9 +73,9 @@ public class MainUI extends javax.swing.JFrame {
                 public void actionPerformed(ActionEvent e){
                 mainWindow.setVisible(true);
                     view.setVisible(true);
-                    view.setLocationRelativeTo(null);
                     view.setAlwaysOnTop(true);
                     view.start();
+                    view.setLocationRelativeTo(null);
                 } 
          };
     }
@@ -86,8 +86,8 @@ public class MainUI extends javax.swing.JFrame {
                 public void actionPerformed(ActionEvent e){
                     mainWindow.setVisible(true);
                     view.setVisible(true);
-                    view.setLocationRelativeTo(null);    
                     view.start();
+                    view.setLocationRelativeTo(null);   
                 } 
          };
     }

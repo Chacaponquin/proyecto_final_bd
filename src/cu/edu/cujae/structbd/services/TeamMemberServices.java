@@ -1,5 +1,7 @@
 package cu.edu.cujae.structbd.services;
 
+import cu.edu.cujae.structbd.dto.team.ReadATeamDTO;
+import cu.edu.cujae.structbd.dto.team.ReadTeamDTO;
 import cu.edu.cujae.structbd.dto.team_member.DeleteTeamMemberDTO;
 import cu.edu.cujae.structbd.dto.team_member.ReadATeamMemberDTO;
 import cu.edu.cujae.structbd.dto.team_member.ReadTeamMemberDTO;
@@ -15,6 +17,7 @@ public class TeamMemberServices {
     
     public ReadTeamMemberDTO readTeamMember(ReadATeamMemberDTO readATeamMemberDTO) throws SQLException, ClassNotFoundException{
         ReadTeamMemberDTO readTeamMemberDTO = null;
+        
         String function = "{?= call team_member_load_by_id(?)}";
         java.sql.Connection connection = Connector.getConnection();
         connection.setAutoCommit(false);
@@ -25,12 +28,42 @@ public class TeamMemberServices {
         ResultSet resultSet = (ResultSet) preparedFunction.getObject(1);
         resultSet.next();
         readTeamMemberDTO = new ReadTeamMemberDTO(resultSet.getString(1), resultSet.getInt(2), 
-                    resultSet.getInt(3), resultSet.getInt(4), resultSet.getString(5));
+                    resultSet.getInt(3), resultSet.getInt(4), resultSet.getString(5), resultSet.getString(5));
         resultSet.close();
         preparedFunction.close();
 
         return readTeamMemberDTO;
         
+    }
+    
+    public List<ReadTeamMemberDTO> readMembersFromTeam(ReadTeamDTO team) throws SQLException, ClassNotFoundException{
+        LinkedList<ReadTeamMemberDTO> members = new LinkedList<>();
+        
+        String function = "{?= call members_by_team(?)}";
+        java.sql.Connection connection = Connector.getConnection();
+        connection.setAutoCommit(false);
+        CallableStatement preparedFunction = connection.prepareCall(function);
+        preparedFunction.registerOutParameter(1, java.sql.Types.REF_CURSOR);
+        preparedFunction.setInt(2, team.getTeam_id());
+        preparedFunction.execute();
+        ResultSet resultSet = (ResultSet) preparedFunction.getObject(1);
+        
+        while (resultSet.next())
+        {
+            String name = resultSet.getString("member_name");
+            int number = resultSet.getInt("member_number");
+            int yearsInTeam = resultSet.getInt("years_in_team");
+            int id = resultSet.getInt("member_id");
+            String team_name = resultSet.getString("team_name");
+            String type = resultSet.getString("member_type");
+            
+            members.add(new ReadTeamMemberDTO(name, number, yearsInTeam, id, team_name, type));
+        }
+        
+        resultSet.close();
+        preparedFunction.close();
+        
+        return members;
     }
     
     public List<ReadTeamMemberDTO> readAllTeamMembers() throws SQLException, ClassNotFoundException{
@@ -45,7 +78,7 @@ public class TeamMemberServices {
         while (resultSet.next())
         {
             teamMembersList.add(new ReadTeamMemberDTO(resultSet.getString(1), resultSet.getInt(2), 
-                    resultSet.getInt(3), resultSet.getInt(4), resultSet.getString(5)));
+                    resultSet.getInt(3), resultSet.getInt(4), resultSet.getString(5), resultSet.getString(5)));
         }
         resultSet.close();
         preparedFunction.close();

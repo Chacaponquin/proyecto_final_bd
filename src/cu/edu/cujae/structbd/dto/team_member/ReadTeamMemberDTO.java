@@ -6,17 +6,27 @@ public class ReadTeamMemberDTO {
     private int yearsInTeam;
     private final int id;
     private String team_name;
+    private String memberType;
 
-    public ReadTeamMemberDTO(String name, int number, int yearsInTeam, int id, String team_name) {
+    public ReadTeamMemberDTO(String name, int number, int yearsInTeam, int id, String team_name, String memberType) {
         this.name = name;
         this.number = number;
         this.yearsInTeam = yearsInTeam;
         this.id = id;
         this.team_name = team_name;
+        this.memberType = memberType;
     }
 
     public String getName() {
         return name;
+    }
+    
+    public String getMemberType(){
+        if(this.memberType.equals("P")){
+            return "Jugador";
+        }else {
+            return "Entrenador";
+        }
     }
 
     public void setName(String name) {
