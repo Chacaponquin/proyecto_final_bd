@@ -4,6 +4,8 @@
  */
 package cu.edu.cujae.structbd.utils;
 
+import cu.edu.cujae.structbd.dto.user.ActualUserDTO;
+import cu.edu.cujae.structbd.services.ServicesLocator;
 import cu.edu.cujae.structbd.visual.batter.BatterUI;
 
 import cu.edu.cujae.structbd.visual.coach.Coach_UI;
@@ -42,18 +44,26 @@ public class ViewUtils {
     
     public ViewUtils()
     {
-        this.views.add(new ViewWindow("Estadios", new StadiumUI()));
-        this.views.add(new ViewWindow("Posiciones", new PositionUI()));
-        this.views.add(new ViewWindow("Pitchers", new PitcherUI()));
-        this.views.add(new ViewWindow("Fases", new PhaseUI()));
-        this.views.add(new ViewWindow("Juegos", new GameUI()));
-        this.views.add(new ViewWindow("Entrenadores", new Coach_UI()));
-        this.views.add(new ViewWindow("Equipos", new TeamUI()));
-        this.views.add(new ViewWindow("Bateadores", new BatterUI()));
-        this.views.add(new ViewWindow("Jugadores", new Player_UI()));
-        this.views.add(new ViewWindow("Provincias", new Province_UI()));
-        this.views.add(new ViewWindow("SNB", new SerieUI()));
-        this.views.add(new ViewWindow("Usuarios", new UserUI()));
+        this.updateViews();
+    }
+    
+    public void updateViews(){
+        views.clear();
+        reports.clear();
+        boolean isAdmin = ServicesLocator.UserServices.actualUserIsAdmin();
+        
+        this.views.add(new ViewWindow("Estadios", new StadiumUI(), !isAdmin));
+        this.views.add(new ViewWindow("Posiciones", new PositionUI(), !isAdmin));
+        this.views.add(new ViewWindow("Pitchers", new PitcherUI(), !isAdmin));
+        this.views.add(new ViewWindow("Fases", new PhaseUI(), !isAdmin));
+        this.views.add(new ViewWindow("Juegos", new GameUI(), !isAdmin));
+        this.views.add(new ViewWindow("Entrenadores", new Coach_UI(), !isAdmin));
+        this.views.add(new ViewWindow("Equipos", new TeamUI(), !isAdmin));
+        this.views.add(new ViewWindow("Bateadores", new BatterUI(), !isAdmin));
+        this.views.add(new ViewWindow("Jugadores", new Player_UI(), !isAdmin));
+        this.views.add(new ViewWindow("Provincias", new Province_UI(), !isAdmin));
+        this.views.add(new ViewWindow("SNB", new SerieUI(), !isAdmin));
+        this.views.add(new ViewWindow("Usuarios", new UserUI(), isAdmin));
 
         this.reports.add(new ViewDialog("Tabla de posiciones", new Report_1UI(null, false)));
         this.reports.add(new ViewDialog("Partidos por equipos", new Report_2UI(null, false)));

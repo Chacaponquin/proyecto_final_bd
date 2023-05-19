@@ -16,6 +16,7 @@ import cu.edu.cujae.structbd.exceptions.user.DuplicateUserException;
 import cu.edu.cujae.structbd.exceptions.user.IncorrectLoginException;
 import cu.edu.cujae.structbd.exceptions.user.ShortUsernameException;
 import cu.edu.cujae.structbd.utils.Connector;
+import cu.edu.cujae.structbd.utils.USER_ROLE;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -146,6 +147,16 @@ public class UserServices {
     
     private boolean verifyPassword(String loginPassword, String hashPassword){
         return BCrypt.checkpw(loginPassword, hashPassword);
+    }
+    
+    public void signOutUser(){
+        this.actualUser = null;
+    }
+    
+    public boolean actualUserIsAdmin(){
+        if(actualUser == null) return false;
+        
+        return this.actualUser.getRole().equals(USER_ROLE.ADMIN.getRoleName());
     }
     
 }

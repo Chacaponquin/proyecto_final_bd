@@ -13,10 +13,16 @@ import javax.swing.JFrame;
 public class ViewWindow {
     private final String windowName;
     private final AppCustomWindow frame;
+    private final boolean condition;
 
-    public ViewWindow(String windowName, AppCustomWindow frame) {
+    public ViewWindow(String windowName, AppCustomWindow frame, boolean condition) {
         this.windowName = windowName;
         this.frame = frame;
+        this.condition = condition;
+    }
+    
+    public boolean getCondition(){
+        return this.condition;
     }
 
     public String getWindowName() {

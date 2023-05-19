@@ -115,6 +115,7 @@ public class LoginUI extends javax.swing.JFrame {
             this.loginForm.setPassword(password);
             
             ServicesLocator.UserServices.loginUser(this.loginForm);
+            UtilsConnector.viewUtils.updateViews();
             UtilsConnector.viewUtils.openWindow(this, new MainUI());        // TODO add your handling code here:
         } catch (SQLException | ClassNotFoundException ex) {
              UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);

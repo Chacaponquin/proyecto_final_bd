@@ -143,10 +143,13 @@ this.dispose();        // TODO add your handling code here:
     private void deleteMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteMenuActionPerformed
         try {
             int selectRow = this.jTable1.getSelectedRow();
-            DeleteUserDTO userToSelect = new DeleteUserDTO(this.users.get(selectRow).getUserID());
-            ServicesLocator.UserServices.deleteUser(userToSelect);
             
-            this.updateUI();
+            if(selectRow >= 0){
+                DeleteUserDTO userToSelect = new DeleteUserDTO(this.users.get(selectRow).getUserID());
+                ServicesLocator.UserServices.deleteUser(userToSelect);
+
+                this.updateUI();
+            }
         } catch (SQLException | ClassNotFoundException ex) {
             UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
         } 
