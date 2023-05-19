@@ -9,26 +9,32 @@ package cu.edu.cujae.structbd.dto.batter;
  * @author Hector Angel Gomez
  */
 public class ReadBatterDTO {
-    private String name;
-    private String equipo;
-    private int yearsInTeam;
-    private int number;
-    private String position;
-    private int atBats;
-    private int totalHits;
+    private final int member_id;
+    private final String name;
+    private final String team;
+    private final int yearsInTeam;
+    private final int number;
+    private final String position;
+    private final int atBats;
+    private final int totalHits;
 
-    public ReadBatterDTO(String name, String equipo, int yearsInTeam, int number, String position, int atBats, int totalHits) {
+    public ReadBatterDTO(int member_id, String name, String team, int yearsInTeam, int number, String position, int atBats, int totalHits) {
+        this.member_id = member_id;
         this.name = name;
-        this.equipo = equipo;
+        this.team = team;
         this.yearsInTeam = yearsInTeam;
         this.number = number;
         this.position = position;
         this.atBats = atBats;
         this.totalHits = totalHits;
     }
-    
-    public Object[] getArrayValues(){
-        return new Object[]{name, equipo, yearsInTeam,number, position, atBats, totalHits, this.getAverage()};
+
+    public int getMember_id() {
+        return member_id;
+    }
+
+    public int getTotalHits() {
+        return totalHits;
     }
     
     public int getAverage(){
@@ -40,8 +46,8 @@ public class ReadBatterDTO {
         return name;
     }
 
-    public String getEquipo() {
-        return equipo;
+    public String getTeam() {
+        return team;
     }
 
     public int getYearsInTeam() {

@@ -4,36 +4,25 @@
  */
 package cu.edu.cujae.structbd.dto.user;
 
-import cu.edu.cujae.structbd.utils.UtilsConnector;
-
 /**
  *
  * @author Hector Angel Gomez
  */
-public class CreateUserDTO {
-    private final String id = UtilsConnector.idUtils.generateUniqueID();
+public class CreateUserDTO {;
     private String username;
     private String password;
-    private String userRoleID;
+    private int userRoleID;
     private String comfirmPassword;
 
-    public CreateUserDTO(String username, String password, String comfirmPassword, String userRoleID) {
+    public CreateUserDTO(String username, String password, String comfirmPassword, int userRoleID) {
         this.username = username.trim();
         this.password = password.trim();
         this.comfirmPassword = comfirmPassword.trim();
         this.userRoleID = userRoleID;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public String getUserRoleID() {
+    public int getUserRoleID() {
         return userRoleID;
-    }
-    
-    public String getID(){
-        return this.id;
     }
 
     public String getUsername() {
@@ -60,7 +49,7 @@ public class CreateUserDTO {
         this.comfirmPassword = comfirmPassword;
     }
 
-    public void setUserRoleID(String userRoleID) {
+    public void setUserRoleID(int userRoleID) {
         this.userRoleID = userRoleID;
     }
 }

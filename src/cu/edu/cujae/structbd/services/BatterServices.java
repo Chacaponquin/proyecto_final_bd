@@ -19,15 +19,16 @@ public class BatterServices {
         
         while (result.next())
         {
+            int id = result.getInt("member_id");
             String name = result.getString("member_name");
             String equipo = result.getString("team_name");
-            int yearsInTeam = Integer.parseInt(result.getString("years_in_team"));
-            int number = Integer.parseInt(result.getString("member_number"));
+            int yearsInTeam = result.getInt("years_in_team");
+            int number = result.getInt("member_number");
             String position = result.getString("position_name");
-            int atBats = Integer.parseInt(result.getString("at_bats"));
-            int totalHits = Integer.parseInt(result.getString("total_hits"));
+            int atBats = result.getInt("at_bats");
+            int totalHits = result.getInt("total_hits");
             
-            ReadBatterDTO newDTO = new ReadBatterDTO(name, equipo, yearsInTeam, number, position, atBats, totalHits);            
+            ReadBatterDTO newDTO = new ReadBatterDTO(id, name, equipo, yearsInTeam, number, position, atBats, totalHits);            
             batters.add(newDTO);
         }
         

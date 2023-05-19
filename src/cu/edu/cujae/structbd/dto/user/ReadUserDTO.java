@@ -4,17 +4,19 @@
  */
 package cu.edu.cujae.structbd.dto.user;
 
+import cu.edu.cujae.structbd.utils.USER_ROLE;
+
 /**
  *
  * @author Hector Angel Gomez
  */
 public class ReadUserDTO {
-    private final String userID;
+    private final int userID;
     private final String username;
     private final String role;
     private final String password;
 
-    public ReadUserDTO(String userID, String username, String role, String password) {
+    public ReadUserDTO(int userID, String username, String role, String password) {
         this.username = username;
         this.role = role;
         this.password = password;
@@ -33,11 +35,11 @@ public class ReadUserDTO {
         return password;
     }
 
-    public String getUserID() {
+    public int getUserID() {
         return userID;
     }
     
-    
-
-    
+    public boolean isAdmin(){
+        return this.getRole().equals(USER_ROLE.ADMIN.getRoleName());
+    } 
 }

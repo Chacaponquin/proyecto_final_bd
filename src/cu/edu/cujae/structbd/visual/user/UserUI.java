@@ -34,7 +34,7 @@ public class UserUI extends AppCustomWindow {
             this.cleanTable();
             
             this.users.clear();
-            this.users = ServicesLocator.UserServices.readUsers();
+            this.users = ServicesLocator.UserServices.readUsersForAdmin();
             
             DefaultTableModel model = (DefaultTableModel) this.jTable1.getModel();
                       
@@ -133,20 +133,23 @@ public class UserUI extends AppCustomWindow {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-this.dispose();        // TODO add your handling code here:
+        this.dispose();        // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void deleteMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteMenuActionPerformed
         try {
             int selectRow = this.jTable1.getSelectedRow();
-            System.out.println(selectRow);
-            DeleteUserDTO userToSelect = new DeleteUserDTO(this.users.get(selectRow).getUserID());
-            ServicesLocator.UserServices.deleteUser(userToSelect);
             
-            this.updateUI();
+            if(selectRow >= 0){
+                DeleteUserDTO userToSelect = new DeleteUserDTO(this.users.get(selectRow).getUserID());
+                ServicesLocator.UserServices.deleteUser(userToSelect);
+
+                this.updateUI();
+            }
         } catch (SQLException | ClassNotFoundException ex) {
             UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
         } 

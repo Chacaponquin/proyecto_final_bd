@@ -4,19 +4,20 @@
  */
 package cu.edu.cujae.structbd.visual.main;
 
+import cu.edu.cujae.structbd.dto.user.ActualUserDTO;
 import cu.edu.cujae.structbd.services.ServicesLocator;
 import cu.edu.cujae.structbd.utils.AppCustomDialog;
 import cu.edu.cujae.structbd.utils.AppCustomWindow;
 import cu.edu.cujae.structbd.utils.UtilsConnector;
 import cu.edu.cujae.structbd.utils.ViewDialog;
 import cu.edu.cujae.structbd.utils.ViewWindow;
+import cu.edu.cujae.structbd.visual.user.LoginUI;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JPanel;
-import java.lang.*;
 import java.util.List;
 import javax.swing.JMenuItem;
 
@@ -36,35 +37,55 @@ public class MainUI extends javax.swing.JFrame {
     }
     
     public void updateMenuItems(){
+        ActualUserDTO actualUser = ServicesLocator.UserServices.getActualUser();
+        boolean actualUserIsAdmin = ServicesLocator.UserServices.actualUserIsAdmin();
+        
         List<ViewWindow> views = UtilsConnector.viewUtils.getViews();
         List<ViewDialog> reportsViews = UtilsConnector.viewUtils.getReportsViews();
         
         // añadir views
         views.forEach((view) -> {
-            javax.swing.JMenuItem menuItem = new javax.swing.JMenuItem();
-            menuItem.setText(view.getWindowName());
-            
-            menuItem.addActionListener(this.clickMenuItem(this, view.getFrame()));
-            
-            this.jMenu1.add(menuItem);
+            if(view.getCondition()){
+                javax.swing.JMenuItem menuItem = new javax.swing.JMenuItem();
+                menuItem.setText(view.getWindowName());
+
+                menuItem.addActionListener(this.clickMenuItem(this, view.getFrame()));
+
+                this.jMenu1.add(menuItem);
+            }
         });
         
         
         // añadir reportes
-        reportsViews.forEach((view) -> {
-            javax.swing.JMenuItem menuItem = new javax.swing.JMenuItem();
-            menuItem.setText(view.getViewName());
-            
-            menuItem.addActionListener(this.clickReportMenuItem(this, view.getDialog()));
-            
-            this.jMenu2.add(menuItem);
-        });
-        
-        if(ServicesLocator.UserServices.getActualUser() == null){
-            JMenuItem closeUserItem = new JMenuItem();
-            closeUserItem.setText("Cerrar Sesión");
-            this.jMenu3.add(closeUserItem);
+        if(actualUserIsAdmin){
+            this.jMenu2.setVisible(false);
+        }else {
+            reportsViews.forEach((view) -> {
+                javax.swing.JMenuItem menuItem = new javax.swing.JMenuItem();
+                menuItem.setText(view.getViewName());
+
+                menuItem.addActionListener(this.clickReportMenuItem(this, view.getDialog()));
+
+                this.jMenu2.add(menuItem);
+            });
         }
+        
+        JMenuItem closeUserItem = new JMenuItem();
+        closeUserItem.setText("Cerrar Sesión");
+        closeUserItem.addActionListener(this.userSignOut(this));
+        this.jMenu3.add(closeUserItem);  
+    }
+    
+    public ActionListener userSignOut(MainUI main){
+        return new ActionListener(){
+            @Override
+                public void actionPerformed(ActionEvent e){
+                    ServicesLocator.UserServices.signOutUser();
+                    main.updateMenuItems();
+                    
+                    UtilsConnector.viewUtils.openWindow(main, new LoginUI());
+                } 
+         };  
     }
      
     public ActionListener clickMenuItem(MainUI mainWindow, AppCustomWindow view) {

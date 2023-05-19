@@ -9,13 +9,13 @@ package cu.edu.cujae.structbd.dto.user;
  * @author Hector Angel Gomez
  */
 public class DeleteUserDTO {
-    private final String userID;
+    private final int userID;
 
-    public DeleteUserDTO(String userID) {
+    public DeleteUserDTO(int userID) {
         this.userID = userID;
     }
 
-    public String getUserID() {
+    public int getUserID() {
         return userID;
     }  
 }

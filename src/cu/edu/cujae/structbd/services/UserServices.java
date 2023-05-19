@@ -16,6 +16,7 @@ import cu.edu.cujae.structbd.exceptions.user.DuplicateUserException;
 import cu.edu.cujae.structbd.exceptions.user.IncorrectLoginException;
 import cu.edu.cujae.structbd.exceptions.user.ShortUsernameException;
 import cu.edu.cujae.structbd.utils.Connector;
+import cu.edu.cujae.structbd.utils.USER_ROLE;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -38,7 +39,7 @@ public class UserServices {
         this.actualUser = user;
     }
     
-    public List<ReadUserDTO> readUsers() throws SQLException, ClassNotFoundException{
+    private List<ReadUserDTO> readUsers() throws SQLException, ClassNotFoundException{
         LinkedList<ReadUserDTO> users = new LinkedList<>();
         
         String function = "{?= call user_load()}";
@@ -50,7 +51,7 @@ public class UserServices {
         ResultSet resultSet = (ResultSet) preparedFunction.getObject(1);
         while (resultSet.next())
         {
-            String id = resultSet.getString("user_id");
+            int id = resultSet.getInt("user_id");
             String username = resultSet.getString("username");
             String role = resultSet.getString("role_name");
             String password = resultSet.getString("password");
@@ -62,6 +63,19 @@ public class UserServices {
         preparedFunction.close();
         
         return users;
+    }
+    
+    public List<ReadUserDTO> readUsersForAdmin() throws SQLException, ClassNotFoundException{
+        List<ReadUserDTO> allUsers = this.readUsers();
+        
+        List<ReadUserDTO> returnUsers = new LinkedList<>();
+        for(ReadUserDTO r: allUsers){
+            if(r.getUserID() != this.actualUser.getID()){
+                returnUsers.add(r);
+            }
+        }
+        
+        return returnUsers;
     }
     
     public void createUser(CreateUserDTO newUser) throws DifferentPasswordsException, SQLException, ClassNotFoundException, EmptyFieldFormException, ShortUsernameException, DuplicateUserException{
@@ -80,13 +94,12 @@ public class UserServices {
             throw new DuplicateUserException();
         }
         
-        String function = "{call user_insert(?,?,?,?)}";
+        String function = "{call user_insert(?,?,?)}";
         java.sql.Connection connection = Connector.getConnection();
         CallableStatement preparedFunction = connection.prepareCall(function);
-        preparedFunction.setString(1, newUser.getID());
-        preparedFunction.setString(2, newUser.getUsername());
-        preparedFunction.setString(3, this.hashPassword(newUser.getPassword()));
-        preparedFunction.setString(4, newUser.getUserRoleID());
+        preparedFunction.setString(1, newUser.getUsername());
+        preparedFunction.setString(2, this.hashPassword(newUser.getPassword()));
+        preparedFunction.setInt(3, newUser.getUserRoleID());
         preparedFunction.execute();
         preparedFunction.close();
         
@@ -110,15 +123,30 @@ public class UserServices {
         if(foundUser == null){
             throw new IncorrectLoginException();
         }else {
-            this.setActualUser(new ActualUserDTO(foundUser.getUsername(), foundUser.getRole()));
+            this.setActualUser(new ActualUserDTO(foundUser.getUserID(),foundUser.getUsername(), foundUser.getRole()));
         }
     }
     
     public void deleteUser(DeleteUserDTO user) throws SQLException, ClassNotFoundException{
+        List<ReadUserDTO> allUsers = this.readUsers();
+        
+        ReadUserDTO userFound = null;
+        for(int i =0; i < allUsers.size() && userFound == null; i++){
+            if(allUsers.get(i).getUserID() == user.getUserID()){
+                userFound = allUsers.get(i);
+            }
+        }
+        
+        if(userFound != null){
+            this.deleteUserQuery(user);
+        }
+    }
+    
+    private void deleteUserQuery(DeleteUserDTO user) throws SQLException, ClassNotFoundException{
         String function = "{call user_delete(?)}";
         java.sql.Connection connection = Connector.getConnection();
         CallableStatement preparedFunction = connection.prepareCall(function);
-        preparedFunction.setString(1, user.getUserID());
+        preparedFunction.setInt(1, user.getUserID());
         preparedFunction.execute();
         preparedFunction.close();
         
@@ -147,6 +175,16 @@ public class UserServices {
     
     private boolean verifyPassword(String loginPassword, String hashPassword){
         return BCrypt.checkpw(loginPassword, hashPassword);
+    }
+    
+    public void signOutUser(){
+        this.actualUser = null;
+    }
+    
+    public boolean actualUserIsAdmin(){
+        if(actualUser == null) return false;
+        
+        return this.actualUser.getRole().equals(USER_ROLE.ADMIN.getRoleName());
     }
     
 }

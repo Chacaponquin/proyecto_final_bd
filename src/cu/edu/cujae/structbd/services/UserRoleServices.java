@@ -4,7 +4,6 @@
  */
 package cu.edu.cujae.structbd.services;
 
-import cu.edu.cujae.structbd.dto.phase.ReadPhaseDTO;
 import cu.edu.cujae.structbd.dto.user_role.ReadUserRoleDTO;
 import cu.edu.cujae.structbd.utils.Connector;
 import java.sql.CallableStatement;
@@ -31,7 +30,7 @@ public class UserRoleServices {
         ResultSet resultSet = (ResultSet) preparedFunction.getObject(1);
         while (resultSet.next())
         {
-            ReadUserRoleDTO o = new ReadUserRoleDTO(resultSet.getString("user_role_id"), resultSet.getString("role_name"));
+            ReadUserRoleDTO o = new ReadUserRoleDTO(resultSet.getInt("user_role_id"), resultSet.getString("role_name"));
             user_roles.add(o);
         }
         resultSet.close();

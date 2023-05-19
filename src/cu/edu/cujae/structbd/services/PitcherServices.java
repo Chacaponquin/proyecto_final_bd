@@ -38,19 +38,20 @@ public class PitcherServices {
         preparedFunction.registerOutParameter(1, java.sql.Types.REF_CURSOR);
         preparedFunction.execute();
         ResultSet resultSet = (ResultSet) preparedFunction.getObject(1);
+        
         while (resultSet.next())
         {
-            int teamMemberID = resultSet.getInt("member_id");
-            String teamMemberName = resultSet.getString("member_name");
-            int memberNumber = resultSet.getInt("member_number");
-            String team = resultSet.getString("team_name");
-            int yearsInTeam = resultSet.getInt("years_in_team");
+            int team_member_ID = resultSet.getInt("member_id");
+            String team_member_name = resultSet.getString("member_name");
+            int member_number = resultSet.getInt("member_number");
+            String team_name = resultSet.getString("team_name");
+            int years_in_team = resultSet.getInt("years_in_team");
             int inningsPitched = resultSet.getInt("innings_pitched");
             int runsAllowed = resultSet.getInt("runs_allowed");
             
-            pitchers_list.add(new ReadPitcherDTO(teamMemberID, inningsPitched, runsAllowed, teamMemberName, memberNumber, team, 
-            yearsInTeam));
+            pitchers_list.add(new ReadPitcherDTO(team_member_ID, team_member_name, member_number, team_name, years_in_team, inningsPitched, runsAllowed));
         }
+        
         resultSet.close();
         preparedFunction.close();
         return pitchers_list;
@@ -66,13 +67,20 @@ public class PitcherServices {
         preparedFunction.execute();
         ResultSet resultSet = (ResultSet) preparedFunction.getObject(1);
         resultSet.next();
-        ReadPitcherDTO  readPitcherDTO = new ReadPitcherDTO(resultSet.getInt(1), resultSet.getInt(2), 
-                    resultSet.getInt(3), resultSet.getString(4), resultSet.getInt(5), 
-                    resultSet.getString(6), resultSet.getInt(7));
+        
+        int team_member_ID = resultSet.getInt("member_id");
+        String team_member_name = resultSet.getString("member_name");
+        int member_number = resultSet.getInt("member_number");
+        String team_name = resultSet.getString("team_name");
+        int years_in_team = resultSet.getInt("years_in_team");
+        int inningsPitched = resultSet.getInt("innings_pitched");
+        int runsAllowed = resultSet.getInt("runs_allowed");
+            
+        ReadPitcherDTO pitcher =  new ReadPitcherDTO(team_member_ID, team_member_name, member_number, team_name, years_in_team, inningsPitched, runsAllowed);
         resultSet.close();
         preparedFunction.close();
         
-        return readPitcherDTO;
+        return pitcher;
     }
     
     public void updatePitcher(UpdatePitcherDTO updatePitcherDTO) throws SQLException, ClassNotFoundException{
