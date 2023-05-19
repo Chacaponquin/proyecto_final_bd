@@ -5,19 +5,20 @@
 package cu.edu.cujae.structbd.visual.pitcher;
 
 import cu.edu.cujae.structbd.dto.pitcher.CreatePitcherDTO;
+import cu.edu.cujae.structbd.dto.team.ReadTeamDTO;
 import cu.edu.cujae.structbd.services.ServicesLocator;
 import cu.edu.cujae.structbd.utils.UtilsConnector;
 import java.sql.SQLException;
+import javax.swing.JOptionPane;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 
 /**
  *
  * @author Amaya
  */
 public class CreatePitcherUI extends javax.swing.JDialog {
-    
     PitcherUI parentWindow;
     
     /**
@@ -27,6 +28,26 @@ public class CreatePitcherUI extends javax.swing.JDialog {
         super(parent, modal);
         this.parentWindow = parent;
         initComponents();
+        this.updateUI();
+    }
+    
+    private void updateUI(){
+        try {
+            this.jComboBoxTeamName.removeAllItems();
+            
+            List<ReadTeamDTO> teamsToInsert = ServicesLocator.TeamServices.getTeamsForInsertPitcher();
+            
+            if(teamsToInsert.isEmpty()){
+                this.jButtonInsert.disable();
+                this.jComboBoxTeamName.disable();
+            }else {
+                for(ReadTeamDTO t: teamsToInsert){
+                    this.jComboBoxTeamName.addItem(t.getTeam_name());
+                }
+            }
+        } catch (SQLException | ClassNotFoundException ex) {
+           UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
+        }
     }
 
     /**
@@ -175,6 +196,7 @@ public class CreatePitcherUI extends javax.swing.JDialog {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCloseActionPerformed

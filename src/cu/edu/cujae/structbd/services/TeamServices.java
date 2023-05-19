@@ -7,6 +7,7 @@ import cu.edu.cujae.structbd.dto.player.ReadPlayerDTO;
 import cu.edu.cujae.structbd.dto.team.ReadTeamDTO;
 import cu.edu.cujae.structbd.dto.team_member.ReadTeamMemberDTO;
 import cu.edu.cujae.structbd.utils.Connector;
+import cu.edu.cujae.structbd.utils.TEAM_LIMITS;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.sql.CallableStatement;
@@ -190,5 +191,27 @@ public class TeamServices {
         preparedFunction.close();
         
         return players_list;
+    }
+    
+    public List<ReadTeamDTO> getTeamsForInsertPitcher() throws SQLException, ClassNotFoundException{
+        List<ReadTeamDTO> allTeams = this.readTeams();
+        List<ReadPitcherDTO> allPichers = ServicesLocator.PitcherServices.readAllPitchers();
+        
+        List<ReadTeamDTO> returnTeams = new LinkedList<>();
+        for(ReadTeamDTO t: allTeams){
+            int contPitchers = 0;
+            
+            for(ReadPitcherDTO p: allPichers){
+                if(p.getTeam().equals(t.getTeam_name())){
+                    contPitchers++;
+                }
+            }
+            
+            if(contPitchers < TEAM_LIMITS.PLAYER.getMaximun()){
+                returnTeams.add(t);
+            }
+        }
+        
+        return returnTeams;
     }
 }
