@@ -4,6 +4,8 @@
  */
 package cu.edu.cujae.structbd.dto.user;
 
+import cu.edu.cujae.structbd.utils.USER_ROLE;
+
 /**
  *
  * @author Hector Angel Gomez
@@ -37,7 +39,7 @@ public class ReadUserDTO {
         return userID;
     }
     
-    
-
-    
+    public boolean isAdmin(){
+        return this.getRole().equals(USER_ROLE.ADMIN.getRoleName());
+    } 
 }

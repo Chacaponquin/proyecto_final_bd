@@ -39,7 +39,7 @@ public class UserServices {
         this.actualUser = user;
     }
     
-    public List<ReadUserDTO> readUsers() throws SQLException, ClassNotFoundException{
+    private List<ReadUserDTO> readUsers() throws SQLException, ClassNotFoundException{
         LinkedList<ReadUserDTO> users = new LinkedList<>();
         
         String function = "{?= call user_load()}";
@@ -63,6 +63,19 @@ public class UserServices {
         preparedFunction.close();
         
         return users;
+    }
+    
+    public List<ReadUserDTO> readUsersForAdmin() throws SQLException, ClassNotFoundException{
+        List<ReadUserDTO> allUsers = this.readUsers();
+        
+        List<ReadUserDTO> returnUsers = new LinkedList<>();
+        for(ReadUserDTO r: allUsers){
+            if(r.getUserID() != this.actualUser.getID()){
+                returnUsers.add(r);
+            }
+        }
+        
+        return returnUsers;
     }
     
     public void createUser(CreateUserDTO newUser) throws DifferentPasswordsException, SQLException, ClassNotFoundException, EmptyFieldFormException, ShortUsernameException, DuplicateUserException{
@@ -110,11 +123,26 @@ public class UserServices {
         if(foundUser == null){
             throw new IncorrectLoginException();
         }else {
-            this.setActualUser(new ActualUserDTO(foundUser.getUsername(), foundUser.getRole()));
+            this.setActualUser(new ActualUserDTO(foundUser.getUserID(),foundUser.getUsername(), foundUser.getRole()));
         }
     }
     
     public void deleteUser(DeleteUserDTO user) throws SQLException, ClassNotFoundException{
+        List<ReadUserDTO> allUsers = this.readUsers();
+        
+        ReadUserDTO userFound = null;
+        for(int i =0; i < allUsers.size() && userFound == null; i++){
+            if(allUsers.get(i).getUserID() == user.getUserID()){
+                userFound = allUsers.get(i);
+            }
+        }
+        
+        if(userFound != null){
+            this.deleteUserQuery(user);
+        }
+    }
+    
+    private void deleteUserQuery(DeleteUserDTO user) throws SQLException, ClassNotFoundException{
         String function = "{call user_delete(?)}";
         java.sql.Connection connection = Connector.getConnection();
         CallableStatement preparedFunction = connection.prepareCall(function);

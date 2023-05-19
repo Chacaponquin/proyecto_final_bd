@@ -195,7 +195,6 @@ public class CreateUserUI extends javax.swing.JDialog {
             
             UtilsConnector.viewMessagesUtils.showSuccessMessage(this, "Usuario creado satisfactoriamente.");
             
-            
             ((UserUI) this.getParent()).updateUI();
             
             this.dispose();

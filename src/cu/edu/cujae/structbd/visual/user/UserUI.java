@@ -34,7 +34,7 @@ public class UserUI extends AppCustomWindow {
             this.cleanTable();
             
             this.users.clear();
-            this.users = ServicesLocator.UserServices.readUsers();
+            this.users = ServicesLocator.UserServices.readUsersForAdmin();
             
             DefaultTableModel model = (DefaultTableModel) this.jTable1.getModel();
                       
@@ -137,7 +137,7 @@ public class UserUI extends AppCustomWindow {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-this.dispose();        // TODO add your handling code here:
+        this.dispose();        // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void deleteMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteMenuActionPerformed
