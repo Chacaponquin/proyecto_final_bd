@@ -57,7 +57,7 @@ public class PitcherUI extends AppCustomWindow {
         jTable1 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Pitchers");
+        setTitle("Lanzadores");
         setMinimumSize(new java.awt.Dimension(780, 440));
 
         jButtonClose.setText("Cerrar");
@@ -79,7 +79,7 @@ public class PitcherUI extends AppCustomWindow {
 
             },
             new String [] {
-                "Nombre", "Número", "Años en equipo", "Equipo", "Lanzamientos", "Carreras permitidas", "Promedio"
+                "Nombre", "Número", "Años en equipo", "Equipo", "Lanzamientos", "Carreras permitidas", "PCL"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -100,7 +100,7 @@ public class PitcherUI extends AppCustomWindow {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 686, Short.MAX_VALUE)
+                        .addGap(0, 761, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jButtonInsert, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jButtonClose, javax.swing.GroupLayout.Alignment.TRAILING)))
@@ -110,13 +110,13 @@ public class PitcherUI extends AppCustomWindow {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(12, 12, 12)
+                .addContainerGap()
                 .addComponent(jButtonInsert)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 348, Short.MAX_VALUE)
-                .addGap(12, 12, 12)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 354, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonClose)
-                .addGap(12, 12, 12))
+                .addContainerGap())
         );
 
         pack();

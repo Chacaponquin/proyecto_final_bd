@@ -8,7 +8,6 @@ import cu.edu.cujae.structbd.dto.coach.UpdateCoachDTO;
 import cu.edu.cujae.structbd.dto.team.ReadTeamDTO;
 import cu.edu.cujae.structbd.dto.team_member.ReadTeamMemberDTO;
 import cu.edu.cujae.structbd.services.ServicesLocator;
-import cu.edu.cujae.structbd.utils.AppCustomDialog;
 import cu.edu.cujae.structbd.utils.UtilsConnector;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -320,7 +319,7 @@ public class UpdateCoachUI extends JDialog
         {
             try
             {
-                LinkedList<ReadTeamMemberDTO> member_list = new LinkedList<>(ServicesLocator.TeamMemberServices.
+                LinkedList<ReadTeamMemberDTO> member_list = new LinkedList<>(ServicesLocator.TeamServices.
                     readMembersFromTeam(
                         new ReadTeamDTO(team_id, null, 0, 0, null, null, null, null)));
                 boolean exist_number = false;

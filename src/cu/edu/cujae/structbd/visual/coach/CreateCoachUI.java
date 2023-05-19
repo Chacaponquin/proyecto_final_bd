@@ -319,7 +319,7 @@ public class CreateCoachUI extends JDialog
         {
             try
             {
-                LinkedList<ReadTeamMemberDTO> member_list = new LinkedList<>(ServicesLocator.TeamMemberServices.
+                LinkedList<ReadTeamMemberDTO> member_list = new LinkedList<>(ServicesLocator.TeamServices.
                     readMembersFromTeam(
                         new ReadTeamDTO(team_id, null, 0, 0, null, null, null, null)));
                 boolean exist_number = false;
