@@ -9,15 +9,15 @@ package cu.edu.cujae.structbd.dto.user_role;
  * @author Hector Angel Gomez
  */
 public class ReadUserRoleDTO {
-    private final String userRoleID;
+    private final int userRoleID;
     private final String roleName;
 
-    public ReadUserRoleDTO(String userRoleID, String roleName) {
+    public ReadUserRoleDTO(int userRoleID, String roleName) {
         this.userRoleID = userRoleID;
         this.roleName = roleName;
     }
 
-    public String getUserRoleID() {
+    public int getUserRoleID() {
         return userRoleID;
     }
 

@@ -50,7 +50,7 @@ public class UserServices {
         ResultSet resultSet = (ResultSet) preparedFunction.getObject(1);
         while (resultSet.next())
         {
-            String id = resultSet.getString("user_id");
+            int id = resultSet.getInt("user_id");
             String username = resultSet.getString("username");
             String role = resultSet.getString("role_name");
             String password = resultSet.getString("password");
@@ -80,13 +80,12 @@ public class UserServices {
             throw new DuplicateUserException();
         }
         
-        String function = "{call user_insert(?,?,?,?)}";
+        String function = "{call user_insert(?,?,?)}";
         java.sql.Connection connection = Connector.getConnection();
         CallableStatement preparedFunction = connection.prepareCall(function);
-        preparedFunction.setString(1, newUser.getID());
-        preparedFunction.setString(2, newUser.getUsername());
-        preparedFunction.setString(3, this.hashPassword(newUser.getPassword()));
-        preparedFunction.setString(4, newUser.getUserRoleID());
+        preparedFunction.setString(1, newUser.getUsername());
+        preparedFunction.setString(2, this.hashPassword(newUser.getPassword()));
+        preparedFunction.setInt(3, newUser.getUserRoleID());
         preparedFunction.execute();
         preparedFunction.close();
         
@@ -118,7 +117,7 @@ public class UserServices {
         String function = "{call user_delete(?)}";
         java.sql.Connection connection = Connector.getConnection();
         CallableStatement preparedFunction = connection.prepareCall(function);
-        preparedFunction.setString(1, user.getUserID());
+        preparedFunction.setInt(1, user.getUserID());
         preparedFunction.execute();
         preparedFunction.close();
         
