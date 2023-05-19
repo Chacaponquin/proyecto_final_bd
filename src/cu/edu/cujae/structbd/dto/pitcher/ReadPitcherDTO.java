@@ -9,8 +9,7 @@ public class ReadPitcherDTO {
     private int inningsPitched;
     private int runsAllowed;
 
-    public ReadPitcherDTO(int teamMemberID, int inningsPitched, int runsAllowed, String teamMemberName, int memberNumber, String team, 
-            int yearsInTeam) {
+    public ReadPitcherDTO(int teamMemberID, String teamMemberName, int memberNumber, String team, int yearsInTeam, int inningsPitched, int runsAllowed) {
         this.teamMemberID = teamMemberID;
         this.teamMemberName = teamMemberName;
         this.memberNumber = memberNumber;
@@ -20,8 +19,14 @@ public class ReadPitcherDTO {
         this.runsAllowed = runsAllowed;
     }
 
+    
+
     public int getTeamMemberID() {
         return teamMemberID;
+    }
+    
+    public float getPCL(){
+        return (float) this.inningsPitched / this.runsAllowed;
     }
 
     public void setTeamMemberID(int teamMemberID) {

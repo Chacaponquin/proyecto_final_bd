@@ -59,34 +59,6 @@ public class PlayerServices
         preparedFunction.close();
         return players_list;
     }
-    
-    public List<ReadPlayerDTO> readPlayerFromTeam(ReadTeamDTO team) throws SQLException, ClassNotFoundException{
-        LinkedList<ReadPlayerDTO> players_list = new LinkedList<>();
-        
-        String function = "{?= call players_by_team(?)}";
-        java.sql.Connection connection = Connector.getConnection();
-        connection.setAutoCommit(false);
-        CallableStatement preparedFunction = connection.prepareCall(function);
-        preparedFunction.registerOutParameter(1, java.sql.Types.REF_CURSOR);
-        preparedFunction.setInt(2, team.getTeam_id());
-        preparedFunction.execute();
-        ResultSet resultSet = (ResultSet) preparedFunction.getObject(1);
-        while (resultSet.next())
-        {
-            int team_member_ID = resultSet.getInt("member_id");
-            String team_member_name = resultSet.getString("member_name");
-            int member_number = resultSet.getInt("member_number");
-            String team_name = team.getTeam_name();
-            String position_name = resultSet.getString("position_name");
-            int years_in_team = resultSet.getInt("years_in_team");
-            
-            players_list.add(new ReadPlayerDTO(team_member_ID, team_member_name,member_number, team_name, position_name, years_in_team));
-        }
-        resultSet.close();
-        preparedFunction.close();
-        
-        return players_list;
-    }
 
     public ReadPlayerDTO readAPlayer(ReadAPlayerDTO readAPlayerDTO) throws SQLException, ClassNotFoundException
     {

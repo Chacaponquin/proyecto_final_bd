@@ -29,7 +29,7 @@ public class BatterUI extends AppCustomWindow {
             DefaultTableModel model = (DefaultTableModel) this.jTable1.getModel();
             
             for(ReadBatterDTO b:  stadiumns){
-                model.addRow(b.getArrayValues());
+                model.addRow(new Object[]{b.getName(), b.getTeam(), b.getYearsInTeam(), b.getNumber(), b.getPosition(), b.getAtBats(), b.getTotalHits(), b.getAverage()});
             }
         } catch (SQLException | ClassNotFoundException ex) {
            UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
@@ -51,7 +51,7 @@ public class BatterUI extends AppCustomWindow {
         jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Batters");
+        setTitle("Bateadores");
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -109,7 +109,7 @@ public class BatterUI extends AppCustomWindow {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        UtilsConnector.viewUtils.getBackHome(this);        // TODO add your handling code here:
+        this.dispose();       // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
 
 

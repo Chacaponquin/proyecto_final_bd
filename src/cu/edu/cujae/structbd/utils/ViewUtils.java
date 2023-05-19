@@ -84,17 +84,13 @@ public class ViewUtils {
     }
     
     public void openDialog(Frame actualWindow, JDialog newDialog){
-        actualWindow.setVisible(false);
         newDialog.setVisible(true);
         newDialog.setLocationRelativeTo(null);
-        actualWindow.dispose();
     }
     
     public void openDialog(JDialog actualWindow, JDialog newDialog){
-        actualWindow.setVisible(false);
         newDialog.setVisible(true);
         newDialog.setLocationRelativeTo(null);
-        actualWindow.dispose();
     }
     
     public List<ViewWindow> getViews(){

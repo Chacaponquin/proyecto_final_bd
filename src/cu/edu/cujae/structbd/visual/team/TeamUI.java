@@ -63,7 +63,7 @@ public class TeamUI extends AppCustomWindow {
         jPopupMenu1.add(jMenuItem1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Teams");
+        setTitle("Equipos");
         setPreferredSize(new java.awt.Dimension(1000, 600));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(

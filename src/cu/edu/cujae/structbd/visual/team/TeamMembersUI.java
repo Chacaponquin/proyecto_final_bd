@@ -4,6 +4,9 @@
  */
 package cu.edu.cujae.structbd.visual.team;
 
+import cu.edu.cujae.structbd.dto.batter.ReadBatterDTO;
+import cu.edu.cujae.structbd.dto.coach.ReadCoachDTO;
+import cu.edu.cujae.structbd.dto.pitcher.ReadPitcherDTO;
 import cu.edu.cujae.structbd.dto.player.ReadPlayerDTO;
 import cu.edu.cujae.structbd.dto.team.ReadTeamDTO;
 import cu.edu.cujae.structbd.dto.team_member.ReadTeamMemberDTO;
@@ -22,6 +25,9 @@ public class TeamMembersUI extends javax.swing.JDialog {
     private ReadTeamDTO team;
     private List<ReadTeamMemberDTO> members = new LinkedList<>();
     private List<ReadPlayerDTO> players = new LinkedList<>();
+    private List<ReadCoachDTO> coachs = new LinkedList<>();
+    private List<ReadPitcherDTO> pitchers = new LinkedList<>();
+    private List<ReadBatterDTO> batters = new LinkedList<>();
 
     /**
      * Creates new form TeamMembersUI
@@ -35,11 +41,17 @@ public class TeamMembersUI extends javax.swing.JDialog {
     
     public void updateUI(){
         try {
-            this.members = ServicesLocator.TeamMemberServices.readMembersFromTeam(this.team);
-            this.players = ServicesLocator.PlayerServices.readPlayerFromTeam(this.team);
+            this.members = ServicesLocator.TeamServices.readMembersFromTeam(this.team);
+            this.players = ServicesLocator.TeamServices.readPlayerFromTeam(this.team);
+            this.coachs = ServicesLocator.TeamServices.readCoachsFromTeam(this.team);
+            this.pitchers = ServicesLocator.TeamServices.readPitchersFromTeam(this.team);
+            this.batters = ServicesLocator.TeamServices.readBatterFromTeam(this.team);
             
             DefaultTableModel membersModel = (DefaultTableModel) this.jTable1.getModel();
             DefaultTableModel playersModel = (DefaultTableModel) this.jTable2.getModel();
+            DefaultTableModel coachsModel = (DefaultTableModel) this.jTable3.getModel();
+            DefaultTableModel pitchersModel = (DefaultTableModel) this.jTable4.getModel();
+            DefaultTableModel battersModel = (DefaultTableModel) this.jTable5.getModel();
             
             for(ReadTeamMemberDTO m: this.members){
                 membersModel.addRow(new Object[]{m.getName(), m.getNumber(), m.getYearsInTeam(), m.getMemberType()});
@@ -47,6 +59,18 @@ public class TeamMembersUI extends javax.swing.JDialog {
             
             for(ReadPlayerDTO p: this.players){
                 playersModel.addRow(new Object[]{p.getTeam_member_name(), p.getMember_number(), p.getPosition_name(), p.getYears_in_team()});
+            }
+            
+            for(ReadCoachDTO c: this.coachs){
+                coachsModel.addRow(new Object[]{c.getTeam_member_name(), c.getMember_number(), c.getExperience_years(),c.getExperience_years()});
+            }
+            
+            for(ReadPitcherDTO p: this.pitchers){
+                pitchersModel.addRow(new Object[]{p.getTeamMemberName(), p.getYearsInTeam(), p.getMemberNumber(), p.getInningsPitched(), p.getRunsAllowed(), p.getPCL()});
+            }
+            
+            for(ReadBatterDTO b: this.batters){
+                battersModel.addRow(new Object[]{b.getName(), b.getYearsInTeam(), b.getNumber(), b.getPosition(), b.getAtBats(), b.getTotalHits(), b.getAverage()});
             }
         } catch (SQLException | ClassNotFoundException ex) {
             UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
@@ -112,13 +136,10 @@ public class TeamMembersUI extends javax.swing.JDialog {
 
         jTable3.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Nombre", "Dorsal", "Años en el Equipo", "Años de Experiencia"
             }
         ));
         coachsTable.setViewportView(jTable3);
@@ -127,13 +148,10 @@ public class TeamMembersUI extends javax.swing.JDialog {
 
         jTable4.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Nombre", "Años en el Equipo", "Dorsal", "Entradas Lanzadas", "Carreras Permitidas", "PCL"
             }
         ));
         pitchersTable.setViewportView(jTable4);
@@ -142,18 +160,15 @@ public class TeamMembersUI extends javax.swing.JDialog {
 
         jTable5.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Nombre", "Años en el Equipo", "Dorsal", "Posición", "Veces al Bate", "Total de Hits", "Average"
             }
         ));
         battersTable.setViewportView(jTable5);
 
-        jTabbedPane1.addTab("Batters", battersTable);
+        jTabbedPane1.addTab("Bateadores", battersTable);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -163,7 +178,7 @@ public class TeamMembersUI extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 564, Short.MAX_VALUE)
+                        .addGap(0, 809, Short.MAX_VALUE)
                         .addComponent(jButton1))
                     .addComponent(jTabbedPane1))
                 .addContainerGap())
@@ -187,7 +202,8 @@ public class TeamMembersUI extends javax.swing.JDialog {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         TeamUI window=new TeamUI();
         window.start();
-        UtilsConnector.viewUtils.openWindow(this, window);        // TODO add your handling code here:
+        UtilsConnector.viewUtils.openWindow(this, window);  
+        this.dispose();// TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
 
