@@ -6,11 +6,14 @@ package cu.edu.cujae.structbd.visual.coach;
 
 import cu.edu.cujae.structbd.dto.coach.CreateCoachDTO;
 import cu.edu.cujae.structbd.dto.team.ReadTeamDTO;
+import cu.edu.cujae.structbd.dto.team_member.ReadTeamMemberDTO;
 import cu.edu.cujae.structbd.services.ServicesLocator;
 import cu.edu.cujae.structbd.utils.AppCustomDialog;
 import cu.edu.cujae.structbd.utils.UtilsConnector;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JDialog;
@@ -22,7 +25,7 @@ import javax.swing.JOptionPane;
  */
 public class CreateCoachUI extends JDialog
 {
-
+    private ArrayList<ReadTeamDTO> teams_list;
     /**
      * Creates new form CreateCoachUI
      */
@@ -36,7 +39,7 @@ public class CreateCoachUI extends JDialog
         try
         {
             initComponents();
-            ArrayList<ReadTeamDTO> teams_list = ServicesLocator.TeamServices.readTeams();
+            this.teams_list = ServicesLocator.TeamServices.readTeams();
             for (int i = 0; i < teams_list.size(); i++)
             {
                 combo_box_team.addItem(teams_list.get(i).getTeam_name());
@@ -201,7 +204,7 @@ public class CreateCoachUI extends JDialog
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton2ActionPerformed
     {//GEN-HEADEREND:event_jButton2ActionPerformed
-        if (validate_name())
+        if (validate_name() && validate_number())
         {
             try
         {
@@ -222,17 +225,13 @@ public class CreateCoachUI extends JDialog
             }
             CreateCoachDTO createCoachDTO = new CreateCoachDTO(name, number, team_id, y_exp);
             ServicesLocator.CoachServices.createCoach(createCoachDTO);
-            JOptionPane.showMessageDialog(null, name + " se ha insertado correctamente", "Confirmación", HEIGHT);
+            UtilsConnector.viewMessagesUtils.showSuccessMessage(rootPane, name + " se ha insertado correctamente");
             
             ((Coach_UI)this.getParent()).updateList();
         }
-        catch (SQLException ex)
+            catch (SQLException | ClassNotFoundException ex)
         {
-            Logger.getLogger(CreateCoachUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        catch (ClassNotFoundException ex)
-        {
-            Logger.getLogger(CreateCoachUI.class.getName()).log(Level.SEVERE, null, ex);
+                UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(rootPane, ex);
             }
             dispose();
         }
@@ -246,7 +245,7 @@ public class CreateCoachUI extends JDialog
 
     private void combo_box_teamActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_combo_box_teamActionPerformed
     {//GEN-HEADEREND:event_combo_box_teamActionPerformed
-        // TODO add your handling code here:
+        activate_button();
     }//GEN-LAST:event_combo_box_teamActionPerformed
 
     private void combo_box_teamKeyReleased(java.awt.event.KeyEvent evt)//GEN-FIRST:event_combo_box_teamKeyReleased
@@ -280,21 +279,78 @@ public class CreateCoachUI extends JDialog
             if (!flag)
             {
                 result = false;
-                JOptionPane.showMessageDialog(null, "El nombre debe iniciar con letra mayúscula", "Nombre incorrecto",
-                                              JOptionPane.ERROR_MESSAGE);
+                UtilsConnector.viewMessagesUtils.
+                    showErrorMessage(rootPane, "El nombre debe iniciar con letra mayúscula");
             }
         }
         return result;
     }
     
     public void activate_button(){
-        if (field_name.getText().isEmpty()){
+        if (field_name.getText().isEmpty() && combo_box_team.getSelectedIndex() == 0)
+        {
             jButton2.setEnabled(false);
         } else {
             jButton2.setEnabled(true);
         }
         
         
+    }
+
+    public boolean validate_number()
+    {
+        boolean result = true;
+        int number = Integer.valueOf(spinner_number.getValue().toString());
+        //Buscando el id el equipo seleccionado
+        String team = combo_box_team.getSelectedItem().toString();
+        boolean found_team_id = false;
+        int team_id = -1;
+        for (int i = 0; i < teams_list.size() && !found_team_id; i++)
+        {
+            ReadTeamDTO readTeamDTO = teams_list.get(i);
+            if (readTeamDTO.getTeam_name().equalsIgnoreCase(team))
+            {
+                found_team_id = true;
+                team_id = readTeamDTO.getTeam_id();
+            }
+        }
+        //Si se encuentra el id, verificar si el numero ya esta en el equipo
+        if (found_team_id)
+        {
+            try
+            {
+                LinkedList<ReadTeamMemberDTO> member_list = new LinkedList<>(ServicesLocator.TeamMemberServices.
+                    readMembersFromTeam(
+                        new ReadTeamDTO(team_id, null, 0, 0, null, null, null, null)));
+                boolean exist_number = false;
+                Iterator<ReadTeamMemberDTO> it_member_list = member_list.iterator();
+                while (it_member_list.hasNext() && !exist_number)
+                {
+                    ReadTeamMemberDTO readTeamMemberDTO = it_member_list.next();
+                    if (readTeamMemberDTO.getNumber() == number)
+                    {
+                        exist_number = true;
+                    }
+                }
+                if (exist_number)
+                {
+                    result = false;
+                    UtilsConnector.viewMessagesUtils.showErrorMessage(rootPane,
+                                                                      "Ya existe un miembro del equipo con este número");
+                }
+
+            }
+            catch (SQLException|ClassNotFoundException ex)
+            {
+                UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(rootPane, ex);
+            }
+        } else {
+            UtilsConnector.viewMessagesUtils.showErrorMessage(rootPane,
+                                                                      "No se encuentra el equipo");
+            result = false;
+        }
+        
+        return result;
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> combo_box_team;
