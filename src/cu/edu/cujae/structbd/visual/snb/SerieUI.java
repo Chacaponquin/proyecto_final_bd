@@ -4,6 +4,7 @@
  */
 package cu.edu.cujae.structbd.visual.snb;
 
+import cu.edu.cujae.structbd.dto.game.DeleteGameDTO;
 import cu.edu.cujae.structbd.dto.game.ReadGameDTO;
 import cu.edu.cujae.structbd.dto.phase.ReadAPhaseDTO;
 import cu.edu.cujae.structbd.dto.phase.ReadPhaseDTO;
@@ -11,9 +12,12 @@ import cu.edu.cujae.structbd.dto.reports.ReadReport_1DTO;
 import cu.edu.cujae.structbd.dto.snb.TeamPositionDTO;
 import cu.edu.cujae.structbd.services.ServicesLocator;
 import cu.edu.cujae.structbd.utils.AppCustomWindow;
+import cu.edu.cujae.structbd.utils.RowsRenderer;
 import cu.edu.cujae.structbd.utils.UtilsConnector;
 import cu.edu.cujae.structbd.visual.game.CreateGameUI;
+import cu.edu.cujae.structbd.visual.game.UpdateGame_UI;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.logging.Level;
@@ -72,9 +76,23 @@ public class SerieUI extends AppCustomWindow
         jButton4 = new javax.swing.JButton();
 
         jMenuMod.setText("Modificar juego");
+        jMenuMod.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                jMenuModActionPerformed(evt);
+            }
+        });
         jPopupMenu1.add(jMenuMod);
 
         jMenuDel.setText("Eliminar juego");
+        jMenuDel.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                jMenuDelActionPerformed(evt);
+            }
+        });
         jPopupMenu1.add(jMenuDel);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -215,7 +233,7 @@ public class SerieUI extends AppCustomWindow
             jTablePosition.getColumnModel().getColumn(2).setPreferredWidth(30);
             jTablePosition.getColumnModel().getColumn(3).setPreferredWidth(30);
             jTablePosition.getColumnModel().getColumn(4).setPreferredWidth(30);
-            jTablePosition.getColumnModel().getColumn(5).setPreferredWidth(30);
+            jTablePosition.getColumnModel().getColumn(5).setPreferredWidth(40);
         }
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -230,7 +248,7 @@ public class SerieUI extends AppCustomWindow
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 368, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -288,6 +306,7 @@ public class SerieUI extends AppCustomWindow
         jTabbedPane1.getAccessibleContext().setAccessibleName("Juegos");
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton4ActionPerformed
@@ -325,14 +344,21 @@ public class SerieUI extends AppCustomWindow
                         {
                             phase_id = rf.getPhase_id();
                             found = true;
-                            //Si la fase está se puede insertar juego y cerrar la fase, se habilitan los botones
+                            int games_amount = ServicesLocator.AppServices.getCountGamesInPhase(new ReadAPhaseDTO(phase_id));
+                            int total_games_to_play = UtilsConnector.utilsSNB.comb(rf.getTeams_amount(), 2);
+                            //Si la fase está se activa puede insertar juego y cerrar la fase, se habilitan los botones
                             if (!rf.getIs_active()){
                                 close_button.setEnabled(false);
                                 insert_button.setEnabled(false);
-                            }else{
+                            }
+                            else if(games_amount<total_games_to_play)
+                            {
                                 close_button.setEnabled(true);
                                 insert_button.setEnabled(true);
-                            }
+                            }else{
+                                close_button.setEnabled(true);
+                                insert_button.setEnabled(false);
+                    }
                         }
                     }
                     //Buscando y mostrando los juegos de la fase seleccionada
@@ -365,6 +391,8 @@ public class SerieUI extends AppCustomWindow
                         });
                         position++;
                     }
+                    RowsRenderer rr = new RowsRenderer(0);
+                    jTablePosition.setDefaultRenderer(Object.class, rr);
                     
                 }
                 catch (SQLException ex)
@@ -459,8 +487,156 @@ public class SerieUI extends AppCustomWindow
         {
             Logger.getLogger(SerieUI.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+
     }//GEN-LAST:event_insert_buttonActionPerformed
 
+    private void jMenuDelActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jMenuDelActionPerformed
+    {//GEN-HEADEREND:event_jMenuDelActionPerformed
+        int row = jTableGames.getSelectedRow();
+        if (row >= 0)
+        {
+            try {
+                //Seleccionando los equipos y la fase del juego seleccionado
+                String team_hc = jTableGames.getValueAt(row, 1).toString();
+                String team_v = jTableGames.getValueAt(row, 4).toString();
+                String phase = this.combo_phases.getSelectedItem().toString();
+
+                //Obteniendo el id de la fase
+                boolean found_phase = false;
+                int phase_id = -1;
+                Iterator<ReadPhaseDTO> it_phases = this.phases_list.iterator();
+                while (it_phases.hasNext() && !found_phase)
+                {
+                    ReadPhaseDTO readPhaseDTO = it_phases.next();
+                    if (readPhaseDTO.getPhase_name().equalsIgnoreCase(phase))
+                    {
+                        found_phase = true;
+                        phase_id = readPhaseDTO.getPhase_id();
+                    }
+                }
+
+                //Obteniendo el id del juego
+                if (phase_id != -1)
+                {
+                    LinkedList<ReadGameDTO> list_games = new LinkedList<>(ServicesLocator.GameServices.
+                        readAllGamesByPhase(
+                            new ReadAPhaseDTO(phase_id)));
+                    boolean found_game = false;
+                    int game_id = -1;
+                    Iterator<ReadGameDTO> it_games = list_games.iterator();
+                    while (it_games.hasNext() && !found_game)
+                    {
+                        ReadGameDTO readGameDTO = it_games.next();
+                        System.out.println(readGameDTO.getHcTeamName()
+                                           + readGameDTO.getVisTeamName());
+                        if (readGameDTO.getHcTeamName().equalsIgnoreCase(team_hc) && readGameDTO.getVisTeamName().
+                            equalsIgnoreCase(team_v))
+                        {
+                            found_game = true;
+                            game_id = readGameDTO.getId();
+                        }
+                    }
+                    
+                    //Si se encuentra el juego, se elimina
+                    if (game_id != -1)
+                    {
+                    DeleteGameDTO deleteGameDTO = new DeleteGameDTO(game_id);
+                        ServicesLocator.GameServices.deleteGame(deleteGameDTO);
+                        this.update_tables();
+                    }
+                    else
+                    {
+                        UtilsConnector.viewMessagesUtils.showErrorMessage(rootPane, "No se encuentra el juego");
+                    }
+                }
+
+            }
+            catch (SQLException | ClassNotFoundException ex)
+            {
+                UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(rootPane, ex);
+            }
+            
+        }
+        else
+        {
+            UtilsConnector.viewMessagesUtils.showSuccessMessage(rootPane,
+                                                                "Seleccione una fila para poder eliminar un juego");
+        }
+
+    }//GEN-LAST:event_jMenuDelActionPerformed
+
+    private void jMenuModActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jMenuModActionPerformed
+    {//GEN-HEADEREND:event_jMenuModActionPerformed
+        int row = jTableGames.getSelectedRow();
+        if (row >= 0)
+        {
+            try {
+                //Seleccionando los equipos y la fase del juego seleccionado
+                String team_hc = jTableGames.getValueAt(row, 1).toString();
+                String team_v = jTableGames.getValueAt(row, 4).toString();
+                String phase = this.combo_phases.getSelectedItem().toString();
+
+                //Obteniendo el id de la fase
+                boolean found_phase = false;
+                int phase_id = -1;
+                Iterator<ReadPhaseDTO> it_phases = this.phases_list.iterator();
+                while (it_phases.hasNext() && !found_phase)
+                {
+                    ReadPhaseDTO readPhaseDTO = it_phases.next();
+                    if (readPhaseDTO.getPhase_name().equalsIgnoreCase(phase))
+                    {
+                        found_phase = true;
+                        phase_id = readPhaseDTO.getPhase_id();
+                    }
+                }
+
+                //Obteniendo el id del juego
+                if (found_phase == true)
+                {
+                    LinkedList<ReadGameDTO> list_games = new LinkedList<>(ServicesLocator.GameServices.
+                        readAllGamesByPhase(
+                            new ReadAPhaseDTO(phase_id)));
+                    boolean found_game = false;
+                    int game_id = -1;
+                    Iterator<ReadGameDTO> it_games = list_games.iterator();
+                    ReadGameDTO readGameDTO = null;
+                    while (it_games.hasNext() && !found_game)
+                    {
+                        readGameDTO = it_games.next();
+                        if (readGameDTO.getHcTeamName().equalsIgnoreCase(team_hc) && readGameDTO.getVisTeamName().
+                            equalsIgnoreCase(team_v))
+                        {
+                            found_game = true;
+                            game_id = readGameDTO.getId();
+                        }
+                    }
+                    
+                    //Si se encuentra el juego, se llama a la ventana de modificar
+                    if (found_game == true)
+                    {
+                        UpdateGame_UI updateGame_UI = new UpdateGame_UI(this, true, readGameDTO, new ReadAPhaseDTO(phase_id));
+                        updateGame_UI.setVisible(true);
+                    }
+                    else
+                    {
+                        UtilsConnector.viewMessagesUtils.showErrorMessage(rootPane, "No se encuentra el juego");
+                    }
+                }
+
+            }
+            catch (SQLException | ClassNotFoundException ex)
+            {
+                UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(rootPane, ex);
+            }
+            
+        }
+        else
+        {
+            UtilsConnector.viewMessagesUtils.showSuccessMessage(rootPane,
+                                                                "Seleccione una fila para poder modificar un juego");
+        }
+    }//GEN-LAST:event_jMenuModActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton close_button;

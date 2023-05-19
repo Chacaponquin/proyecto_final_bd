@@ -101,7 +101,8 @@ public class MainUI extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents()
+    {
 
         imagePanel = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -111,10 +112,14 @@ public class MainUI extends javax.swing.JFrame {
         jMenu4 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Serie Nacional de Béisbol");
         setBackground(new java.awt.Color(255, 255, 255));
+        setResizable(false);
 
-        imagePanel = new JPanel(){
-            public void paintComponent(Graphics g) {
+        imagePanel = new JPanel()
+        {
+            public void paintComponent(Graphics g)
+            {
                 Image img = Toolkit.getDefaultToolkit().getImage(MainUI.class.getResource("/cu/edu/cujae/structbd/assets/SNB.jpg"));
                 g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), this);
             }

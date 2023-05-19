@@ -31,6 +31,7 @@ public class GameServices {
         preparedFunction.setInt(8, createGameDTO.getAudience());
         preparedFunction.execute();
         preparedFunction.close();
+        connection.commit();
     }
     
     public List<ReadGameDTO> readAllGames() throws SQLException, ClassNotFoundException{
@@ -52,7 +53,7 @@ public class GameServices {
         }
         resultSet.close();
         preparedFunction.close();
-
+        connection.commit();
         return games_list;
     }
     
@@ -74,7 +75,7 @@ public class GameServices {
 
         resultSet.close();
         preparedFunction.close();
-
+        connection.commit();
         return readGameDTO;
     }
     
@@ -94,6 +95,7 @@ public class GameServices {
         preparedFunction.setInt(9, updateGameDTO.getAudience());
         preparedFunction.execute();
         preparedFunction.close();
+        connection.commit();
     }
     
     public void deleteGame(DeleteGameDTO deleteGameDTO) throws SQLException, ClassNotFoundException{
@@ -103,6 +105,7 @@ public class GameServices {
         preparedFunction.setInt(1, deleteGameDTO.getId());
         preparedFunction.execute();
         preparedFunction.close();
+        connection.commit();
     }
 
     public List<ReadGameDTO> readAllGamesByPhase(ReadAPhaseDTO readAPhaseDTO) throws SQLException,
@@ -128,6 +131,7 @@ public class GameServices {
         }
         resultSet.close();
         preparedFunction.close();
+        connection.commit();
         return games_list;
     }
 }

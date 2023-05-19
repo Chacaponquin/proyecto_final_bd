@@ -233,7 +233,7 @@ public class AppServices
     public ReadReport_1DTO getWinner() throws SQLException, ClassNotFoundException
     {
         ReadReport_1DTO readReport_1DTO = null;
-        String function = "{?= call team_winner()";
+        String function = "{?= call team_winner()}";
         java.sql.Connection connection = Connector.getConnection();
         connection.setAutoCommit(false);
         CallableStatement preparedFunction = connection.prepareCall(function);
@@ -252,11 +252,12 @@ public class AppServices
     public int getCountGamesInPhase(ReadAPhaseDTO readAPhaseDTO) throws SQLException, ClassNotFoundException
     {
         int result = -1;
-        String function = "{?= call count_teams_in_phase(?)";
+        String function = "{?= call count_games_in_phase(?)}";
         java.sql.Connection connection = Connector.getConnection();
         connection.setAutoCommit(false);
         CallableStatement preparedFunction = connection.prepareCall(function);
         preparedFunction.registerOutParameter(1, java.sql.Types.INTEGER);
+        preparedFunction.setInt(2, readAPhaseDTO.getPhase_id());
         preparedFunction.execute();
         result = (int) preparedFunction.getObject(1);
         preparedFunction.close();

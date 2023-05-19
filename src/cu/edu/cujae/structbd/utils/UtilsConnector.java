@@ -13,4 +13,5 @@ public class UtilsConnector
     public static ViewUtils viewUtils = new ViewUtils();
     public static IdUtils idUtils = new IdUtils();
     public static ViewMessagesUtils viewMessagesUtils = new ViewMessagesUtils();
+    public static UtilsSNB utilsSNB = new UtilsSNB();
 }

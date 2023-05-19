@@ -7,6 +7,7 @@ package cu.edu.cujae.structbd.visual.game;
 import cu.edu.cujae.structbd.dto.game.CreateGameDTO;
 import cu.edu.cujae.structbd.dto.phase.ReadAPhaseDTO;
 import cu.edu.cujae.structbd.dto.phase.ReadPhaseDTO;
+import cu.edu.cujae.structbd.dto.stadium.ReadStadiumDTO;
 import cu.edu.cujae.structbd.dto.team.ReadATeamDTO;
 import cu.edu.cujae.structbd.dto.team.ReadTeamDTO;
 import cu.edu.cujae.structbd.services.ServicesLocator;
@@ -23,6 +24,7 @@ import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JDialog;
+import javax.swing.SpinnerNumberModel;
 
 /**
  *
@@ -56,6 +58,7 @@ public class CreateGameUI extends JDialog {
             jDate_Game.setDate(start_date);
             Date finish_date = Date.from(readPhaseDTO.getFinish_date().atStartOfDay(defaultZoneId).toInstant());
             jDate_Game.setMaxSelectableDate(finish_date);
+
         } catch (SQLException | ClassNotFoundException ex) {
             UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
         }
@@ -297,17 +300,17 @@ public class CreateGameUI extends JDialog {
                 String team_local_name = jComboBoxHomeClub.getSelectedItem().toString();
                 Iterator<ReadTeamDTO> it_list = this.list_teams_in_phase.iterator();
                 boolean found = false;
-                int visitant_id = -1;
+                int home_club = -1;
                 while (it_list.hasNext() && !found)
                 {
                     ReadTeamDTO readTeamDTO = it_list.next();
                     if (readTeamDTO.getTeam_name().equalsIgnoreCase(team_local_name))
                     {
                         found = true;
-                        visitant_id = readTeamDTO.getTeam_id();
+                        home_club = readTeamDTO.getTeam_id();
                     }
                 }
-                ReadATeamDTO readATeamDTO = new ReadATeamDTO(visitant_id);
+                ReadATeamDTO readATeamDTO = new ReadATeamDTO(home_club);
                 LinkedList<ReadTeamDTO> list_teams_posible_rivals = new LinkedList<>(ServicesLocator.AppServices.
                     getTeamsPosibleRivals(readAPhaseDTO, readATeamDTO));
 
@@ -316,16 +319,17 @@ public class CreateGameUI extends JDialog {
                     jComboBoxVisitor.addItem(readTeamDTO.getTeam_name());
                 }
                 jComboBoxVisitor.setEnabled(true);
+                
+                //Validando que la audiencia del juego no sobrepase la capacidad del estadio del equipo local
+                ReadStadiumDTO readStadiumDTO = ServicesLocator.StadiumServices.getStadiumByTeam(readATeamDTO);
+                jSpinnerAudience.setModel(new SpinnerNumberModel(1, 1, readStadiumDTO.getCapacity(), 1));
                 activate_button();
             }
-            catch (ClassNotFoundException ex)
+            catch (ClassNotFoundException | SQLException ex)
             {
-                Logger.getLogger(CreateGameUI.class.getName()).log(Level.SEVERE, null, ex);
+                UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(rootPane, ex);
             }
-            catch (SQLException ex)
-            {
-                Logger.getLogger(CreateGameUI.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            
         }
         else
         {
@@ -368,7 +372,7 @@ public class CreateGameUI extends JDialog {
             }
 
             //recuperar id del equipo visitante
-            String teamVis = jComboBoxHomeClub.getSelectedItem().toString();
+            String teamVis = jComboBoxVisitor.getSelectedItem().toString();
             ArrayList<ReadTeamDTO> teamsListVis = ServicesLocator.TeamServices.readTeams();
             boolean foundTeamV = false;
             int teamIdVis = -1;
@@ -383,11 +387,19 @@ public class CreateGameUI extends JDialog {
 
             //Determinando ganador
             int winner = runs_home_club > runs_visitant ? teamIdHC : teamIdVis;
+            
+            //Insertar juego
+            if (validate_runs() && validate_date() && validate_audience(new ReadATeamDTO(teamIdHC)))
+            {
             CreateGameDTO createGameDTO
                               = new CreateGameDTO(teamIdHC, teamIdVis, readAPhaseDTO.getPhase_id(), game_date, winner,
                                                   audience, runs_home_club, runs_visitant);
-            ServicesLocator.GameServices.createGame(createGameDTO);
-            this.dispose();
+                ServicesLocator.GameServices.createGame(createGameDTO);
+                ((SerieUI) 
+ this.getParent()).update_tables();
+                this.dispose();
+            }
+
 
         } catch (SQLException ex)
         {
@@ -457,4 +469,62 @@ public void activate_button(){
         jButtonInsert.setEnabled(false);
     }
 }
+
+    public boolean validate_runs()
+    {
+        boolean result = false;
+        int runs_hc = (int) this.jSpinnerRHC.getValue();
+        int runs_v = (int) this.jSpinnerRV.getValue();
+
+        if (runs_hc == runs_v)
+        {
+            UtilsConnector.viewMessagesUtils.showErrorMessage(rootPane,
+                                                              "El juego no puede quedar con igualdad en el marcador");
+        }
+        else
+        {
+            result = true;
+        }
+        return result;
+    }
+    
+    public boolean validate_date(){
+        boolean result = true;
+        try
+        {
+
+            Date date = jDate_Game.getDate();
+            ZoneId defaultZoneId = ZoneId.systemDefault();
+            Instant iStart = date.toInstant();
+            LocalDate game_date = iStart.atZone(defaultZoneId).toLocalDate();
+            ReadPhaseDTO readPhaseDTO = ServicesLocator.PhaseServices.readAPhase(readAPhaseDTO);
+            if (game_date.isBefore(readPhaseDTO.getStart_date()) || game_date.isAfter(game_date))
+            {
+                UtilsConnector.viewMessagesUtils.showErrorMessage(rootPane,
+                                                                  "La fecha del juego se debe corresponder con las fechas de la fase correspondiente");
+                result = false;
+            } 
+        }
+        catch (SQLException | ClassNotFoundException ex)
+        {
+            UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(rootPane, ex);
+        }
+        return result;
+    }
+
+    public boolean validate_audience(ReadATeamDTO readATeamDTO) throws SQLException, ClassNotFoundException
+    {
+        boolean result = false;
+        //La audiencia debe ser inferior a la capacidad del estadio
+        ReadStadiumDTO readStadiumDTO = ServicesLocator.StadiumServices.getStadiumByTeam(readATeamDTO);
+        int audience = readStadiumDTO.getCapacity();
+        if (audience <= readStadiumDTO.getCapacity())
+        {
+            UtilsConnector.viewMessagesUtils.showErrorMessage(rootPane,
+                                                              "La audiencia del juego no puede ser superior a la capacidad del estadio");
+        } else{
+            result = false;
+        }
+        return result;
+    }
 }

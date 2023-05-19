@@ -4,11 +4,17 @@
  */
 package cu.edu.cujae.structbd.visual.game;
 
+import cu.edu.cujae.structbd.dto.game.ReadAGameDTO;
+import cu.edu.cujae.structbd.dto.game.ReadGameDTO;
 import cu.edu.cujae.structbd.dto.game.UpdateGameDTO;
 import cu.edu.cujae.structbd.dto.phase.ReadAPhaseDTO;
+import cu.edu.cujae.structbd.dto.phase.ReadPhaseDTO;
+import cu.edu.cujae.structbd.dto.stadium.ReadStadiumDTO;
+import cu.edu.cujae.structbd.dto.team.ReadATeamDTO;
 import cu.edu.cujae.structbd.dto.team.ReadTeamDTO;
 import cu.edu.cujae.structbd.services.ServicesLocator;
 import cu.edu.cujae.structbd.utils.UtilsConnector;
+import cu.edu.cujae.structbd.visual.snb.SerieUI;
 import java.util.Date;
 import java.sql.SQLException;
 import java.time.Instant;
@@ -19,6 +25,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.SpinnerNumberModel;
 
 /**
  *
@@ -27,58 +34,52 @@ import java.util.logging.Logger;
 public class UpdateGame_UI extends javax.swing.JDialog {
 
     private ReadAPhaseDTO readAPhaseDTO;
+    private ReadATeamDTO readATeamDTO;
+    private ReadGameDTO readGameDTO;
     /**
      * Creates new form CreateGameUI
      */
-    public UpdateGame_UI(java.awt.Frame parent, boolean modal, UpdateGameDTO updateGameDTO)
+    public UpdateGame_UI(java.awt.Frame parent, boolean modal, ReadGameDTO readGameDTO, ReadAPhaseDTO readAPhaseDTO)
     {
         super(parent, modal);
         try {
             initComponents();
             //Contiene el codigo de la fase activa actualmente para buscar los equipos
             this.readAPhaseDTO = readAPhaseDTO;
-            LinkedList<ReadTeamDTO> list_teams_in_phase = new LinkedList<>(ServicesLocator.AppServices.getTeamsInPhase(
-                readAPhaseDTO));
-            for (ReadTeamDTO readTeamDTO : list_teams_in_phase)
-            {
-                jComboBoxHomeClub.addItem(readTeamDTO.getTeam_name());
-            }
+            this.readGameDTO = readGameDTO;
+            jComboBoxHomeClub.addItem(this.readGameDTO.getHcTeamName());
+            jComboBoxHomeClub.addItem(this.readGameDTO.getVisTeamName());
+            jSpinnerRHC.setValue(this.readGameDTO.getRuns_home_club());
+            jSpinnerRV.setValue(this.readGameDTO.getRuns_visitant());
+            jSpinnerAudience.setValue(this.readGameDTO.getAudience());
 
-            Iterator<ReadTeamDTO> it_list_teams_in_phase = list_teams_in_phase.iterator();
-            boolean found_hc = false;
-            String name_hc = null;
-            while (it_list_teams_in_phase.hasNext() && !found_hc)
+            ReadPhaseDTO readPhaseDTO = ServicesLocator.PhaseServices.readAPhase(readAPhaseDTO);
+            ZoneId defaultZoneId = ZoneId.systemDefault();
+            Date start_date = Date.from(readPhaseDTO.getStart_date().atStartOfDay(defaultZoneId).toInstant());
+            Date actual_date = Date.from(this.readGameDTO.getDate().atStartOfDay(defaultZoneId).toInstant());
+            jDate_Game.setMinSelectableDate(start_date);
+            jDate_Game.setDate(actual_date);
+            Date finish_date = Date.from(readPhaseDTO.getFinish_date().atStartOfDay(defaultZoneId).toInstant());
+            jDate_Game.setMaxSelectableDate(finish_date);
+
+            //recuperar id del equipo local
+            String teamHC = this.readGameDTO.getHcTeamName();
+            ArrayList<ReadTeamDTO> teamsListHC = ServicesLocator.TeamServices.readTeams();
+            boolean foundTeamHC = false;
+            int teamIdHC = -1;
+            for (int i = 0; i < teamsListHC.size() && !foundTeamHC; i++)
             {
-                ReadTeamDTO readTeamDTO = it_list_teams_in_phase.next();
-                if (readTeamDTO.getTeam_id() == updateGameDTO.getHcTeamID())
+                if (teamsListHC.get(i).getTeam_name().equalsIgnoreCase(teamHC))
                 {
-                    name_hc = readTeamDTO.getTeam_name();
+                    foundTeamHC = true;
+                    teamIdHC = teamsListHC.get(i).getTeam_id();
+                    this.readATeamDTO = new ReadATeamDTO(teamIdHC);
                 }
             }
 
-            Iterator<ReadTeamDTO> it_2_list_teams_in_phase = list_teams_in_phase.iterator();
-            boolean found_v = false;
-            String name_v = null;
-            while (it_2_list_teams_in_phase.hasNext() && !found_v)
-            {
-                ReadTeamDTO readTeamDTO = it_2_list_teams_in_phase.next();
-                if (readTeamDTO.getTeam_id() == updateGameDTO.getHcTeamID())
-                {
-                    name_v = readTeamDTO.getTeam_name();
-                    found_v = true;
-                }
-            }
-            jComboBoxHomeClub.addItem(name_hc);
-            LinkedList<ReadTeamDTO> list_teams = new LinkedList<>(ServicesLocator.AppServices.getTeamsInPhase(
-                readAPhaseDTO));
-            for (ReadTeamDTO readTeamDTO : list_teams_in_phase)
-            {
-                if (readTeamDTO.getTeam_id() != updateGameDTO.getHcTeamID())
-                {
-                    jComboBoxHomeClub.addItem(readTeamDTO.getTeam_name());
-                }
-            }
-
+            //Validando que la audiencia del juego no sobrepase la capacidad del estadio del equipo local
+            ReadStadiumDTO readStadiumDTO = ServicesLocator.StadiumServices.getStadiumByTeam(readATeamDTO);
+            jSpinnerAudience.setModel(new SpinnerNumberModel(1, 1, readStadiumDTO.getCapacity(), 1));
         } catch (SQLException | ClassNotFoundException ex) {
             UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
         }
@@ -104,7 +105,7 @@ public class UpdateGame_UI extends javax.swing.JDialog {
         jLabelVisitor1 = new javax.swing.JLabel();
         jSpinnerRV = new javax.swing.JSpinner();
         jLabelDate = new javax.swing.JLabel();
-        jCalendarDate = new com.toedter.calendar.JDateChooser();
+        jDate_Game = new com.toedter.calendar.JDateChooser();
         jSpinnerAudience = new javax.swing.JSpinner();
         jLabelAudience = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
@@ -120,6 +121,7 @@ public class UpdateGame_UI extends javax.swing.JDialog {
         jLabelHomeClub.setText("Equipo Local:");
 
         jComboBoxHomeClub.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<Seleccionar>" }));
+        jComboBoxHomeClub.setEnabled(false);
         jComboBoxHomeClub.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
@@ -190,7 +192,7 @@ public class UpdateGame_UI extends javax.swing.JDialog {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabelDate)
                                 .addGap(106, 106, 106)
-                                .addComponent(jCalendarDate, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jDate_Game, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabelAudience)
                                 .addGap(84, 84, 84)
@@ -219,14 +221,14 @@ public class UpdateGame_UI extends javax.swing.JDialog {
                 .addGap(8, 8, 8)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabelDate)
-                    .addComponent(jCalendarDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jDate_Game, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(8, 8, 8)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabelAudience)
                     .addComponent(jSpinnerAudience, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 300, 180));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 300, 200));
 
         jButtonClose.setText("Cerrar");
         jButtonClose.addActionListener(new java.awt.event.ActionListener()
@@ -237,7 +239,7 @@ public class UpdateGame_UI extends javax.swing.JDialog {
             }
         });
 
-        jButtonInsert.setText("Insertar");
+        jButtonInsert.setText("Aceptar");
         jButtonInsert.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
@@ -263,10 +265,10 @@ public class UpdateGame_UI extends javax.swing.JDialog {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonClose)
                     .addComponent(jButtonInsert))
-                .addGap(0, 8, Short.MAX_VALUE))
+                .addGap(5, 5, 5))
         );
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 200, 300, 30));
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 220, 300, 30));
 
         pack();
         setLocationRelativeTo(null);
@@ -281,7 +283,7 @@ public class UpdateGame_UI extends javax.swing.JDialog {
         // TODO add your handling code here:
         int audience = (int) jSpinnerAudience.getValue();
         
-        Date date = jCalendarDate.getDate();
+        Date date = jDate_Game.getDate();
         ZoneId defaultZoneId = ZoneId.systemDefault();
         Instant iStart = date.toInstant();
         LocalDate game_date = iStart.atZone(defaultZoneId).toLocalDate();
@@ -291,7 +293,7 @@ public class UpdateGame_UI extends javax.swing.JDialog {
         try {
 
             //recuperar id del equipo local
-            String teamHC = jComboBoxHomeClub.getSelectedItem().toString();
+            String teamHC = readGameDTO.getHcTeamName();
             ArrayList<ReadTeamDTO> teamsListHC = ServicesLocator.TeamServices.readTeams();
             boolean foundTeamHC = false;
             int teamIdHC = -1;
@@ -299,11 +301,12 @@ public class UpdateGame_UI extends javax.swing.JDialog {
                 if (teamsListHC.get(i).getTeam_name().equalsIgnoreCase(teamHC)) {
                     foundTeamHC = true;
                     teamIdHC = teamsListHC.get(i).getTeam_id();
+                    this.readATeamDTO = new ReadATeamDTO(teamIdHC);
                 }
             }
 
             //recuperar id del equipo visitante
-            String teamVis = jComboBoxHomeClub.getSelectedItem().toString();
+            String teamVis = readGameDTO.getVisTeamName();
             ArrayList<ReadTeamDTO> teamsListVis = ServicesLocator.TeamServices.readTeams();
             boolean foundTeamV = false;
             int teamIdVis = -1;
@@ -316,17 +319,44 @@ public class UpdateGame_UI extends javax.swing.JDialog {
 
             //Determinando ganador
             int winner = runs_home_club > runs_visitant ? teamIdHC : teamIdVis;
+            
             //BUSCAR CODIGO DE JUEGO
-            //UpdateGameDTO updateGameDTO
-            //           = new UpdateGameDTO(teamIdVis, teamIdVis, readAPhaseDTO.getPhase_id(), game_date, winner,                                                  audience, runs_home_club, runs_visitant);
-            //ServicesLocator.GameServices.createGame(createGameDTO);
-            this.dispose();
+            LinkedList<ReadGameDTO> list_games = new LinkedList<>(ServicesLocator.GameServices.readAllGamesByPhase(readAPhaseDTO));
+                    boolean found_game = false;
+                    int game_id = -1;
+                    Iterator<ReadGameDTO> it_games = list_games.iterator();
+            ReadGameDTO readGameDTO_it = null;
+                    while (it_games.hasNext() && !found_game)
+                    {
+                        
+                        readGameDTO_it = it_games.next();
+                        System.out.println(readGameDTO_it.getHcTeamName() + readGameDTO_it.getVisTeamName());
+                        if (readGameDTO_it.getHcTeamName().equalsIgnoreCase(teamHC) && readGameDTO_it.getVisTeamName().
+                            equalsIgnoreCase(teamVis))
+                        {
+                            found_game = true;
+                            game_id = readGameDTO_it.getId();
+                        }
+                    }
+                    
+            //Si se encuentra el juego, se llama al servicio de modifcar
+             if (found_game == true && validate_runs() && validate_audience() && validate_date())
+             {
+                UpdateGameDTO updateGameDTO = new UpdateGameDTO(game_id, teamIdHC, teamIdVis, readAPhaseDTO.
+                                                                getPhase_id(),
+                                                                game_date, winner, audience,
+                                                                runs_home_club, runs_visitant);
+                ServicesLocator.GameServices.updateGame(updateGameDTO);
+                UtilsConnector.viewMessagesUtils.showSuccessMessage(rootPane, "Juego modificado satisfactoriamente");
+                ((SerieUI) this.getParent()
+                ).update_tables();   
+                this.dispose();
+            }
+
    
-        } catch (SQLException ex) {
-            Logger.getLogger(UpdateGame_UI.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(UpdateGame_UI.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } catch (SQLException|ClassNotFoundException ex) {
+            UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(rootPane, ex);
+        }        
 
     }//GEN-LAST:event_jButtonInsertActionPerformed
 
@@ -354,9 +384,9 @@ public class UpdateGame_UI extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonClose;
     private javax.swing.JButton jButtonInsert;
-    private com.toedter.calendar.JDateChooser jCalendarDate;
     private javax.swing.JComboBox<String> jComboBoxHomeClub;
     private javax.swing.JComboBox<String> jComboBoxVisitor;
+    private com.toedter.calendar.JDateChooser jDate_Game;
     private javax.swing.JLabel jLabelAudience;
     private javax.swing.JLabel jLabelDate;
     private javax.swing.JLabel jLabelHomeClub;
@@ -370,5 +400,59 @@ public class UpdateGame_UI extends javax.swing.JDialog {
     private javax.swing.JSpinner jSpinnerRV;
     // End of variables declaration//GEN-END:variables
 
+    public boolean validate_runs()
+    {
+        boolean result = true;
+        int runs_hc = (int) this.jSpinnerRHC.getValue();
+        int runs_v = (int) this.jSpinnerRV.getValue();
 
+        if (runs_hc == runs_v)
+        {
+            UtilsConnector.viewMessagesUtils.showErrorMessage(rootPane,
+                                                              "El juego no puede quedar con igualdad en el marcador");
+            result = false;
+        }
+        return result;
+    }
+    
+    public boolean validate_date(){
+        boolean result = true;
+        try
+        {
+
+            Date date = jDate_Game.getDate();
+            ZoneId defaultZoneId = ZoneId.systemDefault();
+            Instant iStart = date.toInstant();
+            LocalDate game_date = iStart.atZone(defaultZoneId).toLocalDate();
+            ReadPhaseDTO readPhaseDTO = ServicesLocator.PhaseServices.readAPhase(readAPhaseDTO);
+            if (game_date.isBefore(readPhaseDTO.getStart_date()) || game_date.isAfter(game_date))
+            {
+                UtilsConnector.viewMessagesUtils.showErrorMessage(rootPane,
+                                                                  "La fecha del juego se debe corresponder con las fechas de la fase correspondiente");
+                result = false;
+            } 
+        }
+        catch (SQLException | ClassNotFoundException ex)
+        {
+            UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(rootPane, ex);
+        }
+        return result;
+    }
+
+    public boolean validate_audience() throws SQLException, ClassNotFoundException
+    {
+        boolean result = true;
+        //La audiencia debe ser inferior a la capacidad del estadio
+        ReadStadiumDTO readStadiumDTO = ServicesLocator.StadiumServices.getStadiumByTeam(readATeamDTO);
+        int capacity = readStadiumDTO.getCapacity();
+        int audience = (int) this.jSpinnerAudience.getValue();
+        if (audience > capacity)
+        {
+            UtilsConnector.viewMessagesUtils.showErrorMessage(rootPane,
+                                                              "La audiencia del juego no puede ser superior a la capacidad del estadio");
+            result = false;
+        }
+
+        return result;
+    }
 }
