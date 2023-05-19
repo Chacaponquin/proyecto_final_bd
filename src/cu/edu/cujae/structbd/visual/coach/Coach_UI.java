@@ -222,7 +222,7 @@ public class Coach_UI extends AppCustomWindow
     private void menuUpdateActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_menuUpdateActionPerformed
     {//GEN-HEADEREND:event_menuUpdateActionPerformed
          int row = table.getSelectedRow();
-        if (row > 0)
+        if (row >= 0)
         {
             String name = table.getValueAt(row, 0).toString();
             String team = table.getValueAt(row, 1).toString();
@@ -281,10 +281,14 @@ public class Coach_UI extends AppCustomWindow
     private void menuDeleteActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_menuDeleteActionPerformed
     {//GEN-HEADEREND:event_menuDeleteActionPerformed
         int row = table.getSelectedRow();
-        if (row > 0)
+        if (row >= 0)
         {
             String name = table.getValueAt(row, 0).toString();
-            String team = table.getValueAt(row, 1).toString();
+            if (JOptionPane.
+                showConfirmDialog(null, "¿Estás seguro que desea eliminar " + name + " ?", "Eliminar entrenador",
+                                  JOptionPane.YES_NO_OPTION) == 0)
+            {
+                String team = table.getValueAt(row, 1).toString();
             Integer number = Integer.valueOf(table.getValueAt(row, 2).toString());
             Integer years_exp = Integer.valueOf(table.getValueAt(row, 3).toString());
             Integer years_team = Integer.valueOf(table.getValueAt(row, 4).toString());
@@ -308,19 +312,18 @@ public class Coach_UI extends AppCustomWindow
                 {
                     ServicesLocator.CoachServices.deleteCoach(new DeleteCoachDTO(id));
                 }
-                catch (SQLException ex)
+                catch (SQLException | ClassNotFoundException ex)
                 {
-                    Logger.getLogger(Coach_UI.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                catch (ClassNotFoundException ex)
-                {
-                    Logger.getLogger(Coach_UI.class.getName()).log(Level.SEVERE, null, ex);
+                    UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(rootPane, ex);
                 }
                 
-                this.updateList();
+                
+                    this.updateList();
+                }
             }
         } else {
-            JOptionPane.showMessageDialog(rootPane, "Seleccione un entrenador para poder modificar sus datos", "Información", JOptionPane.INFORMATION_MESSAGE);
+            UtilsConnector.viewMessagesUtils.showSuccessMessage(rootPane,
+                                                                "Seleccione un entrenador para poder modificar sus datos");
         }
     }//GEN-LAST:event_menuDeleteActionPerformed
 

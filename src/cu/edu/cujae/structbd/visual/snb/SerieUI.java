@@ -495,11 +495,17 @@ public class SerieUI extends AppCustomWindow
     {//GEN-HEADEREND:event_jMenuDelActionPerformed
         int row = jTableGames.getSelectedRow();
         if (row >= 0)
-        {
+        {   
+             String team_hc = jTableGames.getValueAt(row, 1).toString();
+             String team_v = jTableGames.getValueAt(row, 4).toString();
+            if (JOptionPane.
+                showConfirmDialog(null,
+                                  "¿Estás seguro que desea eliminar el juego entre: " + team_hc + " y " + team_v + " ?",
+                                  "Eliminar juego",
+                                  JOptionPane.YES_NO_OPTION) == 0)
+            {
             try {
                 //Seleccionando los equipos y la fase del juego seleccionado
-                String team_hc = jTableGames.getValueAt(row, 1).toString();
-                String team_v = jTableGames.getValueAt(row, 4).toString();
                 String phase = this.combo_phases.getSelectedItem().toString();
 
                 //Obteniendo el id de la fase
@@ -556,7 +562,7 @@ public class SerieUI extends AppCustomWindow
             {
                 UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(rootPane, ex);
             }
-            
+            }
         }
         else
         {

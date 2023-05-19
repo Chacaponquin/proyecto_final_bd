@@ -120,7 +120,6 @@ public class UpdateGame_UI extends javax.swing.JDialog {
 
         jLabelHomeClub.setText("Equipo Local:");
 
-        jComboBoxHomeClub.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<Seleccionar>" }));
         jComboBoxHomeClub.setEnabled(false);
         jComboBoxHomeClub.addActionListener(new java.awt.event.ActionListener()
         {
@@ -139,7 +138,6 @@ public class UpdateGame_UI extends javax.swing.JDialog {
 
         jLabelVisitor.setText("Equipo Visitante:");
 
-        jComboBoxVisitor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<Seleccionar>" }));
         jComboBoxVisitor.setEnabled(false);
         jComboBoxVisitor.addActionListener(new java.awt.event.ActionListener()
         {
