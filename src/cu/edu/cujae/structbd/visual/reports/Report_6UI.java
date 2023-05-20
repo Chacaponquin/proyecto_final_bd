@@ -73,6 +73,7 @@ public class Report_6UI extends AppCustomDialog{
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Estado de un equipo");
         setModal(true);
+        setResizable(false);
 
         jButtonClose.setText("Cerrar");
         jButtonClose.addActionListener(new java.awt.event.ActionListener()

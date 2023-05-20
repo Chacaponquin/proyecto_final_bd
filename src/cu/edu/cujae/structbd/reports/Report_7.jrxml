@@ -13,7 +13,8 @@
   FROM teammember 
   JOIN player ON teammember.member_id = player.member_id
   JOIN team ON teammember.team_id = team.team_id
-  JOIN position ON player.position_id = position.position_id) as players_list) as players_ranking
+  JOIN position ON player.position_id = position.position_id
+  WHERE player_calculate_average(teammember.member_id, position.position_name) > 0) as players_list) as players_ranking
   WHERE ranking = 1]]>
 	</queryString>
 	<field name="position_name" class="java.lang.String">
