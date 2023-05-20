@@ -4,6 +4,7 @@
  */
 package cu.edu.cujae.structbd.visual.pitcher;
 
+import cu.edu.cujae.structbd.dto.pitcher.DeletePitcherDTO;
 import cu.edu.cujae.structbd.dto.pitcher.ReadPitcherDTO;
 import cu.edu.cujae.structbd.services.ServicesLocator;
 import cu.edu.cujae.structbd.utils.AppCustomWindow;
@@ -28,6 +29,9 @@ public class PitcherUI extends AppCustomWindow {
     
     public void updateUI(){
         try{
+            this.jTable1.setComponentPopupMenu(jPopupMenu1);
+            UtilsConnector.viewUtils.cleanTable(jTable1);
+            
             this.readPitcherDTO_list = new LinkedList<>(ServicesLocator.PitcherServices.readAllPitchers());
             Iterator<ReadPitcherDTO> it = readPitcherDTO_list.iterator();
             while(it.hasNext()){
@@ -58,10 +62,20 @@ public class PitcherUI extends AppCustomWindow {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPopupMenu1 = new javax.swing.JPopupMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
         jButtonClose = new javax.swing.JButton();
         jButtonInsert = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+
+        jMenuItem1.setText("Eliminar Pitcher");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(jMenuItem1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Lanzadores");
@@ -86,7 +100,7 @@ public class PitcherUI extends AppCustomWindow {
 
             },
             new String [] {
-                "Nombre", "Número", "Años en equipo", "Equipo", "Entradas Lanzadas", "Carreras permitidas", "PCL"
+                "Nombre", "Dorsal", "Años en equipo", "Equipo", "Entradas Lanzadas", "Carreras permitidas", "PCL"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -139,10 +153,32 @@ public class PitcherUI extends AppCustomWindow {
         this.dispose();
     }//GEN-LAST:event_jButtonCloseActionPerformed
 
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+      int selectRow =this.jTable1.getSelectedRow();
+      
+      if(selectRow >= 0){
+          boolean accept = UtilsConnector.viewMessagesUtils.showConfirmDialog(this, "Seguro que quiere eliminar este pitcher");
+          
+          if(accept){
+              try {
+                  ReadPitcherDTO p = this.readPitcherDTO_list.get(selectRow);
+                  ServicesLocator.PitcherServices.deletePitcher(new DeletePitcherDTO(p.getTeamMemberID()));
+                  UtilsConnector.viewMessagesUtils.showSuccessMessage(this, "Pitcher eliminado satisfactoriamente.");
+                  this.updateUI();
+              } catch (SQLException | ClassNotFoundException ex) {
+                  UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
+              } 
+          }
+      }
+         // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonClose;
     private javax.swing.JButton jButtonInsert;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables

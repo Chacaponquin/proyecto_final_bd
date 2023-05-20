@@ -106,7 +106,7 @@ public class StadiumUI extends AppCustomWindow {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-UtilsConnector.viewUtils.getBackHome(this);        // TODO add your handling code here:
+this.dispose();      // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed

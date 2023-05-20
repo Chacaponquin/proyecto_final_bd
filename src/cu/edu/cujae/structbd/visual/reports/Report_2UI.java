@@ -188,9 +188,7 @@ public class Report_2UI extends AppCustomDialog {
 
         // limpiar y llenar la tabla
         this.cleanTable();
-
         
-
         int selectFirstIndex = this.jComboBox1.getSelectedIndex() - 1;
         int selectSecondIndex = this.jComboBox2.getSelectedIndex() - 1;
 

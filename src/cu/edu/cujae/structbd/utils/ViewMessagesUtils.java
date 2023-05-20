@@ -27,5 +27,17 @@ public class ViewMessagesUtils {
         System.out.println(ex);
     }
     
-    
+    public boolean showConfirmDialog(Component component, String message){
+        boolean retBoolean = false;
+        
+        int input = JOptionPane.showConfirmDialog(component, message);
+        
+        if(input == 0){
+            retBoolean = true;
+        }else {
+            retBoolean = false;
+        }
+        
+        return retBoolean;
+    }
 }

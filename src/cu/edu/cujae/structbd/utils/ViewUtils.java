@@ -4,7 +4,6 @@
  */
 package cu.edu.cujae.structbd.utils;
 
-import cu.edu.cujae.structbd.dto.user.ActualUserDTO;
 import cu.edu.cujae.structbd.services.ServicesLocator;
 import cu.edu.cujae.structbd.visual.batter.BatterUI;
 
@@ -33,6 +32,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -109,5 +110,14 @@ public class ViewUtils {
     
     public List<ViewDialog> getReportsViews(){
         return this.reports;
+    }
+    
+    public void cleanTable(JTable table){
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+            
+        int count = model.getRowCount();
+        for(int i = 0; i < count; i++){
+            model.removeRow(0);
+        }
     }
 }
