@@ -5,6 +5,9 @@ import cu.edu.cujae.structbd.dto.pitcher.DeletePitcherDTO;
 import cu.edu.cujae.structbd.dto.pitcher.ReadAPitcherDTO;
 import cu.edu.cujae.structbd.dto.pitcher.ReadPitcherDTO;
 import cu.edu.cujae.structbd.dto.pitcher.UpdatePitcherDTO;
+import cu.edu.cujae.structbd.exceptions.pitcher.EmptyPitcherNameException;
+import cu.edu.cujae.structbd.exceptions.team_member.DuplicateMemberNumberException;
+import cu.edu.cujae.structbd.exceptions.team_member.WrongMemberNumberException;
 import cu.edu.cujae.structbd.utils.Connector;
 import java.sql.CallableStatement;
 import java.sql.SQLException;
@@ -14,19 +17,29 @@ import java.sql.ResultSet;
 
 public class PitcherServices {
     
-    public void createPitcher(CreatePitcherDTO createPitcherDTO) throws SQLException, ClassNotFoundException{
+    public void createPitcher(CreatePitcherDTO createPitcherDTO) throws SQLException, ClassNotFoundException, EmptyPitcherNameException, WrongMemberNumberException, DuplicateMemberNumberException{
+        if(createPitcherDTO.getTeamMemberName().equals("")){
+            throw new EmptyPitcherNameException();
+        }
+        
+        ServicesLocator.TeamMemberServices.validateMemberNumber(createPitcherDTO.getMemberNumber(), createPitcherDTO.getTeamID());
+        
+        int pitcherPos = ServicesLocator.PositionServices.getPitcherPositionID();
+        
         String function = "{call pitcher_insert(?,?,?,?,?,?,?)}";
         java.sql.Connection connection = Connector.getConnection();
         CallableStatement preparedFunction = connection.prepareCall(function);
-        preparedFunction.setInt(2, createPitcherDTO.getInningsPitched());
-        preparedFunction.setInt(3, createPitcherDTO.getRunsAllowed());
-        preparedFunction.setInt(4, createPitcherDTO.getPositionID());
-        preparedFunction.setString(5, createPitcherDTO.getTeamMemberName());
-        preparedFunction.setInt(6, createPitcherDTO.getMemberNumber());
-        preparedFunction.setInt(7, createPitcherDTO.getTeamID());
-        preparedFunction.setInt(8, createPitcherDTO.getYearsInTeam());
+        preparedFunction.setInt(1, 0);
+        preparedFunction.setInt(2, 0);
+        preparedFunction.setInt(3, pitcherPos);
+        preparedFunction.setString(4, createPitcherDTO.getTeamMemberName());
+        preparedFunction.setInt(5, createPitcherDTO.getMemberNumber());
+        preparedFunction.setInt(6, createPitcherDTO.getTeamID());
+        preparedFunction.setInt(7, 0);
         preparedFunction.execute();
         preparedFunction.close();
+        
+        connection.commit();
     }
     
     public List<ReadPitcherDTO> readAllPitchers() throws SQLException, ClassNotFoundException{

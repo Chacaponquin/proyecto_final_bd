@@ -4,6 +4,7 @@ import cu.edu.cujae.structbd.dto.batter.ReadBatterDTO;
 import cu.edu.cujae.structbd.dto.coach.ReadCoachDTO;
 import cu.edu.cujae.structbd.dto.pitcher.ReadPitcherDTO;
 import cu.edu.cujae.structbd.dto.player.ReadPlayerDTO;
+import cu.edu.cujae.structbd.dto.team.FindTeamDTO;
 import cu.edu.cujae.structbd.dto.team.ReadTeamDTO;
 import cu.edu.cujae.structbd.dto.team_member.ReadTeamMemberDTO;
 import cu.edu.cujae.structbd.utils.Connector;
@@ -213,5 +214,18 @@ public class TeamServices {
         }
         
         return returnTeams;
+    }
+    
+    public ReadTeamDTO findTeamByID(FindTeamDTO team) throws SQLException, ClassNotFoundException{
+        ReadTeamDTO foundTeam = null;
+        List<ReadTeamDTO> allTeams = this.readTeams();
+        
+        for(int i = 0; i < allTeams.size() && foundTeam == null; i++){
+            if(allTeams.get(i).getTeam_id() == team.getTeam_id()){
+                foundTeam = allTeams.get(i);
+            }
+        }
+        
+        return foundTeam;
     }
 }

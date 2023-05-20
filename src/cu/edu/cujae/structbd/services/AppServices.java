@@ -12,7 +12,7 @@ import cu.edu.cujae.structbd.dto.reports.ReadReport_5DTO;
 import cu.edu.cujae.structbd.dto.reports.ReadReport_6DTO;
 import cu.edu.cujae.structbd.dto.reports.ReadReport_7DTO;
 import cu.edu.cujae.structbd.dto.snb.TeamPositionDTO;
-import cu.edu.cujae.structbd.dto.team.ReadATeamDTO;
+import cu.edu.cujae.structbd.dto.team.FindTeamDTO;
 import cu.edu.cujae.structbd.dto.team.ReadTeamDTO;
 import cu.edu.cujae.structbd.utils.Connector;
 import java.sql.CallableStatement;
@@ -208,7 +208,7 @@ public class AppServices
     }
 
     //Obtener los posibles rivales en una fase
-    public List<ReadTeamDTO> getTeamsPosibleRivals(ReadAPhaseDTO readAPhaseDTO, ReadATeamDTO readATeamDTO) throws
+    public List<ReadTeamDTO> getTeamsPosibleRivals(ReadAPhaseDTO readAPhaseDTO, FindTeamDTO readATeamDTO) throws
         ClassNotFoundException,                                                                                       SQLException
     {
         LinkedList<ReadTeamDTO> list = new LinkedList<>();

@@ -80,4 +80,17 @@ public class PositionServices {
 
         return positions_list;
     }
+    
+    public int getPitcherPositionID() throws SQLException, ClassNotFoundException{
+        List<ReadPositionDTO> allPositions = this.readAllPositions();
+        
+        ReadPositionDTO pitcherPos = null;
+        for(int i=0; i < allPositions.size() && pitcherPos == null; i++){
+            if(allPositions.get(i).getPositionName().equals("P")){
+                pitcherPos = allPositions.get(i);
+            }
+        }
+        
+        return pitcherPos.getPositionID();
+    }
 }

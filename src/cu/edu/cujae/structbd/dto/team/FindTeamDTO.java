@@ -8,11 +8,11 @@ package cu.edu.cujae.structbd.dto.team;
  *
  * @author Jose
  */
-public class ReadATeamDTO
+public class FindTeamDTO
 {
     private int team_id;
 
-    public ReadATeamDTO(int team_id)
+    public FindTeamDTO(int team_id)
     {
         this.team_id = team_id;
     }

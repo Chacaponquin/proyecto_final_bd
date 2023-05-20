@@ -86,7 +86,7 @@
                 <Column editable="true" title="N&#xfa;mero" type="java.lang.Object"/>
                 <Column editable="true" title="A&#xf1;os en equipo" type="java.lang.Object"/>
                 <Column editable="true" title="Equipo" type="java.lang.Object"/>
-                <Column editable="true" title="Lanzamientos" type="java.lang.Object"/>
+                <Column editable="true" title="Entradas Lanzadas" type="java.lang.Object"/>
                 <Column editable="true" title="Carreras permitidas" type="java.lang.Object"/>
                 <Column editable="true" title="PCL" type="java.lang.Object"/>
               </Table>

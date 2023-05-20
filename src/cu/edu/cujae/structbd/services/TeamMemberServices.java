@@ -1,12 +1,15 @@
 package cu.edu.cujae.structbd.services;
 
-import cu.edu.cujae.structbd.dto.team.ReadATeamDTO;
+import cu.edu.cujae.structbd.dto.team.FindTeamDTO;
 import cu.edu.cujae.structbd.dto.team.ReadTeamDTO;
 import cu.edu.cujae.structbd.dto.team_member.DeleteTeamMemberDTO;
 import cu.edu.cujae.structbd.dto.team_member.ReadATeamMemberDTO;
 import cu.edu.cujae.structbd.dto.team_member.ReadTeamMemberDTO;
 import cu.edu.cujae.structbd.dto.team_member.UpdateTeamMemberDTO;
+import cu.edu.cujae.structbd.exceptions.team_member.DuplicateMemberNumberException;
+import cu.edu.cujae.structbd.exceptions.team_member.WrongMemberNumberException;
 import cu.edu.cujae.structbd.utils.Connector;
+import cu.edu.cujae.structbd.utils.TEAM_LIMITS;
 import java.sql.CallableStatement;
 import java.sql.SQLException;
 import java.util.LinkedList;
@@ -76,5 +79,25 @@ public class TeamMemberServices {
         preparedFunction.setInt(1, deleteTeamMemberDTO.getId());
         preparedFunction.execute();
         preparedFunction.close();
+    }
+    
+    public void validateMemberNumber(int number, int teamID) throws WrongMemberNumberException, SQLException, ClassNotFoundException, DuplicateMemberNumberException{
+        if(number < TEAM_LIMITS.MEMBER_NUMBER.getMinimun() || number > TEAM_LIMITS.MEMBER_NUMBER.getMaximun()){
+            throw new WrongMemberNumberException();
+        }
+        
+        ReadTeamDTO foundTeam = ServicesLocator.TeamServices.findTeamByID(new FindTeamDTO(teamID));
+        List<ReadTeamMemberDTO> members = ServicesLocator.TeamServices.readMembersFromTeam(foundTeam);
+        
+        boolean existsNumber = false;
+        for(int i = 0; i < members.size() && !existsNumber; i++){
+            if(members.get(i).getNumber() == number){
+                existsNumber = true;
+            }
+        }
+        
+        if(existsNumber){
+            throw new DuplicateMemberNumberException();
+        }
     }
 }

@@ -5,8 +5,13 @@
 package cu.edu.cujae.structbd.visual.pitcher;
 
 import cu.edu.cujae.structbd.dto.pitcher.ReadPitcherDTO;
+import cu.edu.cujae.structbd.services.ServicesLocator;
 import cu.edu.cujae.structbd.utils.AppCustomWindow;
+import cu.edu.cujae.structbd.utils.UtilsConnector;
+import java.sql.SQLException;
+import java.util.Iterator;
 import java.util.LinkedList;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -18,28 +23,30 @@ public class PitcherUI extends AppCustomWindow {
     
     public void start(){
         initComponents();
-        /*try{
+        this.updateUI();
+    }
+    
+    public void updateUI(){
+        try{
             this.readPitcherDTO_list = new LinkedList<>(ServicesLocator.PitcherServices.readAllPitchers());
             Iterator<ReadPitcherDTO> it = readPitcherDTO_list.iterator();
             while(it.hasNext()){
+                DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+                
                 ReadPitcherDTO readPitcherDTO = it.next();
-                ((DefaultTableModel) jTable1.getModel()).addRow(new Object[]
+                model.addRow(new Object[]
                 {
                     readPitcherDTO.getTeamMemberName(), readPitcherDTO.getMemberNumber(), 
                     readPitcherDTO.getYearsInTeam(), readPitcherDTO.getTeam(), 
                     readPitcherDTO.getInningsPitched(), readPitcherDTO.getRunsAllowed(),
-                    (readPitcherDTO.getInningsPitched()/readPitcherDTO.getRunsAllowed())
+                    readPitcherDTO.getPCL()
                 });
             }
         }
-        catch (SQLException ex)
+        catch (SQLException | ClassNotFoundException ex)
         {
-            Logger.getLogger(PitcherUI.class.getName()).log(Level.SEVERE, null, ex);
+            UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
         }
-        catch (ClassNotFoundException ex)
-        {
-            Logger.getLogger(PitcherUI.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
     }
 
     /**
@@ -79,7 +86,7 @@ public class PitcherUI extends AppCustomWindow {
 
             },
             new String [] {
-                "Nombre", "Número", "Años en equipo", "Equipo", "Lanzamientos", "Carreras permitidas", "PCL"
+                "Nombre", "Número", "Años en equipo", "Equipo", "Entradas Lanzadas", "Carreras permitidas", "PCL"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -124,9 +131,7 @@ public class PitcherUI extends AppCustomWindow {
 
     private void jButtonInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonInsertActionPerformed
         // TODO add your handling code here:
-        CreatePitcherUI cpui = new CreatePitcherUI(this, true);
-        cpui.setLocationRelativeTo(null);
-        cpui.setVisible(rootPaneCheckingEnabled);
+        UtilsConnector.viewUtils.openDialog(this, new CreatePitcherUI(this,true));
     }//GEN-LAST:event_jButtonInsertActionPerformed
 
     private void jButtonCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCloseActionPerformed
