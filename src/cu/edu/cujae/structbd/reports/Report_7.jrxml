@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.3.final using JasperReports Library version 6.20.3-415f9428cffdb6805c6f85bbb29ebaf18813a2ab  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Report_6" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="aad9ff73-354c-437b-8d71-fc7d8cda66b8">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="caseBaseball"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT players_ranking.position_name, players_ranking.member_name, players_ranking.team_name, players_ranking.ave
+  FROM(
+  SELECT players_list.position_name, players_list.member_name, players_list.team_name, players_list.ave, RANK() OVER (
+         PARTITION BY players_list.position_name ORDER BY CASE players_list.position_name WHEN 'P' THEN players_list.ave END, players_list.ave DESC) AS ranking
+  FROM (
+  SELECT position.position_name, teammember.member_name, team.team_name, player_calculate_average(teammember.member_id, position.position_name) as ave 
+  FROM teammember 
+  JOIN player ON teammember.member_id = player.member_id
+  JOIN team ON teammember.team_id = team.team_id
+  JOIN position ON player.position_id = position.position_id) as players_list) as players_ranking
+  WHERE ranking = 1]]>
+	</queryString>
+	<field name="position_name" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="position_name"/>
+		<property name="com.jaspersoft.studio.field.label" value="position_name"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="position"/>
+	</field>
+	<field name="member_name" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="member_name"/>
+		<property name="com.jaspersoft.studio.field.label" value="member_name"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="teammember"/>
+	</field>
+	<field name="team_name" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="team_name"/>
+		<property name="com.jaspersoft.studio.field.label" value="team_name"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="team"/>
+	</field>
+	<field name="ave" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="ave"/>
+		<property name="com.jaspersoft.studio.field.label" value="ave"/>
+	</field>
+	<group name="Group1">
+		<groupExpression><![CDATA[$F{position_name}]]></groupExpression>
+		<groupHeader>
+			<band height="33">
+				<staticText>
+					<reportElement mode="Opaque" x="0" y="0" width="100" height="32" forecolor="#666666" backcolor="#E6E6E6" uuid="deac79bb-d8b4-49f9-8a6c-4cfcc662dab7"/>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<text><![CDATA[]]></text>
+				</staticText>
+				<textField>
+					<reportElement mode="Opaque" x="0" y="0" width="555" height="32" forecolor="#006699" backcolor="#E6E6E6" uuid="36a61485-719f-43f7-a06a-ee2fe2961ce9"/>
+					<textElement>
+						<font size="24" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{position_name}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="-20" y="32" width="595" height="1" forecolor="#666666" uuid="8849b8ff-0223-4966-addb-6bc5ea03bb43"/>
+				</line>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band/>
+		</groupFooter>
+	</group>
+	<background>
+		<band/>
+	</background>
+	<title>
+		<band height="72">
+			<frame>
+				<reportElement mode="Opaque" x="-20" y="-20" width="595" height="92" backcolor="#006699" uuid="9bf3b9f8-c279-483d-bc12-8e654d98b4eb"/>
+				<staticText>
+					<reportElement x="81" y="30" width="454" height="43" forecolor="#FFFFFF" uuid="2cff0961-eb1f-4572-83b4-d6ce54b74745"/>
+					<textElement>
+						<font fontName="Felix Titling" size="34" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Equipo Todos Estrella ]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="13"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="21">
+			<line>
+				<reportElement x="-20" y="20" width="595" height="1" forecolor="#666666" uuid="3f3ce309-850c-46a7-a71f-83c8b8402254"/>
+			</line>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="185" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="e29346b8-12b8-478a-98e8-583ca8fcba00">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="93c44b71-441a-43a2-8517-d0518bd6f952"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nombre]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="185" y="0" width="185" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="051d690a-2f39-4bd4-a70f-5d03e1c20fc0">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="99b04598-6c6c-4a10-83e7-85fb546a3294"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Equipo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="370" y="0" width="185" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="3593080d-44bc-4682-92ba-da124bc0bd31">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="976ed6ce-6a83-400d-a7c9-17d4199af01f"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Promedio]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="19" width="555" height="1" uuid="5dc03485-6ab3-4597-b0f2-9908b88ccd0e"/>
+			</line>
+			<textField textAdjust="StretchHeight">
+				<reportElement x="0" y="0" width="185" height="20" backcolor="#EFFC8B" uuid="9a686171-fb9e-4614-9e1d-52cee2e01d51">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="93c44b71-441a-43a2-8517-d0518bd6f952"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{member_name}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight">
+				<reportElement x="185" y="0" width="185" height="20" backcolor="#EFFC8B" uuid="d622d396-3626-48be-94a5-f45e49c043ff">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="99b04598-6c6c-4a10-83e7-85fb546a3294"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{team_name}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight">
+				<reportElement x="370" y="0" width="185" height="20" backcolor="#EFFC8B" uuid="9396372e-b0cb-4c3e-927c-54d4cc74d215">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="976ed6ce-6a83-400d-a7c9-17d4199af01f"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ave}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band/>
+	</columnFooter>
+	<pageFooter>
+		<band height="68">
+			<textField>
+				<reportElement mode="Opaque" x="0" y="4" width="515" height="13" backcolor="#E6E6E6" uuid="1d26de87-541d-4210-bee8-438b3ebc879f"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement mode="Opaque" x="515" y="4" width="40" height="13" backcolor="#E6E6E6" uuid="9fa58a38-7878-4ca7-bfde-3de254446437"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="0" y="4" width="100" height="13" uuid="f78c1543-4902-43c3-af47-8efc1c3a5fad"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<frame>
+				<reportElement mode="Opaque" x="-20" y="30" width="595" height="38" backcolor="#006699" uuid="568cf23a-9d59-46ac-a3f8-2d044e4761c1">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<staticText>
+					<reportElement x="420" y="8" width="170" height="22" forecolor="#FFFFFF" uuid="93a5f4fd-c6c9-4529-92be-daef73eec968"/>
+					<textElement>
+						<font size="13" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Serie Nacional de Béisbol]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band/>
+	</summary>
+</jasperReport>

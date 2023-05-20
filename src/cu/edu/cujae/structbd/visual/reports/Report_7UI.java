@@ -9,9 +9,11 @@ import cu.edu.cujae.structbd.services.ServicesLocator;
 import cu.edu.cujae.structbd.utils.AppCustomDialog;
 import cu.edu.cujae.structbd.utils.UtilsConnector;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
 
 /**
  *
@@ -102,6 +104,13 @@ public class Report_7UI extends AppCustomDialog {
         jScrollPane2.setViewportView(jTable1);
 
         jButton1.setText("Exportar");
+        jButton1.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -137,6 +146,18 @@ public class Report_7UI extends AppCustomDialog {
         // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_jButtonCloseActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton1ActionPerformed
+    {//GEN-HEADEREND:event_jButton1ActionPerformed
+       try
+        {
+            UtilsConnector.export.exportToPDF("Report_7", new HashMap<>(), null);
+        }
+        catch (JRException | SQLException | ClassNotFoundException ex)
+        {
+            UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -9,11 +9,13 @@ import cu.edu.cujae.structbd.services.ServicesLocator;
 import cu.edu.cujae.structbd.utils.AppCustomDialog;
 import cu.edu.cujae.structbd.utils.UtilsConnector;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
 
 /**
  *
@@ -184,7 +186,15 @@ public class Report_4UI extends AppCustomDialog
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton2ActionPerformed
     {//GEN-HEADEREND:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+        try
+        {
+            UtilsConnector.export.exportToPDF("Report_4", new HashMap<>(), null);
+        }
+        catch (JRException | SQLException | ClassNotFoundException ex)
+        {
+            UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(rootPane, ex);
+        }
+
     }//GEN-LAST:event_jButton2ActionPerformed
 
 

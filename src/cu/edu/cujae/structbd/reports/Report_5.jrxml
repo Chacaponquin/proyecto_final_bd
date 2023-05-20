@@ -107,9 +107,16 @@
 				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 			<frame>
-				<reportElement mode="Opaque" x="-20" y="30" width="595" height="38" backcolor="#006699" uuid="60673410-523b-4888-9c08-4f4c13ef0b06">
+				<reportElement mode="Opaque" x="-20" y="30" width="595" height="38" backcolor="#006699" uuid="ea62341a-a614-4ddd-8193-9ed3dc3f8053">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
+				<staticText>
+					<reportElement x="420" y="8" width="170" height="22" forecolor="#FFFFFF" uuid="a5eaf168-1a5d-474b-b911-80384e2f1d9c"/>
+					<textElement>
+						<font size="13" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Serie Nacional de Béisbol]]></text>
+				</staticText>
 			</frame>
 		</band>
 	</pageFooter>

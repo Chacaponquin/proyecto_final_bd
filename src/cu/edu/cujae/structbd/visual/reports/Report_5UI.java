@@ -9,7 +9,11 @@ import cu.edu.cujae.structbd.services.ServicesLocator;
 import cu.edu.cujae.structbd.utils.AppCustomDialog;
 import cu.edu.cujae.structbd.utils.Connector;
 import cu.edu.cujae.structbd.utils.UtilsConnector;
+import java.io.File;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -183,11 +187,7 @@ public class Report_5UI extends AppCustomDialog
     {//GEN-HEADEREND:event_jButton2ActionPerformed
         try
         {
-            String jrxPath = "src/cu/edu/cujae/structbd/reports/Report_5.jrxml";
-            JasperReport report = JasperCompileManager.compileReport(jrxPath);
-            JasperPrint print = JasperFillManager.fillReport(report, new HashMap<>(), Connector.getConnection());
-            String exportPath = "src/cu/edu/cujae/structbd/reports/Report_5.pdf";
-            JasperExportManager.exportReportToPdfFile(print, exportPath);
+            UtilsConnector.export.exportToPDF("Report_5", new HashMap<>(), null);
         }
         catch (JRException | SQLException | ClassNotFoundException ex)
         {

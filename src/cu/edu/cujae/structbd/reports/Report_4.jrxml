@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.3.final using JasperReports Library version 6.20.3-415f9428cffdb6805c6f85bbb29ebaf18813a2ab  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Report_4" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0276b586-fca7-4117-a0df-47520a532c2f">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="caseBaseball"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT coaches_ranking.t_name,coaches_ranking.c_name,coaches_ranking.experience_year
+   FROM (SELECT team.team_name as t_name, team.won_championships ,teammember.member_name as c_name,coach.experience_year, RANK() OVER (
+         PARTITION BY team.team_name ORDER BY coach.experience_year DESC,teammember.member_name ASC) AS ranking
+         FROM team
+         JOIN teammember ON team.team_id = teammember.team_id
+         JOIN coach ON teammember.member_id = coach.member_id ) AS coaches_ranking
+   WHERE ranking <= 3
+   ORDER BY coaches_ranking.won_championships DESC, coaches_ranking.t_name ASC, coaches_ranking.experience_year DESC]]>
+	</queryString>
+	<field name="t_name" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="t_name"/>
+		<property name="com.jaspersoft.studio.field.label" value="t_name"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="team"/>
+	</field>
+	<field name="c_name" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="c_name"/>
+		<property name="com.jaspersoft.studio.field.label" value="c_name"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="teammember"/>
+	</field>
+	<field name="experience_year" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="experience_year"/>
+		<property name="com.jaspersoft.studio.field.label" value="experience_year"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="coach"/>
+	</field>
+	<group name="Group1">
+		<groupExpression><![CDATA[$F{t_name}]]></groupExpression>
+		<groupHeader>
+			<band height="33">
+				<textField>
+					<reportElement mode="Opaque" x="0" y="0" width="555" height="32" forecolor="#006699" backcolor="#E6E6E6" uuid="9f3a3a70-90a9-4813-b952-de1c7812c8df"/>
+					<textElement>
+						<font size="24" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{t_name}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="-20" y="32" width="595" height="1" forecolor="#666666" uuid="11d74054-8c20-424c-a473-77a953b8e607"/>
+				</line>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band/>
+		</groupFooter>
+	</group>
+	<background>
+		<band/>
+	</background>
+	<title>
+		<band height="72">
+			<frame>
+				<reportElement mode="Opaque" x="-20" y="-20" width="595" height="92" backcolor="#006699" uuid="ee65bc96-de91-4a24-b334-d7b209dadd8d"/>
+				<staticText>
+					<reportElement x="0" y="10" width="590" height="72" forecolor="#FFFFFF" uuid="a0d06175-ebdb-49f1-a8a5-5336111dae9f"/>
+					<textElement textAlignment="Center">
+						<font fontName="Felix Titling" size="30" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Entrenadores más experimentados por equipo]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="13"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="21">
+			<line>
+				<reportElement x="-20" y="20" width="595" height="1" forecolor="#666666" uuid="fc181175-46f1-4dbc-a92f-05c924ceffad"/>
+			</line>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="277" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="4f41dde1-09ed-4aba-91f8-936faf502f75">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4a6a8a21-a9cb-41fa-bad6-07351b3ea07b"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nombre]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="277" y="0" width="277" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="44d236f8-3e95-4758-997c-b0a34e6fbc3c">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f7914ecb-0da3-496a-b2a5-bd816a40877c"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Experiencia]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="19" width="555" height="1" uuid="1c2702a6-7b09-4875-8561-de04c262023a"/>
+			</line>
+			<textField textAdjust="StretchHeight">
+				<reportElement x="0" y="0" width="277" height="20" uuid="fe2ac183-b934-4b92-bffa-3689edf29004">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4a6a8a21-a9cb-41fa-bad6-07351b3ea07b"/>
+				</reportElement>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{c_name}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight">
+				<reportElement x="277" y="0" width="277" height="20" uuid="0e44e747-0bb7-4bb8-9b7c-d2244391ee8b">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f7914ecb-0da3-496a-b2a5-bd816a40877c"/>
+				</reportElement>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{experience_year}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band/>
+	</columnFooter>
+	<pageFooter>
+		<band height="68">
+			<textField>
+				<reportElement mode="Opaque" x="0" y="4" width="515" height="13" backcolor="#E6E6E6" uuid="7e4d8c29-a895-4c41-a2ab-ed2752ac852f"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement mode="Opaque" x="515" y="4" width="40" height="13" backcolor="#E6E6E6" uuid="6ddc9a38-fe56-4e72-bcd8-57021e77aa34"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="0" y="4" width="100" height="13" uuid="321d5e0a-c16a-47c8-a5fb-588bb8ca46da"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<frame>
+				<reportElement mode="Opaque" x="-20" y="30" width="595" height="38" backcolor="#006699" uuid="6f9656b3-63da-43fc-a595-720335dc9a08">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<staticText>
+					<reportElement x="420" y="8" width="170" height="22" forecolor="#FFFFFF" uuid="c8c8a5db-5c62-4961-984d-6e9b778a4a6b"/>
+					<textElement>
+						<font size="13" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Serie Nacional de Béisbol]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band/>
+	</summary>
+</jasperReport>

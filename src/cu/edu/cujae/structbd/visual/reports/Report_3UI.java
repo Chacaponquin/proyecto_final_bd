@@ -60,7 +60,8 @@ public class Report_3UI extends AppCustomDialog {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents()
+    {
 
         jLabel1 = new javax.swing.JLabel();
         jCalendarDate = new com.toedter.calendar.JDateChooser();
@@ -75,10 +76,13 @@ public class Report_3UI extends AppCustomDialog {
 
         jLabel1.setText("Fecha:");
 
-        jCalendarDate.addInputMethodListener(new java.awt.event.InputMethodListener() {
-            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+        jCalendarDate.addInputMethodListener(new java.awt.event.InputMethodListener()
+        {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt)
+            {
             }
-            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt)
+            {
                 jCalendarDateInputMethodTextChanged(evt);
             }
         });
@@ -86,17 +90,28 @@ public class Report_3UI extends AppCustomDialog {
         jLabel2.setText("Estadio");
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox1.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+        jComboBox1.addItemListener(new java.awt.event.ItemListener()
+        {
+            public void itemStateChanged(java.awt.event.ItemEvent evt)
+            {
                 jComboBox1ItemStateChanged(evt);
+            }
+        });
+        jComboBox1.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                jComboBox1ActionPerformed(evt);
             }
         });
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
+            new Object [][]
+            {
 
             },
-            new String [] {
+            new String []
+            {
                 "Fase", "Fecha", "Home Club", "Visitante", "Marcador", "Audiencia"
             }
         ));
@@ -104,8 +119,10 @@ public class Report_3UI extends AppCustomDialog {
 
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jButton1.setText("Cerrar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jButton1.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jButton1ActionPerformed(evt);
             }
         });
@@ -167,6 +184,11 @@ this.dispose();        // TODO add your handling code here:
     private void jCalendarDateInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_jCalendarDateInputMethodTextChanged
 System.out.println("Buenas");        // TODO add your handling code here:
     }//GEN-LAST:event_jCalendarDateInputMethodTextChanged
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jComboBox1ActionPerformed
+    {//GEN-HEADEREND:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

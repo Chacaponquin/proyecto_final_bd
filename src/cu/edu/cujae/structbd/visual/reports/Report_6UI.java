@@ -8,14 +8,23 @@ import cu.edu.cujae.structbd.dto.reports.ReadReport_6DTO;
 import cu.edu.cujae.structbd.dto.team.ReadTeamDTO;
 import cu.edu.cujae.structbd.services.ServicesLocator;
 import cu.edu.cujae.structbd.utils.AppCustomDialog;
+import cu.edu.cujae.structbd.utils.Connector;
 import cu.edu.cujae.structbd.utils.UtilsConnector;
+import java.io.File;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
 
 
 /**
@@ -99,6 +108,13 @@ public class Report_6UI extends AppCustomDialog{
         jScrollPane1.setViewportView(jTable1);
 
         jButton1.setText("Exportar");
+        jButton1.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -186,6 +202,33 @@ public class Report_6UI extends AppCustomDialog{
         // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_jButtonCloseActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton1ActionPerformed
+    {//GEN-HEADEREND:event_jButton1ActionPerformed
+        try
+        {
+                String team = jComboBox1.getSelectedItem().toString();
+                ArrayList<ReadTeamDTO> teams_list_2 = ServicesLocator.TeamServices.readTeams();
+                boolean found_team = false;
+                int team_id = 0;
+                for (int i = 0; i < teams_list_2.size() && !found_team; i++)
+                {
+                    if (teams_list_2.get(i).getTeam_name().equalsIgnoreCase(team))
+                    {
+                        found_team = true;
+                        team_id = teams_list_2.get(i).getTeam_id();
+                    }
+                }
+                
+            HashMap<String, Object> parametros = new HashMap<>();
+            parametros.put("id_team", team_id);
+            UtilsConnector.export.exportToPDF("Report_6", parametros, team);
+        }
+        catch (JRException | SQLException | ClassNotFoundException ex)
+        {
+            UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     public void update_list(){
         int rows = ((DefaultTableModel) jTable1.getModel()).getRowCount();

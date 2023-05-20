@@ -440,6 +440,7 @@ public class SerieUI extends AppCustomWindow
                                                       "Finaliza la Serie Nacional de Béisbol, equipo ganador: " + winner.getTeamName(),
                                                       "Final", JOptionPane.INFORMATION_MESSAGE);
                     close_button.setEnabled(false);
+                    dispose();
                     }
                     else
                     {
