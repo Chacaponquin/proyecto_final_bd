@@ -87,7 +87,7 @@
 			<frame>
 				<reportElement mode="Opaque" x="-20" y="-20" width="595" height="92" backcolor="#006699" uuid="32de50be-4b5d-41a3-9226-1a0d90cfca70"/>
 				<staticText>
-					<reportElement x="90" y="25" width="400" height="43" forecolor="#FFFFFF" uuid="11be9fba-05cb-4848-8b5c-e6b36745a43a"/>
+					<reportElement x="90" y="25" width="425" height="43" forecolor="#FFFFFF" uuid="11be9fba-05cb-4848-8b5c-e6b36745a43a"/>
 					<textElement>
 						<font fontName="Felix Titling" size="34" isBold="true"/>
 					</textElement>

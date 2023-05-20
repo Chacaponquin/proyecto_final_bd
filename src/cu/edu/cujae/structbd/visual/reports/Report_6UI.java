@@ -109,6 +109,7 @@ public class Report_6UI extends AppCustomDialog{
         jScrollPane1.setViewportView(jTable1);
 
         jButton1.setText("Exportar");
+        jButton1.setEnabled(false);
         jButton1.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
@@ -187,6 +188,7 @@ public class Report_6UI extends AppCustomDialog{
                         readReport_6DTO.getWonAsVis(), readReport_6DTO.getLostAsVis()
                     });
                 }
+                jButton1.setEnabled(true);
             }
             catch (SQLException ex)
             {
@@ -196,6 +198,10 @@ public class Report_6UI extends AppCustomDialog{
             {
                 Logger.getLogger(Report_4UI.class.getName()).log(Level.SEVERE, null, ex);
             }
+        }
+        else
+        {
+            jButton1.setEnabled(false);
         }
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
