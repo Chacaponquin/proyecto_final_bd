@@ -16,7 +16,7 @@ public class UtilsSNB
         {
             r = r * i;
         }
-        return r;
+        return r == 0 ? 1 : r;
     }
 
     public int comb(int n, int r)

@@ -5,6 +5,7 @@
 package cu.edu.cujae.structbd.visual.coach;
 
 import cu.edu.cujae.structbd.dto.coach.CreateCoachDTO;
+import cu.edu.cujae.structbd.dto.coach.ReadCoachDTO;
 import cu.edu.cujae.structbd.dto.team.ReadTeamDTO;
 import cu.edu.cujae.structbd.dto.team_member.ReadTeamMemberDTO;
 import cu.edu.cujae.structbd.services.ServicesLocator;
@@ -25,7 +26,9 @@ import javax.swing.JOptionPane;
  */
 public class CreateCoachUI extends JDialog
 {
+
     private ArrayList<ReadTeamDTO> teams_list;
+
     /**
      * Creates new form CreateCoachUI
      */
@@ -34,12 +37,13 @@ public class CreateCoachUI extends JDialog
         super(parent, modal);
         this.start();
     }
-    
-    public void start(){
+
+    public void start()
+    {
         try
         {
             initComponents();
-            this.teams_list = ServicesLocator.TeamServices.readTeams();
+            this.teams_list = new ArrayList<>(ServicesLocator.CoachServices.getPosiblesTeamsToInsert());
             for (int i = 0; i < teams_list.size(); i++)
             {
                 combo_box_team.addItem(teams_list.get(i).getTeam_name());
@@ -47,7 +51,7 @@ public class CreateCoachUI extends JDialog
         }
         catch (SQLException | ClassNotFoundException ex)
         {
-           UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
+            UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
         }
     }
 
@@ -204,36 +208,45 @@ public class CreateCoachUI extends JDialog
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton2ActionPerformed
     {//GEN-HEADEREND:event_jButton2ActionPerformed
-        if (validate_name() && validate_number())
+
+        try
         {
-            try
-        {
-            String name = field_name.getText();
-            String team = combo_box_team.getSelectedItem().toString();
-            int number = (int) spinner_number.getValue();
-            int y_exp = (int) spinner_exp.getValue();
-            ArrayList<ReadTeamDTO> teams_list_2 = ServicesLocator.TeamServices.readTeams();
-            boolean found_team = false;
-            int team_id = -1;
-            for (int i = 0; i < teams_list_2.size() && !found_team; i++)
+            if (validate_name() && validate_number() && validate_team())
             {
-                if (teams_list_2.get(i).getTeam_name().equalsIgnoreCase(team))
+
+                String name = field_name.getText();
+                String team = combo_box_team.getSelectedItem().toString();
+                int number = (int) spinner_number.getValue();
+                int y_exp = (int) spinner_exp.getValue();
+                boolean found_team = false;
+                int team_id = -1;
+                for (int i = 0; i < teams_list.size() && !found_team; i++)
                 {
-                    found_team = true;
-                    team_id = teams_list_2.get(i).getTeam_id();
+                    if (teams_list.get(i).getTeam_name().equalsIgnoreCase(team))
+                    {
+                        found_team = true;
+                        team_id = teams_list.get(i).getTeam_id();
+                    }
                 }
+                if (found_team)
+                {
+                    CreateCoachDTO createCoachDTO = new CreateCoachDTO(name, number, team_id, y_exp);
+                    ServicesLocator.CoachServices.createCoach(createCoachDTO);
+                    UtilsConnector.viewMessagesUtils.showSuccessMessage(rootPane,
+                                                                        name + " se ha insertado correctamente");
+                    ((Coach_UI) this.getParent()).updateList();
+                    dispose();
+                }
+                else
+                {
+                    UtilsConnector.viewMessagesUtils.showErrorMessage(rootPane, "No se encuentra el equipo");
+                }
+
             }
-            CreateCoachDTO createCoachDTO = new CreateCoachDTO(name, number, team_id, y_exp);
-            ServicesLocator.CoachServices.createCoach(createCoachDTO);
-            UtilsConnector.viewMessagesUtils.showSuccessMessage(rootPane, name + " se ha insertado correctamente");
-            
-            ((Coach_UI)this.getParent()).updateList();
         }
-            catch (SQLException | ClassNotFoundException ex)
+        catch (SQLException | ClassNotFoundException ex)
         {
-                UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(rootPane, ex);
-            }
-            dispose();
+            UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(rootPane, ex);
         }
 
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -285,16 +298,18 @@ public class CreateCoachUI extends JDialog
         }
         return result;
     }
-    
-    public void activate_button(){
+
+    public void activate_button()
+    {
         if (field_name.getText().isEmpty() && combo_box_team.getSelectedIndex() == 0)
         {
             jButton2.setEnabled(false);
-        } else {
+        }
+        else
+        {
             jButton2.setEnabled(true);
         }
-        
-        
+
     }
 
     public boolean validate_number()
@@ -319,7 +334,7 @@ public class CreateCoachUI extends JDialog
         {
             try
             {
-                LinkedList<ReadTeamMemberDTO> member_list = new LinkedList<>(ServicesLocator.TeamMemberServices.
+                LinkedList<ReadTeamMemberDTO> member_list = new LinkedList<>(ServicesLocator.TeamServices.
                     readMembersFromTeam(
                         new ReadTeamDTO(team_id, null, 0, 0, null, null, null, null)));
                 boolean exist_number = false;
@@ -340,16 +355,44 @@ public class CreateCoachUI extends JDialog
                 }
 
             }
-            catch (SQLException|ClassNotFoundException ex)
+            catch (SQLException | ClassNotFoundException ex)
             {
                 UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(rootPane, ex);
             }
-        } else {
+        }
+        else
+        {
             UtilsConnector.viewMessagesUtils.showErrorMessage(rootPane,
-                                                                      "No se encuentra el equipo");
+                                                              "No se encuentra el equipo");
             result = false;
         }
-        
+
+        return result;
+    }
+
+    public boolean validate_team() throws ClassNotFoundException, SQLException
+    {
+        boolean result = true;
+        String team = combo_box_team.getSelectedItem().toString();
+        //Obteniendo el codigo del equipo seleccionado
+        boolean found_team = false;
+        int team_id = -1;
+        for (int i = 0; i < teams_list.size() && !found_team; i++)
+        {
+            if (teams_list.get(i).getTeam_name().equalsIgnoreCase(team))
+            {
+                found_team = true;
+                team_id = teams_list.get(i).getTeam_id();
+            }
+        }
+        //Verificando si el nuevo equipo seleccionado tiene capacidad para un nuevo entrenador
+        LinkedList<ReadCoachDTO> list_coaches = new LinkedList<>(ServicesLocator.TeamServices.
+            readCoachsFromTeam(new ReadTeamDTO(team_id, null, 0, 0, null, null, null, null)));
+        if (list_coaches.size() == 6)
+        {
+            result = false;
+        }
+
         return result;
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables

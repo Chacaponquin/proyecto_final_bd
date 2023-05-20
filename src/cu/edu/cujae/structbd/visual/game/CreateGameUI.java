@@ -391,24 +391,20 @@ public class CreateGameUI extends JDialog {
             //Insertar juego
             if (validate_runs() && validate_date() && validate_audience(new ReadATeamDTO(teamIdHC)))
             {
-            CreateGameDTO createGameDTO
-                              = new CreateGameDTO(teamIdHC, teamIdVis, readAPhaseDTO.getPhase_id(), game_date, winner,
-                                                  audience, runs_home_club, runs_visitant);
+                CreateGameDTO createGameDTO = new CreateGameDTO(teamIdHC, teamIdVis, readAPhaseDTO.getPhase_id(),
+                                                                game_date, winner,
+                                                                audience, runs_home_club, runs_visitant);
                 ServicesLocator.GameServices.createGame(createGameDTO);
-                ((SerieUI) 
- this.getParent()).update_tables();
                 this.dispose();
+                ((SerieUI) this.getParent()).update_tables();
             }
 
 
-        } catch (SQLException ex)
-        {
-            Logger.getLogger(CreateGameUI.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex)
-        {
-            Logger.getLogger(CreateGameUI.class.getName()).log(Level.SEVERE, null, ex);
         }
-        ((SerieUI) this.getParent()).update_tables();
+        catch (SQLException | ClassNotFoundException ex)
+        {
+            UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(rootPane, ex);
+        }
     }//GEN-LAST:event_jButtonInsertActionPerformed
 
     private void jButtonCloseActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonCloseActionPerformed
@@ -472,7 +468,7 @@ public void activate_button(){
 
     public boolean validate_runs()
     {
-        boolean result = false;
+        boolean result = true;
         int runs_hc = (int) this.jSpinnerRHC.getValue();
         int runs_v = (int) this.jSpinnerRV.getValue();
 
@@ -480,10 +476,7 @@ public void activate_button(){
         {
             UtilsConnector.viewMessagesUtils.showErrorMessage(rootPane,
                                                               "El juego no puede quedar con igualdad en el marcador");
-        }
-        else
-        {
-            result = true;
+            result = false;
         }
         return result;
     }
@@ -514,15 +507,14 @@ public void activate_button(){
 
     public boolean validate_audience(ReadATeamDTO readATeamDTO) throws SQLException, ClassNotFoundException
     {
-        boolean result = false;
+        boolean result = true;
         //La audiencia debe ser inferior a la capacidad del estadio
         ReadStadiumDTO readStadiumDTO = ServicesLocator.StadiumServices.getStadiumByTeam(readATeamDTO);
-        int audience = readStadiumDTO.getCapacity();
-        if (audience <= readStadiumDTO.getCapacity())
+        int audience = Integer.valueOf(jSpinnerAudience.getValue().toString());
+        if (audience > readStadiumDTO.getCapacity())
         {
             UtilsConnector.viewMessagesUtils.showErrorMessage(rootPane,
                                                               "La audiencia del juego no puede ser superior a la capacidad del estadio");
-        } else{
             result = false;
         }
         return result;

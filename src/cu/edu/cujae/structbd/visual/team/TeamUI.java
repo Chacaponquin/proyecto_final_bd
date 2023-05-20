@@ -91,19 +91,6 @@ public class TeamUI extends AppCustomWindow {
             }
         });
 
-<<<<<<< HEAD
-        jButton2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jButton2.setText("Insertar");
-        jButton2.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
-=======
->>>>>>> cc6f172a870d54a652f22d256a0acfe65ba5aae5
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(

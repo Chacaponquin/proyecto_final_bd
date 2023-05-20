@@ -142,6 +142,7 @@ public class Report_6UI extends AppCustomDialog{
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         // TODO add your handling code here:
+        this.update_list();
         if(jComboBox1.getSelectedIndex() != 0){
             try {
                 String team = jComboBox1.getSelectedItem().toString();
@@ -186,6 +187,13 @@ public class Report_6UI extends AppCustomDialog{
         this.dispose();
     }//GEN-LAST:event_jButtonCloseActionPerformed
 
+    public void update_list(){
+        int rows = ((DefaultTableModel) jTable1.getModel()).getRowCount();
+        for (int i = 0; i < rows; i++)
+        {
+            ((DefaultTableModel) jTable1.getModel()).removeRow(0);
+         }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

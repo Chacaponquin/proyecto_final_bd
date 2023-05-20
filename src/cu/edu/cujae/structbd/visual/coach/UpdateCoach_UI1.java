@@ -24,7 +24,7 @@ import javax.swing.JOptionPane;
  *
  * @author Jose
  */
-public class UpdateCoachUI extends JDialog
+public class UpdateCoach_UI1 extends JDialog
 {
 
     private UpdateCoachDTO updateCoachDTO;
@@ -33,7 +33,7 @@ public class UpdateCoachUI extends JDialog
     /**
      * Creates new form CreateCoachUI
      */
-    public UpdateCoachUI(java.awt.Frame parent, boolean modal, UpdateCoachDTO updateCoachDTO)
+    public UpdateCoach_UI1(java.awt.Frame parent, boolean modal, UpdateCoachDTO updateCoachDTO)
     {
         super(parent, modal);
         initComponents();
@@ -45,7 +45,6 @@ public class UpdateCoachUI extends JDialog
             this.spinner_number.setValue(this.updateCoachDTO.getMember_number());
             this.spinner_team.setValue(this.updateCoachDTO.getYears_in_team());
 
-            this.teams_list = new ArrayList<>(ServicesLocator.TeamServices.readTeams());
             for (int i = 0; i < teams_list.size(); i++)
             {
                 if (teams_list.get(i).getTeam_id() == updateCoachDTO.getTeam_id())
@@ -53,14 +52,14 @@ public class UpdateCoachUI extends JDialog
                     combo_box_team.addItem(teams_list.get(i).getTeam_name());
                 }
             }
-            /*this.teams_list = new ArrayList<>(ServicesLocator.CoachServices.getPosiblesTeamsToInsert());
+            this.teams_list = new ArrayList<>(ServicesLocator.CoachServices.getPosiblesTeamsToInsert());
             for (int i = 0; i < teams_list.size(); i++)
             {
                 if (teams_list.get(i).getTeam_id() != updateCoachDTO.getTeam_id())
                 {
                     combo_box_team.addItem(teams_list.get(i).getTeam_name());
                 }
-            }*/
+            }
             this.activate_button();
         }
         catch (SQLException | ClassNotFoundException ex)
@@ -171,7 +170,6 @@ public class UpdateCoachUI extends JDialog
         jPanel2.add(field_name, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 20, 180, -1));
 
         combo_box_team.setMaximumRowCount(18);
-        combo_box_team.setEnabled(false);
         jPanel2.add(combo_box_team, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 50, 180, -1));
 
         spinner_number.setModel(new javax.swing.SpinnerNumberModel(1, 1, 99, 1));
@@ -227,7 +225,7 @@ public class UpdateCoachUI extends JDialog
                 int y_exp = (int) spinner_exp.getValue();
                 int y_team = (int) spinner_team.getValue();
 
-                /*//Obteniendo el codigo del equipo seleccionado
+                //Obteniendo el codigo del equipo seleccionado
                 boolean found_team = false;
                 int team_id = -1;
                 for (int i = 0; i < teams_list.size() && !found_team; i++)
@@ -237,9 +235,9 @@ public class UpdateCoachUI extends JDialog
                         found_team = true;
                         team_id = teams_list.get(i).getTeam_id();
                     }
-                }*/
+                }
 
-                /*//Verificando si se puede cambiar el equipo del entrenador
+                //Verificando si se puede cambiar el equipo del entrenador
                 boolean is_posible = true;
                 if (team_id != updateCoachDTO.getTeam_id())
                 {
@@ -258,26 +256,28 @@ public class UpdateCoachUI extends JDialog
                     {
                         is_posible = false;
                     }
-                }*/
+                }
 
                 //Si es posible se modifica al entrenador
-                /*if (is_posible)
-                {}*/
-                   // updateCoachDTO.setTeam_id(team_id);
+                if (is_posible)
+                {
+                    updateCoachDTO.setTeam_id(team_id);
                     updateCoachDTO.setExperience_years(y_exp);
                     updateCoachDTO.setMember_number(number);
                     updateCoachDTO.setTeam_member_name(name);
-                updateCoachDTO.setYears_in_team(y_team);
+                    updateCoachDTO.setYears_in_team(y_team);
 
                     ServicesLocator.CoachServices.updateCoach(updateCoachDTO);
                     UtilsConnector.viewMessagesUtils.showSuccessMessage(rootPane,
                                                                         name + " se ha modificado correctamente");
                     ((Coach_UI) this.getParent()).updateList();
-                dispose();
+                    dispose();
+
+                }
             }
             catch (SQLException | ClassNotFoundException ex)
             {
-                Logger.getLogger(UpdateCoachUI.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(UpdateCoach_UI1.class.getName()).log(Level.SEVERE, null, ex);
             }
 
         }
@@ -341,7 +341,6 @@ public class UpdateCoachUI extends JDialog
     {
         boolean result = true;
         int number = Integer.valueOf(spinner_number.getValue().toString());
-        if (number!= updateCoachDTO.getMember_number()){
         //Buscando el id del equipo seleccionado
         String team = combo_box_team.getSelectedItem().toString();
         boolean found_team_id = false;
@@ -391,7 +390,6 @@ public class UpdateCoachUI extends JDialog
             UtilsConnector.viewMessagesUtils.showErrorMessage(rootPane,
                                                               "No se encuentra el equipo");
             result = false;
-            }
         }
 
         return result;

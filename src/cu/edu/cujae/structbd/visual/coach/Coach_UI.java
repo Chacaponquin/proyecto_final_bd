@@ -26,29 +26,31 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Coach_UI extends AppCustomWindow
 {
+    
     private LinkedList<ReadCoachDTO> readCoachDTO_list;
 
     @Override
-    public void start() {
+    public void start()
+    {
         initComponents();
         this.updateList();
     }
     
-    
-    
-    public void updateList(){
+    public void updateList()
+    {
         try
         {
             DefaultTableModel model = (DefaultTableModel) this.table.getModel();
             
             int count = model.getRowCount();
-            for(int i = 0; i < count; i++){
+            for (int i = 0; i < count; i++)
+            {
                 model.removeRow(0);
             }
             
             this.readCoachDTO_list = new LinkedList<>(ServicesLocator.CoachServices.readAllCoaches());
             Iterator<ReadCoachDTO> it_list = readCoachDTO_list.iterator();
-            while(it_list.hasNext())
+            while (it_list.hasNext())
             {
                 ReadCoachDTO readCoachDTO = it_list.next();
                 ((DefaultTableModel) table.getModel()).addRow(new Object[]
@@ -221,9 +223,10 @@ public class Coach_UI extends AppCustomWindow
 
     private void menuUpdateActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_menuUpdateActionPerformed
     {//GEN-HEADEREND:event_menuUpdateActionPerformed
-         int row = table.getSelectedRow();
+        int row = table.getSelectedRow();
         if (row >= 0)
         {
+            //Obteniendo los datos de la fila seleccionada
             String name = table.getValueAt(row, 0).toString();
             String team = table.getValueAt(row, 1).toString();
             Integer number = Integer.valueOf(table.getValueAt(row, 2).toString());
@@ -245,7 +248,9 @@ public class Coach_UI extends AppCustomWindow
 
             if (found)
             {
-                try {
+                try
+                {
+                    //Buscando el id del equipo del entrenador para construir el UpdateCoachDTO
                     ArrayList<ReadTeamDTO> list_teams = ServicesLocator.TeamServices.readTeams();
                     boolean found_team = false;
                     int team_id = -1;
@@ -258,23 +263,23 @@ public class Coach_UI extends AppCustomWindow
                             team_id = readTeamDTO.getTeam_id();
                         }
                     }
-                    UpdateCoachDTO updateCoachDTO = new UpdateCoachDTO(id, name, number, team_id, years_exp, years_team);
-                    UpdateCoachUI upui = new UpdateCoachUI(null, true, updateCoachDTO);
-                    upui.setVisible(true);
 
+                    //Creando la ventana y pasando los datos para modificar al entrenador
+                    UpdateCoachDTO updateCoachDTO = new UpdateCoachDTO(id, name, number, team_id, years_exp, years_team);
+                    UpdateCoachUI upui = new UpdateCoachUI(this, true, updateCoachDTO);
+                    upui.setVisible(true);
                     this.updateList();
                 }
-                catch (SQLException ex)
+                catch (SQLException | ClassNotFoundException ex)
                 {
-                    Logger.getLogger(Coach_UI.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                catch (ClassNotFoundException ex)
-                {
-                    Logger.getLogger(Coach_UI.class.getName()).log(Level.SEVERE, null, ex);
+                    UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(rootPane, ex);
                 }
             }
-        } else {
-            JOptionPane.showMessageDialog(rootPane, "Seleccione un entrenador para poder modificar sus datos", "Información", JOptionPane.INFORMATION_MESSAGE);
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(rootPane, "Seleccione un entrenador para poder modificar sus datos",
+                                          "Información", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_menuUpdateActionPerformed
 
@@ -283,45 +288,73 @@ public class Coach_UI extends AppCustomWindow
         int row = table.getSelectedRow();
         if (row >= 0)
         {
-            String name = table.getValueAt(row, 0).toString();
-            if (JOptionPane.
-                showConfirmDialog(null, "¿Estás seguro que desea eliminar " + name + " ?", "Eliminar entrenador",
-                                  JOptionPane.YES_NO_OPTION) == 0)
+            try
             {
-                String team = table.getValueAt(row, 1).toString();
-            Integer number = Integer.valueOf(table.getValueAt(row, 2).toString());
-            Integer years_exp = Integer.valueOf(table.getValueAt(row, 3).toString());
-            Integer years_team = Integer.valueOf(table.getValueAt(row, 4).toString());
-            int id = -1;
-            boolean found = false;
-            Iterator<ReadCoachDTO> it = this.readCoachDTO_list.iterator();
-            while (it.hasNext() && !found)
-            {
-                ReadCoachDTO rc = it.next();
-                if (rc.getTeam_member_name().equalsIgnoreCase(name) && rc.getTeam_name().equalsIgnoreCase(team) && rc.
-                    getMember_number() == number)
+                String name = table.getValueAt(row, 0).toString();
+                if (JOptionPane.
+                    showConfirmDialog(rootPane, "¿Estás seguro que desea eliminar " + name + " ?", "Eliminar entrenador",
+                                      JOptionPane.YES_NO_OPTION) == 0)
                 {
-                    id = rc.getTeam_member_ID();
-                    found = true;
-                }
-            }
+                    //Obteniendo los valores de la fila seleccionada    
+                    String team = table.getValueAt(row, 1).toString();
+                    Integer number = Integer.valueOf(table.getValueAt(row, 2).toString());
 
-            if (found)
-            {
-                try
-                {
-                    ServicesLocator.CoachServices.deleteCoach(new DeleteCoachDTO(id));
-                }
-                catch (SQLException | ClassNotFoundException ex)
-                {
-                    UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(rootPane, ex);
-                }
-                
-                
-                    this.updateList();
+                    //Obteniendo el id del equipo del entrenador
+                    ArrayList<ReadTeamDTO> list_teams = ServicesLocator.TeamServices.readTeams();
+                    boolean found_team = false;
+                    int team_id = -1;
+                    for (int i = 0; i < list_teams.size() && !found_team; i++)
+                    {
+                        ReadTeamDTO readTeamDTO = list_teams.get(i);
+                        if (readTeamDTO.getTeam_name().equalsIgnoreCase(team))
+                        {
+                            found_team = true;
+                            team_id = readTeamDTO.getTeam_id();
+                        }
+                    }
+                    //Verificando si el equipo no tiene la mínima cantidad de entrenadores para poder eliminar al entrenador
+                    LinkedList<ReadCoachDTO> list_coaches = new LinkedList<>(ServicesLocator.TeamServices.
+                        readCoachsFromTeam(new ReadTeamDTO(team_id, null, 0, 0, null, null, null, null)));
+                    if (list_coaches.size() > 5)
+                    {
+                        //Obteniendo el id del entrenador seleccionado
+                        int id = -1;
+                        boolean found = false;
+                        Iterator<ReadCoachDTO> it = this.readCoachDTO_list.iterator();
+                        while (it.hasNext() && !found)
+                        {
+                            ReadCoachDTO rc = it.next();
+                            if (rc.getTeam_member_name().equalsIgnoreCase(name) && rc.getTeam_name().equalsIgnoreCase(
+                                team) && rc.
+                                    getMember_number() == number)
+                            {
+                                id = rc.getTeam_member_ID();
+                                found = true;
+                            }
+                        }
+
+                        //Eliminando al entrenador
+                        if (found)
+                        {
+                            System.out.println("llegue");
+                            ServicesLocator.CoachServices.deleteCoach(new DeleteCoachDTO(id));
+                            this.updateList();
+                        }
+                    }
+                    else
+                    {
+                        UtilsConnector.viewMessagesUtils.showErrorMessage(rootPane,
+                                                                          "No es posible eliminar al entrenador " + name + " su equipo tiene la mínima cantidad de entrenadores necesaria");
+                    }
                 }
             }
-        } else {
+            catch (SQLException | ClassNotFoundException ex)
+            {
+                UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(rootPane, ex);
+            }
+        }
+        else
+        {
             UtilsConnector.viewMessagesUtils.showSuccessMessage(rootPane,
                                                                 "Seleccione un entrenador para poder modificar sus datos");
         }

@@ -32,7 +32,7 @@ public class ClassifiedUI extends javax.swing.JDialog
         try
         {
             LinkedList<ReadTeamDTO> list_teams = new LinkedList<>(ServicesLocator.AppServices.getTeamsInPhase(
-                readAPhaseDTO));
+                new ReadAPhaseDTO(4)));
             int i = 1;
             for (ReadTeamDTO readTeamDTO : list_teams)
             {

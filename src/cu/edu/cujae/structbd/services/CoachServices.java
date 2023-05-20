@@ -6,6 +6,7 @@ import cu.edu.cujae.structbd.dto.coach.ReadACoachDTO;
 import cu.edu.cujae.structbd.dto.coach.ReadCoachDTO;
 import cu.edu.cujae.structbd.dto.coach.UpdateCoachDTO;
 import cu.edu.cujae.structbd.dto.province.ReadProvinceDTO;
+import cu.edu.cujae.structbd.dto.team.ReadTeamDTO;
 import cu.edu.cujae.structbd.utils.Connector;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
@@ -96,5 +97,24 @@ public class CoachServices
                                         resultSet.getString(3), resultSet.getInt(5), resultSet.getInt(6));
         preparedFunction.close();
         return readCoachDTO;
+    }
+
+    public List<ReadTeamDTO> getPosiblesTeamsToInsert() throws SQLException, ClassNotFoundException
+    {
+        LinkedList<ReadTeamDTO> list = new LinkedList<>();
+        String function = "{?= call load_teams_to_insert_coach()}";
+        java.sql.Connection connection = Connector.getConnection();
+        connection.setAutoCommit(false);
+        CallableStatement preparedFunction = connection.prepareCall(function);
+        preparedFunction.registerOutParameter(1, java.sql.Types.REF_CURSOR);
+        preparedFunction.execute();
+        ResultSet resultSet = (ResultSet) preparedFunction.getObject(1);
+        while (resultSet.next())
+        {
+            list.add(new ReadTeamDTO(resultSet.getInt(1), resultSet.getString(2), 0, 0, null, null, null, null));
+        }
+        resultSet.close();
+        preparedFunction.close();
+        return list;
     }
 }

@@ -437,13 +437,18 @@ public class SerieUI extends AppCustomWindow
                     if (phase_id == 4){
                         ReadReport_1DTO winner = ServicesLocator.AppServices.getWinner();
                         JOptionPane.showMessageDialog(rootPane,
-                                                      "Finaliza la Serie Nacional de Béisbol, equipo ganador: " + winner,
+                                                      "Finaliza la Serie Nacional de Béisbol, equipo ganador: " + winner.getTeamName(),
                                                       "Final", JOptionPane.INFORMATION_MESSAGE);
+                    close_button.setEnabled(false);
                     }
                     else
                     {
                         ClassifiedUI c = new ClassifiedUI(this, true, new ReadAPhaseDTO(phase_id));
+                        c.setVisible(true);
+                        close_button.setEnabled(false);
                     }
+                    this.update_tables();
+                    this.update_combo_box();
 
                 }
                 catch (SQLException ex)
@@ -499,7 +504,7 @@ public class SerieUI extends AppCustomWindow
              String team_hc = jTableGames.getValueAt(row, 1).toString();
              String team_v = jTableGames.getValueAt(row, 4).toString();
             if (JOptionPane.
-                showConfirmDialog(null,
+                showConfirmDialog(rootPane,
                                   "¿Estás seguro que desea eliminar el juego entre: " + team_hc + " y " + team_v + " ?",
                                   "Eliminar juego",
                                   JOptionPane.YES_NO_OPTION) == 0)
@@ -511,6 +516,7 @@ public class SerieUI extends AppCustomWindow
                 //Obteniendo el id de la fase
                 boolean found_phase = false;
                 int phase_id = -1;
+                boolean phase_is_active = false;
                 Iterator<ReadPhaseDTO> it_phases = this.phases_list.iterator();
                 while (it_phases.hasNext() && !found_phase)
                 {
@@ -518,10 +524,13 @@ public class SerieUI extends AppCustomWindow
                     if (readPhaseDTO.getPhase_name().equalsIgnoreCase(phase))
                     {
                         found_phase = true;
+                        phase_is_active = readPhaseDTO.getIs_active();
                         phase_id = readPhaseDTO.getPhase_id();
                     }
                 }
-
+                
+                if (phase_is_active)
+                {
                 //Obteniendo el id del juego
                 if (phase_id != -1)
                 {
@@ -534,8 +543,6 @@ public class SerieUI extends AppCustomWindow
                     while (it_games.hasNext() && !found_game)
                     {
                         ReadGameDTO readGameDTO = it_games.next();
-                        System.out.println(readGameDTO.getHcTeamName()
-                                           + readGameDTO.getVisTeamName());
                         if (readGameDTO.getHcTeamName().equalsIgnoreCase(team_hc) && readGameDTO.getVisTeamName().
                             equalsIgnoreCase(team_v))
                         {
@@ -555,6 +562,12 @@ public class SerieUI extends AppCustomWindow
                     {
                         UtilsConnector.viewMessagesUtils.showErrorMessage(rootPane, "No se encuentra el juego");
                     }
+                    }
+                }
+                else
+                {
+                    UtilsConnector.viewMessagesUtils.showSuccessMessage(rootPane,
+                                                                        "La fase está cerrada, los juegos no se pueden eliminar");
                 }
 
             }
@@ -586,6 +599,7 @@ public class SerieUI extends AppCustomWindow
                 //Obteniendo el id de la fase
                 boolean found_phase = false;
                 int phase_id = -1;
+                boolean phase_is_active = false;
                 Iterator<ReadPhaseDTO> it_phases = this.phases_list.iterator();
                 while (it_phases.hasNext() && !found_phase)
                 {
@@ -593,10 +607,13 @@ public class SerieUI extends AppCustomWindow
                     if (readPhaseDTO.getPhase_name().equalsIgnoreCase(phase))
                     {
                         found_phase = true;
+                        phase_is_active = readPhaseDTO.getIs_active();
                         phase_id = readPhaseDTO.getPhase_id();
                     }
                 }
-
+                
+                if (phase_is_active)
+                {
                 //Obteniendo el id del juego
                 if (found_phase == true)
                 {
@@ -628,6 +645,12 @@ public class SerieUI extends AppCustomWindow
                     {
                         UtilsConnector.viewMessagesUtils.showErrorMessage(rootPane, "No se encuentra el juego");
                     }
+                    }
+                }
+                else
+                {
+                    UtilsConnector.viewMessagesUtils.showSuccessMessage(rootPane,
+                                                                        "La fase está cerrada, los juegos no se pueden eliminar");
                 }
 
             }
@@ -644,6 +667,20 @@ public class SerieUI extends AppCustomWindow
         }
     }//GEN-LAST:event_jMenuModActionPerformed
 
+    public void update_combo_box(){
+        try
+        {
+            this.phases_list = new LinkedList<>(ServicesLocator.PhaseServices.readActivePhase());
+            for (ReadPhaseDTO rp : phases_list)
+            {
+                combo_phases.addItem(rp.getPhase_name());
+            }
+        }
+        catch (SQLException | ClassNotFoundException ex)
+        {
+            UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
+        }
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton close_button;
     private javax.swing.JComboBox<String> combo_phases;
