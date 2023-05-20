@@ -70,10 +70,14 @@ public class MainUI extends javax.swing.JFrame {
             });
         }
         
-        JMenuItem closeUserItem = new JMenuItem();
-        closeUserItem.setText("Cerrar Sesión");
+        JMenuItem closeUserItem = new JMenuItem("Cerrar Sesión");
         closeUserItem.addActionListener(this.userSignOut(this));
-        this.jMenu3.add(closeUserItem);  
+ 
+        
+        JMenuItem updateUserItem = new JMenuItem("Configurar Usuario");
+        
+        this.jMenu3.add(updateUserItem);
+        this.jMenu3.add(closeUserItem); 
     }
     
     public ActionListener userSignOut(MainUI main){

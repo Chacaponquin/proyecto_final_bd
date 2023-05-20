@@ -8,7 +8,7 @@ import cu.edu.cujae.structbd.dto.game.CreateGameDTO;
 import cu.edu.cujae.structbd.dto.phase.ReadAPhaseDTO;
 import cu.edu.cujae.structbd.dto.phase.ReadPhaseDTO;
 import cu.edu.cujae.structbd.dto.stadium.ReadStadiumDTO;
-import cu.edu.cujae.structbd.dto.team.ReadATeamDTO;
+import cu.edu.cujae.structbd.dto.team.FindTeamDTO;
 import cu.edu.cujae.structbd.dto.team.ReadTeamDTO;
 import cu.edu.cujae.structbd.services.ServicesLocator;
 import cu.edu.cujae.structbd.utils.UtilsConnector;
@@ -310,7 +310,7 @@ public class CreateGameUI extends JDialog {
                         home_club = readTeamDTO.getTeam_id();
                     }
                 }
-                ReadATeamDTO readATeamDTO = new ReadATeamDTO(home_club);
+                FindTeamDTO readATeamDTO = new FindTeamDTO(home_club);
                 LinkedList<ReadTeamDTO> list_teams_posible_rivals = new LinkedList<>(ServicesLocator.AppServices.
                     getTeamsPosibleRivals(readAPhaseDTO, readATeamDTO));
 
@@ -389,7 +389,7 @@ public class CreateGameUI extends JDialog {
             int winner = runs_home_club > runs_visitant ? teamIdHC : teamIdVis;
             
             //Insertar juego
-            if (validate_runs() && validate_date() && validate_audience(new ReadATeamDTO(teamIdHC)))
+            if (validate_runs() && validate_date() && validate_audience(new FindTeamDTO(teamIdHC)))
             {
                 CreateGameDTO createGameDTO = new CreateGameDTO(teamIdHC, teamIdVis, readAPhaseDTO.getPhase_id(),
                                                                 game_date, winner,
@@ -505,7 +505,7 @@ public void activate_button(){
         return result;
     }
 
-    public boolean validate_audience(ReadATeamDTO readATeamDTO) throws SQLException, ClassNotFoundException
+    public boolean validate_audience(FindTeamDTO readATeamDTO) throws SQLException, ClassNotFoundException
     {
         boolean result = true;
         //La audiencia debe ser inferior a la capacidad del estadio

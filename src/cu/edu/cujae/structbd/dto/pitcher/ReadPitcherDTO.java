@@ -19,13 +19,14 @@ public class ReadPitcherDTO {
         this.runsAllowed = runsAllowed;
     }
 
-    
-
     public int getTeamMemberID() {
         return teamMemberID;
     }
     
     public float getPCL(){
+        if(this.runsAllowed == 0)
+            return 0;
+        
         return (float) this.inningsPitched / this.runsAllowed;
     }
 

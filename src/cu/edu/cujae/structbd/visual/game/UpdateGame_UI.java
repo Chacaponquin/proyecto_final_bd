@@ -10,7 +10,7 @@ import cu.edu.cujae.structbd.dto.game.UpdateGameDTO;
 import cu.edu.cujae.structbd.dto.phase.ReadAPhaseDTO;
 import cu.edu.cujae.structbd.dto.phase.ReadPhaseDTO;
 import cu.edu.cujae.structbd.dto.stadium.ReadStadiumDTO;
-import cu.edu.cujae.structbd.dto.team.ReadATeamDTO;
+import cu.edu.cujae.structbd.dto.team.FindTeamDTO;
 import cu.edu.cujae.structbd.dto.team.ReadTeamDTO;
 import cu.edu.cujae.structbd.services.ServicesLocator;
 import cu.edu.cujae.structbd.utils.UtilsConnector;
@@ -34,7 +34,7 @@ import javax.swing.SpinnerNumberModel;
 public class UpdateGame_UI extends javax.swing.JDialog {
 
     private ReadAPhaseDTO readAPhaseDTO;
-    private ReadATeamDTO readATeamDTO;
+    private FindTeamDTO readATeamDTO;
     private ReadGameDTO readGameDTO;
     /**
      * Creates new form CreateGameUI
@@ -73,7 +73,7 @@ public class UpdateGame_UI extends javax.swing.JDialog {
                 {
                     foundTeamHC = true;
                     teamIdHC = teamsListHC.get(i).getTeam_id();
-                    this.readATeamDTO = new ReadATeamDTO(teamIdHC);
+                    this.readATeamDTO = new FindTeamDTO(teamIdHC);
                 }
             }
 
@@ -299,7 +299,7 @@ public class UpdateGame_UI extends javax.swing.JDialog {
                 if (teamsListHC.get(i).getTeam_name().equalsIgnoreCase(teamHC)) {
                     foundTeamHC = true;
                     teamIdHC = teamsListHC.get(i).getTeam_id();
-                    this.readATeamDTO = new ReadATeamDTO(teamIdHC);
+                    this.readATeamDTO = new FindTeamDTO(teamIdHC);
                 }
             }
 

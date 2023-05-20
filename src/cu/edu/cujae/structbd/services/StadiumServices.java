@@ -2,7 +2,7 @@ package cu.edu.cujae.structbd.services;
 
 import cu.edu.cujae.structbd.dto.reports.ReadReport_1DTO;
 import cu.edu.cujae.structbd.dto.stadium.ReadStadiumDTO;
-import cu.edu.cujae.structbd.dto.team.ReadATeamDTO;
+import cu.edu.cujae.structbd.dto.team.FindTeamDTO;
 import cu.edu.cujae.structbd.utils.Connector;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
@@ -29,7 +29,7 @@ public class StadiumServices {
         return stadiums;
     }
 
-    public ReadStadiumDTO getStadiumByTeam(ReadATeamDTO readATeamDTO) throws SQLException, ClassNotFoundException
+    public ReadStadiumDTO getStadiumByTeam(FindTeamDTO readATeamDTO) throws SQLException, ClassNotFoundException
     {
         ReadStadiumDTO readStadiumDTO = null;
         String function = "{?= call load_stadium_by_team_id(?)}";
