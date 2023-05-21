@@ -39,7 +39,7 @@ public class StadiumUI extends AppCustomWindow {
         for(ReadStadiumDTO st:  stadiumns){
             model.addRow(new Object[]{st.getStadiumName(), st.getCapacity(), st.getProvince()});
         }
-    }
+    }      
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -63,7 +63,8 @@ public class StadiumUI extends AppCustomWindow {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
                 jMenuItem1ActionPerformed(evt);
-
+            }
+        });
         editMenu.setText("Editar");
         editMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -133,7 +134,7 @@ public class StadiumUI extends AppCustomWindow {
         if(sel >= 0){
             ReadStadiumDTO s = this.stadiumns.get(sel);
             UtilsConnector.viewUtils.openDialog(this, new UpdateStadiumUI(this, s));
-        }
+        }  
     }//GEN-LAST:event_editMenuActionPerformed
 
 
