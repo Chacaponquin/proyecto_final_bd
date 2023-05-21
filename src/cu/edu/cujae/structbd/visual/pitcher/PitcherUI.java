@@ -6,6 +6,7 @@ package cu.edu.cujae.structbd.visual.pitcher;
 
 import cu.edu.cujae.structbd.dto.pitcher.DeletePitcherDTO;
 import cu.edu.cujae.structbd.dto.pitcher.ReadPitcherDTO;
+import cu.edu.cujae.structbd.dto.pitcher.UpdatePitcherDTO;
 import cu.edu.cujae.structbd.services.ServicesLocator;
 import cu.edu.cujae.structbd.utils.AppCustomWindow;
 import cu.edu.cujae.structbd.utils.UtilsConnector;
@@ -64,6 +65,7 @@ public class PitcherUI extends AppCustomWindow {
 
         jPopupMenu1 = new javax.swing.JPopupMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
         jButtonClose = new javax.swing.JButton();
         jButtonInsert = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -76,6 +78,14 @@ public class PitcherUI extends AppCustomWindow {
             }
         });
         jPopupMenu1.add(jMenuItem1);
+
+        jMenuItem2.setText("Editar");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(jMenuItem2);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Lanzadores");
@@ -173,11 +183,22 @@ public class PitcherUI extends AppCustomWindow {
          // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        int selectRow = this.jTable1.getSelectedRow();
+        
+        if(selectRow >= 0){
+            ReadPitcherDTO sp = this.readPitcherDTO_list.get(selectRow);
+            UtilsConnector.viewUtils.openDialog(this, new UpdatePitcherUI(this, true, sp));
+        }
+                // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonClose;
     private javax.swing.JButton jButtonInsert;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;

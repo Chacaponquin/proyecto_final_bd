@@ -5,6 +5,7 @@ import cu.edu.cujae.structbd.dto.pitcher.DeletePitcherDTO;
 import cu.edu.cujae.structbd.dto.pitcher.ReadAPitcherDTO;
 import cu.edu.cujae.structbd.dto.pitcher.ReadPitcherDTO;
 import cu.edu.cujae.structbd.dto.pitcher.UpdatePitcherDTO;
+import cu.edu.cujae.structbd.dto.team_member.ReadTeamMemberDTO;
 import cu.edu.cujae.structbd.exceptions.pitcher.EmptyPitcherNameException;
 import cu.edu.cujae.structbd.exceptions.team_member.DuplicateMemberNumberException;
 import cu.edu.cujae.structbd.exceptions.team_member.WrongMemberNumberException;
@@ -23,7 +24,7 @@ public class PitcherServices {
         }
         
         ServicesLocator.TeamMemberServices.validateMemberNumber(createPitcherDTO.getMemberNumber(), createPitcherDTO.getTeamID());
-        
+
         int pitcherPos = ServicesLocator.PositionServices.getPitcherPositionID();
         
         String function = "{call pitcher_insert(?,?,?,?,?,?,?)}";
@@ -61,12 +62,14 @@ public class PitcherServices {
             int years_in_team = resultSet.getInt("years_in_team");
             int inningsPitched = resultSet.getInt("innings_pitched");
             int runsAllowed = resultSet.getInt("runs_allowed");
+            int teamID = resultSet.getInt("team_id");
             
-            pitchers_list.add(new ReadPitcherDTO(team_member_ID, team_member_name, member_number, team_name, years_in_team, inningsPitched, runsAllowed));
+            pitchers_list.add(new ReadPitcherDTO(team_member_ID, team_member_name, member_number, team_name, years_in_team, inningsPitched, runsAllowed, teamID));
         }
         
         resultSet.close();
         preparedFunction.close();
+        
         return pitchers_list;
     }
     
@@ -88,26 +91,35 @@ public class PitcherServices {
         int years_in_team = resultSet.getInt("years_in_team");
         int inningsPitched = resultSet.getInt("innings_pitched");
         int runsAllowed = resultSet.getInt("runs_allowed");
+        int teamID = resultSet.getInt("team_id");
             
-        ReadPitcherDTO pitcher =  new ReadPitcherDTO(team_member_ID, team_member_name, member_number, team_name, years_in_team, inningsPitched, runsAllowed);
+        ReadPitcherDTO pitcher =  new ReadPitcherDTO(team_member_ID, team_member_name, member_number, team_name, years_in_team, inningsPitched, runsAllowed, teamID);
         resultSet.close();
         preparedFunction.close();
         
         return pitcher;
     }
     
-    public void updatePitcher(UpdatePitcherDTO updatePitcherDTO) throws SQLException, ClassNotFoundException{
-        String function = "{call pitcher_update(?,?,?,?,?,?,?,?)}";
+    public void updatePitcher(UpdatePitcherDTO updatePitcherDTO) throws SQLException, ClassNotFoundException, WrongMemberNumberException, DuplicateMemberNumberException, EmptyPitcherNameException{
+        if(updatePitcherDTO.getTeamMemberName().equals("")){
+            throw new EmptyPitcherNameException();
+        }
+        
+        ReadTeamMemberDTO foundMemberWithNumber = ServicesLocator.TeamMemberServices.findMemberWithNumber(updatePitcherDTO.getMemberNumber(), updatePitcherDTO.getTeamID());
+        if(foundMemberWithNumber != null && foundMemberWithNumber.getId() != updatePitcherDTO.getTeamMemberID()){
+            throw new DuplicateMemberNumberException();
+        }
+        
+        String function = "{call pitcher_update(?,?,?,?,?,?,?)}";
         java.sql.Connection connection = Connector.getConnection();
         CallableStatement preparedFunction = connection.prepareCall(function);
         preparedFunction.setInt(1, updatePitcherDTO.getTeamMemberID());
-        preparedFunction.setInt(2, updatePitcherDTO.getInningsPitched());
-        preparedFunction.setInt(3, updatePitcherDTO.getRunsAllowed());
-        preparedFunction.setString(4, updatePitcherDTO.getPositionID());
-        preparedFunction.setString(5, updatePitcherDTO.getTeamMemberName());
-        preparedFunction.setInt(6, updatePitcherDTO.getMemberNumber());
-        preparedFunction.setInt(7, updatePitcherDTO.getTeamID());
-        preparedFunction.setInt(8, updatePitcherDTO.getYearsInTeam());
+        preparedFunction.setString(2, updatePitcherDTO.getTeamMemberName());
+        preparedFunction.setInt(3, updatePitcherDTO.getMemberNumber());
+        preparedFunction.setInt(4, updatePitcherDTO.getYearsInTeam());
+        preparedFunction.setInt(5, updatePitcherDTO.getTeamID());
+        preparedFunction.setInt(6, updatePitcherDTO.getInningsPitched());
+        preparedFunction.setInt(7, updatePitcherDTO.getRunsAllowed());
         preparedFunction.execute();
         preparedFunction.close();
     }

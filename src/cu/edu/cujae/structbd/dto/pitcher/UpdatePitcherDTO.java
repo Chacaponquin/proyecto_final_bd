@@ -1,16 +1,15 @@
 package cu.edu.cujae.structbd.dto.pitcher;
 
 public class UpdatePitcherDTO {
-    private int teamMemberID;
-    private String teamMemberName;
-    private int memberNumber;
-    private int teamID;
-    private int yearsInTeam;
-    private int inningsPitched;
-    private int runsAllowed;
-    private String positionID;
+    private final int teamMemberID;
+    private final String teamMemberName;
+    private final int memberNumber;
+    private final int teamID;
+    private final int yearsInTeam;
+    private final int inningsPitched;
+    private final int runsAllowed;
 
-    public UpdatePitcherDTO(int teamMemberID, String positionID, String teamMemberName, int memberNumber, int teamID, int yearsInTeam, int inningsPitched, int runsAllowed) {
+    public UpdatePitcherDTO(int teamMemberID, String teamMemberName, int memberNumber, int teamID, int yearsInTeam, int inningsPitched, int runsAllowed) {
         this.teamMemberID = teamMemberID;
         this.teamMemberName = teamMemberName;
         this.memberNumber = memberNumber;
@@ -18,102 +17,47 @@ public class UpdatePitcherDTO {
         this.yearsInTeam = yearsInTeam;
         this.inningsPitched = inningsPitched;
         this.runsAllowed = runsAllowed;
-        this.positionID = positionID;
     }
+
+    
 
     public int getTeamMemberID() {
         return teamMemberID;
     }
 
-    public void setTeamMemberID(int teamMemberID) {
-        this.teamMemberID = teamMemberID;
-    }
 
     public String getTeamMemberName() {
             return teamMemberName;
     }
 
-    public void setTeamMemberName(String teamMemberName) {
-        if(teamMemberName != null){
-            this.teamMemberName = teamMemberName;
-        }
-        else{
-            throw new IllegalArgumentException();
-        }
-    }
+
 
     public int getMemberNumber() {
         return memberNumber;
     }
 
-    public void setMemberNumber(int memberNumber) {
-        if(memberNumber > 0){
-            this.memberNumber = memberNumber;
-        }
-        else{
-            throw new IllegalArgumentException();
-        }
-    }
+
 
     public int getTeamID() {
         return teamID;
     }
 
-    public void setTeamID(int teamID) {
-        this.teamID = teamID;
-    }
 
     public int getYearsInTeam() {
         return yearsInTeam;
     }
 
-    public void setYearsInTeam(int yearsInTeam) {
-        if(yearsInTeam >= 0){
-            this.yearsInTeam = yearsInTeam;
-        }
-        else{
-            throw new IllegalArgumentException();
-        }
-    }
+
 
     public int getInningsPitched() {
         return inningsPitched;
     }
 
-    public void setInningsPitched(int inningsPitched) {
-        if(inningsPitched >= 0){
-            this.inningsPitched = inningsPitched;
-        }
-        else{
-            throw new IllegalArgumentException();
-        }
-    }
 
     public int getRunsAllowed() {
         return runsAllowed;
     }
 
-    public void setRunsAllowed(int runsAllowed) {
-        if(runsAllowed > 0){
-            this.runsAllowed = runsAllowed;
-        }
-        else{
-            throw new IllegalArgumentException();
-        }
-    }
-    
-     public String getPositionID() {
-        return positionID;
-    }
 
-    public void setPositionID(String positionID) {
-        if(positionID != null){
-            this.positionID = positionID;
-        }
-        else{
-            throw new IllegalArgumentException();
-        }
-    }
-    
     
 }

@@ -28,7 +28,6 @@ public class ReadTeamDTO {
         this.stadium = stadium;
         this.won_championships = won_championships;
     }
-    
 
     public int getTeam_id() {
         return team_id;

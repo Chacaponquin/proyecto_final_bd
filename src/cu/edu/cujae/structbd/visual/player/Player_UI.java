@@ -197,24 +197,13 @@ public class Player_UI extends AppCustomWindow
                                 team_id = teams_list.get(i).getTeam_id();
                             }
                         }
-                        UpdatePitcherDTO updatePitcherDTO = new UpdatePitcherDTO(readPitcherDTO.getTeamMemberID(),
-                                                                                 "P", readPitcherDTO.getTeamMemberName(),
-                                                                                 readPitcherDTO.getMemberNumber(),
-                                                                                 team_id, readPitcherDTO.
-                                                                                     getYearsInTeam(), readPitcherDTO.
-                                                                                     getInningsPitched(),
-                                                                                 readPitcherDTO.
-                                                                                     getRunsAllowed());
-                        UpdatePitcherUI updatePitcherUI = new UpdatePitcherUI(null, true, updatePitcherDTO);
+                        
+                        UpdatePitcherUI updatePitcherUI = new UpdatePitcherUI(null, true, readPitcherDTO);
                         updatePitcherUI.setVisible(true);
                     }
-                    catch (SQLException ex)
+                    catch (SQLException | ClassNotFoundException ex)
                     {
-                        Logger.getLogger(Player_UI.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    catch (ClassNotFoundException ex)
-                    {
-                        Logger.getLogger(Player_UI.class.getName()).log(Level.SEVERE, null, ex);
+                        UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
                     }
 
                 }

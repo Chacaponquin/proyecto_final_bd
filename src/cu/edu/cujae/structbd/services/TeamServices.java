@@ -155,8 +155,9 @@ public class TeamServices {
             int years_in_team = resultSet.getInt("years_in_team");
             int inningsPitched = resultSet.getInt("innings_pitched");
             int runsAllowed = resultSet.getInt("runs_allowed");
+            int teamID = resultSet.getInt("team_id");
             
-            players_list.add(new ReadPitcherDTO(team_member_ID, team_member_name, member_number, team_name, years_in_team, inningsPitched, runsAllowed));
+            players_list.add(new ReadPitcherDTO(team_member_ID, team_member_name, member_number, team_name, years_in_team, inningsPitched, runsAllowed, teamID));
         }
         resultSet.close();
         preparedFunction.close();

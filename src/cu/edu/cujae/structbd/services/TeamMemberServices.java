@@ -81,22 +81,28 @@ public class TeamMemberServices {
         preparedFunction.close();
     }
     
+    public ReadTeamMemberDTO findMemberWithNumber(int number, int teamID) throws SQLException, ClassNotFoundException{
+        ReadTeamDTO foundTeam = ServicesLocator.TeamServices.findTeamByID(new FindTeamDTO(teamID));
+        List<ReadTeamMemberDTO> members = ServicesLocator.TeamServices.readMembersFromTeam(foundTeam);
+        
+        ReadTeamMemberDTO existsNumber = null;
+        for(int i = 0; i < members.size() && existsNumber == null; i++){
+            if(members.get(i).getNumber() == number){
+                existsNumber = members.get(i);
+            }
+        }
+        
+        return existsNumber;
+    }
+    
     public void validateMemberNumber(int number, int teamID) throws WrongMemberNumberException, SQLException, ClassNotFoundException, DuplicateMemberNumberException{
         if(number < TEAM_LIMITS.MEMBER_NUMBER.getMinimun() || number > TEAM_LIMITS.MEMBER_NUMBER.getMaximun()){
             throw new WrongMemberNumberException();
         }
         
-        ReadTeamDTO foundTeam = ServicesLocator.TeamServices.findTeamByID(new FindTeamDTO(teamID));
-        List<ReadTeamMemberDTO> members = ServicesLocator.TeamServices.readMembersFromTeam(foundTeam);
+        ReadTeamMemberDTO existsNumber = this.findMemberWithNumber(number, teamID);
         
-        boolean existsNumber = false;
-        for(int i = 0; i < members.size() && !existsNumber; i++){
-            if(members.get(i).getNumber() == number){
-                existsNumber = true;
-            }
-        }
-        
-        if(existsNumber){
+        if(existsNumber != null){
             throw new DuplicateMemberNumberException();
         }
     }
