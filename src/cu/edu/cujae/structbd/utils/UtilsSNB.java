@@ -21,7 +21,14 @@ public class UtilsSNB
 
     public int comb(int n, int r)
     {
-        return this.factorial(n) / (this.factorial(r) * this.factorial(n - r));
+        return n * (n - 1) / this.factorial(r);
     }
 
+    public static void main(String args[])
+    {
+        System.out.println(UtilsConnector.utilsSNB.comb(16, 2));
+        System.out.println(UtilsConnector.utilsSNB.comb(8, 2));
+        System.out.println(UtilsConnector.utilsSNB.comb(4, 2));
+        System.out.println(UtilsConnector.utilsSNB.comb(2, 2));
+    }
 }

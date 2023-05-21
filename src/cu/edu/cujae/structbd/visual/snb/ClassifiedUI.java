@@ -32,7 +32,7 @@ public class ClassifiedUI extends javax.swing.JDialog
         try
         {
             LinkedList<ReadTeamDTO> list_teams = new LinkedList<>(ServicesLocator.AppServices.getTeamsInPhase(
-                new ReadAPhaseDTO(4)));
+                readAPhaseDTO));
             int i = 1;
             for (ReadTeamDTO readTeamDTO : list_teams)
             {
@@ -69,6 +69,13 @@ public class ClassifiedUI extends javax.swing.JDialog
         setResizable(false);
 
         jButtonCerrar.setText("Cerrar");
+        jButtonCerrar.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                jButtonCerrarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -148,6 +155,11 @@ public class ClassifiedUI extends javax.swing.JDialog
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButtonCerrarActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButtonCerrarActionPerformed
+    {//GEN-HEADEREND:event_jButtonCerrarActionPerformed
+        dispose();
+    }//GEN-LAST:event_jButtonCerrarActionPerformed
 
     /**
      * @param args the command line arguments
