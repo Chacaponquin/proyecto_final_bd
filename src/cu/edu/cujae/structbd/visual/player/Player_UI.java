@@ -202,11 +202,7 @@ public class Player_UI extends AppCustomWindow
                     }
                     catch (SQLException | ClassNotFoundException ex)
                     {
-<<<<<<< HEAD
-                        UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(rootPane, ex);
-=======
                         UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
->>>>>>> 358c566e9ca2689d0bd0981fd682452055025dfc
                     }
 
                 }
