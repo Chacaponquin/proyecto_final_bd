@@ -12,6 +12,7 @@ import cu.edu.cujae.structbd.utils.UtilsConnector;
 import cu.edu.cujae.structbd.utils.ViewDialog;
 import cu.edu.cujae.structbd.utils.ViewWindow;
 import cu.edu.cujae.structbd.visual.user.LoginUI;
+import cu.edu.cujae.structbd.visual.user.UpdateUserUI;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -63,9 +64,7 @@ public class MainUI extends javax.swing.JFrame {
             reportsViews.forEach((view) -> {
                 javax.swing.JMenuItem menuItem = new javax.swing.JMenuItem();
                 menuItem.setText(view.getViewName());
-
                 menuItem.addActionListener(this.clickReportMenuItem(this, view.getDialog()));
-
                 this.jMenu2.add(menuItem);
             });
         }
@@ -75,9 +74,21 @@ public class MainUI extends javax.swing.JFrame {
  
         
         JMenuItem updateUserItem = new JMenuItem("Configurar Usuario");
+        updateUserItem.addActionListener(this.userConfigAction(this));
         
         this.jMenu3.add(updateUserItem);
         this.jMenu3.add(closeUserItem); 
+    }
+    
+    public ActionListener userConfigAction(MainUI main){
+        return new ActionListener(){
+            @Override
+                public void actionPerformed(ActionEvent e){
+                    UpdateUserUI w = new UpdateUserUI(main, true);
+                    w.start();
+                    UtilsConnector.viewUtils.openDialog(main, w);
+                } 
+         };
     }
     
     public ActionListener userSignOut(MainUI main){

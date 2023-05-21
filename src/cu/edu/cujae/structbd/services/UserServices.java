@@ -10,6 +10,7 @@ import cu.edu.cujae.structbd.dto.user.CreateUserDTO;
 import cu.edu.cujae.structbd.dto.user.DeleteUserDTO;
 import cu.edu.cujae.structbd.dto.user.LoginUserDTO;
 import cu.edu.cujae.structbd.dto.user.ReadUserDTO;
+import cu.edu.cujae.structbd.dto.user.UpdateUserDTO;
 import cu.edu.cujae.structbd.exceptions.app.EmptyFieldFormException;
 import cu.edu.cujae.structbd.exceptions.user.DifferentPasswordsException;
 import cu.edu.cujae.structbd.exceptions.user.DuplicateUserException;
@@ -78,21 +79,30 @@ public class UserServices {
         return returnUsers;
     }
     
-    public void createUser(CreateUserDTO newUser) throws DifferentPasswordsException, SQLException, ClassNotFoundException, EmptyFieldFormException, ShortUsernameException, DuplicateUserException{
-        if(newUser.getPassword().equals("")){
+    private void validateUsername(String username) throws EmptyFieldFormException, SQLException, ClassNotFoundException, ShortUsernameException{
+        if(username.equals("")){
             throw new EmptyFieldFormException("nombre de usuario");
         }
-        else if(newUser.getUsername().equals("")){
-            throw new EmptyFieldFormException("contraseña");
-        }
-        else if(newUser.getUsername().length() < 5){
+        else if(username.length() < 5){
             throw new ShortUsernameException();
         }
-        else if(!(newUser.getComfirmPassword().equals(newUser.getPassword()))){
-            throw new DifferentPasswordsException();
-        }else if(!this.validateNotExistsDuplicateUsername(newUser.getUsername())){
+        else if(username.equals("")){
+            throw new EmptyFieldFormException("contraseña");
+        }
+    }
+    
+    public void createUser(CreateUserDTO newUser) throws DifferentPasswordsException, SQLException, ClassNotFoundException, EmptyFieldFormException, ShortUsernameException, DuplicateUserException{
+        this.validateUsername(newUser.getUsername());
+        
+        if(this.foundDuplicateUsername(newUser.getUsername()) != null){
             throw new DuplicateUserException();
         }
+        
+        
+        if(!(newUser.getComfirmPassword().equals(newUser.getPassword()))){
+            throw new DifferentPasswordsException();
+        }
+        
         
         String function = "{call user_insert(?,?,?)}";
         java.sql.Connection connection = Connector.getConnection();
@@ -153,19 +163,36 @@ public class UserServices {
         connection.commit();
     }
     
-    private boolean validateNotExistsDuplicateUsername(String username) throws SQLException, ClassNotFoundException{
-        boolean validate = true;
-        
+    private ReadUserDTO foundDuplicateUsername(String username) throws SQLException, ClassNotFoundException{
+        ReadUserDTO found = null;
         List<ReadUserDTO> users = this.readUsers();
         
-        for(int i = 0; i < users.size() && validate; i++){
+        for(int i = 0; i < users.size() && found == null; i++){
             if(users.get(i).getUsername().equals(username)){
-                validate = false;
+                found = users.get(i);
             }
         }
         
         
-        return validate;
+        return found;
+    }
+    
+    public void updateUser(UpdateUserDTO updateUser) throws SQLException, ClassNotFoundException, EmptyFieldFormException, EmptyFieldFormException, DuplicateUserException, ShortUsernameException{
+        this.validateUsername(updateUser.getNewUsername());
+        
+        ReadUserDTO foundDuplicate = this.foundDuplicateUsername(updateUser.getNewUsername());
+        if(foundDuplicate != null && foundDuplicate.getUserID() != updateUser.getUserID()){
+            throw new DuplicateUserException();
+        }
+        
+        String function = "{call user_update(?,?,?,?)}";
+        java.sql.Connection connection = Connector.getConnection();
+        CallableStatement preparedFunction = connection.prepareCall(function);
+        preparedFunction.setInt(1, updateUser.getUserID());
+        preparedFunction.setString(2, updateUser.getNewUsername());
+        
+        preparedFunction.close();
+        connection.commit();
     }
     
     

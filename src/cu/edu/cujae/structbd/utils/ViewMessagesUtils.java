@@ -5,6 +5,8 @@
 package cu.edu.cujae.structbd.utils;
 
 import java.awt.Component;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
@@ -23,8 +25,16 @@ public class ViewMessagesUtils {
     }
     
     public void showConecctionErrorMessage(Component component, Exception ex){
-        this.showErrorMessage(component, "Error de conexión");
-        System.out.println(ex);
+        this.showErrorMessage(component, "Error de conexión " + ex.getMessage());
+        
+        if(component instanceof JFrame){
+            ((JFrame) component).dispose();
+        }
+        else if(component instanceof JDialog){
+            ((JDialog) component).dispose();
+        }
+        
+        Connector.restartConnection();
     }
     
     public boolean showConfirmDialog(Component component, String message){

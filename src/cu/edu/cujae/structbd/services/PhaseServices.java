@@ -7,17 +7,10 @@ import cu.edu.cujae.structbd.dto.phase.ReadPhaseDTO;
 import cu.edu.cujae.structbd.dto.phase.UpdatePhaseDTO;
 import cu.edu.cujae.structbd.utils.Connector;
 import java.sql.CallableStatement;
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 public class PhaseServices
 {
 

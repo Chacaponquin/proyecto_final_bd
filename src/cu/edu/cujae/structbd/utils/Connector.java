@@ -2,6 +2,8 @@ package cu.edu.cujae.structbd.utils;
 
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Connector {
     private static java.sql.Connection connection = null;
@@ -28,6 +30,14 @@ public class Connector {
         String port = System.getProperty("DATABASE_PORT");
 
        createConnection("localhost", database, username, password, port);
+    }
+    
+    public static void restartConnection(){
+        try {
+            createConnection();
+        } catch (SQLException | ClassNotFoundException ex) {
+            ex.printStackTrace();
+        } 
     }
 }
 

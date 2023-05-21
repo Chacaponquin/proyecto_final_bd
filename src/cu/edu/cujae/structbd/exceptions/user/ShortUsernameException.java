@@ -9,5 +9,8 @@ package cu.edu.cujae.structbd.exceptions.user;
  * @author Hector Angel Gomez
  */
 public class ShortUsernameException extends Exception{
+    public  ShortUsernameException(){
+        super("El nombre de usuario debe tener al menos 5 caracteres");
+    }
     
 }
