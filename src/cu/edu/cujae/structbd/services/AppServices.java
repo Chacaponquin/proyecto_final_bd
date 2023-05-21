@@ -353,7 +353,7 @@ public class AppServices
         java.sql.Connection connection = Connector.getConnection();
         connection.setAutoCommit(false);
         CallableStatement preparedFunction = connection.prepareCall(function);
-        preparedFunction.registerOutParameter(1, java.sql.Types.INTEGER);
+        preparedFunction.registerOutParameter(1, java.sql.Types.REF_CURSOR);
         preparedFunction.setInt(2, readAPhaseDTO.getPhase_id());
         preparedFunction.execute();
         result = (int) preparedFunction.getObject(1);
