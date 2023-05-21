@@ -15,10 +15,7 @@ import cu.edu.cujae.structbd.services.ServicesLocator;
 import cu.edu.cujae.structbd.utils.UtilsConnector;
 import java.sql.SQLException;
 import java.util.LinkedList;
-import javax.swing.JOptionPane;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *

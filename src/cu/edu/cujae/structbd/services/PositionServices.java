@@ -2,6 +2,7 @@ package cu.edu.cujae.structbd.services;
 
 import cu.edu.cujae.structbd.dto.position.CreatePositionDTO;
 import cu.edu.cujae.structbd.dto.position.DeletePositionDTO;
+import cu.edu.cujae.structbd.dto.position.FindPositionDTO;
 import cu.edu.cujae.structbd.dto.position.ReadAPositionDTO;
 import cu.edu.cujae.structbd.dto.position.ReadPositionDTO;
 import cu.edu.cujae.structbd.dto.position.UpdatePositionDTO;
@@ -112,5 +113,18 @@ public class PositionServices {
         preparedFunction.close();
 
         return positions_list;
+    }
+    
+    public ReadPositionDTO findPosition(FindPositionDTO position) throws SQLException, ClassNotFoundException{
+        List<ReadPositionDTO> allPositions = this.readAllPositions();
+        ReadPositionDTO foundPosition = null;
+        
+        for(int i = 0; i < allPositions.size() && foundPosition == null; i++){
+            if(allPositions.get(i).getPositionID() == position.getPositionID()){
+                foundPosition = allPositions.get(i);
+            }
+        }
+        
+        return foundPosition;
     }
 }

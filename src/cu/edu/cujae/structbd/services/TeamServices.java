@@ -186,8 +186,10 @@ public class TeamServices {
             String position = resultSet.getString("position_name");
             int atBats = resultSet.getInt("at_bats");
             int totalHits = resultSet.getInt("total_hits");
+            int teamID = resultSet.getInt("team_id");
+            int positionID = resultSet.getInt("position_id");
             
-            players_list.add(new ReadBatterDTO(member_id, name, team_name, yearsInTeam, member_number, position, atBats, totalHits));
+            players_list.add(new ReadBatterDTO(member_id, name, team_name, yearsInTeam, member_number, position, atBats, totalHits, teamID, positionID));
         }
         resultSet.close();
         preparedFunction.close();

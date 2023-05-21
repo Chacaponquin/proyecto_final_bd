@@ -98,9 +98,7 @@ public class PitcherServices {
     }
     
     public void updatePitcher(UpdatePitcherDTO updatePitcherDTO) throws SQLException, ClassNotFoundException, WrongMemberNumberException, DuplicateMemberNumberException, EmptyMemberNameException{
-        if(updatePitcherDTO.getTeamMemberName().equals("")){
-            throw new EmptyMemberNameException();
-        }
+        ServicesLocator.TeamMemberServices.validateMemberName(updatePitcherDTO.getTeamMemberName());
         
         ReadTeamMemberDTO foundMemberWithNumber = ServicesLocator.TeamMemberServices.findMemberWithNumber(updatePitcherDTO.getMemberNumber(), updatePitcherDTO.getTeamID());
         if(foundMemberWithNumber != null && foundMemberWithNumber.getId() != updatePitcherDTO.getTeamMemberID()){
@@ -119,6 +117,8 @@ public class PitcherServices {
         preparedFunction.setInt(7, updatePitcherDTO.getRunsAllowed());
         preparedFunction.execute();
         preparedFunction.close();
+        
+        connection.commit();
     }
     
     public void deletePitcher(DeletePitcherDTO deletePitcherDTO) throws SQLException, ClassNotFoundException{

@@ -11,8 +11,6 @@ import cu.edu.cujae.structbd.utils.AppCustomWindow;
 import cu.edu.cujae.structbd.utils.UtilsConnector;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -61,6 +59,11 @@ public class BatterUI extends AppCustomWindow {
         jButton2 = new javax.swing.JButton();
 
         editMenu.setText("Editar");
+        editMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editMenuActionPerformed(evt);
+            }
+        });
         jPopupMenu1.add(editMenu);
 
         deleteMenu.setText("Eliminar");
@@ -151,6 +154,14 @@ public class BatterUI extends AppCustomWindow {
         }
         
     }//GEN-LAST:event_deleteMenuActionPerformed
+
+    private void editMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editMenuActionPerformed
+        int selectRow = this.jTable1.getSelectedRow();
+        
+        if(selectRow >= 0){
+            UtilsConnector.viewUtils.openDialog(this, new UpdateBatterUI(this, this.batters.get(selectRow)));
+        }
+    }//GEN-LAST:event_editMenuActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
