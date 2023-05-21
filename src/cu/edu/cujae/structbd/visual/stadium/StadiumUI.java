@@ -56,18 +56,6 @@ public class StadiumUI extends AppCustomWindow {
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
         jButton2 = new javax.swing.JButton();
-
-<<<<<<< HEAD
-=======
-        jMenuItem1.setText("Eliminar Estadio");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                jMenuItem1ActionPerformed(evt);
-            }
-        });
->>>>>>> 75770589af48dd0d984136ae4133c42cc47d1318
         editMenu.setText("Editar");
         editMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
