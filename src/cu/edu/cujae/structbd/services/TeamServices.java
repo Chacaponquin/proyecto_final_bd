@@ -217,6 +217,28 @@ public class TeamServices {
         return returnTeams;
     }
     
+    public List<ReadTeamDTO> getTeamsForInsertBatter() throws SQLException, ClassNotFoundException{
+        List<ReadTeamDTO> allTeams = this.readTeams();
+        List<ReadBatterDTO> allBatter = ServicesLocator.BatterServices.readBatters();
+        
+        List<ReadTeamDTO> returnTeams = new LinkedList<>();
+        for(ReadTeamDTO t: allTeams){
+            int contBatters = 0;
+            
+            for(ReadBatterDTO p: allBatter){
+                if(p.getTeam().equals(t.getTeam_name())){
+                    contBatters++;
+                }
+            }
+            
+            if(contBatters < TEAM_LIMITS.BATTER.getMaximun()){
+                returnTeams.add(t);
+            }
+        }
+        
+        return returnTeams;
+    }
+    
     public ReadTeamDTO findTeamByID(FindTeamDTO team) throws SQLException, ClassNotFoundException{
         ReadTeamDTO foundTeam = null;
         List<ReadTeamDTO> allTeams = this.readTeams();

@@ -6,7 +6,7 @@ package cu.edu.cujae.structbd.visual.pitcher;
 
 import cu.edu.cujae.structbd.dto.pitcher.CreatePitcherDTO;
 import cu.edu.cujae.structbd.dto.team.ReadTeamDTO;
-import cu.edu.cujae.structbd.exceptions.pitcher.EmptyPitcherNameException;
+import cu.edu.cujae.structbd.exceptions.team_member.EmptyMemberNameException;
 import cu.edu.cujae.structbd.exceptions.team_member.DuplicateMemberNumberException;
 import cu.edu.cujae.structbd.exceptions.team_member.WrongMemberNumberException;
 import cu.edu.cujae.structbd.services.ServicesLocator;
@@ -178,7 +178,7 @@ public class CreatePitcherUI extends javax.swing.JDialog {
                 this.dispose();
             } catch (SQLException | ClassNotFoundException ex) {
                 UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
-            } catch (EmptyPitcherNameException ex) {
+            } catch (EmptyMemberNameException ex) {
                 UtilsConnector.viewMessagesUtils.showErrorMessage(this, "El pitcher tiene que tener un nombre");
             } catch (WrongMemberNumberException ex) {
                 UtilsConnector.viewMessagesUtils.showErrorMessage(this, ex.getMessage());

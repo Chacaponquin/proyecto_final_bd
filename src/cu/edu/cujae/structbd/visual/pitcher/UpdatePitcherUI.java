@@ -8,7 +8,7 @@ import cu.edu.cujae.structbd.dto.pitcher.ReadPitcherDTO;
 import cu.edu.cujae.structbd.dto.pitcher.UpdatePitcherDTO;
 import cu.edu.cujae.structbd.dto.team.FindTeamDTO;
 import cu.edu.cujae.structbd.dto.team.ReadTeamDTO;
-import cu.edu.cujae.structbd.exceptions.pitcher.EmptyPitcherNameException;
+import cu.edu.cujae.structbd.exceptions.team_member.EmptyMemberNameException;
 import cu.edu.cujae.structbd.exceptions.team_member.DuplicateMemberNumberException;
 import cu.edu.cujae.structbd.exceptions.team_member.WrongMemberNumberException;
 import cu.edu.cujae.structbd.services.ServicesLocator;
@@ -257,7 +257,7 @@ public class UpdatePitcherUI extends javax.swing.JDialog {
             UtilsConnector.viewMessagesUtils.showErrorMessage(this, ex.getMessage());
         } catch (DuplicateMemberNumberException ex) {
             UtilsConnector.viewMessagesUtils.showErrorMessage(this, "En el equipo ya existe un miembro con ese número");
-        } catch (EmptyPitcherNameException ex) {
+        } catch (EmptyMemberNameException ex) {
             UtilsConnector.viewMessagesUtils.showErrorMessage(this, "El nombre del pitcher no puede estar vacío");
         }
     }//GEN-LAST:event_jButtonModifyActionPerformed

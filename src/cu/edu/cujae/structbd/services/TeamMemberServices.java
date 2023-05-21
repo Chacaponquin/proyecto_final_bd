@@ -7,6 +7,7 @@ import cu.edu.cujae.structbd.dto.team_member.ReadATeamMemberDTO;
 import cu.edu.cujae.structbd.dto.team_member.ReadTeamMemberDTO;
 import cu.edu.cujae.structbd.dto.team_member.UpdateTeamMemberDTO;
 import cu.edu.cujae.structbd.exceptions.team_member.DuplicateMemberNumberException;
+import cu.edu.cujae.structbd.exceptions.team_member.EmptyMemberNameException;
 import cu.edu.cujae.structbd.exceptions.team_member.WrongMemberNumberException;
 import cu.edu.cujae.structbd.utils.Connector;
 import cu.edu.cujae.structbd.utils.TEAM_LIMITS;
@@ -104,6 +105,12 @@ public class TeamMemberServices {
         
         if(existsNumber != null){
             throw new DuplicateMemberNumberException();
+        }
+    }
+    
+    public void validateMemberName(String name) throws EmptyMemberNameException{
+        if(name == null || name.trim().equals("")){
+            throw new EmptyMemberNameException();
         }
     }
 }

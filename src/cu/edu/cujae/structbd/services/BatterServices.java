@@ -1,13 +1,19 @@
 package cu.edu.cujae.structbd.services;
 
+import cu.edu.cujae.structbd.dto.batter.CreateBatterDTO;
 import cu.edu.cujae.structbd.dto.batter.ReadBatterDTO;
+import cu.edu.cujae.structbd.exceptions.team_member.DuplicateMemberNumberException;
+import cu.edu.cujae.structbd.exceptions.team_member.EmptyMemberNameException;
+import cu.edu.cujae.structbd.exceptions.team_member.WrongMemberNumberException;
 import cu.edu.cujae.structbd.utils.Connector;
+import java.sql.CallableStatement;
 import java.util.ArrayList;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 public class BatterServices {
-    public ArrayList<ReadBatterDTO> readBatters() throws SQLException, ClassNotFoundException{
+    public List<ReadBatterDTO> readBatters() throws SQLException, ClassNotFoundException{
         ArrayList<ReadBatterDTO> batters = new ArrayList<>();
         
         String query = "SELECT * FROM batter JOIN player ON player.member_id = batter.member_id JOIN teammember ON teammember.member_id = batter.member_id JOIN position ON player.position_id = position.position_id JOIN team ON team.team_id = teammember.team_id";
@@ -35,5 +41,25 @@ public class BatterServices {
         result.close();
         
         return batters;
+    }
+    
+    public void createBatter(CreateBatterDTO newBatter) throws EmptyMemberNameException, WrongMemberNumberException, SQLException, ClassNotFoundException, DuplicateMemberNumberException{
+        ServicesLocator.TeamMemberServices.validateMemberName(newBatter.getName());
+        ServicesLocator.TeamMemberServices.validateMemberNumber(newBatter.getMemberNumber(), newBatter.getTeamID());
+        
+        String function = "{call batter_insert(?,?,?,?,?,?,?)}";
+        java.sql.Connection connection = Connector.getConnection();
+        CallableStatement preparedFunction = connection.prepareCall(function);
+        preparedFunction.setString(1, newBatter.getName());
+        preparedFunction.setInt(2, newBatter.getMemberNumber());
+        preparedFunction.setInt(3, newBatter.getTeamID());
+        preparedFunction.setInt(4,0);
+        preparedFunction.setInt(5, newBatter.getPositionID());
+        preparedFunction.setInt(6, 0);
+        preparedFunction.setInt(7, 0);
+        preparedFunction.execute();
+        preparedFunction.close();
+        
+        connection.commit();
     }
 }

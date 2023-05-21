@@ -9,7 +9,7 @@ import cu.edu.cujae.structbd.services.ServicesLocator;
 import cu.edu.cujae.structbd.utils.AppCustomWindow;
 import cu.edu.cujae.structbd.utils.UtilsConnector;
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -20,11 +20,13 @@ public class BatterUI extends AppCustomWindow {
     public void start(){
         initComponents();
         this.updateUI();
+        this.jTable1.setComponentPopupMenu(jPopupMenu1);
     }
     
     public void updateUI(){
         try {
-            ArrayList<ReadBatterDTO> stadiumns = ServicesLocator.BatterServices.readBatters();
+            UtilsConnector.viewUtils.cleanTable(jTable1);
+            List<ReadBatterDTO> stadiumns = ServicesLocator.BatterServices.readBatters();
             
             DefaultTableModel model = (DefaultTableModel) this.jTable1.getModel();
             
@@ -45,10 +47,19 @@ public class BatterUI extends AppCustomWindow {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPopupMenu1 = new javax.swing.JPopupMenu();
+        editMenu = new javax.swing.JMenuItem();
+        deleteMenu = new javax.swing.JMenuItem();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+
+        editMenu.setText("Editar");
+        jPopupMenu1.add(editMenu);
+
+        deleteMenu.setText("Eliminar");
+        jPopupMenu1.add(deleteMenu);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Bateadores");
@@ -114,8 +125,11 @@ public class BatterUI extends AppCustomWindow {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem deleteMenu;
+    private javax.swing.JMenuItem editMenu;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables

@@ -6,7 +6,7 @@ import cu.edu.cujae.structbd.dto.pitcher.ReadAPitcherDTO;
 import cu.edu.cujae.structbd.dto.pitcher.ReadPitcherDTO;
 import cu.edu.cujae.structbd.dto.pitcher.UpdatePitcherDTO;
 import cu.edu.cujae.structbd.dto.team_member.ReadTeamMemberDTO;
-import cu.edu.cujae.structbd.exceptions.pitcher.EmptyPitcherNameException;
+import cu.edu.cujae.structbd.exceptions.team_member.EmptyMemberNameException;
 import cu.edu.cujae.structbd.exceptions.team_member.DuplicateMemberNumberException;
 import cu.edu.cujae.structbd.exceptions.team_member.WrongMemberNumberException;
 import cu.edu.cujae.structbd.utils.Connector;
@@ -18,11 +18,8 @@ import java.sql.ResultSet;
 
 public class PitcherServices {
     
-    public void createPitcher(CreatePitcherDTO createPitcherDTO) throws SQLException, ClassNotFoundException, EmptyPitcherNameException, WrongMemberNumberException, DuplicateMemberNumberException{
-        if(createPitcherDTO.getTeamMemberName().equals("")){
-            throw new EmptyPitcherNameException();
-        }
-        
+    public void createPitcher(CreatePitcherDTO createPitcherDTO) throws SQLException, ClassNotFoundException, EmptyMemberNameException, WrongMemberNumberException, DuplicateMemberNumberException{
+        ServicesLocator.TeamMemberServices.validateMemberName(createPitcherDTO.getTeamMemberName());
         ServicesLocator.TeamMemberServices.validateMemberNumber(createPitcherDTO.getMemberNumber(), createPitcherDTO.getTeamID());
 
         int pitcherPos = ServicesLocator.PositionServices.getPitcherPositionID();
@@ -100,9 +97,9 @@ public class PitcherServices {
         return pitcher;
     }
     
-    public void updatePitcher(UpdatePitcherDTO updatePitcherDTO) throws SQLException, ClassNotFoundException, WrongMemberNumberException, DuplicateMemberNumberException, EmptyPitcherNameException{
+    public void updatePitcher(UpdatePitcherDTO updatePitcherDTO) throws SQLException, ClassNotFoundException, WrongMemberNumberException, DuplicateMemberNumberException, EmptyMemberNameException{
         if(updatePitcherDTO.getTeamMemberName().equals("")){
-            throw new EmptyPitcherNameException();
+            throw new EmptyMemberNameException();
         }
         
         ReadTeamMemberDTO foundMemberWithNumber = ServicesLocator.TeamMemberServices.findMemberWithNumber(updatePitcherDTO.getMemberNumber(), updatePitcherDTO.getTeamID());
