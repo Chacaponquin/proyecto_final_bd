@@ -1,6 +1,7 @@
 package cu.edu.cujae.structbd.services;
 
 import cu.edu.cujae.structbd.dto.batter.CreateBatterDTO;
+import cu.edu.cujae.structbd.dto.batter.DeleteBatterDTO;
 import cu.edu.cujae.structbd.dto.batter.ReadBatterDTO;
 import cu.edu.cujae.structbd.exceptions.team_member.DuplicateMemberNumberException;
 import cu.edu.cujae.structbd.exceptions.team_member.EmptyMemberNameException;
@@ -61,5 +62,14 @@ public class BatterServices {
         preparedFunction.close();
         
         connection.commit();
+    }
+    
+    public void deleteBatter(DeleteBatterDTO deletePitcherDTO) throws SQLException, ClassNotFoundException{
+        String function = "{call batter_delete(?)}";
+        java.sql.Connection connection = Connector.getConnection();
+        CallableStatement preparedFunction = connection.prepareCall(function);
+        preparedFunction.setInt(1, deletePitcherDTO.getBatterID());
+        preparedFunction.execute();
+        preparedFunction.close();
     }
 }

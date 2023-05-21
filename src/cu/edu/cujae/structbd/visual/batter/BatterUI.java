@@ -4,12 +4,15 @@
  */
 package cu.edu.cujae.structbd.visual.batter;
 
+import cu.edu.cujae.structbd.dto.batter.DeleteBatterDTO;
 import cu.edu.cujae.structbd.dto.batter.ReadBatterDTO;
 import cu.edu.cujae.structbd.services.ServicesLocator;
 import cu.edu.cujae.structbd.utils.AppCustomWindow;
 import cu.edu.cujae.structbd.utils.UtilsConnector;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -17,6 +20,8 @@ import javax.swing.table.DefaultTableModel;
  * @author Hector Angel Gomez
  */
 public class BatterUI extends AppCustomWindow {
+    private List<ReadBatterDTO> batters;
+    
     public void start(){
         initComponents();
         this.updateUI();
@@ -26,11 +31,11 @@ public class BatterUI extends AppCustomWindow {
     public void updateUI(){
         try {
             UtilsConnector.viewUtils.cleanTable(jTable1);
-            List<ReadBatterDTO> stadiumns = ServicesLocator.BatterServices.readBatters();
+            batters = ServicesLocator.BatterServices.readBatters();
             
             DefaultTableModel model = (DefaultTableModel) this.jTable1.getModel();
             
-            for(ReadBatterDTO b:  stadiumns){
+            for(ReadBatterDTO b:  batters){
                 model.addRow(new Object[]{b.getName(), b.getTeam(), b.getYearsInTeam(), b.getNumber(), b.getPosition(), b.getAtBats(), b.getTotalHits(), b.getAverage()});
             }
         } catch (SQLException | ClassNotFoundException ex) {
@@ -59,6 +64,11 @@ public class BatterUI extends AppCustomWindow {
         jPopupMenu1.add(editMenu);
 
         deleteMenu.setText("Eliminar");
+        deleteMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteMenuActionPerformed(evt);
+            }
+        });
         jPopupMenu1.add(deleteMenu);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -122,6 +132,25 @@ public class BatterUI extends AppCustomWindow {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         this.dispose();       // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void deleteMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteMenuActionPerformed
+        int selectRow = this.jTable1.getSelectedRow();
+        
+        if(selectRow >= 0){
+            boolean accept = UtilsConnector.viewMessagesUtils.showConfirmDialog(this, "Seguro que quiere eliminar este bateador?");
+            
+            if(accept){
+                try {
+                    int sb = this.batters.get(selectRow).getMember_id();
+                    ServicesLocator.BatterServices.deleteBatter(new DeleteBatterDTO(sb));
+                    this.updateUI();
+                } catch (SQLException | ClassNotFoundException ex) {
+                    UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
+                } 
+            }
+        }
+        
+    }//GEN-LAST:event_deleteMenuActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
