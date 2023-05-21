@@ -9,33 +9,64 @@
 		<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
 	</parameter>
 	<queryString language="SQL">
-		<![CDATA[SELECT phase.phase_name, total_games.cant as JJ, total_win_games.cant as JG, (total_games.cant-total_win_games.cant) as JP, local_win_games.cant as JGL, (local_games.cant - local_win_games.cant) as JPL, (total_win_games.cant-local_win_games.cant) as JGV, ((total_games.cant-local_games.cant)-(total_win_games.cant-local_win_games.cant)) as JPV
+		<![CDATA[SELECT phase.phase_name, total_games.team_name, coalesce (total_games.cant,0) as JJ, coalesce (total_win_games.cant,0)  as JG, coalesce (total_lost_games.cant,0) as JP , coalesce(local_win_games.cant,0)  as JGL, coalesce (local_lost_games.cant,0)  as JPL, coalesce(visitant_win_games.cant,0)  as JGV, coalesce (visitant_lost_games.cant,0)  as JPV
   FROM phase
-  JOIN (SELECT game.phase_id, count(game.game_id) as cant
+  LEFT JOIN (SELECT game.phase_id, team_name, count(game.game_id) as cant
         FROM team
-        JOIN game ON team.team_id = game.team_home_club OR team.team_id = game.team_visitant
+        LEFT JOIN game ON team.team_id = game.team_home_club OR team.team_id = game.team_visitant
         WHERE team.team_id = $P!{id_team}
-        GROUP BY game.phase_id) as total_games ON phase.phase_id = total_games.phase_id
-  JOIN (SELECT game.phase_id, count(game.game_id) as cant
+        GROUP BY game.phase_id,team_name) as total_games ON phase.phase_id = total_games.phase_id
+  LEFT JOIN (SELECT game.phase_id, count(game.game_id) as cant
         FROM team 
-        JOIN game ON team.team_id = game.team_home_club OR team.team_id = game.team_visitant
-        WHERE team.team_id =$P!{id_team} AND game.winner = $P!{id_team}
+        LEFT JOIN game ON team.team_id = game.team_home_club OR team.team_id = game.team_visitant
+        WHERE team.team_id = $P!{id_team} AND game.winner = $P!{id_team}
         GROUP BY game.phase_id) as total_win_games ON phase.phase_id = total_win_games.phase_id
-  JOIN (SELECT game.phase_id, count(game.game_id) as cant
+  LEFT JOIN (SELECT game.phase_id, count(game.game_id)  as cant
+        FROM team 
+        LEFT JOIN game ON team.team_id = game.team_home_club OR team.team_id = game.team_visitant
+        WHERE team.team_id = $P!{id_team} AND game.winner <>$P!{id_team}
+        GROUP BY game.phase_id) as total_lost_games ON phase.phase_id = total_lost_games.phase_id
+  LEFT JOIN (SELECT game.phase_id, count(game.game_id)  as cant
         FROM team
-        JOIN game ON team.team_id = game.team_home_club
+        LEFT JOIN game ON team.team_id = game.team_home_club
         WHERE game.team_home_club = $P!{id_team} AND team.team_id = $P!{id_team}
         GROUP BY game.phase_id) as local_games ON phase.phase_id = local_games.phase_id
-  JOIN (SELECT game.phase_id, count(game.game_id) as cant
+  LEFT JOIN (SELECT game.phase_id, count(game.game_id) as cant
         FROM team 
-        JOIN game ON team.team_id = game.team_home_club
-        WHERE game.team_home_club =$P!{id_team} AND game.winner = $P!{id_team}
-        GROUP BY game.phase_id) as local_win_games ON phase.phase_id = local_win_games.phase_id;]]>
+        LEFT JOIN game ON team.team_id = game.team_home_club
+        WHERE game.team_home_club = $P!{id_team} AND game.winner = $P!{id_team}
+        GROUP BY game.phase_id) as local_win_games ON phase.phase_id = local_win_games.phase_id
+  LEFT JOIN (SELECT game.phase_id, count(game.game_id)  as cant
+        FROM team 
+        LEFT JOIN game ON team.team_id = game.team_home_club
+        WHERE game.team_home_club =$P!{id_team} AND game.winner <> $P!{id_team}
+        GROUP BY game.phase_id) as local_lost_games ON phase.phase_id = local_lost_games.phase_id
+  LEFT JOIN (SELECT game.phase_id, count(game.game_id)  as cant
+        FROM team
+        LEFT JOIN game ON team.team_id = game.team_visitant
+        WHERE game.team_visitant =$P!{id_team} AND team.team_id = $P!{id_team}
+        GROUP BY game.phase_id) as visitant_games ON phase.phase_id = visitant_games.phase_id
+  LEFT JOIN (SELECT game.phase_id, count(game.game_id)   as cant
+        FROM team 
+        LEFT JOIN game ON team.team_id = game.team_visitant
+        WHERE game.team_visitant = $P!{id_team} AND game.winner =$P!{id_team}
+        GROUP BY game.phase_id) as visitant_win_games ON phase.phase_id = visitant_win_games.phase_id
+  LEFT JOIN (SELECT game.phase_id, count(game.game_id)  as cant
+        FROM team 
+        LEFT JOIN game ON team.team_id = game.team_visitant
+        WHERE game.team_visitant = $P!{id_team} AND game.winner <> $P!{id_team}
+        GROUP BY game.phase_id) as visitant_lost_games ON phase.phase_id = visitant_lost_games.phase_id
+ORDER BY phase.phase_id;]]>
 	</queryString>
 	<field name="phase_name" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="phase_name"/>
 		<property name="com.jaspersoft.studio.field.label" value="phase_name"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="phase"/>
+	</field>
+	<field name="team_name" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="team_name"/>
+		<property name="com.jaspersoft.studio.field.label" value="team_name"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="team"/>
 	</field>
 	<field name="jj" class="java.lang.Long">
 		<property name="com.jaspersoft.studio.field.name" value="jj"/>
@@ -65,15 +96,16 @@
 		<property name="com.jaspersoft.studio.field.name" value="jpv"/>
 		<property name="com.jaspersoft.studio.field.label" value="jpv"/>
 	</field>
+	<variable name="team_name1" class="java.lang.Integer" calculation="DistinctCount">
+		<variableExpression><![CDATA[$F{team_name}]]></variableExpression>
+	</variable>
 	<group name="Group1">
 		<groupExpression><![CDATA[$F{phase_name}]]></groupExpression>
 		<groupHeader>
-			<band height="19">
+			<band height="20">
 				<textField>
-					<reportElement mode="Opaque" x="0" y="0" width="80" height="19" forecolor="#006699" backcolor="#D9D9D9" uuid="52a24428-6753-4c7c-96d0-eb8add302bf3"/>
-					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font isBold="true"/>
-					</textElement>
+					<reportElement mode="Opaque" x="0" y="0" width="80" height="20" forecolor="#006699" backcolor="#DEDEDE" uuid="c57f5b1b-4a6c-4b1a-a976-d2d750056556"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
 					<textFieldExpression><![CDATA[$F{phase_name}]]></textFieldExpression>
 				</textField>
 			</band>
@@ -87,12 +119,21 @@
 			<frame>
 				<reportElement mode="Opaque" x="-20" y="-20" width="595" height="92" backcolor="#006699" uuid="32de50be-4b5d-41a3-9226-1a0d90cfca70"/>
 				<staticText>
-					<reportElement x="90" y="25" width="425" height="43" forecolor="#FFFFFF" uuid="11be9fba-05cb-4848-8b5c-e6b36745a43a"/>
+					<reportElement x="100" y="25" width="450" height="43" forecolor="#FFFFFF" uuid="11be9fba-05cb-4848-8b5c-e6b36745a43a"/>
 					<textElement>
 						<font fontName="Felix Titling" size="34" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Estado de un equipo]]></text>
 				</staticText>
+				<textField isBlankWhenNull="true">
+					<reportElement x="160" y="68" width="290" height="20" forecolor="#FCFCFC" uuid="5ebff40d-0508-4e15-b413-34b1e1cfb914">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="33a1cb4f-8e44-42d0-9b7f-352a2afe4bf4"/>
+					</reportElement>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="14" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{team_name}]]></textFieldExpression>
+				</textField>
 			</frame>
 		</band>
 	</title>
@@ -204,58 +245,58 @@
 			<line>
 				<reportElement positionType="FixRelativeToBottom" x="0" y="0" width="555" height="1" uuid="74bba0fb-fe5c-42b0-acbe-8dc570d183c3"/>
 			</line>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="20" width="555" height="1" uuid="5bfcbcee-1e98-44d2-9364-bc728d6f0351"/>
+			</line>
 			<textField>
-				<reportElement x="110" y="0" width="60" height="20" uuid="5cde3b04-1c72-44bd-8c42-21a90e98b4aa">
-					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ec8c8a37-a737-40b3-b29f-292ad27c9267"/>
+				<reportElement x="110" y="0" width="60" height="20" uuid="c1bd670c-484d-4a8d-a571-d1c3cea5c5c8">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="dba993d5-5643-4325-b632-945dd27b0051"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{jj}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="170" y="0" width="50" height="20" uuid="64054835-2159-4049-9261-c6b7340942d9">
-					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a066f5dc-06e5-405d-a72a-2f360c2c0a10"/>
+				<reportElement x="170" y="1" width="50" height="19" uuid="a56fd9d8-1398-4d90-b5c5-eafacf44f1fc">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="93655248-fb00-4ace-834c-d1ed7736f5fb"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{jg}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="220" y="0" width="50" height="20" uuid="b064f980-fddd-443b-8a91-a3beb343dafb">
-					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ed659c48-e355-40f8-b22f-ccc00ba0eade"/>
+				<reportElement x="220" y="0" width="50" height="20" uuid="290eb91e-66a6-4bf9-9783-6e428d18b7dc">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="16be5c71-dfe2-48ff-898e-3b6a45cdd784"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{jp}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="270" y="0" width="50" height="20" uuid="d815ed2b-47d3-4354-a631-564536fe119e">
-					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="65ab47d2-327e-4d13-a170-519ec8223140"/>
+				<reportElement x="270" y="0" width="50" height="20" uuid="a534e908-835f-4683-909e-26e1830dd0a5">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b1bb2ae4-2355-4e12-9430-5c0d694a156e"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{jgl}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="320" y="0" width="60" height="20" uuid="2067207d-ec38-47fa-98b8-35e8a41b6a4f">
-					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="7d72112c-39ce-4039-b010-435955d4f375"/>
+				<reportElement x="320" y="0" width="60" height="20" uuid="f75cf111-1a5d-4883-87b6-a1f7103f9c1d">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="be34b9e1-07f8-43f6-80cc-e2ada25b00d9"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{jpl}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="380" y="0" width="60" height="20" uuid="e079f816-bd73-4b10-a1a8-401991c69490">
-					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="0c53b701-87e4-46aa-bf10-cae7baf7fb09"/>
+				<reportElement x="380" y="0" width="60" height="20" uuid="ea5ea578-3a78-4dae-93cf-7a2ffc076568">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="070b7224-6a1f-41d5-a525-debee521bcf6"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{jgv}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="440" y="0" width="55" height="20" uuid="cb1bd8cc-257c-4536-9ab0-ab5b93b41b00">
-					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f0b8ec40-2826-408d-81bb-ef1414a4284a"/>
+				<reportElement x="440" y="0" width="55" height="20" uuid="5f94be29-d8de-4d3e-9ab8-b1a55a14f0eb">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2a3571f5-2ef6-4d9d-97cd-81ee421ea51f"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{jpv}]]></textFieldExpression>
 			</textField>
-			<line>
-				<reportElement positionType="FixRelativeToBottom" x="0" y="20" width="555" height="1" uuid="5bfcbcee-1e98-44d2-9364-bc728d6f0351"/>
-			</line>
 		</band>
 	</detail>
 	<columnFooter>
