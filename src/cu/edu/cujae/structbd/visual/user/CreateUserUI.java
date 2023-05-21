@@ -13,7 +13,10 @@ import cu.edu.cujae.structbd.exceptions.user.ShortUsernameException;
 import cu.edu.cujae.structbd.services.ServicesLocator;
 import cu.edu.cujae.structbd.utils.UtilsConnector;
 import java.sql.SQLException;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -21,24 +24,30 @@ import java.util.List;
  */
 public class CreateUserUI extends javax.swing.JDialog {
     private final CreateUserDTO userForm = new CreateUserDTO("", "", "", 0);
-    private final List<ReadUserRoleDTO> roles = ServicesLocator.UserRoleServices.readUserRoles();
+    private List<ReadUserRoleDTO> roles = new LinkedList<>();
 
     /**
      * Creates new form CreateUserUI
      */
-    public CreateUserUI(java.awt.Frame parent, boolean modal) throws SQLException, ClassNotFoundException {
-        super(parent, modal);
+    public CreateUserUI(java.awt.Frame parent){
+        super(parent, true);
         initComponents();
         this.updateUI();
     }
     
-    private void updateUI() throws SQLException, ClassNotFoundException{
-        jComboBox1.removeAllItems();
-        roles.forEach(r -> {  
-            jComboBox1.addItem(r.getRoleName());
-        });
-        
-        jComboBox1.setSelectedIndex(0);
+    private void updateUI(){
+        try {
+            this.roles = ServicesLocator.UserRoleServices.readUserRoles();
+            
+            jComboBox1.removeAllItems();
+            roles.forEach(r -> {
+                jComboBox1.addItem(r.getRoleName());
+            });
+            
+            jComboBox1.setSelectedIndex(0);
+        } catch (SQLException | ClassNotFoundException ex) {
+            UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
+        } 
         
     }
 
@@ -202,14 +211,11 @@ public class CreateUserUI extends javax.swing.JDialog {
        catch(DifferentPasswordsException ex){
            UtilsConnector.viewMessagesUtils.showErrorMessage(this, "No coinciden las contraseñas");
        }
-        catch(SQLException ex){
+        catch(SQLException | ClassNotFoundException ex){
             UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
        }
         catch(EmptyFieldFormException ex){
             UtilsConnector.viewMessagesUtils.showErrorMessage(this, ex.getMessage());
-       }
-        catch(ClassNotFoundException ex){
-            UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
        }
         catch(ShortUsernameException ex){
             UtilsConnector.viewMessagesUtils.showErrorMessage(this, "El nombre de usuario no puede ser menor a 5 caracteres");

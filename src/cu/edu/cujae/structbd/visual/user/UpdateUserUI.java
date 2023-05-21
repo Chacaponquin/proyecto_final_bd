@@ -5,7 +5,10 @@
 package cu.edu.cujae.structbd.visual.user;
 
 import cu.edu.cujae.structbd.dto.user.ActualUserDTO;
+import cu.edu.cujae.structbd.dto.user.ReadUserDTO;
 import cu.edu.cujae.structbd.dto.user.UpdateUserDTO;
+import cu.edu.cujae.structbd.dto.user_role.FindUserRoleDTO;
+import cu.edu.cujae.structbd.dto.user_role.ReadUserRoleDTO;
 import cu.edu.cujae.structbd.exceptions.app.EmptyFieldFormException;
 import cu.edu.cujae.structbd.exceptions.user.DuplicateUserException;
 import cu.edu.cujae.structbd.exceptions.user.ShortUsernameException;
@@ -13,20 +16,31 @@ import cu.edu.cujae.structbd.services.ServicesLocator;
 import cu.edu.cujae.structbd.utils.AppCustomDialog;
 import cu.edu.cujae.structbd.utils.UtilsConnector;
 import java.sql.SQLException;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  *
  * @author Hector Angel Gomez
  */
 public class UpdateUserUI extends AppCustomDialog{
-    private ActualUserDTO actualUser = null;
+    private ReadUserDTO user = null;
+    private List<ReadUserRoleDTO> selectRoles = new LinkedList<>();
+    private boolean currentUserUpdate;
 
     /**
      * Creates new form UpdateUserUI
      */
-    public UpdateUserUI(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
-        
+    public UpdateUserUI(java.awt.Frame parent, ActualUserDTO actualUser) {
+        super(parent, true);
+        this.user = new ReadUserDTO(actualUser.getID(), actualUser.getUsername(), actualUser.getRole(), null, actualUser.getRoleID());
+        this.currentUserUpdate = true;
+    }
+    
+    public UpdateUserUI(java.awt.Frame parent, ReadUserDTO user) {
+        super(parent, true);
+        this.user = user;
+        this.currentUserUpdate = false;
     }
 
     @Override
@@ -36,9 +50,33 @@ public class UpdateUserUI extends AppCustomDialog{
     }
     
     public void updateUI(){
-        this.actualUser = ServicesLocator.UserServices.getActualUser();
+        this.jTextField1.setText(user.getUsername());  
+        this.jComboBox1.removeAllItems();
         
-        this.jTextField1.setText(actualUser.getUsername());
+        if(this.currentUserUpdate){   
+            this.jComboBox1.addItem(user.getRole());
+            this.jComboBox1.setEnabled(false);
+        }else {
+            try {
+                this.selectRoles.clear();
+                List<ReadUserRoleDTO> allRoles = ServicesLocator.UserRoleServices.readUserRoles();
+                
+                ReadUserRoleDTO foundRole = ServicesLocator.UserRoleServices.findRole(new FindUserRoleDTO(this.user.getRoleID()));
+                this.selectRoles.add(foundRole);
+                
+                for(ReadUserRoleDTO r: allRoles){
+                    if(r.getUserRoleID() != foundRole.getUserRoleID())
+                        this.selectRoles.add(r);
+                }
+                
+                for(ReadUserRoleDTO r: this.selectRoles){
+                    this.jComboBox1.addItem(r.getRoleName());
+                }
+               
+            } catch (SQLException | ClassNotFoundException  ex) {
+                UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
+            } 
+        }
     }
     
     
@@ -56,6 +94,8 @@ public class UpdateUserUI extends AppCustomDialog{
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jTextField1 = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -72,36 +112,50 @@ public class UpdateUserUI extends AppCustomDialog{
             }
         });
 
+        jLabel2.setText("Rol:");
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                    .addGroup(layout.createSequentialGroup()
                         .addGap(19, 19, 19)
-                        .addComponent(jLabel1)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jTextField1)
+                                .addGap(1, 1, 1))
+                            .addComponent(jComboBox1, 0, 227, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton1)))
-                .addGap(18, 18, 18))
+                .addGap(17, 17, 17))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel2)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton2)
+                    .addComponent(jButton1))
+                .addContainerGap())
         );
 
         pack();
@@ -111,9 +165,20 @@ public class UpdateUserUI extends AppCustomDialog{
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         try {
             String newUsername = this.jTextField1.getText();
+            if(currentUserUpdate){
+                UpdateUserDTO updateUser = new UpdateUserDTO(user.getUserID(), newUsername, null, null, this.user.getRoleID());
+                ServicesLocator.UserServices.updateUser(updateUser);              
+            }
+            else {
+                int selRol = this.jComboBox1.getSelectedIndex();
+                ReadUserRoleDTO sr = this.selectRoles.get(selRol);
+                
+                UpdateUserDTO updateUser = new UpdateUserDTO(user.getUserID(), newUsername, null, null, sr.getUserRoleID());
+                ServicesLocator.UserServices.updateUser(updateUser);
+            }
             
-            UpdateUserDTO updateUser = new UpdateUserDTO(actualUser.getID(), newUsername, null, null);
-            ServicesLocator.UserServices.updateUser(updateUser);
+            UtilsConnector.viewMessagesUtils.showSuccessMessage(this, "Usuario actualizado."); 
+            this.dispose();
         } catch (SQLException | ClassNotFoundException ex) {
             UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
         } catch (EmptyFieldFormException ex) {
@@ -129,7 +194,9 @@ public class UpdateUserUI extends AppCustomDialog{
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }

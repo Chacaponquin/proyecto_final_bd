@@ -4,6 +4,7 @@
  */
 package cu.edu.cujae.structbd.services;
 
+import cu.edu.cujae.structbd.dto.user_role.FindUserRoleDTO;
 import cu.edu.cujae.structbd.dto.user_role.ReadUserRoleDTO;
 import cu.edu.cujae.structbd.utils.Connector;
 import java.sql.CallableStatement;
@@ -37,6 +38,19 @@ public class UserRoleServices {
         preparedFunction.close();
         
         return user_roles;
+    }
+    
+    public ReadUserRoleDTO findRole(FindUserRoleDTO role) throws SQLException, ClassNotFoundException{
+        List<ReadUserRoleDTO> allRoles = this.readUserRoles();
+        ReadUserRoleDTO found = null;
+        
+        for(int i = 0; i < allRoles.size() && found == null; i++){
+            if(allRoles.get(i).getUserRoleID() == role.getRoleID()){
+                found = allRoles.get(i);
+            }
+        }
+        
+        return found;
     }
     
 }

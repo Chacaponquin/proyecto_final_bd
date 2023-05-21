@@ -25,8 +25,6 @@ public class ViewMessagesUtils {
     }
     
     public void showConecctionErrorMessage(Component component, Exception ex){
-        this.showErrorMessage(component, "Error de conexión " + ex.getMessage());
-        
         if(component instanceof JFrame){
             ((JFrame) component).dispose();
         }
@@ -34,6 +32,7 @@ public class ViewMessagesUtils {
             ((JDialog) component).dispose();
         }
         
+        this.showErrorMessage(component, "Error de conexión " + ex.getMessage());
         Connector.restartConnection();
     }
     

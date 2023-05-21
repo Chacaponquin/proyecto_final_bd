@@ -84,7 +84,7 @@ public class MainUI extends javax.swing.JFrame {
         return new ActionListener(){
             @Override
                 public void actionPerformed(ActionEvent e){
-                    UpdateUserUI w = new UpdateUserUI(main, true);
+                    UpdateUserUI w = new UpdateUserUI(main, ServicesLocator.UserServices.getActualUser());
                     w.start();
                     UtilsConnector.viewUtils.openDialog(main, w);
                 } 

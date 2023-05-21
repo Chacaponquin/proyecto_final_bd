@@ -15,16 +15,22 @@ public class ReadUserDTO {
     private final String username;
     private final String role;
     private final String password;
+    private final int roleID;
 
-    public ReadUserDTO(int userID, String username, String role, String password) {
+    public ReadUserDTO(int userID, String username, String role, String password, int roleID) {
         this.username = username;
         this.role = role;
         this.password = password;
         this.userID = userID;
+        this.roleID = roleID;
     }
 
     public String getUsername() {
         return username;
+    }
+    
+    public int getRoleID(){
+        return this.roleID;
     }
 
     public String getRole() {

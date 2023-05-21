@@ -6,6 +6,8 @@ package cu.edu.cujae.structbd.visual.user;
 
 import cu.edu.cujae.structbd.dto.user.DeleteUserDTO;
 import cu.edu.cujae.structbd.dto.user.ReadUserDTO;
+import cu.edu.cujae.structbd.exceptions.user.AdminNotDeleteAdminException;
+import cu.edu.cujae.structbd.exceptions.user.AtLeastOneAdminException;
 import cu.edu.cujae.structbd.services.ServicesLocator;
 import cu.edu.cujae.structbd.utils.AppCustomWindow;
 import cu.edu.cujae.structbd.utils.UtilsConnector;
@@ -31,7 +33,7 @@ public class UserUI extends AppCustomWindow {
     
     public void updateUI(){ 
         try {
-            this.cleanTable();
+            UtilsConnector.viewUtils.cleanTable(jTable1);
             
             this.users.clear();
             this.users = ServicesLocator.UserServices.readUsersForAdmin();
@@ -45,15 +47,6 @@ public class UserUI extends AppCustomWindow {
             UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
         }
     }
-    
-    public void cleanTable(){
-        DefaultTableModel model = (DefaultTableModel) this.jTable1.getModel();
-            
-        int count = model.getRowCount();
-        for(int i = 0; i < count; i++){
-            model.removeRow(0);
-        }
-    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -65,11 +58,15 @@ public class UserUI extends AppCustomWindow {
     private void initComponents() {
 
         jPopupMenu1 = new javax.swing.JPopupMenu();
+        editMenu = new javax.swing.JMenuItem();
         deleteMenu = new javax.swing.JMenuItem();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+
+        editMenu.setText("Editar");
+        jPopupMenu1.add(editMenu);
 
         deleteMenu.setText("Eliminar Usuario");
         deleteMenu.addActionListener(new java.awt.event.ActionListener() {
@@ -145,38 +142,34 @@ public class UserUI extends AppCustomWindow {
             int selectRow = this.jTable1.getSelectedRow();
             
             if(selectRow >= 0){
+                ReadUserDTO userSel = this.users.get(selectRow);
                 
                 boolean accept = UtilsConnector.viewMessagesUtils.showConfirmDialog(this, "Seguro que desea eliminar este usuario?");
                 
                 if(accept){
-                    DeleteUserDTO userToSelect = new DeleteUserDTO(this.users.get(selectRow).getUserID());
+                    DeleteUserDTO userToSelect = new DeleteUserDTO(userSel.getUserID());
                     ServicesLocator.UserServices.deleteUser(userToSelect);
                     this.updateUI();
                 }
             }
         } catch (SQLException | ClassNotFoundException ex) {
             UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
+        } catch (AdminNotDeleteAdminException ex) {
+            UtilsConnector.viewMessagesUtils.showErrorMessage(this, "Siendo administrador no puedes eliminar a otro administrador");
+        } catch (AtLeastOneAdminException ex) {
+            UtilsConnector.viewMessagesUtils.showErrorMessage(this, "Debe quedar al menos un administrador.");
         } 
     }//GEN-LAST:event_deleteMenuActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        CreateUserUI modal;
-        try {
-            modal = new CreateUserUI(this, true);
-            
-            modal.setVisible(true);
-            modal.setLocationRelativeTo(null);
-        } catch (SQLException ex) {
-            Logger.getLogger(UserUI.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(UserUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
+
+        UtilsConnector.viewUtils.openDialog(this, new CreateUserUI(this));
 // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem deleteMenu;
+    private javax.swing.JMenuItem editMenu;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JPopupMenu jPopupMenu1;

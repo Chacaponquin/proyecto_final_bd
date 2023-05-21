@@ -9,9 +9,10 @@ package cu.edu.cujae.structbd.utils;
  * @author Hector Angel Gomez
  */
 public enum USER_ROLE {
-    ADMIN("Administrador");
+    ADMIN("Administrador"),
+    SUPER_ADMIN("Super Administrador");
     
-    private String roleName;
+    private final String roleName;
     
     private USER_ROLE(String roleName){
         this.roleName = roleName;
@@ -19,6 +20,10 @@ public enum USER_ROLE {
     
     public String getRoleName(){
         return this.roleName;
+    }
+    
+    public boolean equal(String role){
+        return this.roleName.equals(role);
     }
     
 }

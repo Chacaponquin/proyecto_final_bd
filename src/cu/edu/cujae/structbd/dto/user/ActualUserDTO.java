@@ -12,15 +12,21 @@ public class ActualUserDTO {
     private final String username;
     private final String role;
     private final int id;
+    private final int roleID;
 
-    public ActualUserDTO(int id, String username, String role) {
+    public ActualUserDTO(int id, String username, String role, int roleID) {
         this.username = username;
         this.role = role;
         this.id = id;
+        this.roleID = roleID;
     }
 
     public String getUsername() {
         return username;
+    }
+    
+    public int getRoleID(){
+        return this.roleID;
     }
 
     public String getRole() {

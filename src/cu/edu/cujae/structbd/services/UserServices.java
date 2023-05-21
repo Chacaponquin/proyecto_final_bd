@@ -8,10 +8,13 @@ package cu.edu.cujae.structbd.services;
 import cu.edu.cujae.structbd.dto.user.ActualUserDTO;
 import cu.edu.cujae.structbd.dto.user.CreateUserDTO;
 import cu.edu.cujae.structbd.dto.user.DeleteUserDTO;
+import cu.edu.cujae.structbd.dto.user.FindUserDTO;
 import cu.edu.cujae.structbd.dto.user.LoginUserDTO;
 import cu.edu.cujae.structbd.dto.user.ReadUserDTO;
 import cu.edu.cujae.structbd.dto.user.UpdateUserDTO;
 import cu.edu.cujae.structbd.exceptions.app.EmptyFieldFormException;
+import cu.edu.cujae.structbd.exceptions.user.AdminNotDeleteAdminException;
+import cu.edu.cujae.structbd.exceptions.user.AtLeastOneAdminException;
 import cu.edu.cujae.structbd.exceptions.user.DifferentPasswordsException;
 import cu.edu.cujae.structbd.exceptions.user.DuplicateUserException;
 import cu.edu.cujae.structbd.exceptions.user.IncorrectLoginException;
@@ -56,8 +59,9 @@ public class UserServices {
             String username = resultSet.getString("username");
             String role = resultSet.getString("role_name");
             String password = resultSet.getString("password");
+            int roleID = resultSet.getInt("user_role_id");
             
-            users.add(new ReadUserDTO(id, username, role, password));
+            users.add(new ReadUserDTO(id, username, role, password, roleID));
         }
         
         resultSet.close();
@@ -70,6 +74,7 @@ public class UserServices {
         List<ReadUserDTO> allUsers = this.readUsers();
         
         List<ReadUserDTO> returnUsers = new LinkedList<>();
+  
         for(ReadUserDTO r: allUsers){
             if(r.getUserID() != this.actualUser.getID()){
                 returnUsers.add(r);
@@ -133,11 +138,11 @@ public class UserServices {
         if(foundUser == null){
             throw new IncorrectLoginException();
         }else {
-            this.setActualUser(new ActualUserDTO(foundUser.getUserID(),foundUser.getUsername(), foundUser.getRole()));
+            this.setActualUser(new ActualUserDTO(foundUser.getUserID(),foundUser.getUsername(), foundUser.getRole(), foundUser.getRoleID()));
         }
     }
     
-    public void deleteUser(DeleteUserDTO user) throws SQLException, ClassNotFoundException{
+    public void deleteUser(DeleteUserDTO user) throws SQLException, ClassNotFoundException, AdminNotDeleteAdminException, AtLeastOneAdminException{
         List<ReadUserDTO> allUsers = this.readUsers();
         
         ReadUserDTO userFound = null;
@@ -152,7 +157,22 @@ public class UserServices {
         }
     }
     
-    private void deleteUserQuery(DeleteUserDTO user) throws SQLException, ClassNotFoundException{
+    public ReadUserDTO findUser(FindUserDTO user) throws SQLException, ClassNotFoundException{
+        List<ReadUserDTO> allUsers = this.readUsers();
+        ReadUserDTO found = null;
+        
+        for(int i = 0; i < allUsers.size() && found == null; i++){
+            if(allUsers.get(i).getUserID() == user.getUserID()){
+                found = allUsers.get(i);
+            }
+        }
+        
+        return found;
+    }
+    
+    private void deleteUserQuery(DeleteUserDTO user) throws SQLException, ClassNotFoundException, AdminNotDeleteAdminException, AtLeastOneAdminException, AtLeastOneAdminException{
+        this.validateActualUserCanDelete(user);
+        
         String function = "{call user_delete(?)}";
         java.sql.Connection connection = Connector.getConnection();
         CallableStatement preparedFunction = connection.prepareCall(function);
@@ -161,6 +181,40 @@ public class UserServices {
         preparedFunction.close();
         
         connection.commit();
+    }
+    
+    private int countAdminUsers() throws SQLException, ClassNotFoundException{
+        List<ReadUserDTO> allUsers = this.readUsers();
+        int cont = 0;
+        
+        for(int i = 0; i < allUsers.size(); i++){
+            if(USER_ROLE.ADMIN.equal(allUsers.get(i).getRole())){
+                cont++;
+            }
+        }
+        
+        return cont;
+        
+    }
+    
+    private void validateActualUserCanDelete(DeleteUserDTO userToDelete) throws SQLException, ClassNotFoundException, AdminNotDeleteAdminException, AtLeastOneAdminException{
+        ReadUserDTO foundUserDelete = this.findUser(new FindUserDTO(userToDelete.getUserID()));
+        
+        if(USER_ROLE.ADMIN.equal(foundUserDelete.getRole()) && USER_ROLE.ADMIN.equal(this.actualUser.getRole())){
+            throw new AdminNotDeleteAdminException();
+        }
+        
+        if(this.actualUserIsSuperAdmin()){
+            int contAdmin = this.countAdminUsers();
+            
+            if(contAdmin == 1){
+                throw new AtLeastOneAdminException();
+            }
+        }
+    }
+    
+    private boolean actualUserIsSuperAdmin() {
+        return USER_ROLE.SUPER_ADMIN.equal(this.actualUser.getRole());
     }
     
     private ReadUserDTO foundDuplicateUsername(String username) throws SQLException, ClassNotFoundException{
@@ -190,6 +244,7 @@ public class UserServices {
         CallableStatement preparedFunction = connection.prepareCall(function);
         preparedFunction.setInt(1, updateUser.getUserID());
         preparedFunction.setString(2, updateUser.getNewUsername());
+        preparedFunction.setInt(4, updateUser.getRoleID());
         
         preparedFunction.close();
         connection.commit();
@@ -211,7 +266,7 @@ public class UserServices {
     public boolean actualUserIsAdmin(){
         if(actualUser == null) return false;
         
-        return this.actualUser.getRole().equals(USER_ROLE.ADMIN.getRoleName());
+        return USER_ROLE.SUPER_ADMIN.equal(this.actualUser.getRole()) || USER_ROLE.ADMIN.equal(this.actualUser.getRole());
     }
     
 }
