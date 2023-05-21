@@ -7,6 +7,7 @@ package cu.edu.cujae.structbd.services;
 import cu.edu.cujae.structbd.dto.user_role.FindUserRoleDTO;
 import cu.edu.cujae.structbd.dto.user_role.ReadUserRoleDTO;
 import cu.edu.cujae.structbd.utils.Connector;
+import cu.edu.cujae.structbd.utils.USER_ROLE;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,7 +19,7 @@ import java.util.List;
  * @author Hector Angel Gomez
  */
 public class UserRoleServices {
-    public List<ReadUserRoleDTO> readUserRoles() throws SQLException, ClassNotFoundException{
+    private List<ReadUserRoleDTO> readUserRoles() throws SQLException, ClassNotFoundException{
         LinkedList<ReadUserRoleDTO> user_roles = new LinkedList<>();
         String function = "{?= call user_role_load()}";
         java.sql.Connection connection = Connector.getConnection();
@@ -36,6 +37,17 @@ public class UserRoleServices {
         }
         resultSet.close();
         preparedFunction.close();
+        
+        return user_roles;
+    }
+    
+    public List<ReadUserRoleDTO> readLoginRoles() throws SQLException, ClassNotFoundException{
+        LinkedList<ReadUserRoleDTO> user_roles = new LinkedList<>();
+        List<ReadUserRoleDTO> allRoles = this.readUserRoles();
+        
+        for(ReadUserRoleDTO r: allRoles){
+            if(!USER_ROLE.SUPER_ADMIN.equal(r.getRoleName())) user_roles.add(r);
+        }
         
         return user_roles;
     }

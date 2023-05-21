@@ -14,8 +14,6 @@ import cu.edu.cujae.structbd.utils.UtilsConnector;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -66,6 +64,11 @@ public class UserUI extends AppCustomWindow {
         jButton2 = new javax.swing.JButton();
 
         editMenu.setText("Editar");
+        editMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editMenuActionPerformed(evt);
+            }
+        });
         jPopupMenu1.add(editMenu);
 
         deleteMenu.setText("Eliminar Usuario");
@@ -166,6 +169,17 @@ public class UserUI extends AppCustomWindow {
         UtilsConnector.viewUtils.openDialog(this, new CreateUserUI(this));
 // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void editMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editMenuActionPerformed
+        int sR = this.jTable1.getSelectedRow();
+        
+        if(sR >= 0){
+            ReadUserDTO su = this.users.get(sR);
+            UpdateUserUI w = new UpdateUserUI(this, su);
+            w.start();
+            UtilsConnector.viewUtils.openDialog(this, w);
+        }      // TODO add your handling code here:
+    }//GEN-LAST:event_editMenuActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem deleteMenu;

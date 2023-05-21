@@ -15,8 +15,6 @@ import cu.edu.cujae.structbd.utils.UtilsConnector;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -37,7 +35,7 @@ public class CreateUserUI extends javax.swing.JDialog {
     
     private void updateUI(){
         try {
-            this.roles = ServicesLocator.UserRoleServices.readUserRoles();
+            this.roles = ServicesLocator.UserRoleServices.readLoginRoles();
             
             jComboBox1.removeAllItems();
             roles.forEach(r -> {

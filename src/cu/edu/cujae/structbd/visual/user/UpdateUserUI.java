@@ -15,9 +15,11 @@ import cu.edu.cujae.structbd.exceptions.user.ShortUsernameException;
 import cu.edu.cujae.structbd.services.ServicesLocator;
 import cu.edu.cujae.structbd.utils.AppCustomDialog;
 import cu.edu.cujae.structbd.utils.UtilsConnector;
+import java.awt.Frame;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
+import javax.swing.JFrame;
 
 /**
  *
@@ -27,20 +29,23 @@ public class UpdateUserUI extends AppCustomDialog{
     private ReadUserDTO user = null;
     private List<ReadUserRoleDTO> selectRoles = new LinkedList<>();
     private boolean currentUserUpdate;
+    private JFrame parent;
 
     /**
      * Creates new form UpdateUserUI
      */
-    public UpdateUserUI(java.awt.Frame parent, ActualUserDTO actualUser) {
+    public UpdateUserUI(JFrame parent, ActualUserDTO actualUser) {
         super(parent, true);
         this.user = new ReadUserDTO(actualUser.getID(), actualUser.getUsername(), actualUser.getRole(), null, actualUser.getRoleID());
         this.currentUserUpdate = true;
+        this.parent = parent;
     }
     
-    public UpdateUserUI(java.awt.Frame parent, ReadUserDTO user) {
+    public UpdateUserUI(JFrame parent, ReadUserDTO user) {
         super(parent, true);
         this.user = user;
         this.currentUserUpdate = false;
+        this.parent = parent;
     }
 
     @Override
@@ -59,7 +64,7 @@ public class UpdateUserUI extends AppCustomDialog{
         }else {
             try {
                 this.selectRoles.clear();
-                List<ReadUserRoleDTO> allRoles = ServicesLocator.UserRoleServices.readUserRoles();
+                List<ReadUserRoleDTO> allRoles = ServicesLocator.UserRoleServices.readLoginRoles();
                 
                 ReadUserRoleDTO foundRole = ServicesLocator.UserRoleServices.findRole(new FindUserRoleDTO(this.user.getRoleID()));
                 this.selectRoles.add(foundRole);
@@ -103,6 +108,11 @@ public class UpdateUserUI extends AppCustomDialog{
 
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jButton1.setText("Cancelar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jButton2.setText("Modificar");
@@ -178,6 +188,11 @@ public class UpdateUserUI extends AppCustomDialog{
             }
             
             UtilsConnector.viewMessagesUtils.showSuccessMessage(this, "Usuario actualizado."); 
+            
+            if(this.parent instanceof UserUI){
+                ((UserUI)this.parent).updateUI();
+            }
+            
             this.dispose();
         } catch (SQLException | ClassNotFoundException ex) {
             UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
@@ -189,6 +204,10 @@ public class UpdateUserUI extends AppCustomDialog{
             UtilsConnector.viewMessagesUtils.showErrorMessage(this, ex.getMessage());
         } 
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+this.dispose();        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

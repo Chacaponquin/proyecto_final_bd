@@ -11,7 +11,11 @@ import cu.edu.cujae.structbd.utils.AppCustomWindow;
 import cu.edu.cujae.structbd.utils.UtilsConnector;
 import cu.edu.cujae.structbd.utils.ViewDialog;
 import cu.edu.cujae.structbd.utils.ViewWindow;
+<<<<<<< HEAD
 import cu.edu.cujae.structbd.visual.snb.SerieUI;
+=======
+import cu.edu.cujae.structbd.visual.user.ChangePasswordUI;
+>>>>>>> 08d809b957c8bc06bdca184bed499267a85456b5
 import cu.edu.cujae.structbd.visual.user.LoginUI;
 import cu.edu.cujae.structbd.visual.user.UpdateUserUI;
 import java.awt.Graphics;
@@ -77,6 +81,10 @@ public class MainUI extends javax.swing.JFrame {
         JMenuItem updateUserItem = new JMenuItem("Configurar Usuario");
         updateUserItem.addActionListener(this.userConfigAction(this));
         
+        JMenuItem changePasswordItem = new JMenuItem("Cambiar Contraseña");
+        changePasswordItem.addActionListener(this.userChangePasswordAction(this));
+        
+        this.jMenu3.add(changePasswordItem);
         this.jMenu3.add(updateUserItem);
         this.jMenu3.add(closeUserItem); 
     }
@@ -92,14 +100,25 @@ public class MainUI extends javax.swing.JFrame {
          };
     }
     
+    public ActionListener userChangePasswordAction(MainUI main){
+        return new ActionListener(){
+            @Override
+                public void actionPerformed(ActionEvent e){
+                    ChangePasswordUI w = new ChangePasswordUI(main);
+                    w.start();
+                    UtilsConnector.viewUtils.openDialog(main, w);
+                } 
+         };
+    }
+    
     public ActionListener userSignOut(MainUI main){
         return new ActionListener(){
             @Override
                 public void actionPerformed(ActionEvent e){
                     ServicesLocator.UserServices.signOutUser();
-                    main.updateMenuItems();
+                    LoginUI w = new LoginUI();
                     
-                    UtilsConnector.viewUtils.openWindow(main, new LoginUI());
+                    UtilsConnector.viewUtils.openWindow(main, w);
                 } 
          };  
     }

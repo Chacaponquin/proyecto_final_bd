@@ -8,12 +8,12 @@
         <Property name="useNullLayout" type="boolean" value="true"/>
       </Layout>
       <SubComponents>
-        <MenuItem class="javax.swing.JMenuItem" name="jMenuItem1">
+        <MenuItem class="javax.swing.JMenuItem" name="editMenu">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Eliminar Estadio"/>
+            <Property name="text" type="java.lang.String" value="Editar"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem1ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="editMenuActionPerformed"/>
           </Events>
         </MenuItem>
       </SubComponents>

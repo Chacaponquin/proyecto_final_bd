@@ -11,13 +11,17 @@ import cu.edu.cujae.structbd.dto.user.DeleteUserDTO;
 import cu.edu.cujae.structbd.dto.user.FindUserDTO;
 import cu.edu.cujae.structbd.dto.user.LoginUserDTO;
 import cu.edu.cujae.structbd.dto.user.ReadUserDTO;
+import cu.edu.cujae.structbd.dto.user.UpdatePasswordDTO;
 import cu.edu.cujae.structbd.dto.user.UpdateUserDTO;
 import cu.edu.cujae.structbd.exceptions.app.EmptyFieldFormException;
 import cu.edu.cujae.structbd.exceptions.user.AdminNotDeleteAdminException;
 import cu.edu.cujae.structbd.exceptions.user.AtLeastOneAdminException;
 import cu.edu.cujae.structbd.exceptions.user.DifferentPasswordsException;
 import cu.edu.cujae.structbd.exceptions.user.DuplicateUserException;
+import cu.edu.cujae.structbd.exceptions.user.EmptyNewPasswordException;
 import cu.edu.cujae.structbd.exceptions.user.IncorrectLoginException;
+import cu.edu.cujae.structbd.exceptions.user.NotEqualOldPassword;
+import cu.edu.cujae.structbd.exceptions.user.ShortPasswordException;
 import cu.edu.cujae.structbd.exceptions.user.ShortUsernameException;
 import cu.edu.cujae.structbd.utils.Connector;
 import cu.edu.cujae.structbd.utils.USER_ROLE;
@@ -231,6 +235,38 @@ public class UserServices {
         return found;
     }
     
+    public void updateUserPassword(UpdatePasswordDTO newPassword) throws SQLException, ClassNotFoundException, NotEqualOldPassword, EmptyNewPasswordException, DifferentPasswordsException, ShortPasswordException{
+        ReadUserDTO foundUser = this.findUser(new FindUserDTO(newPassword.getUserID()));
+        
+        if(!this.verifyPassword(newPassword.getOldPassword(), foundUser.getPassword())){
+            throw new NotEqualOldPassword();
+        }
+        
+        if(newPassword.getNewPassword().equals("")){
+            throw new EmptyNewPasswordException();
+        }
+        
+        if(newPassword.getNewPassword().length() < 5){
+            throw new ShortPasswordException();
+        }
+        
+        if(!newPassword.getNewPassword().equals(newPassword.getComfirmPassword())){
+            throw new DifferentPasswordsException();
+        }
+        
+        String function = "{call user_update(?,?,?,?)}";
+        java.sql.Connection connection = Connector.getConnection();
+        CallableStatement preparedFunction = connection.prepareCall(function);
+        preparedFunction.setInt(1, newPassword.getUserID());
+        preparedFunction.setString(2, foundUser.getUsername());
+        preparedFunction.setString(3, this.hashPassword(newPassword.getNewPassword()));
+        preparedFunction.setInt(4, foundUser.getRoleID());
+        
+        preparedFunction.execute();
+        preparedFunction.close();
+        connection.commit();
+    }
+    
     public void updateUser(UpdateUserDTO updateUser) throws SQLException, ClassNotFoundException, EmptyFieldFormException, EmptyFieldFormException, DuplicateUserException, ShortUsernameException{
         this.validateUsername(updateUser.getNewUsername());
         
@@ -244,8 +280,10 @@ public class UserServices {
         CallableStatement preparedFunction = connection.prepareCall(function);
         preparedFunction.setInt(1, updateUser.getUserID());
         preparedFunction.setString(2, updateUser.getNewUsername());
+        preparedFunction.setString(3, updateUser.getNewPassword());
         preparedFunction.setInt(4, updateUser.getRoleID());
         
+        preparedFunction.execute();
         preparedFunction.close();
         connection.commit();
     }

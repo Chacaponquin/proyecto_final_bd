@@ -9,6 +9,7 @@ import cu.edu.cujae.structbd.services.ServicesLocator;
 import cu.edu.cujae.structbd.utils.AppCustomWindow;
 import cu.edu.cujae.structbd.utils.UtilsConnector;
 import java.sql.SQLException;
+import java.util.LinkedList;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
@@ -17,9 +18,12 @@ import javax.swing.table.DefaultTableModel;
  * @author Hector Angel Gomez
  */
 public class StadiumUI extends AppCustomWindow {
+    private List<ReadStadiumDTO> stadiumns = new LinkedList<>();
+    
     public void start(){
         try {
             initComponents();
+            this.jTable2.setComponentPopupMenu(jPopupMenu1);
             this.updateUI();
         } catch (SQLException | ClassNotFoundException ex) {
             UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
@@ -27,7 +31,8 @@ public class StadiumUI extends AppCustomWindow {
     }
     
     public void updateUI() throws SQLException, ClassNotFoundException{
-        List<ReadStadiumDTO> stadiumns = ServicesLocator.StadiumServices.getStadiums();
+        UtilsConnector.viewUtils.cleanTable(jTable2);
+        stadiumns = ServicesLocator.StadiumServices.getStadiums();
         
         DefaultTableModel model = (DefaultTableModel) this.jTable2.getModel();
         
@@ -47,20 +52,27 @@ public class StadiumUI extends AppCustomWindow {
     {
 
         jPopupMenu1 = new javax.swing.JPopupMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        editMenu = new javax.swing.JMenuItem();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
         jButton2 = new javax.swing.JButton();
 
+<<<<<<< HEAD
         jMenuItem1.setText("Eliminar Estadio");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
                 jMenuItem1ActionPerformed(evt);
+=======
+        editMenu.setText("Editar");
+        editMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editMenuActionPerformed(evt);
+>>>>>>> 08d809b957c8bc06bdca184bed499267a85456b5
             }
         });
-        jPopupMenu1.add(jMenuItem1);
+        jPopupMenu1.add(editMenu);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Stadiums");
@@ -114,17 +126,22 @@ public class StadiumUI extends AppCustomWindow {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-this.dispose();      // TODO add your handling code here:
+        this.dispose();      // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    private void editMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editMenuActionPerformed
+        int sel = this.jTable2.getSelectedRow();
+        
+        if(sel >= 0){
+            ReadStadiumDTO s = this.stadiumns.get(sel);
+            UtilsConnector.viewUtils.openDialog(this, new UpdateStadiumUI(this, s));
+        }
+    }//GEN-LAST:event_editMenuActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem editMenu;
     private javax.swing.JButton jButton2;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable2;
