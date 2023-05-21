@@ -14,14 +14,10 @@ import cu.edu.cujae.structbd.services.ServicesLocator;
 import cu.edu.cujae.structbd.utils.AppCustomWindow;
 import cu.edu.cujae.structbd.utils.UtilsConnector;
 import cu.edu.cujae.structbd.visual.pitcher.UpdatePitcherUI;
-import static java.awt.image.ImageObserver.HEIGHT;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -30,28 +26,13 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Player_UI extends AppCustomWindow
 {
+
     private LinkedList<ReadPlayerDTO> list_player;
-    
-    public void start(){
+
+    public void start()
+    {
         initComponents();
-        try
-        {
-            this.list_player = new LinkedList<>(ServicesLocator.PlayerServices.readAllPlayer());
-            Iterator<ReadPlayerDTO> it_list_player = list_player.iterator();
-            while (it_list_player.hasNext())
-            {
-                ReadPlayerDTO readPlayerDTO = it_list_player.next();
-                ((DefaultTableModel) table.getModel()).addRow(new Object[]
-                {
-                    readPlayerDTO.getTeam_member_name(), readPlayerDTO.getTeam_name(), readPlayerDTO.getMember_number(),
-                    readPlayerDTO.getPosition_name(), readPlayerDTO.getYears_in_team()
-                });
-            }
-        }
-        catch (SQLException | ClassNotFoundException  ex)
-        {
-            UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
-        }
+        update_list();
     }
 
     /**
@@ -226,13 +207,9 @@ public class Player_UI extends AppCustomWindow
                         UpdatePitcherUI updatePitcherUI = new UpdatePitcherUI(null, true, updatePitcherDTO);
                         updatePitcherUI.setVisible(true);
                     }
-                    catch (SQLException ex)
+                    catch (SQLException | ClassNotFoundException ex)
                     {
-                        Logger.getLogger(Player_UI.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    catch (ClassNotFoundException ex)
-                    {
-                        Logger.getLogger(Player_UI.class.getName()).log(Level.SEVERE, null, ex);
+                        UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(rootPane, ex);
                     }
 
                 }
@@ -242,19 +219,18 @@ public class Player_UI extends AppCustomWindow
                     //ReadBatterDTO readBatterDTO = ServicesLocator.BatterServices.readABatter(   );
                     //UpdateBatterDTO updateBatterDTO = new UpdatePitcherDTO(          );
                 }
+                update_list();
             }
             else
             {
-                JOptionPane.showMessageDialog(rootPane,
-                                              "El identificador del jugador no se encuentra en la base de datos",
-                                              "Información",
-                                              HEIGHT);
+                UtilsConnector.viewMessagesUtils.showSuccessMessage(rootPane,
+                                                                    "El identificador del jugador no se encuentra en la base de datos");
             }
         }
         else
         {
-            JOptionPane.showMessageDialog(rootPane, "Seleccione un jugador para poder modificarlo", "Información",
-                                          HEIGHT);
+            UtilsConnector.viewMessagesUtils.
+                showSuccessMessage(rootPane, "Seleccione un jugador para poder modificarlo");
         }
     }//GEN-LAST:event_menuModActionPerformed
 
@@ -266,7 +242,7 @@ public class Player_UI extends AppCustomWindow
     private void menuDelActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_menuDelActionPerformed
     {//GEN-HEADEREND:event_menuDelActionPerformed
         int row = table.getSelectedRow();
-        if (row > 0)
+        if (row >= 0)
         {
             String name = table.getValueAt(row, 0).toString();
             String team = table.getValueAt(row, 1).toString();
@@ -298,41 +274,47 @@ public class Player_UI extends AppCustomWindow
                         DeletePitcherDTO deletePitcherDTO = new DeletePitcherDTO(id);
                         ServicesLocator.PitcherServices.deletePitcher(deletePitcherDTO);
                     }
-                    catch (SQLException ex)
+                    catch (SQLException | ClassNotFoundException ex)
                     {
-                        Logger.getLogger(Player_UI.class.getName()).log(Level.SEVERE, null, ex);
+                        UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(rootPane, ex);
                     }
-                    catch (ClassNotFoundException ex)
-                    {
-                        Logger.getLogger(Player_UI.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+
                 }
                 else
                 {
                     //DeleteBatterDTO deleteBatterDTO = new DeleteBatterDTO(id);
                     //ServicesLocator.BatterServices.deleteBatter(deleteBatterDTO);
                 }
+                update_list();
             }
             else
             {
-                JOptionPane.showMessageDialog(rootPane,
-                                              "El identificador del jugador no se encuentra en la base de datos",
-                                              "Información",
-                                              HEIGHT);
+                UtilsConnector.viewMessagesUtils.showSuccessMessage(rootPane,
+                                                                    "El identificador del jugador no se encuentra en la base de datos");
             }
         }
         else
         {
-            JOptionPane.showMessageDialog(rootPane, "Seleccione un jugador para poder eliminarlo", "Información",
-                                          HEIGHT);
+            UtilsConnector.viewMessagesUtils.showSuccessMessage(rootPane, "Seleccione un jugador para poder eliminarlo");
         }
     }//GEN-LAST:event_menuDelActionPerformed
 
     private void formFocusGained(java.awt.event.FocusEvent evt)//GEN-FIRST:event_formFocusGained
     {//GEN-HEADEREND:event_formFocusGained
+        update_list();
+    }//GEN-LAST:event_formFocusGained
+
+    public void update_list()
+    {
+        DefaultTableModel model = (DefaultTableModel) this.table.getModel();
+
+        int count = model.getRowCount();
+        for (int i = 0; i < count; i++)
+        {
+            model.removeRow(0);
+        }
         try
         {
-            this.list_player.clear();
             this.list_player = new LinkedList<>(ServicesLocator.PlayerServices.readAllPlayer());
             Iterator<ReadPlayerDTO> it_list_player = list_player.iterator();
             while (it_list_player.hasNext())
@@ -345,17 +327,11 @@ public class Player_UI extends AppCustomWindow
                 });
             }
         }
-        catch (SQLException ex)
+        catch (SQLException | ClassNotFoundException ex)
         {
-            Logger.getLogger(Player_UI.class.getName()).log(Level.SEVERE, null, ex);
+            UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
         }
-        catch (ClassNotFoundException ex)
-        {
-            Logger.getLogger(Player_UI.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_formFocusGained
-
-
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JPopupMenu jPopupMenu1;

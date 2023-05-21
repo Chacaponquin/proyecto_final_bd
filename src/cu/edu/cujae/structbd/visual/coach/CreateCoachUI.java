@@ -44,9 +44,19 @@ public class CreateCoachUI extends JDialog
         {
             initComponents();
             this.teams_list = new ArrayList<>(ServicesLocator.CoachServices.getPosiblesTeamsToInsert());
-            for (int i = 0; i < teams_list.size(); i++)
+            //Si no existen equipos disponibles no se puede insertar
+            if (!teams_list.isEmpty())
             {
-                combo_box_team.addItem(teams_list.get(i).getTeam_name());
+                for (int i = 0; i < teams_list.size(); i++)
+                {
+                    combo_box_team.addItem(teams_list.get(i).getTeam_name());
+                }
+            }
+            else
+            {
+                UtilsConnector.viewMessagesUtils.showSuccessMessage(rootPane,
+                                                                    "No es posible insertar más entrenadores, todos los equipos tienen todas sus plazas ocupadas");
+                dispose();
             }
         }
         catch (SQLException | ClassNotFoundException ex)
@@ -208,7 +218,7 @@ public class CreateCoachUI extends JDialog
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton2ActionPerformed
     {//GEN-HEADEREND:event_jButton2ActionPerformed
-
+        
         try
         {
             if (validate_name() && validate_number() && validate_team())
@@ -279,7 +289,7 @@ public class CreateCoachUI extends JDialog
     {//GEN-HEADEREND:event_jButton1ActionPerformed
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
-
+    
     public boolean validate_name()
     {
         boolean result = true;

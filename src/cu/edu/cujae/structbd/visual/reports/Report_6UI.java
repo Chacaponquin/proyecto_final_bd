@@ -190,14 +190,11 @@ public class Report_6UI extends AppCustomDialog{
                 }
                 jButton1.setEnabled(true);
             }
-            catch (SQLException ex)
+            catch (SQLException | ClassNotFoundException ex)
             {
-                Logger.getLogger(Report_4UI.class.getName()).log(Level.SEVERE, null, ex);
+                UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(rootPane, ex);
             }
-            catch (ClassNotFoundException ex)
-            {
-                Logger.getLogger(Report_4UI.class.getName()).log(Level.SEVERE, null, ex);
-            }
+
         }
         else
         {
