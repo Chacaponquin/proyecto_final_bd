@@ -475,18 +475,10 @@ public class SerieUI extends AppCustomWindow
             if (rf.getPhase_name().equalsIgnoreCase(combo_phases.getSelectedItem().toString()))
             {
 
-<<<<<<< HEAD
                 phase_id = rf.getPhase_id();
                 found = true;
-
-=======
-                }
-                catch (SQLException | ClassNotFoundException ex)
-                {
-                    UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
-                }
->>>>>>> 08d809b957c8bc06bdca184bed499267a85456b5
             }
+
         }
         if (found)
         {

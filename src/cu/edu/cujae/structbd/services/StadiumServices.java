@@ -73,7 +73,6 @@ public class StadiumServices {
         preparedFunction.execute();
         
         ResultSet resultSet = (ResultSet) preparedFunction.getObject(1);
-<<<<<<< HEAD
         if (resultSet.next())
         {
             int stadiumID = resultSet.getInt("stadium_id");
@@ -81,7 +80,6 @@ public class StadiumServices {
             int capacity = resultSet.getInt("capacity");
         readStadiumDTO = new ReadStadiumDTO(stadiumID, stadiumName, capacity, null);
         }
-=======
         resultSet.next();
         int stadiumID = resultSet.getInt("stadium_id");
         String stadiumName = resultSet.getString("stadium_name");
@@ -89,8 +87,6 @@ public class StadiumServices {
         String province = resultSet.getString("province_name");
         
         readStadiumDTO = new ReadStadiumDTO(stadiumID, stadiumName, capacity, province);
-
->>>>>>> 08d809b957c8bc06bdca184bed499267a85456b5
         resultSet.close();
         preparedFunction.close();
         connection.commit();
