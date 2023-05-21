@@ -9,7 +9,7 @@ import cu.edu.cujae.structbd.services.ServicesLocator;
 import cu.edu.cujae.structbd.utils.AppCustomWindow;
 import cu.edu.cujae.structbd.utils.UtilsConnector;
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -27,12 +27,12 @@ public class StadiumUI extends AppCustomWindow {
     }
     
     public void updateUI() throws SQLException, ClassNotFoundException{
-        ArrayList<ReadStadiumDTO> stadiumns = ServicesLocator.StadiumServices.getStadiums();
+        List<ReadStadiumDTO> stadiumns = ServicesLocator.StadiumServices.getStadiums();
         
         DefaultTableModel model = (DefaultTableModel) this.jTable2.getModel();
         
         for(ReadStadiumDTO st:  stadiumns){
-            model.addRow(new Object[]{st.getStadiumName(), st.getCapacity()});
+            model.addRow(new Object[]{st.getStadiumName(), st.getCapacity(), st.getProvince()});
         }
     }
 

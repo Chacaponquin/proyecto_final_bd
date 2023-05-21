@@ -9,20 +9,31 @@ package cu.edu.cujae.structbd.dto.stadium;
  * @author Hector Angel Gomez
  */
 public class ReadStadiumDTO {
-    private String stadiumName;
-    private int capacity;
-    
-    public ReadStadiumDTO(String stadiumName, int capacity){
-        this.capacity = capacity;
+    private final int stadiumID;
+    private final String stadiumName;
+    private final int capacity;
+    private final String province;
+
+    public ReadStadiumDTO(int stadiumID, String stadiumName, int capacity, String province) {
+        this.stadiumID = stadiumID;
         this.stadiumName = stadiumName;
+        this.capacity = capacity;
+        this.province = province;
     }
-    
-    public String getStadiumName(){
-        return this.stadiumName;
+
+    public int getStadiumID() {
+        return stadiumID;
     }
-    
-    public int getCapacity(){
-        return this.capacity;
+
+    public String getStadiumName() {
+        return stadiumName;
     }
-    
+
+    public int getCapacity() {
+        return capacity;
+    }
+
+    public String getProvince() {
+        return province;
+    }
 }

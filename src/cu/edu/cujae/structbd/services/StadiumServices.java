@@ -1,6 +1,5 @@
 package cu.edu.cujae.structbd.services;
 
-import cu.edu.cujae.structbd.dto.reports.ReadReport_1DTO;
 import cu.edu.cujae.structbd.dto.stadium.ReadStadiumDTO;
 import cu.edu.cujae.structbd.dto.team.FindTeamDTO;
 import cu.edu.cujae.structbd.utils.Connector;
@@ -8,23 +7,30 @@ import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class StadiumServices {
-    public ArrayList<ReadStadiumDTO> getStadiums() throws SQLException, ClassNotFoundException{
-        ArrayList<ReadStadiumDTO> stadiums = new ArrayList<>();
+    public List<ReadStadiumDTO> getStadiums() throws SQLException, ClassNotFoundException{
+        List<ReadStadiumDTO> stadiums = new ArrayList<>();
         
-        String query = "SELECT * FROM stadium";
-        
+        String function = "{?= call stadium_read()}";
         java.sql.Connection connection = Connector.getConnection();
-
-	ResultSet result = connection.createStatement().executeQuery(query);
-        
-        
-        while (result.next())
+        connection.setAutoCommit(false);
+        CallableStatement preparedFunction = connection.prepareCall(function);
+        preparedFunction.registerOutParameter(1, java.sql.Types.REF_CURSOR);
+        preparedFunction.execute();
+        ResultSet resultSet = (ResultSet) preparedFunction.getObject(1);
+        while (resultSet.next())
         {
-            ReadStadiumDTO newDTO = new ReadStadiumDTO(result.getString(1), Integer.parseInt(result.getString(2)));            
-            stadiums.add(newDTO);
+            int stadiumID = resultSet.getInt("stadium_id");
+            String stadiumName = resultSet.getString("stadium_name");
+            int capacity = resultSet.getInt("capacity");
+            String province = resultSet.getString("province_name");
+            
+            stadiums.add(new ReadStadiumDTO(stadiumID, stadiumName, capacity, province));
         }
+        resultSet.close();
+        preparedFunction.close();
         
         return stadiums;
     }
@@ -41,7 +47,13 @@ public class StadiumServices {
         preparedFunction.execute();
         ResultSet resultSet = (ResultSet) preparedFunction.getObject(1);
         resultSet.next();
-        readStadiumDTO = new ReadStadiumDTO(resultSet.getString(2), resultSet.getInt(3));
+        
+        int stadiumID = resultSet.getInt("stadium_id");
+        String stadiumName = resultSet.getString("stadium_name");
+        int capacity = resultSet.getInt("capacity");
+        String province = resultSet.getString("province_name");
+        
+        readStadiumDTO = new ReadStadiumDTO(stadiumID, stadiumName, capacity, province);
 
         resultSet.close();
         preparedFunction.close();
