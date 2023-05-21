@@ -428,7 +428,7 @@ public class SerieUI extends AppCustomWindow
             }
             catch (SQLException | ClassNotFoundException ex)
             {
-                UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(rootPane, ex);
+                UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
             }
 
         }
@@ -498,7 +498,7 @@ public class SerieUI extends AppCustomWindow
                 }
                 catch (SQLException | ClassNotFoundException ex)
                 {
-                    UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(rootPane, ex);
+                    UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
                 }
             }
         }
@@ -527,7 +527,7 @@ public class SerieUI extends AppCustomWindow
         }
         catch (SQLException | ClassNotFoundException ex)
         {
-            UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(rootPane, ex);
+            UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
         }
 
 
@@ -599,20 +599,20 @@ public class SerieUI extends AppCustomWindow
                             }
                             else
                             {
-                                UtilsConnector.viewMessagesUtils.showErrorMessage(rootPane, "No se encuentra el juego");
+                                UtilsConnector.viewMessagesUtils.showErrorMessage(this, "No se encuentra el juego");
                             }
                         }
                     }
                     else
                     {
-                        UtilsConnector.viewMessagesUtils.showSuccessMessage(rootPane,
+                        UtilsConnector.viewMessagesUtils.showSuccessMessage(this,
                                                                             "La fase está cerrada, los juegos no se pueden eliminar");
                     }
 
                 }
                 catch (SQLException | ClassNotFoundException ex)
                 {
-                    UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(rootPane, ex);
+                    UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
                 }
             }
         }
@@ -684,20 +684,20 @@ public class SerieUI extends AppCustomWindow
                         }
                         else
                         {
-                            UtilsConnector.viewMessagesUtils.showErrorMessage(rootPane, "No se encuentra el juego");
+                            UtilsConnector.viewMessagesUtils.showErrorMessage(this, "No se encuentra el juego");
                         }
                     }
                 }
                 else
                 {
-                    UtilsConnector.viewMessagesUtils.showSuccessMessage(rootPane,
+                    UtilsConnector.viewMessagesUtils.showSuccessMessage(this,
                                                                         "La fase está cerrada, los juegos no se pueden eliminar");
                 }
 
             }
             catch (SQLException | ClassNotFoundException ex)
             {
-                UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(rootPane, ex);
+                UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
             }
 
         }
