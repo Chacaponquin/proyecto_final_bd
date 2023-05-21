@@ -618,7 +618,7 @@ public class SerieUI extends AppCustomWindow
         }
         else
         {
-            UtilsConnector.viewMessagesUtils.showSuccessMessage(rootPane,
+            UtilsConnector.viewMessagesUtils.showSuccessMessage(this,
                                                                 "Seleccione una fila para poder eliminar un juego");
         }
 
