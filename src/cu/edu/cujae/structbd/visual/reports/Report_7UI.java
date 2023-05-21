@@ -70,6 +70,7 @@ public class Report_7UI extends AppCustomDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Equipo todos estrella");
         setModal(true);
+        setResizable(false);
 
         jButtonClose.setText("Cerrar");
         jButtonClose.addActionListener(new java.awt.event.ActionListener()
