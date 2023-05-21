@@ -7,7 +7,6 @@ package cu.edu.cujae.structbd.visual.player;
 import cu.edu.cujae.structbd.dto.pitcher.DeletePitcherDTO;
 import cu.edu.cujae.structbd.dto.pitcher.ReadAPitcherDTO;
 import cu.edu.cujae.structbd.dto.pitcher.ReadPitcherDTO;
-import cu.edu.cujae.structbd.dto.pitcher.UpdatePitcherDTO;
 import cu.edu.cujae.structbd.dto.player.ReadPlayerDTO;
 import cu.edu.cujae.structbd.dto.team.ReadTeamDTO;
 import cu.edu.cujae.structbd.services.ServicesLocator;
@@ -202,11 +201,8 @@ public class Player_UI extends AppCustomWindow
                     }
                     catch (SQLException | ClassNotFoundException ex)
                     {
-<<<<<<< HEAD
                         UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
-=======
-                        UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(rootPane, ex);
->>>>>>> 366b170b2890f2f42e8b7c418333d398d1e86897
+
                     }
 
                 }
