@@ -53,7 +53,7 @@ public class AppServices
         }
         resultSet.close();
         preparedFunction.close();
-
+        connection.commit();
         return list;
     }
 
@@ -81,7 +81,7 @@ public class AppServices
         }
         resultSet.close();
         preparedFunction.close();
-
+        connection.commit();
         return list;
     }
 
@@ -115,6 +115,7 @@ public class AppServices
         }
         resultSet.close();
         preparedFunction.close();
+        connection.commit();
         return list;
     }
 
@@ -144,6 +145,7 @@ public class AppServices
         }
         resultSet.close();
         preparedFunction.close();
+        connection.commit();
         return list;
     }
 
@@ -177,6 +179,7 @@ public class AppServices
         }
         resultSet.close();
         preparedFunction.close();
+        connection.commit();
         return list;
     }
 
@@ -205,6 +208,7 @@ public class AppServices
         }
         resultSet.close();
         preparedFunction.close();
+        connection.commit();
         return list;
     }
 
@@ -251,6 +255,7 @@ public class AppServices
             }
             resultSet.close();
             preparedFunction.close();
+            connection.commit();
         }
         return list;
     }
@@ -283,6 +288,7 @@ public class AppServices
         }
         resultSet.close();
         preparedFunction.close();
+        connection.commit();
         return list;
     }
 
@@ -316,6 +322,7 @@ public class AppServices
         }
         resultSet.close();
         preparedFunction.close();
+        connection.commit();
         return list;
     }
 
@@ -337,12 +344,13 @@ public class AppServices
         preparedFunction.registerOutParameter(1, java.sql.Types.REF_CURSOR);
         preparedFunction.execute();
         ResultSet resultSet = (ResultSet) preparedFunction.getObject(1);
-        resultSet.next();
-
-        readReport_1DTO = new ReadReport_1DTO(resultSet.getString(1), 0, 0, 0);
-
+        if (resultSet.next())
+        {
+            readReport_1DTO = new ReadReport_1DTO(resultSet.getString(1), 0, 0, 0);
+        }
         resultSet.close();
         preparedFunction.close();
+        connection.commit();
         return readReport_1DTO;
     }
 
@@ -356,8 +364,14 @@ public class AppServices
         preparedFunction.registerOutParameter(1, java.sql.Types.REF_CURSOR);
         preparedFunction.setInt(2, readAPhaseDTO.getPhase_id());
         preparedFunction.execute();
-        result = (int) preparedFunction.getObject(1);
+        ResultSet resultSet = (ResultSet) preparedFunction.getObject(1);
+        if (resultSet.next())
+        {
+            result = resultSet.getInt(1);
+        }
+        resultSet.close();
         preparedFunction.close();
+        connection.commit();
         return result;
     }
 }

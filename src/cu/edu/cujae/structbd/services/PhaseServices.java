@@ -64,7 +64,6 @@ public class PhaseServices
         }
         resultSet.close();
         preparedFunction.close();
-        
         return phase_list;
     }
 
@@ -72,6 +71,7 @@ public class PhaseServices
     {
         ReadPhaseDTO readPhaseDTO = null;
         String function = "{?= call phase_load_by_id(?)}";
+        System.out.println(readAPhaseDTO.getPhase_id());
         java.sql.Connection connection = Connector.getConnection();
         connection.setAutoCommit(false);
         CallableStatement preparedFunction = connection.prepareCall(function);
@@ -79,13 +79,15 @@ public class PhaseServices
         preparedFunction.setInt(2, readAPhaseDTO.getPhase_id());
         preparedFunction.execute();
         ResultSet resultSet = (ResultSet) preparedFunction.getObject(1);
-        resultSet.next();
-        readPhaseDTO = new ReadPhaseDTO(resultSet.getInt(1), resultSet.getString(2), resultSet.getDate(3).
-                                        toLocalDate(),
+        while (resultSet.next())
+        {
+            readPhaseDTO = new ReadPhaseDTO(resultSet.getInt(1), resultSet.getString(2), resultSet.getDate(3).
+                                            toLocalDate(),
                                         resultSet.getDate(4).toLocalDate(), resultSet.getInt(5), resultSet.getBoolean(6));
-        
+        }
         resultSet.close();
         preparedFunction.close();
+
         return readPhaseDTO;
     }
 

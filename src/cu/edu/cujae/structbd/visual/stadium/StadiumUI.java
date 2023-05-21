@@ -48,7 +48,8 @@ public class StadiumUI extends AppCustomWindow {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents()
+    {
 
         jPopupMenu1 = new javax.swing.JPopupMenu();
         editMenu = new javax.swing.JMenuItem();
@@ -56,10 +57,19 @@ public class StadiumUI extends AppCustomWindow {
         jTable2 = new javax.swing.JTable();
         jButton2 = new javax.swing.JButton();
 
+<<<<<<< HEAD
+        jMenuItem1.setText("Eliminar Estadio");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                jMenuItem1ActionPerformed(evt);
+=======
         editMenu.setText("Editar");
         editMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 editMenuActionPerformed(evt);
+>>>>>>> 08d809b957c8bc06bdca184bed499267a85456b5
             }
         });
         jPopupMenu1.add(editMenu);
@@ -67,19 +77,24 @@ public class StadiumUI extends AppCustomWindow {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Stadiums");
 
+        jTable2.setAutoCreateRowSorter(true);
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
+            new Object [][]
+            {
 
             },
-            new String [] {
+            new String []
+            {
                 "Nombre", "Capacidad", "Provincia"
             }
         ));
         jScrollPane2.setViewportView(jTable2);
 
         jButton2.setText("Cerrar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jButton2.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jButton2ActionPerformed(evt);
             }
         });

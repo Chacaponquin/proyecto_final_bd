@@ -11,7 +11,11 @@ import cu.edu.cujae.structbd.utils.AppCustomWindow;
 import cu.edu.cujae.structbd.utils.UtilsConnector;
 import cu.edu.cujae.structbd.utils.ViewDialog;
 import cu.edu.cujae.structbd.utils.ViewWindow;
+<<<<<<< HEAD
+import cu.edu.cujae.structbd.visual.snb.SerieUI;
+=======
 import cu.edu.cujae.structbd.visual.user.ChangePasswordUI;
+>>>>>>> 08d809b957c8bc06bdca184bed499267a85456b5
 import cu.edu.cujae.structbd.visual.user.LoginUI;
 import cu.edu.cujae.structbd.visual.user.UpdateUserUI;
 import java.awt.Graphics;

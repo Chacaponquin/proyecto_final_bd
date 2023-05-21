@@ -65,11 +65,13 @@ public class GameServices {
         preparedFunction.setInt(2, readAGameDTO.getId());
         preparedFunction.execute();
         ResultSet resultSet = (ResultSet) preparedFunction.getObject(1);
-        resultSet.next();
+        while (resultSet.next())
+        {
         readGameDTO = new ReadGameDTO(resultSet.getInt(1), resultSet.getString(2),
                                       resultSet.getString(3), resultSet.getString(4), resultSet.getDate(1).toLocalDate(),
                                       resultSet.getString(6), resultSet.getInt(7), resultSet.
-                                      getInt(8), resultSet.getInt(9));
+                                          getInt(8), resultSet.getInt(9));
+        }
 
         resultSet.close();
         preparedFunction.close();
