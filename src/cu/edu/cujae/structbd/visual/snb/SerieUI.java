@@ -474,9 +474,10 @@ public class SerieUI extends AppCustomWindow
             ReadPhaseDTO rf = it_list.next();
             if (rf.getPhase_name().equalsIgnoreCase(combo_phases.getSelectedItem().toString()))
             {
-                    phase_id = rf.getPhase_id();
-                    found = true;
+                phase_id = rf.getPhase_id();
+                found = true;
             }
+
         }
         if (found)
         {

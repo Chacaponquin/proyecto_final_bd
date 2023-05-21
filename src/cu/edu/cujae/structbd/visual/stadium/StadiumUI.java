@@ -56,15 +56,6 @@ public class StadiumUI extends AppCustomWindow {
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
         jButton2 = new javax.swing.JButton();
-
-        jMenuItem1.setText("Eliminar Estadio");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                jMenuItem1ActionPerformed(evt);
-            }
-        });
         editMenu.setText("Editar");
         editMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -146,3 +137,4 @@ public class StadiumUI extends AppCustomWindow {
     private javax.swing.JTable jTable2;
     // End of variables declaration//GEN-END:variables
 }
+            
