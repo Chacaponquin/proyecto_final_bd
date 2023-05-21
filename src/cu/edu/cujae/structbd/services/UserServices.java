@@ -244,8 +244,10 @@ public class UserServices {
         CallableStatement preparedFunction = connection.prepareCall(function);
         preparedFunction.setInt(1, updateUser.getUserID());
         preparedFunction.setString(2, updateUser.getNewUsername());
+        preparedFunction.setString(3, updateUser.getNewPassword());
         preparedFunction.setInt(4, updateUser.getRoleID());
         
+        preparedFunction.execute();
         preparedFunction.close();
         connection.commit();
     }

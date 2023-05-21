@@ -175,7 +175,9 @@ public class UserUI extends AppCustomWindow {
         
         if(sR >= 0){
             ReadUserDTO su = this.users.get(sR);
-            UtilsConnector.viewUtils.openDialog(this, new UpdateUserUI(this, su));
+            UpdateUserUI w = new UpdateUserUI(this, su);
+            w.start();
+            UtilsConnector.viewUtils.openDialog(this, w);
         }      // TODO add your handling code here:
     }//GEN-LAST:event_editMenuActionPerformed
 
