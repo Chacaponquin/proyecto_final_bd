@@ -22,7 +22,7 @@ public class StadiumUI extends AppCustomWindow {
     
     public void start(){
         try {
-            initComponents();
+            initComponents(); 
             this.jTable2.setComponentPopupMenu(jPopupMenu1);
             this.updateUI();
         } catch (SQLException | ClassNotFoundException ex) {
@@ -57,19 +57,17 @@ public class StadiumUI extends AppCustomWindow {
         jTable2 = new javax.swing.JTable();
         jButton2 = new javax.swing.JButton();
 
-<<<<<<< HEAD
         jMenuItem1.setText("Eliminar Estadio");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
                 jMenuItem1ActionPerformed(evt);
-=======
+
         editMenu.setText("Editar");
         editMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 editMenuActionPerformed(evt);
->>>>>>> 08d809b957c8bc06bdca184bed499267a85456b5
             }
         });
         jPopupMenu1.add(editMenu);
@@ -126,7 +124,7 @@ public class StadiumUI extends AppCustomWindow {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        this.dispose();      // TODO add your handling code here:
+        this.dispose();     
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void editMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editMenuActionPerformed
