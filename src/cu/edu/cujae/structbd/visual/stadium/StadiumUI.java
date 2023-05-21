@@ -22,7 +22,7 @@ public class StadiumUI extends AppCustomWindow {
     
     public void start(){
         try {
-            initComponents();
+            initComponents(); 
             this.jTable2.setComponentPopupMenu(jPopupMenu1);
             this.updateUI();
         } catch (SQLException | ClassNotFoundException ex) {
@@ -39,7 +39,7 @@ public class StadiumUI extends AppCustomWindow {
         for(ReadStadiumDTO st:  stadiumns){
             model.addRow(new Object[]{st.getStadiumName(), st.getCapacity(), st.getProvince()});
         }
-    }
+    }      
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -57,6 +57,17 @@ public class StadiumUI extends AppCustomWindow {
         jTable2 = new javax.swing.JTable();
         jButton2 = new javax.swing.JButton();
 
+<<<<<<< HEAD
+=======
+        jMenuItem1.setText("Eliminar Estadio");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+>>>>>>> 75770589af48dd0d984136ae4133c42cc47d1318
         editMenu.setText("Editar");
         editMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -117,7 +128,7 @@ public class StadiumUI extends AppCustomWindow {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        this.dispose();      // TODO add your handling code here:
+        this.dispose();     
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void editMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editMenuActionPerformed
@@ -126,7 +137,7 @@ public class StadiumUI extends AppCustomWindow {
         if(sel >= 0){
             ReadStadiumDTO s = this.stadiumns.get(sel);
             UtilsConnector.viewUtils.openDialog(this, new UpdateStadiumUI(this, s));
-        }
+        }  
     }//GEN-LAST:event_editMenuActionPerformed
 
 

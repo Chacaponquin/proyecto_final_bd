@@ -474,9 +474,14 @@ public class SerieUI extends AppCustomWindow
             ReadPhaseDTO rf = it_list.next();
             if (rf.getPhase_name().equalsIgnoreCase(combo_phases.getSelectedItem().toString()))
             {
+<<<<<<< HEAD
 
                 phase_id = rf.getPhase_id();
                 found = true;
+=======
+                    phase_id = rf.getPhase_id();
+                    found = true;
+>>>>>>> 75770589af48dd0d984136ae4133c42cc47d1318
             }
 
         }
@@ -648,7 +653,7 @@ public class SerieUI extends AppCustomWindow
         }
         else
         {
-            UtilsConnector.viewMessagesUtils.showSuccessMessage(rootPane,
+            UtilsConnector.viewMessagesUtils.showSuccessMessage(this,
                                                                 "Seleccione una fila para poder eliminar un juego");
         }
 
