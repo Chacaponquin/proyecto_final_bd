@@ -145,10 +145,14 @@ public class UserUI extends AppCustomWindow {
             int selectRow = this.jTable1.getSelectedRow();
             
             if(selectRow >= 0){
-                DeleteUserDTO userToSelect = new DeleteUserDTO(this.users.get(selectRow).getUserID());
-                ServicesLocator.UserServices.deleteUser(userToSelect);
-
-                this.updateUI();
+                
+                boolean accept = UtilsConnector.viewMessagesUtils.showConfirmDialog(this, "Seguro que desea eliminar este usuario?");
+                
+                if(accept){
+                    DeleteUserDTO userToSelect = new DeleteUserDTO(this.users.get(selectRow).getUserID());
+                    ServicesLocator.UserServices.deleteUser(userToSelect);
+                    this.updateUI();
+                }
             }
         } catch (SQLException | ClassNotFoundException ex) {
             UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);

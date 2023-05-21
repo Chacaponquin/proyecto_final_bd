@@ -7,6 +7,7 @@ import cu.edu.cujae.structbd.dto.team_member.ReadATeamMemberDTO;
 import cu.edu.cujae.structbd.dto.team_member.ReadTeamMemberDTO;
 import cu.edu.cujae.structbd.dto.team_member.UpdateTeamMemberDTO;
 import cu.edu.cujae.structbd.exceptions.team_member.DuplicateMemberNumberException;
+import cu.edu.cujae.structbd.exceptions.team_member.EmptyMemberNameException;
 import cu.edu.cujae.structbd.exceptions.team_member.WrongMemberNumberException;
 import cu.edu.cujae.structbd.utils.Connector;
 import cu.edu.cujae.structbd.utils.TEAM_LIMITS;
@@ -81,23 +82,35 @@ public class TeamMemberServices {
         preparedFunction.close();
     }
     
+    public ReadTeamMemberDTO findMemberWithNumber(int number, int teamID) throws SQLException, ClassNotFoundException{
+        ReadTeamDTO foundTeam = ServicesLocator.TeamServices.findTeamByID(new FindTeamDTO(teamID));
+        List<ReadTeamMemberDTO> members = ServicesLocator.TeamServices.readMembersFromTeam(foundTeam);
+        
+        ReadTeamMemberDTO existsNumber = null;
+        for(int i = 0; i < members.size() && existsNumber == null; i++){
+            if(members.get(i).getNumber() == number){
+                existsNumber = members.get(i);
+            }
+        }
+        
+        return existsNumber;
+    }
+    
     public void validateMemberNumber(int number, int teamID) throws WrongMemberNumberException, SQLException, ClassNotFoundException, DuplicateMemberNumberException{
         if(number < TEAM_LIMITS.MEMBER_NUMBER.getMinimun() || number > TEAM_LIMITS.MEMBER_NUMBER.getMaximun()){
             throw new WrongMemberNumberException();
         }
         
-        ReadTeamDTO foundTeam = ServicesLocator.TeamServices.findTeamByID(new FindTeamDTO(teamID));
-        List<ReadTeamMemberDTO> members = ServicesLocator.TeamServices.readMembersFromTeam(foundTeam);
+        ReadTeamMemberDTO existsNumber = this.findMemberWithNumber(number, teamID);
         
-        boolean existsNumber = false;
-        for(int i = 0; i < members.size() && !existsNumber; i++){
-            if(members.get(i).getNumber() == number){
-                existsNumber = true;
-            }
-        }
-        
-        if(existsNumber){
+        if(existsNumber != null){
             throw new DuplicateMemberNumberException();
+        }
+    }
+    
+    public void validateMemberName(String name) throws EmptyMemberNameException{
+        if(name == null || name.trim().equals("")){
+            throw new EmptyMemberNameException();
         }
     }
 }

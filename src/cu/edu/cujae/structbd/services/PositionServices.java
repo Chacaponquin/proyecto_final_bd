@@ -2,6 +2,7 @@ package cu.edu.cujae.structbd.services;
 
 import cu.edu.cujae.structbd.dto.position.CreatePositionDTO;
 import cu.edu.cujae.structbd.dto.position.DeletePositionDTO;
+import cu.edu.cujae.structbd.dto.position.FindPositionDTO;
 import cu.edu.cujae.structbd.dto.position.ReadAPositionDTO;
 import cu.edu.cujae.structbd.dto.position.ReadPositionDTO;
 import cu.edu.cujae.structbd.dto.position.UpdatePositionDTO;
@@ -92,5 +93,38 @@ public class PositionServices {
         }
         
         return pitcherPos.getPositionID();
+    }
+    
+    public List<ReadPositionDTO> readBatterPositions() throws SQLException, ClassNotFoundException{
+        LinkedList<ReadPositionDTO> positions_list = new LinkedList<>();
+        
+        String function = "{?= call position_read_batter_positions()}";
+        java.sql.Connection connection = Connector.getConnection();
+        connection.setAutoCommit(false);
+        CallableStatement preparedFunction = connection.prepareCall(function);
+        preparedFunction.registerOutParameter(1, java.sql.Types.REF_CURSOR);
+        preparedFunction.execute();
+        ResultSet resultSet = (ResultSet) preparedFunction.getObject(1);
+        while (resultSet.next())
+        {
+            positions_list.add(new ReadPositionDTO(resultSet.getInt("position_id"), resultSet.getString("position_name")));
+        }
+        resultSet.close();
+        preparedFunction.close();
+
+        return positions_list;
+    }
+    
+    public ReadPositionDTO findPosition(FindPositionDTO position) throws SQLException, ClassNotFoundException{
+        List<ReadPositionDTO> allPositions = this.readAllPositions();
+        ReadPositionDTO foundPosition = null;
+        
+        for(int i = 0; i < allPositions.size() && foundPosition == null; i++){
+            if(allPositions.get(i).getPositionID() == position.getPositionID()){
+                foundPosition = allPositions.get(i);
+            }
+        }
+        
+        return foundPosition;
     }
 }

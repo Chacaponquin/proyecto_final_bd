@@ -4,12 +4,13 @@
  */
 package cu.edu.cujae.structbd.visual.batter;
 
+import cu.edu.cujae.structbd.dto.batter.DeleteBatterDTO;
 import cu.edu.cujae.structbd.dto.batter.ReadBatterDTO;
 import cu.edu.cujae.structbd.services.ServicesLocator;
 import cu.edu.cujae.structbd.utils.AppCustomWindow;
 import cu.edu.cujae.structbd.utils.UtilsConnector;
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -17,18 +18,22 @@ import javax.swing.table.DefaultTableModel;
  * @author Hector Angel Gomez
  */
 public class BatterUI extends AppCustomWindow {
+    private List<ReadBatterDTO> batters;
+    
     public void start(){
         initComponents();
         this.updateUI();
+        this.jTable1.setComponentPopupMenu(jPopupMenu1);
     }
     
     public void updateUI(){
         try {
-            ArrayList<ReadBatterDTO> stadiumns = ServicesLocator.BatterServices.readBatters();
+            UtilsConnector.viewUtils.cleanTable(jTable1);
+            batters = ServicesLocator.BatterServices.readBatters();
             
             DefaultTableModel model = (DefaultTableModel) this.jTable1.getModel();
             
-            for(ReadBatterDTO b:  stadiumns){
+            for(ReadBatterDTO b:  batters){
                 model.addRow(new Object[]{b.getName(), b.getTeam(), b.getYearsInTeam(), b.getNumber(), b.getPosition(), b.getAtBats(), b.getTotalHits(), b.getAverage()});
             }
         } catch (SQLException | ClassNotFoundException ex) {
@@ -45,10 +50,29 @@ public class BatterUI extends AppCustomWindow {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPopupMenu1 = new javax.swing.JPopupMenu();
+        editMenu = new javax.swing.JMenuItem();
+        deleteMenu = new javax.swing.JMenuItem();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+
+        editMenu.setText("Editar");
+        editMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editMenuActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(editMenu);
+
+        deleteMenu.setText("Eliminar");
+        deleteMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteMenuActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(deleteMenu);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Bateadores");
@@ -112,10 +136,40 @@ public class BatterUI extends AppCustomWindow {
         this.dispose();       // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void deleteMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteMenuActionPerformed
+        int selectRow = this.jTable1.getSelectedRow();
+        
+        if(selectRow >= 0){
+            boolean accept = UtilsConnector.viewMessagesUtils.showConfirmDialog(this, "Seguro que quiere eliminar este bateador?");
+            
+            if(accept){
+                try {
+                    int sb = this.batters.get(selectRow).getMember_id();
+                    ServicesLocator.BatterServices.deleteBatter(new DeleteBatterDTO(sb));
+                    this.updateUI();
+                } catch (SQLException | ClassNotFoundException ex) {
+                    UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
+                } 
+            }
+        }
+        
+    }//GEN-LAST:event_deleteMenuActionPerformed
+
+    private void editMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editMenuActionPerformed
+        int selectRow = this.jTable1.getSelectedRow();
+        
+        if(selectRow >= 0){
+            UtilsConnector.viewUtils.openDialog(this, new UpdateBatterUI(this, this.batters.get(selectRow)));
+        }
+    }//GEN-LAST:event_editMenuActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem deleteMenu;
+    private javax.swing.JMenuItem editMenu;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables

@@ -17,8 +17,10 @@ public class ReadBatterDTO {
     private final String position;
     private final int atBats;
     private final int totalHits;
+    private final int teamID;
+    private final int positionID;
 
-    public ReadBatterDTO(int member_id, String name, String team, int yearsInTeam, int number, String position, int atBats, int totalHits) {
+    public ReadBatterDTO(int member_id, String name, String team, int yearsInTeam, int number, String position, int atBats, int totalHits, int teamID, int positionID) {
         this.member_id = member_id;
         this.name = name;
         this.team = team;
@@ -27,10 +29,20 @@ public class ReadBatterDTO {
         this.position = position;
         this.atBats = atBats;
         this.totalHits = totalHits;
+        this.teamID = teamID;
+        this.positionID = positionID;
     }
 
     public int getMember_id() {
         return member_id;
+    }
+    
+    public int getPositionID(){
+        return this.positionID;
+    }
+    
+    public int getTeamID(){
+        return this.teamID;
     }
 
     public int getTotalHits() {

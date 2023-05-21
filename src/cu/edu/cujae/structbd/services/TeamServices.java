@@ -155,8 +155,9 @@ public class TeamServices {
             int years_in_team = resultSet.getInt("years_in_team");
             int inningsPitched = resultSet.getInt("innings_pitched");
             int runsAllowed = resultSet.getInt("runs_allowed");
+            int teamID = resultSet.getInt("team_id");
             
-            players_list.add(new ReadPitcherDTO(team_member_ID, team_member_name, member_number, team_name, years_in_team, inningsPitched, runsAllowed));
+            players_list.add(new ReadPitcherDTO(team_member_ID, team_member_name, member_number, team_name, years_in_team, inningsPitched, runsAllowed, teamID));
         }
         resultSet.close();
         preparedFunction.close();
@@ -185,8 +186,10 @@ public class TeamServices {
             String position = resultSet.getString("position_name");
             int atBats = resultSet.getInt("at_bats");
             int totalHits = resultSet.getInt("total_hits");
+            int teamID = resultSet.getInt("team_id");
+            int positionID = resultSet.getInt("position_id");
             
-            players_list.add(new ReadBatterDTO(member_id, name, team_name, yearsInTeam, member_number, position, atBats, totalHits));
+            players_list.add(new ReadBatterDTO(member_id, name, team_name, yearsInTeam, member_number, position, atBats, totalHits, teamID, positionID));
         }
         resultSet.close();
         preparedFunction.close();
@@ -209,6 +212,28 @@ public class TeamServices {
             }
             
             if(contPitchers < TEAM_LIMITS.PLAYER.getMaximun()){
+                returnTeams.add(t);
+            }
+        }
+        
+        return returnTeams;
+    }
+    
+    public List<ReadTeamDTO> getTeamsForInsertBatter() throws SQLException, ClassNotFoundException{
+        List<ReadTeamDTO> allTeams = this.readTeams();
+        List<ReadBatterDTO> allBatter = ServicesLocator.BatterServices.readBatters();
+        
+        List<ReadTeamDTO> returnTeams = new LinkedList<>();
+        for(ReadTeamDTO t: allTeams){
+            int contBatters = 0;
+            
+            for(ReadBatterDTO p: allBatter){
+                if(p.getTeam().equals(t.getTeam_name())){
+                    contBatters++;
+                }
+            }
+            
+            if(contBatters < TEAM_LIMITS.BATTER.getMaximun()){
                 returnTeams.add(t);
             }
         }
