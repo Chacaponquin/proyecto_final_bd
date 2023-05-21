@@ -1,7 +1,9 @@
 package cu.edu.cujae.structbd.services;
 
 import cu.edu.cujae.structbd.dto.stadium.ReadStadiumDTO;
+import cu.edu.cujae.structbd.dto.stadium.UpdateStadiumDTO;
 import cu.edu.cujae.structbd.dto.team.FindTeamDTO;
+import cu.edu.cujae.structbd.exceptions.stadium.EmptyStadiumNameException;
 import cu.edu.cujae.structbd.utils.Connector;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
@@ -34,6 +36,30 @@ public class StadiumServices {
         
         return stadiums;
     }
+    
+    public void validateStadiumName(String name) throws EmptyStadiumNameException{
+        if(name.equals("")){
+            throw new EmptyStadiumNameException();
+        }
+    }
+    
+    
+    
+    public void updateStadium(UpdateStadiumDTO stadium) throws SQLException, ClassNotFoundException, EmptyStadiumNameException{
+        this.validateStadiumName(stadium.getStadiumName());
+        
+        String function = "{call stadium_update(?,?,?)}";
+        java.sql.Connection connection = Connector.getConnection();
+        
+        CallableStatement preparedFunction = connection.prepareCall(function);
+        preparedFunction.setInt(3, stadium.getCapacity());
+        preparedFunction.setString(2, stadium.getStadiumName());
+        preparedFunction.setInt(1, stadium.getStadiumID());
+        
+        preparedFunction.execute();
+        preparedFunction.close();
+        connection.commit();
+    }
 
     public ReadStadiumDTO getStadiumByTeam(FindTeamDTO readATeamDTO) throws SQLException, ClassNotFoundException
     {
@@ -45,9 +71,9 @@ public class StadiumServices {
         preparedFunction.registerOutParameter(1, java.sql.Types.REF_CURSOR);
         preparedFunction.setInt(2, readATeamDTO.getTeam_id());
         preparedFunction.execute();
+        
         ResultSet resultSet = (ResultSet) preparedFunction.getObject(1);
         resultSet.next();
-        
         int stadiumID = resultSet.getInt("stadium_id");
         String stadiumName = resultSet.getString("stadium_name");
         int capacity = resultSet.getInt("capacity");
