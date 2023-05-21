@@ -8,6 +8,7 @@ import cu.edu.cujae.structbd.dto.game.ReadGameDTO;
 import cu.edu.cujae.structbd.services.ServicesLocator;
 import cu.edu.cujae.structbd.utils.AppCustomWindow;
 import cu.edu.cujae.structbd.utils.RowsRenderer;
+import cu.edu.cujae.structbd.visual.snb.SerieUI;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.Iterator;

@@ -252,6 +252,7 @@ public class UpdateBatterUI extends javax.swing.JDialog {
             ServicesLocator.BatterServices.updateBatter(newBatter);
             UtilsConnector.viewMessagesUtils.showSuccessMessage(this, "Bateador actualizado.");
             this.dispose();
+            ((BatterUI) this.getParent()).updateUI();
         } catch (EmptyMemberNameException ex) {
             UtilsConnector.viewMessagesUtils.showErrorMessage(this, "El nombre del bateador no puede estar vacío.");
         } catch (SQLException | ClassNotFoundException ex) {

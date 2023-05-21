@@ -247,6 +247,7 @@ public class UpdatePitcherUI extends javax.swing.JDialog {
             UpdatePitcherDTO updatePitcherDTO = new UpdatePitcherDTO(id, name,number, teamID, yearsInTeam, innings, runs);
             ServicesLocator.PitcherServices.updatePitcher(updatePitcherDTO);
             UtilsConnector.viewMessagesUtils.showSuccessMessage(this, "Se ha actualizado el pitcher");
+            ((PitcherUI) this.getParent()).updateUI();
             this.dispose();
         } catch (SQLException | ClassNotFoundException ex) {
             UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);

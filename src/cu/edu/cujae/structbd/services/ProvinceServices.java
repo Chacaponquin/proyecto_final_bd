@@ -77,8 +77,11 @@ public class ProvinceServices
         preparedFunction.setInt(2, readAProvinceDTO.getID());
         preparedFunction.execute();
         ResultSet resultSet = (ResultSet) preparedFunction.getObject(1);
-        resultSet.next();
-        ReadProvinceDTO readProvinceDTO = new ReadProvinceDTO(resultSet.getInt(1), resultSet.getString(2));
+        ReadProvinceDTO readProvinceDTO = null;
+        while (resultSet.next())
+        {
+            readProvinceDTO = new ReadProvinceDTO(resultSet.getInt(1), resultSet.getString(2));
+        }
         resultSet.close();
         preparedFunction.close();
 

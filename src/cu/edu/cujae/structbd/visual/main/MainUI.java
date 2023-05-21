@@ -11,6 +11,7 @@ import cu.edu.cujae.structbd.utils.AppCustomWindow;
 import cu.edu.cujae.structbd.utils.UtilsConnector;
 import cu.edu.cujae.structbd.utils.ViewDialog;
 import cu.edu.cujae.structbd.utils.ViewWindow;
+import cu.edu.cujae.structbd.visual.snb.SerieUI;
 import cu.edu.cujae.structbd.visual.user.LoginUI;
 import cu.edu.cujae.structbd.visual.user.UpdateUserUI;
 import java.awt.Graphics;

@@ -89,9 +89,11 @@ public class CoachServices
         preparedFunction.setInt(2, readACoachDTO.getTeam_member_ID());
         preparedFunction.execute();
         ResultSet resultSet = (ResultSet) preparedFunction.getObject(1);
-        resultSet.next();
+        while (resultSet.next())
+        {
         readCoachDTO = new ReadCoachDTO(resultSet.getInt(1), resultSet.getString(2), resultSet.getInt(4),
-                                        resultSet.getString(3), resultSet.getInt(5), resultSet.getInt(6));
+                                            resultSet.getString(3), resultSet.getInt(5), resultSet.getInt(6));
+        }
         preparedFunction.close();
         return readCoachDTO;
     }

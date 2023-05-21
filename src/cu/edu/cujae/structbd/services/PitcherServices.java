@@ -128,5 +128,7 @@ public class PitcherServices {
         preparedFunction.setInt(1, deletePitcherDTO.getTeamMemberID());
         preparedFunction.execute();
         preparedFunction.close();
+
+        connection.commit();
     }
 }

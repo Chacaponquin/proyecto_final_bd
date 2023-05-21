@@ -46,17 +46,16 @@ public class StadiumServices {
         preparedFunction.setInt(2, readATeamDTO.getTeam_id());
         preparedFunction.execute();
         ResultSet resultSet = (ResultSet) preparedFunction.getObject(1);
-        resultSet.next();
-        
-        int stadiumID = resultSet.getInt("stadium_id");
-        String stadiumName = resultSet.getString("stadium_name");
-        int capacity = resultSet.getInt("capacity");
-        String province = resultSet.getString("province_name");
-        
-        readStadiumDTO = new ReadStadiumDTO(stadiumID, stadiumName, capacity, province);
-
+        if (resultSet.next())
+        {
+            int stadiumID = resultSet.getInt("stadium_id");
+            String stadiumName = resultSet.getString("stadium_name");
+            int capacity = resultSet.getInt("capacity");
+        readStadiumDTO = new ReadStadiumDTO(stadiumID, stadiumName, capacity, null);
+        }
         resultSet.close();
         preparedFunction.close();
+        connection.commit();
         return readStadiumDTO;
     }
 }

@@ -4,6 +4,7 @@
  */
 package cu.edu.cujae.structbd.visual.player;
 
+import cu.edu.cujae.structbd.dto.batter.DeleteBatterDTO;
 import cu.edu.cujae.structbd.dto.pitcher.DeletePitcherDTO;
 import cu.edu.cujae.structbd.dto.pitcher.ReadAPitcherDTO;
 import cu.edu.cujae.structbd.dto.pitcher.ReadPitcherDTO;
@@ -18,6 +19,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -112,7 +115,6 @@ public class Player_UI extends AppCustomWindow
                 return canEdit [columnIndex];
             }
         });
-        table.setComponentPopupMenu(jPopupMenu1);
         jScrollPane1.setViewportView(table);
 
         jButton1.setText("Cerrar");
@@ -178,25 +180,13 @@ public class Player_UI extends AppCustomWindow
             }
             if (found)
             {
-                //Llamadas a los servicios de update
+               /* //Llamadas a los servicios de update
                 if (position == "P")
                 {
                     try
                     {
                         ReadAPitcherDTO readAPitcherDTO = new ReadAPitcherDTO(id);
                         ReadPitcherDTO readPitcherDTO = ServicesLocator.PitcherServices.readPitcher(readAPitcherDTO);
-                        ArrayList<ReadTeamDTO> teams_list = ServicesLocator.TeamServices.readTeams();
-                        boolean found_team = false;
-                        int team_id = 0;
-                        for (int i = 0; i < teams_list.size() && !found_team; i++)
-                        {
-                            if (teams_list.get(i).getTeam_name().equalsIgnoreCase(team))
-                            {
-                                found_team = true;
-                                team_id = teams_list.get(i).getTeam_id();
-                            }
-                        }
-                        
                         UpdatePitcherUI updatePitcherUI = new UpdatePitcherUI(null, true, readPitcherDTO);
                         updatePitcherUI.setVisible(true);
                     }
@@ -208,10 +198,9 @@ public class Player_UI extends AppCustomWindow
                 }
                 else
                 {
-                    //ReadABatterDTO readABatterDTO = new ReadABatterDTO(id);
-                    //ReadBatterDTO readBatterDTO = ServicesLocator.BatterServices.readABatter(   );
-                    //UpdateBatterDTO updateBatterDTO = new UpdatePitcherDTO(          );
-                }
+                    ReadBatterDTO readBatterDTO = ServicesLocator.BatterServices.readBatter();
+                    UpdateBatterDTO updateBatterDTO = new UpdatePitcherDTO();
+                }*/
                 update_list();
             }
             else
@@ -259,26 +248,28 @@ public class Player_UI extends AppCustomWindow
             }
             if (found)
             {
-                //Llamada a los servicios de delete
-                if (position == "P")
+                try
                 {
-                    try
+                    //Llamada a los servicios de delete
+                    if (position == "P")
                     {
                         DeletePitcherDTO deletePitcherDTO = new DeletePitcherDTO(id);
                         ServicesLocator.PitcherServices.deletePitcher(deletePitcherDTO);
-                    }
-                    catch (SQLException | ClassNotFoundException ex)
-                    {
-                        UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(rootPane, ex);
-                    }
 
+                    }
+                    else
+                    {
+
+                        DeleteBatterDTO deleteBatterDTO = new DeleteBatterDTO(id);
+                        ServicesLocator.BatterServices.deleteBatter(deleteBatterDTO);
+
+                    }
+                    update_list();
                 }
-                else
+                catch (SQLException | ClassNotFoundException ex)
                 {
-                    //DeleteBatterDTO deleteBatterDTO = new DeleteBatterDTO(id);
-                    //ServicesLocator.BatterServices.deleteBatter(deleteBatterDTO);
+                    UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(rootPane, ex);
                 }
-                update_list();
             }
             else
             {
