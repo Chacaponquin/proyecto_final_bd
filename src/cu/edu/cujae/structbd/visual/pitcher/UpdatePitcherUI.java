@@ -76,7 +76,8 @@ public class UpdatePitcherUI extends javax.swing.JDialog {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents()
+    {
 
         jSpinnerRuns = new javax.swing.JSpinner();
         jLabel3 = new javax.swing.JLabel();
@@ -95,6 +96,8 @@ public class UpdatePitcherUI extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Modificar Pitcher");
+        setModal(true);
+        setResizable(false);
 
         jSpinnerRuns.setModel(new javax.swing.SpinnerNumberModel());
 
@@ -113,8 +116,10 @@ public class UpdatePitcherUI extends javax.swing.JDialog {
         jSpinnerNumber.setModel(new javax.swing.SpinnerNumberModel(1, 1, 99, 1));
 
         jComboBoxTeamName.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<Seleccionar>" }));
-        jComboBoxTeamName.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jComboBoxTeamName.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jComboBoxTeamNameActionPerformed(evt);
             }
         });
@@ -123,22 +128,28 @@ public class UpdatePitcherUI extends javax.swing.JDialog {
 
         jLabelName.setText("Nombre:");
 
-        jTextFieldName.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jTextFieldName.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jTextFieldNameActionPerformed(evt);
             }
         });
 
         jButton1.setText("Cerrar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jButton1.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jButton1ActionPerformed(evt);
             }
         });
 
         jButtonModify.setText("Modificar");
-        jButtonModify.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jButtonModify.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jButtonModifyActionPerformed(evt);
             }
         });
