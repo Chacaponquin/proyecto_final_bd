@@ -271,14 +271,14 @@ public class Coach_UI extends AppCustomWindow
                 }
                 catch (SQLException | ClassNotFoundException ex)
                 {
-                    UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(rootPane, ex);
+                    UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
                 }
             }
         }
         else
         {
-            JOptionPane.showMessageDialog(rootPane, "Seleccione un entrenador para poder modificar sus datos",
-                                          "Información", JOptionPane.INFORMATION_MESSAGE);
+            UtilsConnector.viewMessagesUtils.showErrorMessage(this,
+                                                              "Seleccione un entrenador para poder modificar sus datos");
         }
     }//GEN-LAST:event_menuUpdateActionPerformed
 
@@ -291,7 +291,7 @@ public class Coach_UI extends AppCustomWindow
             {
                 String name = table.getValueAt(row, 0).toString();
                 if (JOptionPane.
-                    showConfirmDialog(rootPane, "¿Estás seguro que desea eliminar " + name + " ?", "Eliminar entrenador",
+                    showConfirmDialog(this, "¿Estás seguro que desea eliminar " + name + " ?", "Eliminar entrenador",
                                       JOptionPane.YES_NO_OPTION) == 0)
                 {
                     //Obteniendo los valores de la fila seleccionada    
@@ -342,19 +342,19 @@ public class Coach_UI extends AppCustomWindow
                     }
                     else
                     {
-                        UtilsConnector.viewMessagesUtils.showErrorMessage(rootPane,
+                        UtilsConnector.viewMessagesUtils.showErrorMessage(this,
                                                                           "No es posible eliminar al entrenador " + name + " su equipo tiene la mínima cantidad de entrenadores necesaria");
                     }
                 }
             }
             catch (SQLException | ClassNotFoundException ex)
             {
-                UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(rootPane, ex);
+                UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
             }
         }
         else
         {
-            UtilsConnector.viewMessagesUtils.showSuccessMessage(rootPane,
+            UtilsConnector.viewMessagesUtils.showSuccessMessage(this,
                                                                 "Seleccione un entrenador para poder modificar sus datos");
         }
     }//GEN-LAST:event_menuDeleteActionPerformed

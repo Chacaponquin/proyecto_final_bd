@@ -54,7 +54,7 @@ public class CreateCoachUI extends JDialog
             }
             else
             {
-                UtilsConnector.viewMessagesUtils.showSuccessMessage(rootPane,
+                UtilsConnector.viewMessagesUtils.showSuccessMessage(this,
                                                                     "No es posible insertar más entrenadores, todos los equipos tienen todas sus plazas ocupadas");
                 dispose();
             }
@@ -242,21 +242,21 @@ public class CreateCoachUI extends JDialog
                 {
                     CreateCoachDTO createCoachDTO = new CreateCoachDTO(name, number, team_id, y_exp);
                     ServicesLocator.CoachServices.createCoach(createCoachDTO);
-                    UtilsConnector.viewMessagesUtils.showSuccessMessage(rootPane,
+                    UtilsConnector.viewMessagesUtils.showSuccessMessage(this,
                                                                         name + " se ha insertado correctamente");
                     ((Coach_UI) this.getParent()).updateList();
                     dispose();
                 }
                 else
                 {
-                    UtilsConnector.viewMessagesUtils.showErrorMessage(rootPane, "No se encuentra el equipo");
+                    UtilsConnector.viewMessagesUtils.showErrorMessage(this, "No se encuentra el equipo");
                 }
 
             }
         }
         catch (SQLException | ClassNotFoundException ex)
         {
-            UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(rootPane, ex);
+            UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
         }
 
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -360,19 +360,19 @@ public class CreateCoachUI extends JDialog
                 if (exist_number)
                 {
                     result = false;
-                    UtilsConnector.viewMessagesUtils.showErrorMessage(rootPane,
+                    UtilsConnector.viewMessagesUtils.showErrorMessage(this,
                                                                       "Ya existe un miembro del equipo con este número");
                 }
 
             }
             catch (SQLException | ClassNotFoundException ex)
             {
-                UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(rootPane, ex);
+                UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
             }
         }
         else
         {
-            UtilsConnector.viewMessagesUtils.showErrorMessage(rootPane,
+            UtilsConnector.viewMessagesUtils.showErrorMessage(this,
                                                               "No se encuentra el equipo");
             result = false;
         }

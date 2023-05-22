@@ -297,10 +297,7 @@ public class SerieUI extends AppCustomWindow
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton4ActionPerformed
     {//GEN-HEADEREND:event_jButton4ActionPerformed
-<<<<<<< HEAD
         UtilsConnector.viewUtils.updateViews();
-=======
->>>>>>> 7b042ba3505555e30f94284e1625b8d6a0296537
         this.dispose();
     }//GEN-LAST:event_jButton4ActionPerformed
 
@@ -395,7 +392,7 @@ public class SerieUI extends AppCustomWindow
                 }
                 else
                 {
-                    UtilsConnector.viewMessagesUtils.showErrorMessage(rootPane, "Error en la fase");
+                    UtilsConnector.viewMessagesUtils.showErrorMessage(this, "Error en la fase");
                 }
 
             }
@@ -448,7 +445,7 @@ public class SerieUI extends AppCustomWindow
                 if (phase_id == 4)
                 {
                     ReadReport_1DTO winner = ServicesLocator.AppServices.getWinner();
-                    JOptionPane.showMessageDialog(rootPane,
+                    JOptionPane.showMessageDialog(this,
                                                   "Finaliza la Serie Nacional de Béisbol, equipo ganador: " + winner.
                                                       getTeamName(),
                                                   "Final", JOptionPane.INFORMATION_MESSAGE);
@@ -479,12 +476,12 @@ public class SerieUI extends AppCustomWindow
             }
             catch (SQLException | ClassNotFoundException ex)
             {
-                UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(rootPane, ex);
+                UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
             }
         }
         else
         {
-            UtilsConnector.viewMessagesUtils.showErrorMessage(rootPane, "Error en la base de datos");
+            UtilsConnector.viewMessagesUtils.showErrorMessage(this, "Error en la base de datos");
         }
     }//GEN-LAST:event_close_buttonActionPerformed
 
@@ -511,7 +508,7 @@ public class SerieUI extends AppCustomWindow
                 CreateGameUI createGameUI = new CreateGameUI(this, rootPaneCheckingEnabled, new ReadAPhaseDTO(phase_id));
                 createGameUI.setVisible(true);
             } else {
-                UtilsConnector.viewMessagesUtils.showErrorMessage(rootPane, "Seleccione correctamente la fase");
+                UtilsConnector.viewMessagesUtils.showErrorMessage(this, "Seleccione correctamente la fase");
             }
         }
         catch (SQLException | ClassNotFoundException ex)
@@ -530,7 +527,7 @@ public class SerieUI extends AppCustomWindow
             String team_hc = jTableGames.getValueAt(row, 1).toString();
             String team_v = jTableGames.getValueAt(row, 4).toString();
             if (JOptionPane.
-                showConfirmDialog(rootPane,
+                showConfirmDialog(this,
                                   "¿Estás seguro que desea eliminar el juego entre: " + team_hc + " y " + team_v + " ?",
                                   "Eliminar juego",
                                   JOptionPane.YES_NO_OPTION) == 0)

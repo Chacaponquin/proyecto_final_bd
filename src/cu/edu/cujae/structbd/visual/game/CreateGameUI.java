@@ -327,7 +327,7 @@ public class CreateGameUI extends JDialog {
             }
             catch (ClassNotFoundException | SQLException ex)
             {
-                UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(rootPane, ex);
+                UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
             }
             
         }
@@ -474,7 +474,7 @@ public void activate_button(){
 
         if (runs_hc == runs_v)
         {
-            UtilsConnector.viewMessagesUtils.showErrorMessage(rootPane,
+            UtilsConnector.viewMessagesUtils.showErrorMessage(this,
                                                               "El juego no puede quedar con igualdad en el marcador");
             result = false;
         }
@@ -493,14 +493,14 @@ public void activate_button(){
             ReadPhaseDTO readPhaseDTO = ServicesLocator.PhaseServices.readAPhase(readAPhaseDTO);
             if (game_date.isBefore(readPhaseDTO.getStart_date()) || game_date.isAfter(game_date))
             {
-                UtilsConnector.viewMessagesUtils.showErrorMessage(rootPane,
+                UtilsConnector.viewMessagesUtils.showErrorMessage(this,
                                                                   "La fecha del juego se debe corresponder con las fechas de la fase correspondiente");
                 result = false;
             } 
         }
         catch (SQLException | ClassNotFoundException ex)
         {
-            UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(rootPane, ex);
+            UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
         }
         return result;
     }
@@ -513,7 +513,7 @@ public void activate_button(){
         int audience = Integer.valueOf(jSpinnerAudience.getValue().toString());
         if (audience > readStadiumDTO.getCapacity())
         {
-            UtilsConnector.viewMessagesUtils.showErrorMessage(rootPane,
+            UtilsConnector.viewMessagesUtils.showErrorMessage(this,
                                                               "La audiencia del juego no puede ser superior a la capacidad del estadio");
             result = false;
         }

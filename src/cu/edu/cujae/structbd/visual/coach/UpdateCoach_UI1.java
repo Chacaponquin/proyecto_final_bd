@@ -268,7 +268,7 @@ public class UpdateCoach_UI1 extends JDialog
                     updateCoachDTO.setYears_in_team(y_team);
 
                     ServicesLocator.CoachServices.updateCoach(updateCoachDTO);
-                    UtilsConnector.viewMessagesUtils.showSuccessMessage(rootPane,
+                    UtilsConnector.viewMessagesUtils.showSuccessMessage(this,
                                                                         name + " se ha modificado correctamente");
                     ((Coach_UI) this.getParent()).updateList();
                     dispose();
@@ -375,19 +375,19 @@ public class UpdateCoach_UI1 extends JDialog
                 if (exist_number)
                 {
                     result = false;
-                    UtilsConnector.viewMessagesUtils.showErrorMessage(rootPane,
+                    UtilsConnector.viewMessagesUtils.showErrorMessage(this,
                                                                       "Ya existe un miembro del equipo con este número");
                 }
 
             }
             catch (SQLException | ClassNotFoundException ex)
             {
-                UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(rootPane, ex);
+                UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
             }
         }
         else
         {
-            UtilsConnector.viewMessagesUtils.showErrorMessage(rootPane,
+            UtilsConnector.viewMessagesUtils.showErrorMessage(this,
                                                               "No se encuentra el equipo");
             result = false;
         }

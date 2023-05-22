@@ -345,7 +345,7 @@ public class UpdateGame_UI extends javax.swing.JDialog {
                                                                 game_date, winner, audience,
                                                                 runs_home_club, runs_visitant);
                 ServicesLocator.GameServices.updateGame(updateGameDTO);
-                UtilsConnector.viewMessagesUtils.showSuccessMessage(rootPane, "Juego modificado satisfactoriamente");
+                 UtilsConnector.viewMessagesUtils.showSuccessMessage(this, "Juego modificado satisfactoriamente");
                 ((SerieUI) this.getParent()
                 ).update_tables();   
                 this.dispose();
@@ -353,7 +353,7 @@ public class UpdateGame_UI extends javax.swing.JDialog {
 
    
         } catch (SQLException|ClassNotFoundException ex) {
-            UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(rootPane, ex);
+            UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
         }        
 
     }//GEN-LAST:event_jButtonInsertActionPerformed
@@ -365,7 +365,7 @@ public class UpdateGame_UI extends javax.swing.JDialog {
 
     private void jComboBoxHomeClubActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jComboBoxHomeClubActionPerformed
     {//GEN-HEADEREND:event_jComboBoxHomeClubActionPerformed
-         
+
     }//GEN-LAST:event_jComboBoxHomeClubActionPerformed
 
     private void jComboBoxHomeClubKeyReleased(java.awt.event.KeyEvent evt)//GEN-FIRST:event_jComboBoxHomeClubKeyReleased
@@ -406,7 +406,7 @@ public class UpdateGame_UI extends javax.swing.JDialog {
 
         if (runs_hc == runs_v)
         {
-            UtilsConnector.viewMessagesUtils.showErrorMessage(rootPane,
+            UtilsConnector.viewMessagesUtils.showErrorMessage(this,
                                                               "El juego no puede quedar con igualdad en el marcador");
             result = false;
         }
@@ -425,14 +425,14 @@ public class UpdateGame_UI extends javax.swing.JDialog {
             ReadPhaseDTO readPhaseDTO = ServicesLocator.PhaseServices.readAPhase(readAPhaseDTO);
             if (game_date.isBefore(readPhaseDTO.getStart_date()) || game_date.isAfter(game_date))
             {
-                UtilsConnector.viewMessagesUtils.showErrorMessage(rootPane,
+                UtilsConnector.viewMessagesUtils.showErrorMessage(this,
                                                                   "La fecha del juego se debe corresponder con las fechas de la fase correspondiente");
                 result = false;
             } 
         }
         catch (SQLException | ClassNotFoundException ex)
         {
-            UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(rootPane, ex);
+            UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
         }
         return result;
     }
@@ -446,7 +446,7 @@ public class UpdateGame_UI extends javax.swing.JDialog {
         int audience = (int) this.jSpinnerAudience.getValue();
         if (audience > capacity)
         {
-            UtilsConnector.viewMessagesUtils.showErrorMessage(rootPane,
+            UtilsConnector.viewMessagesUtils.showErrorMessage(this,
                                                               "La audiencia del juego no puede ser superior a la capacidad del estadio");
             result = false;
         }
