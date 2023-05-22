@@ -65,7 +65,7 @@ public class MainUI extends javax.swing.JFrame {
         
         
         // añadir reportes
-        if(!ServicesLocator.UserServices.actualUserIsAdmin() && ServicesLocator.UserServices.actualUserIsInvited()){
+        if(!ServicesLocator.UserServices.actualUserIsAdmin()){
             reportsViews.forEach((view) -> {
                 javax.swing.JMenuItem menuItem = new javax.swing.JMenuItem();
                 menuItem.setText(view.getViewName());
