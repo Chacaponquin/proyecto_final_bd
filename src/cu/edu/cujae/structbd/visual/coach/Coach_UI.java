@@ -15,8 +15,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -33,6 +31,7 @@ public class Coach_UI extends AppCustomWindow
     public void start()
     {
         initComponents();
+        UtilsConnector.viewUtils.disableButtonsByUser(insertButton, menuUpdate, menuDelete);
         this.updateList();
     }
     
@@ -84,7 +83,7 @@ public class Coach_UI extends AppCustomWindow
         jPanel1 = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        insertButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
 
@@ -133,10 +132,10 @@ public class Coach_UI extends AppCustomWindow
             .addComponent(jButton2)
         );
 
-        jButton1.setText("Insertar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        insertButton.setText("Insertar");
+        insertButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                insertButtonActionPerformed(evt);
             }
         });
 
@@ -176,14 +175,14 @@ public class Coach_UI extends AppCustomWindow
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(0, 489, Short.MAX_VALUE)
-                        .addComponent(jButton1))
+                        .addComponent(insertButton))
                     .addComponent(jScrollPane1))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jButton1)
+                .addComponent(insertButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
@@ -210,11 +209,11 @@ public class Coach_UI extends AppCustomWindow
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton1ActionPerformed
-    {//GEN-HEADEREND:event_jButton1ActionPerformed
+    private void insertButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_insertButtonActionPerformed
+    {//GEN-HEADEREND:event_insertButtonActionPerformed
         CreateCoachUI ccui = new CreateCoachUI(this, rootPaneCheckingEnabled);
         ccui.setVisible(true);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_insertButtonActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton2ActionPerformed
     {//GEN-HEADEREND:event_jButton2ActionPerformed
@@ -367,7 +366,7 @@ public class Coach_UI extends AppCustomWindow
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton insertButton;
     private javax.swing.JButton jButton2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

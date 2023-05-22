@@ -307,4 +307,8 @@ public class UserServices {
         return USER_ROLE.SUPER_ADMIN.equal(this.actualUser.getRole()) || USER_ROLE.ADMIN.equal(this.actualUser.getRole());
     }
     
+    public boolean actualUserIsInvited(){
+        return USER_ROLE.INVITED.equal(this.actualUser.getRole());
+    }
+    
 }

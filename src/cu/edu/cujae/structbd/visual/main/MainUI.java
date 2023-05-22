@@ -47,7 +47,6 @@ public class MainUI extends javax.swing.JFrame {
         UtilsConnector.viewUtils.updateViews();
         
         ActualUserDTO actualUser = ServicesLocator.UserServices.getActualUser();
-        boolean actualUserIsAdmin = ServicesLocator.UserServices.actualUserIsAdmin();
         
         List<ViewWindow> views = UtilsConnector.viewUtils.getViews();
         List<ViewDialog> reportsViews = UtilsConnector.viewUtils.getReportsViews();
@@ -66,15 +65,16 @@ public class MainUI extends javax.swing.JFrame {
         
         
         // añadir reportes
-        if(actualUserIsAdmin){
-            this.jMenu2.setVisible(false);
-        }else {
+        if(!ServicesLocator.UserServices.actualUserIsAdmin() && ServicesLocator.UserServices.actualUserIsInvited()){
             reportsViews.forEach((view) -> {
                 javax.swing.JMenuItem menuItem = new javax.swing.JMenuItem();
                 menuItem.setText(view.getViewName());
                 menuItem.addActionListener(this.clickReportMenuItem(this, view.getDialog()));
                 this.jMenu2.add(menuItem);
             });
+            
+        }else {
+            this.jMenu2.setVisible(false);
         }
         
         JMenuItem closeUserItem = new JMenuItem("Cerrar Sesión");
@@ -133,7 +133,7 @@ public class MainUI extends javax.swing.JFrame {
                 public void actionPerformed(ActionEvent e){
                 mainWindow.setVisible(true);
                     view.start();
-                    UtilsConnector.viewUtils.openWindow(mainWindow, view);
+                    view.setVisible(true);
                     
                     mainWindow.updateMenuItems();
                 } 

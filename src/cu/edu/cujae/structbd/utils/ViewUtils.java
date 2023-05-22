@@ -30,8 +30,10 @@ import cu.edu.cujae.structbd.visual.user.UserUI;
 import java.awt.Frame;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JMenuItem;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -51,7 +53,7 @@ public class ViewUtils {
     public void updateViews(){
         views.clear();
         reports.clear();
-        boolean isAdmin = ServicesLocator.UserServices.actualUserIsAdmin();
+        boolean isAdmin = ServicesLocator.UserServices.actualUserIsAdmin() && !ServicesLocator.UserServices.actualUserIsInvited();
         
         this.views.add(new ViewWindow("Estadios", new StadiumUI(), !isAdmin));
         this.views.add(new ViewWindow("Posiciones", new PositionUI(), !isAdmin));
@@ -105,6 +107,14 @@ public class ViewUtils {
     
     public List<ViewDialog> getReportsViews(){
         return this.reports;
+    }
+    
+    public void disableButtonsByUser(JButton insertButton, JMenuItem editButton, JMenuItem deleteItem){
+        if(USER_ROLE.INVITED.equal(ServicesLocator.UserServices.getActualUser().getRole())){
+            if(insertButton != null) insertButton.setEnabled(false);
+            if(editButton != null) editButton.setEnabled(false);
+            if(deleteItem != null) deleteItem.setEnabled(false);
+        }
     }
     
     public void cleanTable(JTable table){
