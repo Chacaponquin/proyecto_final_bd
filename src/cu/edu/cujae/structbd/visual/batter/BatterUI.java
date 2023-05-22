@@ -50,7 +50,8 @@ public class BatterUI extends AppCustomWindow {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents()
+    {
 
         jPopupMenu1 = new javax.swing.JPopupMenu();
         editMenu = new javax.swing.JMenuItem();
@@ -61,16 +62,20 @@ public class BatterUI extends AppCustomWindow {
         jButton2 = new javax.swing.JButton();
 
         editMenu.setText("Editar");
-        editMenu.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        editMenu.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 editMenuActionPerformed(evt);
             }
         });
         jPopupMenu1.add(editMenu);
 
         deleteMenu.setText("Eliminar");
-        deleteMenu.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        deleteMenu.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 deleteMenuActionPerformed(evt);
             }
         });
@@ -78,27 +83,34 @@ public class BatterUI extends AppCustomWindow {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Bateadores");
+        setResizable(false);
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
+            new Object [][]
+            {
 
             },
-            new String [] {
+            new String []
+            {
                 "Nombre", "Equipo", "Años en el equipo", "Número", "Posición", "Veces al bate", "Total de hits", "Average"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
 
         insertButton.setText("Insertar");
-        insertButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        insertButton.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 insertButtonActionPerformed(evt);
             }
         });
 
         jButton2.setText("Cerrar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jButton2.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jButton2ActionPerformed(evt);
             }
         });
@@ -128,6 +140,7 @@ public class BatterUI extends AppCustomWindow {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void insertButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertButtonActionPerformed

@@ -48,7 +48,7 @@ public class UpdateGame_UI extends javax.swing.JDialog {
             this.readAPhaseDTO = readAPhaseDTO;
             this.readGameDTO = readGameDTO;
             jComboBoxHomeClub.addItem(this.readGameDTO.getHcTeamName());
-            jComboBoxHomeClub.addItem(this.readGameDTO.getVisTeamName());
+            jComboBoxVisitor.addItem(this.readGameDTO.getVisTeamName());
             jSpinnerRHC.setValue(this.readGameDTO.getRuns_home_club());
             jSpinnerRV.setValue(this.readGameDTO.getRuns_visitant());
             jSpinnerAudience.setValue(this.readGameDTO.getAudience());

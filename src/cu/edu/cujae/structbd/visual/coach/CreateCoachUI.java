@@ -90,6 +90,7 @@ public class CreateCoachUI extends JDialog
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Insertar Entrenador");
         setModal(true);
+        setResizable(false);
 
         jButton1.setText("Cerrar");
         jButton1.addActionListener(new java.awt.event.ActionListener()
