@@ -6,6 +6,7 @@ package cu.edu.cujae.structbd.visual.coach;
 
 import cu.edu.cujae.structbd.dto.coach.ReadCoachDTO;
 import cu.edu.cujae.structbd.dto.coach.UpdateCoachDTO;
+import cu.edu.cujae.structbd.dto.team.FindTeamDTO;
 import cu.edu.cujae.structbd.dto.team.ReadTeamDTO;
 import cu.edu.cujae.structbd.dto.team_member.ReadTeamMemberDTO;
 import cu.edu.cujae.structbd.services.ServicesLocator;
@@ -18,6 +19,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
+import javax.swing.SpinnerNumberModel;
 
 /**
  *
@@ -52,14 +54,18 @@ public class UpdateCoachUI extends JDialog
                     combo_box_team.addItem(teams_list.get(i).getTeam_name());
                 }
             }
-            /*this.teams_list = new ArrayList<>(ServicesLocator.CoachServices.getPosiblesTeamsToInsert());
-            for (int i = 0; i < teams_list.size(); i++)
-            {
-                if (teams_list.get(i).getTeam_id() != updateCoachDTO.getTeam_id())
-                {
-                    combo_box_team.addItem(teams_list.get(i).getTeam_name());
-                }
-            }*/
+            
+            ReadTeamDTO readTeamDTO = ServicesLocator.TeamServices.findTeamByID(new FindTeamDTO(updateCoachDTO.
+                getTeam_id()));
+            
+            SpinnerNumberModel snm = new SpinnerNumberModel();
+            snm.setValue(this.updateCoachDTO.getYears_in_team());
+            snm.setMinimum(1);
+            snm.setMaximum(readTeamDTO.getPlayed_championships());
+            snm.setStepSize(1);
+
+            spinner_team.setModel(snm);
+            spinner_team.setEnabled(true);
             this.activate_button();
         }
         catch (SQLException | ClassNotFoundException ex)
@@ -93,7 +99,7 @@ public class UpdateCoachUI extends JDialog
         spinner_team = new javax.swing.JSpinner();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Insertar Entrenador");
+        setTitle("Modificar Entrenador");
         setModal(true);
         setResizable(false);
 
@@ -269,14 +275,14 @@ public class UpdateCoachUI extends JDialog
                 updateCoachDTO.setYears_in_team(y_team);
 
                     ServicesLocator.CoachServices.updateCoach(updateCoachDTO);
-                    UtilsConnector.viewMessagesUtils.showSuccessMessage(rootPane,
-                                                                        name + " se ha modificado correctamente");
+                UtilsConnector.viewMessagesUtils.showSuccessMessage(this,
+                                                                                                                                            name + " se ha modificado correctamente");
                     ((Coach_UI) this.getParent()).updateList();
                 dispose();
             }
             catch (SQLException | ClassNotFoundException ex)
             {
-                Logger.getLogger(UpdateCoachUI.class.getName()).log(Level.SEVERE, null, ex);
+                UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
             }
 
         }

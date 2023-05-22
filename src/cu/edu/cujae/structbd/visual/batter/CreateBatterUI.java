@@ -13,6 +13,7 @@ import cu.edu.cujae.structbd.exceptions.team_member.WrongMemberNumberException;
 import cu.edu.cujae.structbd.services.ServicesLocator;
 import cu.edu.cujae.structbd.utils.UtilsConnector;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import javax.swing.JDialog;
@@ -107,6 +108,13 @@ public class CreateBatterUI extends JDialog {
         jLabel2.setText("Equipo:");
 
         teamComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        teamComboBox.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                teamComboBoxActionPerformed(evt);
+            }
+        });
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel4.setText("Dorsal:");
@@ -220,9 +228,24 @@ public class CreateBatterUI extends JDialog {
         }else{
             try {
                 ReadTeamDTO team = this.teams.get(teamIndex);
-                ReadPositionDTO pos = this.positions.get(positionIndex);
+                String team_name = this.teamComboBox.getSelectedItem().toString();
+                //Buscando el id del equipo
+                ArrayList<ReadTeamDTO> list_teams = ServicesLocator.TeamServices.readTeams();
+                boolean found_team = false;
+                int team_id = -1;    
+                for (int i = 0; i < list_teams.size() && !found_team; i++)
+                {
+                    ReadTeamDTO rt = list_teams.get(i);
+                    if (rt.getTeam_name().equalsIgnoreCase(team_name))
+                    {
+                        found_team = true;
+                        team_id = rt.getTeam_id();
+                    }
+                }
+
+                ReadPositionDTO pos = this.positions.get(positionIndex - 1);
                 
-                CreateBatterDTO newBatter = new CreateBatterDTO(name, team.getTeam_id(), dorsal, pos.getPositionID());
+                CreateBatterDTO newBatter = new CreateBatterDTO(name, team_id, dorsal, pos.getPositionID());
                 ServicesLocator.BatterServices.createBatter(newBatter);
                 UtilsConnector.viewMessagesUtils.showSuccessMessage(this, "Bateador insertado satisfactoriamente.");
                 this.parent.updateUI();
@@ -239,6 +262,11 @@ public class CreateBatterUI extends JDialog {
             }
         }
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void teamComboBoxActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_teamComboBoxActionPerformed
+    {//GEN-HEADEREND:event_teamComboBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_teamComboBoxActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JSpinner dorsalInput;

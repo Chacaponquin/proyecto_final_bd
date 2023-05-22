@@ -425,8 +425,10 @@ public class SerieUI extends AppCustomWindow
                         });
                         position++;
                     }
+
                     RowsRenderer rr = new RowsRenderer(0);
                     jTablePosition.setDefaultRenderer(Object.class, rr);
+
                 }
                 else
                 {
@@ -715,7 +717,7 @@ public class SerieUI extends AppCustomWindow
                 else
                 {
                     UtilsConnector.viewMessagesUtils.showSuccessMessage(this,
-                                                                        "La fase está cerrada, los juegos no se pueden eliminar");
+                                                                        "La fase está cerrada, los juegos no pueden ser modificados ni eliminados");
                 }
 
             }

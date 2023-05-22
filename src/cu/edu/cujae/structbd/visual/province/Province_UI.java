@@ -129,7 +129,6 @@ public class Province_UI extends AppCustomWindow
                 return canEdit [columnIndex];
             }
         });
-        table.setComponentPopupMenu(jPopupMenu1);
         jScrollPane1.setViewportView(table);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

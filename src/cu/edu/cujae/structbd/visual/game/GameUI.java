@@ -55,6 +55,7 @@ public class GameUI extends AppCustomWindow {
             }
         });
 
+        jTableGames.setAutoCreateRowSorter(true);
         jTableGames.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][]
             {

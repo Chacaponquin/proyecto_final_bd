@@ -17,6 +17,7 @@ import cu.edu.cujae.structbd.utils.UtilsConnector;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
+import javax.swing.SpinnerNumberModel;
 
 /**
  *
@@ -74,10 +75,18 @@ public class UpdateBatterUI extends javax.swing.JDialog {
             }
             
             this.nameInput.setText(this.batter.getName());
-            this.yearnsInTeamInput.setValue(batter.getYearsInTeam());
             this.dorsalInput.setValue(batter.getNumber());
             this.atBatsInput.setValue(batter.getAtBats());
             this.totalHitsInput.setValue(batter.getTotalHits());
+
+            SpinnerNumberModel snm = new SpinnerNumberModel();
+            snm.setValue(this.batter.getYearsInTeam());
+            snm.setMinimum(1);
+            snm.setMaximum(foundTeam.getPlayed_championships());
+            snm.setStepSize(1);
+            yearnsInTeamInput.setModel(snm);
+            yearnsInTeamInput.setEnabled(true);
+            
         } catch (SQLException | ClassNotFoundException ex) {
             UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
         }
@@ -147,8 +156,9 @@ public class UpdateBatterUI extends javax.swing.JDialog {
         jLabel7.setText("Total de Hits:");
 
         teamInput.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        teamInput.setEnabled(false);
 
-        yearnsInTeamInput.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
+        yearnsInTeamInput.setModel(new javax.swing.SpinnerNumberModel(1, 1, 50, 1));
 
         dorsalInput.setModel(new javax.swing.SpinnerNumberModel(1, 1, 99, 1));
 
@@ -248,18 +258,26 @@ public class UpdateBatterUI extends javax.swing.JDialog {
             
             int member_id = this.batter.getMember_id();
             String batterName = this.nameInput.getText();
-            int teamID = this.selectTeams.get(teamIndex).getTeam_id();
+            int teamID = this.batter.getTeamID();
             int yearsInTeam = (Integer) this.yearnsInTeamInput.getValue();
             int number = (Integer) this.dorsalInput.getValue();
             int positionID = this.selectPosition.get(positionIndex).getPositionID();
             int atBats = (Integer) this.atBatsInput.getValue();
             int totalHits = (Integer) this.totalHitsInput.getValue();
             
+            if (totalHits <= atBats)
+            {
             UpdateBatterDTO newBatter = new UpdateBatterDTO(member_id, batterName, teamID, yearsInTeam, number, positionID, atBats, totalHits);
             ServicesLocator.BatterServices.updateBatter(newBatter);
             UtilsConnector.viewMessagesUtils.showSuccessMessage(this, "Bateador actualizado.");
             this.dispose();
-            ((BatterUI) this.getParent()).updateUI();
+                ((BatterUI) this.getParent()).updateUI();
+            }
+            else
+            {
+                UtilsConnector.viewMessagesUtils.showErrorMessage(this,
+                                                                  "La cantidad de hits no puede ser superior a la cantidad de veces al bate");
+            }
         } catch (EmptyMemberNameException ex) {
             UtilsConnector.viewMessagesUtils.showErrorMessage(this, "El nombre del bateador no puede estar vacío.");
         } catch (SQLException | ClassNotFoundException ex) {

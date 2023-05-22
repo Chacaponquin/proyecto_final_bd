@@ -6,6 +6,7 @@ package cu.edu.cujae.structbd.visual.coach;
 
 import cu.edu.cujae.structbd.dto.coach.ReadCoachDTO;
 import cu.edu.cujae.structbd.dto.coach.UpdateCoachDTO;
+import cu.edu.cujae.structbd.dto.team.FindTeamDTO;
 import cu.edu.cujae.structbd.dto.team.ReadTeamDTO;
 import cu.edu.cujae.structbd.dto.team_member.ReadTeamMemberDTO;
 import cu.edu.cujae.structbd.services.ServicesLocator;
@@ -19,6 +20,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
+import javax.swing.SpinnerNumberModel;
 
 /**
  *
@@ -52,6 +54,14 @@ public class UpdateCoach_UI1 extends JDialog
                     combo_box_team.addItem(teams_list.get(i).getTeam_name());
                 }
             }
+            
+            ReadTeamDTO readTeamDTO = ServicesLocator.TeamServices.findTeamByID(new FindTeamDTO(updateCoachDTO.
+                getTeam_id()));
+
+            SpinnerNumberModel snm = new SpinnerNumberModel();
+            snm.setMinimum(1);
+            snm.setMaximum(readTeamDTO.getPlayed_championships());
+            spinner_exp.setModel(snm);
             this.teams_list = new ArrayList<>(ServicesLocator.CoachServices.getPosiblesTeamsToInsert());
             for (int i = 0; i < teams_list.size(); i++)
             {

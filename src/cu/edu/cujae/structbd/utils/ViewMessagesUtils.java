@@ -21,7 +21,7 @@ public class ViewMessagesUtils {
     
     public void showSuccessMessage(Component component, String message){
         JOptionPane.showMessageDialog(component, message,
-                                   "Error", JOptionPane.INFORMATION_MESSAGE);
+                                      "Información", JOptionPane.INFORMATION_MESSAGE);
     }
     
     public void showConecctionErrorMessage(Component component, Exception ex){

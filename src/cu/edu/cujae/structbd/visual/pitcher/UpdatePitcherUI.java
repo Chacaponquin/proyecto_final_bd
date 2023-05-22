@@ -16,6 +16,7 @@ import cu.edu.cujae.structbd.utils.UtilsConnector;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
+import javax.swing.SpinnerNumberModel;
 
 /**
  *
@@ -63,7 +64,14 @@ public class UpdatePitcherUI extends javax.swing.JDialog {
             this.jSpinnerInnings.setValue(pitcher.getInningsPitched());
             this.jSpinnerNumber.setValue(pitcher.getMemberNumber());
             this.jSpinnerRuns.setValue(pitcher.getRunsAllowed());
-            this.jSpinnerYearsInTeam.setValue(pitcher.getYearsInTeam());
+
+            SpinnerNumberModel snm = new SpinnerNumberModel();
+            snm.setValue(this.pitcher.getYearsInTeam());
+            snm.setMinimum(1);
+            snm.setMaximum(foundTeam.getPlayed_championships());
+            snm.setStepSize(1);
+            jSpinnerYearsInTeam.setModel(snm);
+            jSpinnerYearsInTeam.setEnabled(true);
         } catch (SQLException | ClassNotFoundException ex) {
            UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
         } 
@@ -116,6 +124,7 @@ public class UpdatePitcherUI extends javax.swing.JDialog {
         jSpinnerNumber.setModel(new javax.swing.SpinnerNumberModel(1, 1, 99, 1));
 
         jComboBoxTeamName.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<Seleccionar>" }));
+        jComboBoxTeamName.setEnabled(false);
         jComboBoxTeamName.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
@@ -248,7 +257,7 @@ public class UpdatePitcherUI extends javax.swing.JDialog {
         
         int id = this.pitcher.getTeamMemberID();
         String name = jTextFieldName.getText();
-        int teamID = this.selectTeams.get(team_index).getTeam_id();
+        int teamID = this.pitcher.getTeamID();
         Integer yearsInTeam = (Integer) jSpinnerYearsInTeam.getValue();
         Integer number = (Integer) jSpinnerNumber.getValue();
         Integer innings = (Integer) jSpinnerInnings.getValue();

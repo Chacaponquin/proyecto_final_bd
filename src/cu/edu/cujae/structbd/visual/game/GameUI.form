@@ -63,6 +63,7 @@
       <SubComponents>
         <Component class="javax.swing.JTable" name="jTableGames">
           <Properties>
+            <Property name="autoCreateRowSorter" type="boolean" value="true"/>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
               <Table columnCount="8" rowCount="0">
                 <Column editable="false" title="Fecha" type="java.lang.Object"/>
