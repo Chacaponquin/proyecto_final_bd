@@ -28,6 +28,8 @@ public class BatterUI extends AppCustomWindow {
     
     public void updateUI(){
         try {
+            UtilsConnector.viewUtils.disableButtonsByUser(insertButton, editMenu, deleteMenu);
+            
             UtilsConnector.viewUtils.cleanTable(jTable1);
             batters = ServicesLocator.BatterServices.readBatters();
             
@@ -48,32 +50,27 @@ public class BatterUI extends AppCustomWindow {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents()
-    {
+    private void initComponents() {
 
         jPopupMenu1 = new javax.swing.JPopupMenu();
         editMenu = new javax.swing.JMenuItem();
         deleteMenu = new javax.swing.JMenuItem();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
+        insertButton = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
         editMenu.setText("Editar");
-        editMenu.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        editMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 editMenuActionPerformed(evt);
             }
         });
         jPopupMenu1.add(editMenu);
 
         deleteMenu.setText("Eliminar");
-        deleteMenu.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        deleteMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 deleteMenuActionPerformed(evt);
             }
         });
@@ -83,31 +80,25 @@ public class BatterUI extends AppCustomWindow {
         setTitle("Bateadores");
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][]
-            {
+            new Object [][] {
 
             },
-            new String []
-            {
+            new String [] {
                 "Nombre", "Equipo", "Años en el equipo", "Número", "Posición", "Veces al bate", "Total de hits", "Average"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
 
-        jButton1.setText("Insertar");
-        jButton1.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                jButton1ActionPerformed(evt);
+        insertButton.setText("Insertar");
+        insertButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                insertButtonActionPerformed(evt);
             }
         });
 
         jButton2.setText("Cerrar");
-        jButton2.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
@@ -119,7 +110,7 @@ public class BatterUI extends AppCustomWindow {
             .addGroup(layout.createSequentialGroup()
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton1)
+                    .addComponent(insertButton)
                     .addComponent(jButton2)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 810, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(22, Short.MAX_VALUE))
@@ -128,7 +119,7 @@ public class BatterUI extends AppCustomWindow {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(22, 22, 22)
-                .addComponent(jButton1)
+                .addComponent(insertButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -139,9 +130,9 @@ public class BatterUI extends AppCustomWindow {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void insertButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertButtonActionPerformed
         UtilsConnector.viewUtils.openDialog(this, new CreateBatterUI(this, true));        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_insertButtonActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         this.dispose();       // TODO add your handling code here:
@@ -178,7 +169,7 @@ public class BatterUI extends AppCustomWindow {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem deleteMenu;
     private javax.swing.JMenuItem editMenu;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton insertButton;
     private javax.swing.JButton jButton2;
     private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;

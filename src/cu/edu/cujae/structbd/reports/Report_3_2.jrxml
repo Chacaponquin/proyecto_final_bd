@@ -3,16 +3,15 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Report_3" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6ef5d45c-6d7d-439d-8572-6b4a63f7d72d">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="caseBaseball"/>
-	<parameter name="date" class="java.util.Date"/>
+	<parameter name="date" class="java.sql.Date"/>
 	<queryString language="SQL">
-		<![CDATA[SELECT phase.phase_name,game.game_date,home_club.team_name as HC,game.runs_home_club, game.runs_visitant, visitant.team_name as V,game.total_audience FROM game
-JOIN (SELECT team.team_id, team.team_name, team.stadium_id
-        FROM team) as home_club ON game.team_home_club = home_club.team_id 
-JOIN (SELECT team.team_id, team.team_name
-        FROM team) as visitant ON game.team_visitant = visitant.team_id
-JOIN stadium ON stadium.stadium_id = home_club.stadium_id
+		<![CDATA[SELECT * FROM game
+JOIN (SELECT team.team_id, team.team_name as home_club_name, team.stadium_id FROM team) as home_club ON game.team_home_club = home_club.team_id 
+JOIN (SELECT team.team_id, team.team_name as visitant_name FROM team) as visitant ON game.team_visitant = visitant.team_id
+JOIN (SELECT team.team_id, team.team_name as winner_name FROM team) as winner_team ON game.winner = winner_team.team_id
 JOIN phase ON game.phase_id = phase.phase_id
-WHERE game.game_date = $P!{date}]]>
+JOIN stadium ON stadium.stadium_id = home_club.stadium_id
+WHERE game.game_date = $P!{date};]]>
 	</queryString>
 	<field name="phase_name" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="phase_name"/>
@@ -39,9 +38,14 @@ WHERE game.game_date = $P!{date}]]>
 		<property name="com.jaspersoft.studio.field.label" value="runs_visitant"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="game"/>
 	</field>
-	<field name="v" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="v"/>
-		<property name="com.jaspersoft.studio.field.label" value="v"/>
+	<field name="visitant_name" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="visitant_name"/>
+		<property name="com.jaspersoft.studio.field.label" value="visitant_name"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="team"/>
+	</field>
+	<field name="home_club_name" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="home_club_name"/>
+		<property name="com.jaspersoft.studio.field.label" value="home_club_name"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="team"/>
 	</field>
 	<field name="total_audience" class="java.lang.Integer">
@@ -57,11 +61,20 @@ WHERE game.game_date = $P!{date}]]>
 			<frame>
 				<reportElement mode="Opaque" x="-20" y="-20" width="595" height="92" backcolor="#006699" uuid="f92e44e4-8de5-468c-b1ab-d31415f53661"/>
 				<staticText>
-					<reportElement x="140" y="10" width="346" height="78" forecolor="#FFFFFF" uuid="53e87599-27e7-4c3d-a20b-ba9b87e65906"/>
+					<reportElement x="20" y="10" width="569" height="81" forecolor="#FFFFFF" uuid="53e87599-27e7-4c3d-a20b-ba9b87e65906"/>
 					<textElement textAlignment="Center">
-						<font fontName="Felix Titling" size="30" isBold="true"/>
+						<font fontName="Felix Titling" size="34" isBold="true"/>
 					</textElement>
-					<text><![CDATA[Partidos jugados en una fecha]]></text>
+					<text><![CDATA[Partidos jugados en un estadio y una fecha]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="20" y="105" width="90" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="685792d6-2a68-4f8f-8e11-7b3ddd1e9aea">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c77d575b-a513-49ae-9520-cb23c90d6f3c"/>
+					</reportElement>
+					<textElement textAlignment="Center">
+						<font size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Fase]]></text>
 				</staticText>
 			</frame>
 		</band>
@@ -75,16 +88,7 @@ WHERE game.game_date = $P!{date}]]>
 				<reportElement x="0" y="20" width="555" height="1" forecolor="#666666" uuid="0cb67294-dce1-4752-84b3-ac83ba7123aa"/>
 			</line>
 			<staticText>
-				<reportElement mode="Opaque" x="40" y="0" width="80" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="685792d6-2a68-4f8f-8e11-7b3ddd1e9aea">
-					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c77d575b-a513-49ae-9520-cb23c90d6f3c"/>
-				</reportElement>
-				<textElement textAlignment="Center">
-					<font size="14" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Fase]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="120" y="0" width="70" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="93ea4eca-dfc0-4838-a72f-38a1f6a0977d">
+				<reportElement mode="Opaque" x="90" y="0" width="80" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="93ea4eca-dfc0-4838-a72f-38a1f6a0977d">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c77d575b-a513-49ae-9520-cb23c90d6f3c"/>
 				</reportElement>
 				<textElement textAlignment="Center">
@@ -93,7 +97,7 @@ WHERE game.game_date = $P!{date}]]>
 				<text><![CDATA[Fecha]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="190" y="0" width="90" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="2ae5af2e-91e3-489e-ba7e-453305fc2549">
+				<reportElement mode="Opaque" x="170" y="0" width="110" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="2ae5af2e-91e3-489e-ba7e-453305fc2549">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c77d575b-a513-49ae-9520-cb23c90d6f3c"/>
 				</reportElement>
 				<textElement textAlignment="Center">
@@ -102,27 +106,17 @@ WHERE game.game_date = $P!{date}]]>
 				<text><![CDATA[Local]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="280" y="0" width="30" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="90a54556-05d6-487f-8a2e-2253aea7a23e">
+				<reportElement mode="Opaque" x="280" y="0" width="70" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="90a54556-05d6-487f-8a2e-2253aea7a23e">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c77d575b-a513-49ae-9520-cb23c90d6f3c"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Center">
 					<font size="14" isBold="true"/>
 				</textElement>
-				<text><![CDATA[C]]></text>
+				<text><![CDATA[Marcador]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="310" y="0" width="30" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="a39869bf-d0ba-4538-abce-fbaede12a18c">
-					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c77d575b-a513-49ae-9520-cb23c90d6f3c"/>
-					<property name="com.jaspersoft.studio.unit.width" value="px"/>
-				</reportElement>
-				<textElement textAlignment="Center">
-					<font size="14" isBold="true"/>
-				</textElement>
-				<text><![CDATA[C]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="340" y="0" width="90" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="306e3047-7ab9-400d-b634-d1b639a1bcf7">
+				<reportElement mode="Opaque" x="350" y="0" width="100" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="306e3047-7ab9-400d-b634-d1b639a1bcf7">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c77d575b-a513-49ae-9520-cb23c90d6f3c"/>
 				</reportElement>
 				<textElement textAlignment="Center">
@@ -131,7 +125,7 @@ WHERE game.game_date = $P!{date}]]>
 				<text><![CDATA[Visitante]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="430" y="0" width="84" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="194a5b52-8b67-4e5c-9573-eb7ea2ea2de7">
+				<reportElement mode="Opaque" x="450" y="0" width="104" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="194a5b52-8b67-4e5c-9573-eb7ea2ea2de7">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c77d575b-a513-49ae-9520-cb23c90d6f3c"/>
 				</reportElement>
 				<textElement textAlignment="Center">
@@ -147,52 +141,45 @@ WHERE game.game_date = $P!{date}]]>
 				<reportElement positionType="FixRelativeToBottom" x="0" y="19" width="555" height="1" uuid="9a0d7d54-1092-4251-afdc-0e631af1fa59"/>
 			</line>
 			<textField>
-				<reportElement x="40" y="-1" width="80" height="21" uuid="235635ae-98e4-4ed7-aee7-4a2730bf3cf2">
+				<reportElement x="90" y="0" width="80" height="21" uuid="235635ae-98e4-4ed7-aee7-4a2730bf3cf2">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="0039a2a7-abce-4f1b-a366-6661511eabad"/>
 				</reportElement>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{phase_name}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="135" y="0" width="40" height="19" uuid="977be898-bae3-4b5a-8529-4f021f9b47a7">
-					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="04133649-150e-4d76-82fe-1188b3a24044"/>
-				</reportElement>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{game_date}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="190" y="-1" width="90" height="20" uuid="d42421b4-4036-44cf-95db-8369d2c75312">
+				<reportElement x="0" y="0" width="90" height="21" uuid="977be898-bae3-4b5a-8529-4f021f9b47a7">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="04133649-150e-4d76-82fe-1188b3a24044"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{phase_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="170" y="-1" width="110" height="20" uuid="d42421b4-4036-44cf-95db-8369d2c75312">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4b15d5b9-1c7c-40f8-859b-4ea2c418aa54"/>
 				</reportElement>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{hc}]]></textFieldExpression>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{home_club_name}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="280" y="0" width="30" height="19" uuid="91144c55-0c34-4acc-a27d-f58a036c952a">
+				<reportElement x="280" y="0" width="70" height="19" uuid="91144c55-0c34-4acc-a27d-f58a036c952a">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="14711d35-3f83-4707-8dc0-7ea19d806ba0"/>
 				</reportElement>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{runs_home_club}]]></textFieldExpression>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{runs_home_club} - $F{runs_visitant}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="310" y="0" width="30" height="19" uuid="275163c1-026b-4936-8d52-ed1343da6a8e">
-					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="79be34f3-78c6-43f2-8627-e2ad540a04d1"/>
-				</reportElement>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{runs_visitant}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="340" y="-1" width="90" height="20" uuid="d505d55e-2559-4d53-aec3-849e6b5315ce">
+				<reportElement x="350" y="-1" width="100" height="20" uuid="d505d55e-2559-4d53-aec3-849e6b5315ce">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c6d79bd8-6131-4d39-8a9d-10cdee256019"/>
 				</reportElement>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{v}]]></textFieldExpression>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{visitant_name}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="430" y="-1" width="84" height="20" uuid="f5b02e3c-6ae0-49c2-a0f4-a23563578a50">
+				<reportElement x="450" y="0" width="104" height="20" uuid="f5b02e3c-6ae0-49c2-a0f4-a23563578a50">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="42f5eccb-6271-4b81-90ff-bf468b6d5cc6"/>
 				</reportElement>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{total_audience}]]></textFieldExpression>
 			</textField>
 		</band>

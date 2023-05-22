@@ -16,8 +16,9 @@ import cu.edu.cujae.structbd.utils.RowsRenderer;
 import cu.edu.cujae.structbd.utils.UtilsConnector;
 import cu.edu.cujae.structbd.visual.game.CreateGameUI;
 import cu.edu.cujae.structbd.visual.game.UpdateGame_UI;
+import java.awt.event.ItemEvent;
 import java.sql.SQLException;
-import java.time.LocalDate;
+import java.util.List;
 import java.util.Iterator;
 import java.util.LinkedList;
 import javax.swing.JOptionPane;
@@ -31,24 +32,18 @@ import javax.swing.table.DefaultTableModel;
 public class SerieUI extends AppCustomWindow
 {
 
-    private LinkedList<ReadPhaseDTO> phases_list;
+    private List<ReadPhaseDTO> phases_list = new LinkedList<>();
 
     public void start()
     {
         initComponents();
-        try
-        {
-            this.phases_list = new LinkedList<>(ServicesLocator.PhaseServices.readActivePhase());
-            combo_phases.addItem("<Seleccione>");
-            for (ReadPhaseDTO rp : phases_list)
-            {
-                combo_phases.addItem(rp.getPhase_name());
-            }
-        }
-        catch (SQLException | ClassNotFoundException ex)
-        {
-            UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
-        }
+        
+        UtilsConnector.viewUtils.cleanTable(jTableGames);
+        UtilsConnector.viewUtils.cleanTable(jTablePosition);
+        this.phases_list.clear();
+        
+        this.update_combo_box();
+
     }
 
     /**
@@ -57,8 +52,7 @@ public class SerieUI extends AppCustomWindow
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents()
-    {
+    private void initComponents() {
 
         jPopupMenu1 = new javax.swing.JPopupMenu();
         jMenuMod = new javax.swing.JMenuItem();
@@ -77,20 +71,16 @@ public class SerieUI extends AppCustomWindow
         jButton4 = new javax.swing.JButton();
 
         jMenuMod.setText("Modificar juego");
-        jMenuMod.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jMenuMod.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuModActionPerformed(evt);
             }
         });
         jPopupMenu1.add(jMenuMod);
 
         jMenuDel.setText("Eliminar juego");
-        jMenuDel.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jMenuDel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuDelActionPerformed(evt);
             }
         });
@@ -98,32 +88,29 @@ public class SerieUI extends AppCustomWindow
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Serie Nacional de Béisbol");
-        addWindowFocusListener(new java.awt.event.WindowFocusListener()
-        {
-            public void windowGainedFocus(java.awt.event.WindowEvent evt)
-            {
+        addWindowFocusListener(new java.awt.event.WindowFocusListener() {
+            public void windowGainedFocus(java.awt.event.WindowEvent evt) {
                 formWindowGainedFocus(evt);
             }
-            public void windowLostFocus(java.awt.event.WindowEvent evt)
-            {
+            public void windowLostFocus(java.awt.event.WindowEvent evt) {
             }
         });
-        addWindowListener(new java.awt.event.WindowAdapter()
-        {
-            public void windowActivated(java.awt.event.WindowEvent evt)
-            {
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
                 formWindowActivated(evt);
             }
-            public void windowOpened(java.awt.event.WindowEvent evt)
-            {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
             }
         });
 
-        combo_phases.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        combo_phases.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                combo_phasesItemStateChanged(evt);
+            }
+        });
+        combo_phases.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 combo_phasesActionPerformed(evt);
             }
         });
@@ -135,10 +122,8 @@ public class SerieUI extends AppCustomWindow
         close_button.setMaximumSize(new java.awt.Dimension(100, 22));
         close_button.setMinimumSize(new java.awt.Dimension(100, 22));
         close_button.setPreferredSize(new java.awt.Dimension(100, 22));
-        close_button.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        close_button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 close_buttonActionPerformed(evt);
             }
         });
@@ -148,49 +133,39 @@ public class SerieUI extends AppCustomWindow
         insert_button.setMaximumSize(new java.awt.Dimension(120, 22));
         insert_button.setMinimumSize(new java.awt.Dimension(120, 22));
         insert_button.setPreferredSize(new java.awt.Dimension(120, 22));
-        insert_button.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        insert_button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 insert_buttonActionPerformed(evt);
             }
         });
 
         jTableGames.setAutoCreateRowSorter(true);
         jTableGames.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][]
-            {
+            new Object [][] {
 
             },
-            new String []
-            {
+            new String [] {
                 "Fecha", "Equipo Local", "C", "C", "Equipo Visitante", "Ganador", "Audiencia"
             }
-        )
-        {
-            Class[] types = new Class []
-            {
+        ) {
+            Class[] types = new Class [] {
                 java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
             };
-            boolean[] canEdit = new boolean []
-            {
+            boolean[] canEdit = new boolean [] {
                 false, false, false, false, false, false, false
             };
 
-            public Class getColumnClass(int columnIndex)
-            {
+            public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
 
-            public boolean isCellEditable(int rowIndex, int columnIndex)
-            {
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
         jTableGames.setComponentPopupMenu(jPopupMenu1);
         jScrollPane2.setViewportView(jTableGames);
-        if (jTableGames.getColumnModel().getColumnCount() > 0)
-        {
+        if (jTableGames.getColumnModel().getColumnCount() > 0) {
             jTableGames.getColumnModel().getColumn(1).setPreferredWidth(180);
             jTableGames.getColumnModel().getColumn(2).setPreferredWidth(30);
             jTableGames.getColumnModel().getColumn(3).setPreferredWidth(30);
@@ -217,38 +192,30 @@ public class SerieUI extends AppCustomWindow
         jTabbedPane1.addTab("Juegos", jPanel1);
 
         jTablePosition.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][]
-            {
+            new Object [][] {
 
             },
-            new String []
-            {
+            new String [] {
                 "Posición", "Equipo", "JJ", "JG", "JP", "Puntos"
             }
-        )
-        {
-            Class[] types = new Class []
-            {
+        ) {
+            Class[] types = new Class [] {
                 java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class
             };
-            boolean[] canEdit = new boolean []
-            {
+            boolean[] canEdit = new boolean [] {
                 false, false, false, false, false, false
             };
 
-            public Class getColumnClass(int columnIndex)
-            {
+            public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
 
-            public boolean isCellEditable(int rowIndex, int columnIndex)
-            {
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
         jScrollPane1.setViewportView(jTablePosition);
-        if (jTablePosition.getColumnModel().getColumnCount() > 0)
-        {
+        if (jTablePosition.getColumnModel().getColumnCount() > 0) {
             jTablePosition.getColumnModel().getColumn(0).setPreferredWidth(50);
             jTablePosition.getColumnModel().getColumn(1).setPreferredWidth(120);
             jTablePosition.getColumnModel().getColumn(2).setPreferredWidth(30);
@@ -276,10 +243,8 @@ public class SerieUI extends AppCustomWindow
         jTabbedPane1.addTab("Tabla de posiciones", jPanel2);
 
         jButton4.setText("Cerrar");
-        jButton4.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
             }
         });
@@ -332,13 +297,16 @@ public class SerieUI extends AppCustomWindow
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton4ActionPerformed
     {//GEN-HEADEREND:event_jButton4ActionPerformed
+<<<<<<< HEAD
         UtilsConnector.viewUtils.updateViews();
+=======
+>>>>>>> 7b042ba3505555e30f94284e1625b8d6a0296537
         this.dispose();
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void combo_phasesActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_combo_phasesActionPerformed
     {//GEN-HEADEREND:event_combo_phasesActionPerformed
-        this.update_tables();
+       
     }//GEN-LAST:event_combo_phasesActionPerformed
 
     public void update_tables()
@@ -347,18 +315,9 @@ public class SerieUI extends AppCustomWindow
         {
             try
             {
-                DefaultTableModel model = (DefaultTableModel) this.jTableGames.getModel();
-                int count = model.getRowCount();
-                for (int i = 0; i < count; i++)
-                {
-                    model.removeRow(0);
-                }
-                DefaultTableModel model_1 = (DefaultTableModel) this.jTablePosition.getModel();
-                int count_1 = model_1.getRowCount();
-                for (int i = 0; i < count_1; i++)
-                {
-                    model_1.removeRow(0);
-                }
+                UtilsConnector.viewUtils.cleanTable(jTablePosition);
+                UtilsConnector.viewUtils.cleanTable(jTableGames);
+                
                 //Obteniendo los datos de la fase seleccionada
                 int phase_id = -1;
                 boolean found = false;
@@ -373,7 +332,7 @@ public class SerieUI extends AppCustomWindow
                         found = true;
                     }
                 }
-                System.out.println(phase_id);
+
                 if (found)
                 {
                     int games_amount = ServicesLocator.AppServices.getCountGamesInPhase(new ReadAPhaseDTO(phase_id));
@@ -464,6 +423,7 @@ public class SerieUI extends AppCustomWindow
             insert_button.setEnabled(false);
         }
     }
+    
     private void close_buttonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_close_buttonActionPerformed
     {//GEN-HEADEREND:event_close_buttonActionPerformed
 
@@ -499,6 +459,7 @@ public class SerieUI extends AppCustomWindow
                     ClassifiedUI c = new ClassifiedUI(this, true, new ReadAPhaseDTO(phase_id + 1));
                     c.setVisible(true);
                 }
+                
                 insert_button.setEnabled(false);
                 close_button.setEnabled(false);
                 combo_phases.setSelectedIndex(0);
@@ -545,13 +506,11 @@ public class SerieUI extends AppCustomWindow
                     phase_id = readPhaseDTO.getPhase_id();
                 }
             }
-            if (phase_id != -1)
-            {
+            
+            if(phase_id!=-1){
                 CreateGameUI createGameUI = new CreateGameUI(this, rootPaneCheckingEnabled, new ReadAPhaseDTO(phase_id));
                 createGameUI.setVisible(true);
-            }
-            else
-            {
+            } else {
                 UtilsConnector.viewMessagesUtils.showErrorMessage(rootPane, "Seleccione correctamente la fase");
             }
         }
@@ -753,7 +712,14 @@ public class SerieUI extends AppCustomWindow
   
     }//GEN-LAST:event_formWindowActivated
 
-        public void update_combo_box()
+    private void combo_phasesItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_combo_phasesItemStateChanged
+
+        if(evt.getStateChange() == ItemEvent.SELECTED){
+            this.update_tables();
+        }
+    }//GEN-LAST:event_combo_phasesItemStateChanged
+
+    public void update_combo_box()
     {
        
         combo_phases.removeAllItems();
@@ -771,6 +737,8 @@ public class SerieUI extends AppCustomWindow
             UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
         }
         combo_phases.setSelectedIndex(0);
+        System.out.println(combo_phases.getItemCount());
+        this.pack();
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton close_button;

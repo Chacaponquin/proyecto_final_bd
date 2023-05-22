@@ -6,7 +6,6 @@ package cu.edu.cujae.structbd.visual.pitcher;
 
 import cu.edu.cujae.structbd.dto.pitcher.DeletePitcherDTO;
 import cu.edu.cujae.structbd.dto.pitcher.ReadPitcherDTO;
-import cu.edu.cujae.structbd.dto.pitcher.UpdatePitcherDTO;
 import cu.edu.cujae.structbd.services.ServicesLocator;
 import cu.edu.cujae.structbd.utils.AppCustomWindow;
 import cu.edu.cujae.structbd.utils.UtilsConnector;
@@ -25,6 +24,7 @@ public class PitcherUI extends AppCustomWindow {
     
     public void start(){
         initComponents();
+        UtilsConnector.viewUtils.disableButtonsByUser(insertButton, editButton, deleteButton);
         this.updateUI();
     }
     
@@ -61,77 +61,63 @@ public class PitcherUI extends AppCustomWindow {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents()
-    {
+    private void initComponents() {
 
         jPopupMenu1 = new javax.swing.JPopupMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
+        deleteButton = new javax.swing.JMenuItem();
+        editButton = new javax.swing.JMenuItem();
         jButtonClose = new javax.swing.JButton();
-        jButtonInsert = new javax.swing.JButton();
+        insertButton = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
 
-        jMenuItem1.setText("Eliminar Pitcher");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                jMenuItem1ActionPerformed(evt);
+        deleteButton.setText("Eliminar");
+        deleteButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteButtonActionPerformed(evt);
             }
         });
-        jPopupMenu1.add(jMenuItem1);
+        jPopupMenu1.add(deleteButton);
 
-        jMenuItem2.setText("Editar");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                jMenuItem2ActionPerformed(evt);
+        editButton.setText("Editar");
+        editButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editButtonActionPerformed(evt);
             }
         });
-        jPopupMenu1.add(jMenuItem2);
+        jPopupMenu1.add(editButton);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Lanzadores");
         setMinimumSize(new java.awt.Dimension(780, 440));
 
         jButtonClose.setText("Cerrar");
-        jButtonClose.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jButtonClose.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonCloseActionPerformed(evt);
             }
         });
 
-        jButtonInsert.setText("Insertar");
-        jButtonInsert.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                jButtonInsertActionPerformed(evt);
+        insertButton.setText("Insertar");
+        insertButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                insertButtonActionPerformed(evt);
             }
         });
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][]
-            {
+            new Object [][] {
 
             },
-            new String []
-            {
+            new String [] {
                 "Nombre", "Dorsal", "Años en equipo", "Equipo", "Entradas Lanzadas", "Carreras permitidas", "PCL"
             }
-        )
-        {
-            boolean[] canEdit = new boolean []
-            {
+        ) {
+            boolean[] canEdit = new boolean [] {
                 false, true, true, true, true, true, true
             };
 
-            public boolean isCellEditable(int rowIndex, int columnIndex)
-            {
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
@@ -147,7 +133,7 @@ public class PitcherUI extends AppCustomWindow {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 761, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButtonInsert, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(insertButton, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jButtonClose, javax.swing.GroupLayout.Alignment.TRAILING)))
                     .addComponent(jScrollPane2))
                 .addContainerGap())
@@ -156,7 +142,7 @@ public class PitcherUI extends AppCustomWindow {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButtonInsert)
+                .addComponent(insertButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 354, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -167,17 +153,17 @@ public class PitcherUI extends AppCustomWindow {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButtonInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonInsertActionPerformed
+    private void insertButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertButtonActionPerformed
         // TODO add your handling code here:
         UtilsConnector.viewUtils.openDialog(this, new CreatePitcherUI(this,true));
-    }//GEN-LAST:event_jButtonInsertActionPerformed
+    }//GEN-LAST:event_insertButtonActionPerformed
 
     private void jButtonCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCloseActionPerformed
         // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_jButtonCloseActionPerformed
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+    private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
       int selectRow =this.jTable1.getSelectedRow();
       
       if(selectRow >= 0){
@@ -195,9 +181,9 @@ public class PitcherUI extends AppCustomWindow {
           }
       }
          // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    }//GEN-LAST:event_deleteButtonActionPerformed
 
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+    private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
         int selectRow = this.jTable1.getSelectedRow();
         
         if(selectRow >= 0){
@@ -205,14 +191,14 @@ public class PitcherUI extends AppCustomWindow {
             UtilsConnector.viewUtils.openDialog(this, new UpdatePitcherUI(this, true, sp));
         }
                 // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
+    }//GEN-LAST:event_editButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem deleteButton;
+    private javax.swing.JMenuItem editButton;
+    private javax.swing.JButton insertButton;
     private javax.swing.JButton jButtonClose;
-    private javax.swing.JButton jButtonInsert;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;

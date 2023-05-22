@@ -10,7 +10,8 @@ package cu.edu.cujae.structbd.utils;
  */
 public enum USER_ROLE {
     ADMIN("Administrador"),
-    SUPER_ADMIN("Super Administrador");
+    SUPER_ADMIN("Super Administrador"),
+    INVITED("Invitado");
     
     private final String roleName;
     

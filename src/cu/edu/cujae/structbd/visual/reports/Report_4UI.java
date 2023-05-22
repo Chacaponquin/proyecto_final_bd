@@ -12,8 +12,6 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import net.sf.jasperreports.engine.JRException;
 
@@ -192,7 +190,7 @@ public class Report_4UI extends AppCustomDialog
         }
         catch (JRException | SQLException | ClassNotFoundException ex)
         {
-            UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(rootPane, ex);
+            UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
         }
 
     }//GEN-LAST:event_jButton2ActionPerformed

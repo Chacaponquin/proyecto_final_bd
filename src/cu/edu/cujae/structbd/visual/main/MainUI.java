@@ -11,7 +11,6 @@ import cu.edu.cujae.structbd.utils.AppCustomWindow;
 import cu.edu.cujae.structbd.utils.UtilsConnector;
 import cu.edu.cujae.structbd.utils.ViewDialog;
 import cu.edu.cujae.structbd.utils.ViewWindow;
-import cu.edu.cujae.structbd.visual.snb.SerieUI;
 import cu.edu.cujae.structbd.visual.user.ChangePasswordUI;
 import cu.edu.cujae.structbd.visual.user.LoginUI;
 import cu.edu.cujae.structbd.visual.user.UpdateUserUI;
@@ -40,8 +39,14 @@ public class MainUI extends javax.swing.JFrame {
     }
     
     public void updateMenuItems(){
+        this.jMenu1.removeAll();
+        this.jMenu2.removeAll();
+        this.jMenu3.removeAll();
+        this.jMenu4.removeAll();
+       
+        UtilsConnector.viewUtils.updateViews();
+        
         ActualUserDTO actualUser = ServicesLocator.UserServices.getActualUser();
-        boolean actualUserIsAdmin = ServicesLocator.UserServices.actualUserIsAdmin();
         
         List<ViewWindow> views = UtilsConnector.viewUtils.getViews();
         List<ViewDialog> reportsViews = UtilsConnector.viewUtils.getReportsViews();
@@ -60,15 +65,16 @@ public class MainUI extends javax.swing.JFrame {
         
         
         // añadir reportes
-        if(actualUserIsAdmin){
-            this.jMenu2.setVisible(false);
-        }else {
+        if(!ServicesLocator.UserServices.actualUserIsAdmin() && ServicesLocator.UserServices.actualUserIsInvited()){
             reportsViews.forEach((view) -> {
                 javax.swing.JMenuItem menuItem = new javax.swing.JMenuItem();
                 menuItem.setText(view.getViewName());
                 menuItem.addActionListener(this.clickReportMenuItem(this, view.getDialog()));
                 this.jMenu2.add(menuItem);
             });
+            
+        }else {
+            this.jMenu2.setVisible(false);
         }
         
         JMenuItem closeUserItem = new JMenuItem("Cerrar Sesión");
@@ -116,6 +122,7 @@ public class MainUI extends javax.swing.JFrame {
                     LoginUI w = new LoginUI();
                     
                     UtilsConnector.viewUtils.openWindow(main, w);
+                    
                 } 
          };  
     }
@@ -125,10 +132,10 @@ public class MainUI extends javax.swing.JFrame {
             @Override
                 public void actionPerformed(ActionEvent e){
                 mainWindow.setVisible(true);
-                    view.setVisible(true);
-                    view.setAlwaysOnTop(true);
                     view.start();
-                    view.setLocationRelativeTo(null);
+                    view.setVisible(true);
+                    
+                    mainWindow.updateMenuItems();
                 } 
          };
     }
@@ -137,10 +144,10 @@ public class MainUI extends javax.swing.JFrame {
         return new ActionListener(){
             @Override
                 public void actionPerformed(ActionEvent e){
-                    mainWindow.setVisible(true);
-                    view.setVisible(true);
                     view.start();
-                    view.setLocationRelativeTo(null);   
+                    UtilsConnector.viewUtils.openDialog(mainWindow, view);
+                   
+                    mainWindow.updateMenuItems();
                 } 
          };
     }

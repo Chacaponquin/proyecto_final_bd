@@ -30,8 +30,10 @@ import cu.edu.cujae.structbd.visual.user.UserUI;
 import java.awt.Frame;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JMenuItem;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -51,7 +53,7 @@ public class ViewUtils {
     public void updateViews(){
         views.clear();
         reports.clear();
-        boolean isAdmin = ServicesLocator.UserServices.actualUserIsAdmin();
+        boolean isAdmin = ServicesLocator.UserServices.actualUserIsAdmin() && !ServicesLocator.UserServices.actualUserIsInvited();
         
         this.views.add(new ViewWindow("Estadios", new StadiumUI(), !isAdmin));
         this.views.add(new ViewWindow("Posiciones", new PositionUI(), !isAdmin));
@@ -66,18 +68,13 @@ public class ViewUtils {
         this.views.add(new ViewWindow("SNB", new SerieUI(), !isAdmin));
         this.views.add(new ViewWindow("Usuarios", new UserUI(), isAdmin));
 
-        this.reports.add(new ViewDialog("Tabla de posiciones", new Report_1UI(null, false)));
-        this.reports.add(new ViewDialog("Partidos por equipos", new Report_2UI(null, false)));
-        this.reports.add(new ViewDialog("Partidos jugados por fecha", new Report_3UI(null, false)));
-        this.reports.add(new ViewDialog("Entrenadores de más experiencia", new Report_4UI(null, false)));
-        this.reports.add(new ViewDialog("Estadios con mayor audiencia", new Report_5UI(null, false)));
-        this.reports.add(new ViewDialog("Estado de un equipo", new Report_6UI(null, false)));
-        this.reports.add(new ViewDialog("Equipo todos estrellas", new Report_7UI(null, false))); 
-    }
-    
-    public void getBackHome(Frame actualWindow){
-        actualWindow.setVisible(false);
-        actualWindow.dispose();
+        this.reports.add(new ViewDialog("Tabla de posiciones", new Report_1UI(null, true)));
+        this.reports.add(new ViewDialog("Partidos por equipos", new Report_2UI(null, true)));
+        this.reports.add(new ViewDialog("Partidos jugados por fecha", new Report_3UI(null, true)));
+        this.reports.add(new ViewDialog("Entrenadores de más experiencia", new Report_4UI(null, true)));
+        this.reports.add(new ViewDialog("Estadios con mayor audiencia", new Report_5UI(null, true)));
+        this.reports.add(new ViewDialog("Estado de un equipo", new Report_6UI(null, true)));
+        this.reports.add(new ViewDialog("Equipo todos estrellas", new Report_7UI(null, true))); 
     }
     
     public void openWindow(Frame actualWindow, Frame newWindow){
@@ -110,6 +107,14 @@ public class ViewUtils {
     
     public List<ViewDialog> getReportsViews(){
         return this.reports;
+    }
+    
+    public void disableButtonsByUser(JButton insertButton, JMenuItem editButton, JMenuItem deleteItem){
+        if(USER_ROLE.INVITED.equal(ServicesLocator.UserServices.getActualUser().getRole())){
+            if(insertButton != null) insertButton.setEnabled(false);
+            if(editButton != null) editButton.setEnabled(false);
+            if(deleteItem != null) deleteItem.setEnabled(false);
+        }
     }
     
     public void cleanTable(JTable table){

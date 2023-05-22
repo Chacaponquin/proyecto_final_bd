@@ -60,8 +60,7 @@ public class Report_6UI extends AppCustomDialog{
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents()
-    {
+    private void initComponents() {
 
         jButtonClose = new javax.swing.JButton();
         jComboBox1 = new javax.swing.JComboBox<>();
@@ -76,19 +75,15 @@ public class Report_6UI extends AppCustomDialog{
         setResizable(false);
 
         jButtonClose.setText("Cerrar");
-        jButtonClose.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jButtonClose.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonCloseActionPerformed(evt);
             }
         });
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<Seleccionar>" }));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox1ActionPerformed(evt);
             }
         });
@@ -96,12 +91,10 @@ public class Report_6UI extends AppCustomDialog{
         jLabel1.setText("Escoger equipo:");
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][]
-            {
+            new Object [][] {
 
             },
-            new String []
-            {
+            new String [] {
                 "Fase", "Jugados", "Ganados", "Perdidos", "Ganados Local", "Perdidos Local", "Ganados Visitante", "Perdidos Visitante"
             }
         ));
@@ -110,10 +103,8 @@ public class Report_6UI extends AppCustomDialog{
 
         jButton1.setText("Exportar");
         jButton1.setEnabled(false);
-        jButton1.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
@@ -156,6 +147,7 @@ public class Report_6UI extends AppCustomDialog{
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
@@ -211,18 +203,18 @@ public class Report_6UI extends AppCustomDialog{
     {//GEN-HEADEREND:event_jButton1ActionPerformed
         try
         {
-                String team = jComboBox1.getSelectedItem().toString();
-                ArrayList<ReadTeamDTO> teams_list_2 = ServicesLocator.TeamServices.readTeams();
-                boolean found_team = false;
-                int team_id = 0;
-                for (int i = 0; i < teams_list_2.size() && !found_team; i++)
+            String team = jComboBox1.getSelectedItem().toString();
+            ArrayList<ReadTeamDTO> teams_list_2 = ServicesLocator.TeamServices.readTeams();
+            boolean found_team = false;
+            int team_id = 0;
+            for (int i = 0; i < teams_list_2.size() && !found_team; i++)
+            {
+                if (teams_list_2.get(i).getTeam_name().equalsIgnoreCase(team))
                 {
-                    if (teams_list_2.get(i).getTeam_name().equalsIgnoreCase(team))
-                    {
-                        found_team = true;
-                        team_id = teams_list_2.get(i).getTeam_id();
-                    }
+                    found_team = true;
+                    team_id = teams_list_2.get(i).getTeam_id();
                 }
+            }
                 
             HashMap<String, Object> parametros = new HashMap<>();
             parametros.put("id_team", team_id);

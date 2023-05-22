@@ -11,9 +11,11 @@ import cu.edu.cujae.structbd.utils.AppCustomDialog;
 import cu.edu.cujae.structbd.utils.UtilsConnector;
 import java.awt.event.ItemEvent;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
 
 /**
  *
@@ -52,6 +54,7 @@ public class Report_2UI extends AppCustomDialog {
         jComboBox2 = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        exportButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Partidos por Equipos");
@@ -100,6 +103,13 @@ public class Report_2UI extends AppCustomDialog {
         });
         jScrollPane1.setViewportView(jTable1);
 
+        exportButton.setText("Exportar");
+        exportButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exportButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -121,8 +131,9 @@ public class Report_2UI extends AppCustomDialog {
                                 .addComponent(jLabel2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 109, Short.MAX_VALUE)))))
-                .addGap(46, 46, 46))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
+                                .addComponent(exportButton)))))
+                .addGap(23, 23, 23))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -132,7 +143,8 @@ public class Report_2UI extends AppCustomDialog {
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1)
                     .addComponent(jLabel2)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(exportButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -141,6 +153,7 @@ public class Report_2UI extends AppCustomDialog {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -159,6 +172,34 @@ public class Report_2UI extends AppCustomDialog {
             this.updateTable(); 
         }       // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox2ItemStateChanged
+
+    private void exportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportButtonActionPerformed
+        int selectFirstIndex = this.jComboBox1.getSelectedIndex() - 1;
+        int selectSecondIndex = this.jComboBox2.getSelectedIndex() - 1;
+
+        if(selectFirstIndex >= 0 && selectSecondIndex >= 0){
+            try
+            {
+                if(selectFirstIndex == selectSecondIndex){
+                    UtilsConnector.viewMessagesUtils.showErrorMessage(this, "Un equipo no se puede enfrentar a si mismo.");
+                }else{
+                    ReadTeamDTO firstTeam = this.teams.get(selectFirstIndex);
+                    ReadTeamDTO secondTeam = this.teams.get(selectSecondIndex);
+                    
+                    HashMap<String, Object> par = new HashMap<>();
+                    par.put("id_team", firstTeam.getTeam_id());
+                    par.put("id_team_2", secondTeam.getTeam_id());
+
+                    UtilsConnector.export.exportToPDF("Report_2", par, null);
+                }      
+            }
+            catch (JRException | SQLException | ClassNotFoundException ex)
+            {
+                UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
+            }
+        }
+        
+    }//GEN-LAST:event_exportButtonActionPerformed
 
     private void updateSecondTeamDropdown(){
         this.jComboBox2.removeAllItems();
@@ -184,48 +225,39 @@ public class Report_2UI extends AppCustomDialog {
    
    private void updateTable(){
        try{
-        this.teams = ServicesLocator.TeamServices.readTeams();
+            this.teams = ServicesLocator.TeamServices.readTeams();
 
-        // limpiar y llenar la tabla
-        this.cleanTable();
-        
-        int selectFirstIndex = this.jComboBox1.getSelectedIndex() - 1;
-        int selectSecondIndex = this.jComboBox2.getSelectedIndex() - 1;
+            int selectFirstIndex = this.jComboBox1.getSelectedIndex() - 1;
+            int selectSecondIndex = this.jComboBox2.getSelectedIndex() - 1;
 
-        if(selectFirstIndex >= 0 && selectSecondIndex >= 0){
-            if(selectFirstIndex == selectSecondIndex){
-                UtilsConnector.viewMessagesUtils.showErrorMessage(this, "Un equipo no se puede enfrentar a si mismo.");
-            }else{
-                List<ReadReport_2DTO> games = new LinkedList<>();
-                
-                ReadTeamDTO firstTeam = this.teams.get(selectFirstIndex);
-                ReadTeamDTO secondTeam = this.teams.get(selectSecondIndex);
+            if(selectFirstIndex >= 0 && selectSecondIndex >= 0){
+                if(selectFirstIndex == selectSecondIndex){
+                    UtilsConnector.viewMessagesUtils.showErrorMessage(this, "Un equipo no se puede enfrentar a si mismo.");
+                } 
+                else{
+                    UtilsConnector.viewUtils.cleanTable(jTable1);
+                    
+                    List<ReadReport_2DTO> games = new LinkedList<>();
 
-                games = ServicesLocator.AppServices.getGamesByTeams(firstTeam.getTeam_id(), secondTeam.getTeam_id());
-                
-                DefaultTableModel model = (DefaultTableModel) this.jTable1.getModel();
-                games.forEach(g -> {
-                    model.addRow(new Object[]{g.getPhaseName(), g.getWinner(), g.getGameResult(), g.getDate(), g.getStadiumName(), g.getAudience()});
-                }); 
+                    ReadTeamDTO firstTeam = this.teams.get(selectFirstIndex);
+                    ReadTeamDTO secondTeam = this.teams.get(selectSecondIndex);
+
+                    games = ServicesLocator.AppServices.getGamesByTeams(firstTeam.getTeam_id(), secondTeam.getTeam_id());
+                    
+                    DefaultTableModel model = (DefaultTableModel) this.jTable1.getModel();
+                    games.forEach(g -> {
+                        model.addRow(new Object[]{g.getPhaseName(), g.getWinner(), g.getGameResult(), g.getDate(), g.getStadiumName(), g.getAudience()});
+                    }); 
+                }
             }
-        }
-
-       }catch (SQLException | ClassNotFoundException ex) {
+       } catch (SQLException | ClassNotFoundException ex) {
             UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
         } 
         
    }
-   
-   public void cleanTable(){
-        DefaultTableModel model = (DefaultTableModel) this.jTable1.getModel();
-            
-        int count = model.getRowCount();
-        for(int i = 0; i < count; i++){
-            model.removeRow(0);
-        }
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton exportButton;
     private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;

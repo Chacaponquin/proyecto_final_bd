@@ -24,6 +24,7 @@ public class StadiumUI extends AppCustomWindow {
         try {
             initComponents(); 
             this.jTable2.setComponentPopupMenu(jPopupMenu1);
+            UtilsConnector.viewUtils.disableButtonsByUser(null, editMenu, null);
             this.updateUI();
         } catch (SQLException | ClassNotFoundException ex) {
             UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);

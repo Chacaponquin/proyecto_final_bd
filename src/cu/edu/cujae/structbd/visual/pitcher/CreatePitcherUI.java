@@ -175,6 +175,7 @@ public class CreatePitcherUI extends javax.swing.JDialog {
                 ServicesLocator.PitcherServices.createPitcher(createPitcherDTO);
                 this.parentWindow.updateUI();
                 UtilsConnector.viewMessagesUtils.showSuccessMessage(this, "Lanzador insertado correctamente");
+                this.parentWindow.updateUI();
                 this.dispose();
             } catch (SQLException | ClassNotFoundException ex) {
                 UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
