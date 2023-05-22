@@ -40,6 +40,13 @@ public class MainUI extends javax.swing.JFrame {
     }
     
     public void updateMenuItems(){
+        this.jMenu1.removeAll();
+        this.jMenu2.removeAll();
+        this.jMenu3.removeAll();
+        this.jMenu4.removeAll();
+       
+        UtilsConnector.viewUtils.updateViews();
+        
         ActualUserDTO actualUser = ServicesLocator.UserServices.getActualUser();
         boolean actualUserIsAdmin = ServicesLocator.UserServices.actualUserIsAdmin();
         
@@ -116,6 +123,7 @@ public class MainUI extends javax.swing.JFrame {
                     LoginUI w = new LoginUI();
                     
                     UtilsConnector.viewUtils.openWindow(main, w);
+                    
                 } 
          };  
     }
@@ -129,7 +137,8 @@ public class MainUI extends javax.swing.JFrame {
                     view.setAlwaysOnTop(true);
                     view.start();
                     view.setLocationRelativeTo(null);
-                    UtilsConnector.viewUtils.updateViews();
+                    
+                    mainWindow.updateMenuItems();
                 } 
          };
     }
@@ -141,7 +150,9 @@ public class MainUI extends javax.swing.JFrame {
                     mainWindow.setVisible(true);
                     view.setVisible(true);
                     view.start();
-                    view.setLocationRelativeTo(null);   
+                    view.setLocationRelativeTo(null); 
+                   
+                    mainWindow.updateMenuItems();
                 } 
          };
     }
