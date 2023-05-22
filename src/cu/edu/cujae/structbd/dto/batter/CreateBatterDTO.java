@@ -7,7 +7,7 @@ public class CreateBatterDTO {
     private final int positionID;
 
     public CreateBatterDTO(String name, int teamID, int memberNumber, int positionID) {
-        this.name = name;
+        this.name = name.trim();
         this.teamID = teamID;
         this.memberNumber = memberNumber;
         this.positionID = positionID;

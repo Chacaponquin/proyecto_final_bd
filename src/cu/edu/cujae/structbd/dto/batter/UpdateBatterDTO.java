@@ -20,7 +20,7 @@ public class UpdateBatterDTO {
 
     public UpdateBatterDTO(int member_id, String batterName, int teamID, int yearsInTeam, int number, int positionID, int atBats, int totalHits) {
         this.member_id = member_id;
-        this.batterName = batterName;
+        this.batterName = batterName.trim();
         this.teamID = teamID;
         this.yearsInTeam = yearsInTeam;
         this.number = number;

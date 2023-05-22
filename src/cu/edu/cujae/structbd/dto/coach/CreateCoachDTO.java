@@ -10,7 +10,7 @@ public class CreateCoachDTO
     public CreateCoachDTO(String team_member_name, int member_number, int team_ID,
                           int experience_years)
     {
-        this.team_member_name = team_member_name;
+        this.team_member_name = team_member_name.trim();
         this.member_number = member_number;
         this.team_ID = team_ID;
         this.experience_years = experience_years;

@@ -22,7 +22,7 @@ public class UpdateCoachDTO
                           int experience_years, int years_in_team)
     {
         this.team_member_ID = team_member_ID;
-        this.team_member_name = team_member_name;
+        this.team_member_name = team_member_name.trim();
         this.member_number = member_number;
         this.team_id = team_id;
         this.experience_years = experience_years;

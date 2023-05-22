@@ -11,7 +11,7 @@ public class UpdatePitcherDTO {
 
     public UpdatePitcherDTO(int teamMemberID, String teamMemberName, int memberNumber, int teamID, int yearsInTeam, int inningsPitched, int runsAllowed) {
         this.teamMemberID = teamMemberID;
-        this.teamMemberName = teamMemberName;
+        this.teamMemberName = teamMemberName.trim();
         this.memberNumber = memberNumber;
         this.teamID = teamID;
         this.yearsInTeam = yearsInTeam;

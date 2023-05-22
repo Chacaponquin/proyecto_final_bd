@@ -1,11 +1,8 @@
 package cu.edu.cujae.structbd.services;
 
-import cu.edu.cujae.structbd.dto.player.CreatePlayerDTO;
 import cu.edu.cujae.structbd.dto.player.DeletePlayerDTO;
 import cu.edu.cujae.structbd.dto.player.ReadAPlayerDTO;
 import cu.edu.cujae.structbd.dto.player.ReadPlayerDTO;
-import cu.edu.cujae.structbd.dto.player.UpdatePlayerDTO;
-import cu.edu.cujae.structbd.dto.team.ReadTeamDTO;
 import cu.edu.cujae.structbd.utils.Connector;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
@@ -15,16 +12,6 @@ import java.util.List;
 
 public class PlayerServices
 {
-    public void createPlayer(CreatePlayerDTO createPlayerDTO)
-    {
-
-    }
-
-    public void updatePlayer(UpdatePlayerDTO updatePlayerDTO)
-    {
-
-    }
-
     public void deletePlayer(DeletePlayerDTO deletePlayerDTO) throws SQLException, ClassNotFoundException
     {
         String function = "{call player_delete(?)}";

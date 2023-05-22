@@ -15,7 +15,7 @@ public class UpdateStadiumDTO {
 
     public UpdateStadiumDTO(int stadiumID, String stadiumName, int capacity) {
         this.stadiumID = stadiumID;
-        this.stadiumName = stadiumName;
+        this.stadiumName = stadiumName.trim();
         this.capacity = capacity;
     }
 

@@ -8,7 +8,7 @@ public class UpdateTeamMemberDTO {
     private int team_id;
 
     public UpdateTeamMemberDTO(String name, int number, int yearsInTeam, int id, int team_id) {
-        this.name = name;
+        this.name = name.trim();
         this.number = number;
         this.yearsInTeam = yearsInTeam;
         this.id = id;

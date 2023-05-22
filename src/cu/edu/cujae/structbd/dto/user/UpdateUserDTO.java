@@ -17,7 +17,7 @@ public class UpdateUserDTO {
 
     public UpdateUserDTO(int userID, String newUsername, String newPassword, String comfirmPassword, int roleID) {
         this.userID = userID;
-        this.newUsername = newUsername;
+        this.newUsername = newUsername.trim();
         this.newPassword = newPassword;
         this.comfirmPassword = comfirmPassword;
         this.roleID = roleID;
