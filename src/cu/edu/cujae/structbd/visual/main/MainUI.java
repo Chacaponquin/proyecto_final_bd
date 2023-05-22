@@ -87,9 +87,13 @@ public class MainUI extends javax.swing.JFrame {
         JMenuItem changePasswordItem = new JMenuItem("Cambiar Contraseña");
         changePasswordItem.addActionListener(this.userChangePasswordAction(this));
         
+        JMenuItem exitItem = new JMenuItem("Salir");
+        exitItem.addActionListener(this.exitAppAction(this));
+        
         this.jMenu3.add(changePasswordItem);
         this.jMenu3.add(updateUserItem);
         this.jMenu3.add(closeUserItem); 
+        this.jMenu3.add(exitItem);
     }
     
     public ActionListener userConfigAction(MainUI main){
@@ -99,6 +103,16 @@ public class MainUI extends javax.swing.JFrame {
                     UpdateUserUI w = new UpdateUserUI(main, ServicesLocator.UserServices.getActualUser());
                     w.start();
                     UtilsConnector.viewUtils.openDialog(main, w);
+                } 
+         };
+    }
+    
+    public ActionListener exitAppAction(MainUI main){
+        return new ActionListener(){
+            @Override
+                public void actionPerformed(ActionEvent e){
+                    boolean accept = UtilsConnector.viewMessagesUtils.showConfirmDialog(main, "Seguro que desea salir?");
+                    if(accept) main.dispose();
                 } 
          };
     }
