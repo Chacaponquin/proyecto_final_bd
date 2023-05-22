@@ -332,7 +332,8 @@ public class SerieUI extends AppCustomWindow
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton4ActionPerformed
     {//GEN-HEADEREND:event_jButton4ActionPerformed
-        UtilsConnector.viewUtils.getBackHome(this);
+        UtilsConnector.viewUtils.updateViews();
+        this.dispose();
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void combo_phasesActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_combo_phasesActionPerformed
