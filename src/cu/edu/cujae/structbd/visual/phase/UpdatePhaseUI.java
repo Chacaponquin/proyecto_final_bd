@@ -5,6 +5,8 @@
 package cu.edu.cujae.structbd.visual.phase;
 
 import com.toedter.calendar.JCalendar;
+import cu.edu.cujae.structbd.dto.phase.ReadAPhaseDTO;
+import cu.edu.cujae.structbd.dto.phase.ReadPhaseDTO;
 import cu.edu.cujae.structbd.dto.phase.UpdatePhaseDTO;
 import cu.edu.cujae.structbd.services.ServicesLocator;
 import java.sql.SQLException;
@@ -24,23 +26,37 @@ import javax.swing.JOptionPane;
 public class UpdatePhaseUI extends javax.swing.JDialog
 {
     private UpdatePhaseDTO updatePhaseDTO;
+    private LinkedList<ReadPhaseDTO> list_phases;
     /**
      * Creates new form PhaseUI
      */
     public UpdatePhaseUI(java.awt.Frame parent, boolean modal, UpdatePhaseDTO updatePhaseDTO)
     {
         super(parent, modal);
-        initComponents();
-        this.updatePhaseDTO = updatePhaseDTO;
-        this.field_name.setText(this.updatePhaseDTO.getPhase_name());
-        this.spinner_team.setValue(this.updatePhaseDTO.getTeams_amount());
-        ZoneId defaultZoneId = ZoneId.systemDefault();
-        Date start_date = Date.from(updatePhaseDTO.getStart_date().atStartOfDay(defaultZoneId).toInstant());
-        this.date_start.setDate(start_date);
-        Date finish_date = Date.from(updatePhaseDTO.getFinish_date().atStartOfDay(defaultZoneId).toInstant());
-        this.date_finish.setDate(finish_date);
-        
-        this.activate_button();
+        try
+        {
+            initComponents();
+            this.list_phases = new LinkedList<>(ServicesLocator.PhaseServices.readAllPhase());
+            this.updatePhaseDTO = updatePhaseDTO;
+
+            this.field_name.setText(this.updatePhaseDTO.getPhase_name());
+            this.spinner_team.setValue(this.updatePhaseDTO.getTeams_amount());
+            ZoneId defaultZoneId = ZoneId.systemDefault();
+            Date start_date = Date.from(updatePhaseDTO.getStart_date().atStartOfDay(defaultZoneId).toInstant());
+            this.date_start.setDate(start_date);
+            Date finish_date = Date.from(updatePhaseDTO.getFinish_date().atStartOfDay(defaultZoneId).toInstant());
+            this.date_finish.setDate(finish_date);
+
+            this.activate_button();
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(UpdatePhaseUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        catch (ClassNotFoundException ex)
+        {
+            Logger.getLogger(UpdatePhaseUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
