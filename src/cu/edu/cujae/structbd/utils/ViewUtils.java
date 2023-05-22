@@ -66,13 +66,13 @@ public class ViewUtils {
         this.views.add(new ViewWindow("SNB", new SerieUI(), !isAdmin));
         this.views.add(new ViewWindow("Usuarios", new UserUI(), isAdmin));
 
-        this.reports.add(new ViewDialog("Tabla de posiciones", new Report_1UI(null, false)));
-        this.reports.add(new ViewDialog("Partidos por equipos", new Report_2UI(null, false)));
-        this.reports.add(new ViewDialog("Partidos jugados por fecha", new Report_3UI(null, false)));
-        this.reports.add(new ViewDialog("Entrenadores de más experiencia", new Report_4UI(null, false)));
-        this.reports.add(new ViewDialog("Estadios con mayor audiencia", new Report_5UI(null, false)));
-        this.reports.add(new ViewDialog("Estado de un equipo", new Report_6UI(null, false)));
-        this.reports.add(new ViewDialog("Equipo todos estrellas", new Report_7UI(null, false))); 
+        this.reports.add(new ViewDialog("Tabla de posiciones", new Report_1UI(null, true)));
+        this.reports.add(new ViewDialog("Partidos por equipos", new Report_2UI(null, true)));
+        this.reports.add(new ViewDialog("Partidos jugados por fecha", new Report_3UI(null, true)));
+        this.reports.add(new ViewDialog("Entrenadores de más experiencia", new Report_4UI(null, true)));
+        this.reports.add(new ViewDialog("Estadios con mayor audiencia", new Report_5UI(null, true)));
+        this.reports.add(new ViewDialog("Estado de un equipo", new Report_6UI(null, true)));
+        this.reports.add(new ViewDialog("Equipo todos estrellas", new Report_7UI(null, true))); 
     }
     
     public void openWindow(Frame actualWindow, Frame newWindow){

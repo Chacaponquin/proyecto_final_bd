@@ -11,7 +11,6 @@ import cu.edu.cujae.structbd.utils.AppCustomWindow;
 import cu.edu.cujae.structbd.utils.UtilsConnector;
 import cu.edu.cujae.structbd.utils.ViewDialog;
 import cu.edu.cujae.structbd.utils.ViewWindow;
-import cu.edu.cujae.structbd.visual.snb.SerieUI;
 import cu.edu.cujae.structbd.visual.user.ChangePasswordUI;
 import cu.edu.cujae.structbd.visual.user.LoginUI;
 import cu.edu.cujae.structbd.visual.user.UpdateUserUI;
@@ -133,10 +132,8 @@ public class MainUI extends javax.swing.JFrame {
             @Override
                 public void actionPerformed(ActionEvent e){
                 mainWindow.setVisible(true);
-                    view.setVisible(true);
-                    view.setAlwaysOnTop(true);
                     view.start();
-                    view.setLocationRelativeTo(null);
+                    UtilsConnector.viewUtils.openWindow(mainWindow, view);
                     
                     mainWindow.updateMenuItems();
                 } 
@@ -147,10 +144,8 @@ public class MainUI extends javax.swing.JFrame {
         return new ActionListener(){
             @Override
                 public void actionPerformed(ActionEvent e){
-                    mainWindow.setVisible(true);
-                    view.setVisible(true);
                     view.start();
-                    view.setLocationRelativeTo(null); 
+                    UtilsConnector.viewUtils.openDialog(mainWindow, view);
                    
                     mainWindow.updateMenuItems();
                 } 

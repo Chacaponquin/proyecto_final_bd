@@ -192,7 +192,7 @@ public class Report_4UI extends AppCustomDialog
         }
         catch (JRException | SQLException | ClassNotFoundException ex)
         {
-            UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(rootPane, ex);
+            UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
         }
 
     }//GEN-LAST:event_jButton2ActionPerformed

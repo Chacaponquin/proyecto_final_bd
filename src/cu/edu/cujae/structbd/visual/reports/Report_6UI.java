@@ -211,18 +211,18 @@ public class Report_6UI extends AppCustomDialog{
     {//GEN-HEADEREND:event_jButton1ActionPerformed
         try
         {
-                String team = jComboBox1.getSelectedItem().toString();
-                ArrayList<ReadTeamDTO> teams_list_2 = ServicesLocator.TeamServices.readTeams();
-                boolean found_team = false;
-                int team_id = 0;
-                for (int i = 0; i < teams_list_2.size() && !found_team; i++)
+            String team = jComboBox1.getSelectedItem().toString();
+            ArrayList<ReadTeamDTO> teams_list_2 = ServicesLocator.TeamServices.readTeams();
+            boolean found_team = false;
+            int team_id = 0;
+            for (int i = 0; i < teams_list_2.size() && !found_team; i++)
+            {
+                if (teams_list_2.get(i).getTeam_name().equalsIgnoreCase(team))
                 {
-                    if (teams_list_2.get(i).getTeam_name().equalsIgnoreCase(team))
-                    {
-                        found_team = true;
-                        team_id = teams_list_2.get(i).getTeam_id();
-                    }
+                    found_team = true;
+                    team_id = teams_list_2.get(i).getTeam_id();
                 }
+            }
                 
             HashMap<String, Object> parametros = new HashMap<>();
             parametros.put("id_team", team_id);
