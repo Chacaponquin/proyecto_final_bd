@@ -82,7 +82,18 @@ public class StadiumUI extends AppCustomWindow {
             {
                 "Nombre", "Capacidad", "Provincia"
             }
-        ));
+        )
+        {
+            boolean[] canEdit = new boolean []
+            {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex)
+            {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane2.setViewportView(jTable2);
 
         jButton2.setText("Cerrar");

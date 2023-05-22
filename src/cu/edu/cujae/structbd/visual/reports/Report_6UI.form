@@ -109,14 +109,14 @@
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
               <Table columnCount="8" rowCount="0">
-                <Column editable="true" title="Fase" type="java.lang.Object"/>
-                <Column editable="true" title="Jugados" type="java.lang.Object"/>
-                <Column editable="true" title="Ganados" type="java.lang.Object"/>
-                <Column editable="true" title="Perdidos" type="java.lang.Object"/>
-                <Column editable="true" title="Ganados Local" type="java.lang.Object"/>
-                <Column editable="true" title="Perdidos Local" type="java.lang.Object"/>
-                <Column editable="true" title="Ganados Visitante" type="java.lang.Object"/>
-                <Column editable="true" title="Perdidos Visitante" type="java.lang.Object"/>
+                <Column editable="false" title="Fase" type="java.lang.Object"/>
+                <Column editable="false" title="Jugados" type="java.lang.Object"/>
+                <Column editable="false" title="Ganados" type="java.lang.Object"/>
+                <Column editable="false" title="Perdidos" type="java.lang.Object"/>
+                <Column editable="false" title="Ganados Local" type="java.lang.Object"/>
+                <Column editable="false" title="Perdidos Local" type="java.lang.Object"/>
+                <Column editable="false" title="Ganados Visitante" type="java.lang.Object"/>
+                <Column editable="false" title="Perdidos Visitante" type="java.lang.Object"/>
               </Table>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value=""/>

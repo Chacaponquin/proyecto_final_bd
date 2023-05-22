@@ -94,7 +94,18 @@ public class BatterUI extends AppCustomWindow {
             {
                 "Nombre", "Equipo", "Años en el equipo", "Número", "Posición", "Veces al bate", "Total de hits", "Average"
             }
-        ));
+        )
+        {
+            boolean[] canEdit = new boolean []
+            {
+                false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex)
+            {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         insertButton.setText("Insertar");

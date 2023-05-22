@@ -78,7 +78,18 @@ public class TeamUI extends AppCustomWindow {
             {
                 "Nombre", "Campeonatos jugados", "Color", "Provincia", "Mascota", "Campeonatos ganados", "Estadio"
             }
-        ));
+        )
+        {
+            boolean[] canEdit = new boolean []
+            {
+                false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex)
+            {
+                return canEdit [columnIndex];
+            }
+        });
         jTable1.setComponentPopupMenu(jPopupMenu1);
         jScrollPane1.setViewportView(jTable1);
 
