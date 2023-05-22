@@ -129,6 +129,7 @@ public class MainUI extends javax.swing.JFrame {
                     view.setAlwaysOnTop(true);
                     view.start();
                     view.setLocationRelativeTo(null);
+                    UtilsConnector.viewUtils.updateViews();
                 } 
          };
     }

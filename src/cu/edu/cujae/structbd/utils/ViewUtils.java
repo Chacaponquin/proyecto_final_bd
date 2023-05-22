@@ -75,11 +75,6 @@ public class ViewUtils {
         this.reports.add(new ViewDialog("Equipo todos estrellas", new Report_7UI(null, false))); 
     }
     
-    public void getBackHome(Frame actualWindow){
-        actualWindow.setVisible(false);
-        actualWindow.dispose();
-    }
-    
     public void openWindow(Frame actualWindow, Frame newWindow){
         actualWindow.setVisible(false);
         newWindow.setVisible(true);
