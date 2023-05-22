@@ -53,7 +53,7 @@ public class ViewUtils {
     public void updateViews(){
         views.clear();
         reports.clear();
-        boolean isAdmin = ServicesLocator.UserServices.actualUserIsAdmin() && !ServicesLocator.UserServices.actualUserIsInvited();
+        boolean isAdmin = ServicesLocator.UserServices.actualUserIsAdmin();
         
         this.views.add(new ViewWindow("Estadios", new StadiumUI(), !isAdmin));
         this.views.add(new ViewWindow("Posiciones", new PositionUI(), !isAdmin));

@@ -211,7 +211,7 @@ public class TeamServices {
                 }
             }
             
-            if(contPitchers < TEAM_LIMITS.PLAYER.getMaximun()){
+            if(contPitchers < TEAM_LIMITS.PITCHER.getMaximun()){
                 returnTeams.add(t);
             }
         }

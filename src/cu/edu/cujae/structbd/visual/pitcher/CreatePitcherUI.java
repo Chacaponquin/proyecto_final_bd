@@ -14,8 +14,6 @@ import cu.edu.cujae.structbd.utils.UtilsConnector;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -41,13 +39,15 @@ public class CreatePitcherUI extends javax.swing.JDialog {
         try {
             this.jComboBoxTeamName.removeAllItems();
             this.jComboBoxTeamName.addItem(SELECT_TEXT);
-           
-            
+              
             teamsToInsert = ServicesLocator.TeamServices.getTeamsForInsertPitcher();
             
             if(teamsToInsert.isEmpty()){
                 this.jButtonInsert.setEnabled(false);
                 this.jComboBoxTeamName.setEnabled(false);
+                
+                UtilsConnector.viewMessagesUtils.showErrorMessage(this, "Todos los equipos se encuentran con el máximo de pitchers admitidos.");
+                this.dispose();
             }else {
                 for(ReadTeamDTO t: teamsToInsert){
                     this.jComboBoxTeamName.addItem(t.getTeam_name());

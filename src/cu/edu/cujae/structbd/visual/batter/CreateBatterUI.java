@@ -48,6 +48,11 @@ public class CreateBatterUI extends JDialog {
             this.positions = ServicesLocator.PositionServices.readBatterPositions();
             this.teams = ServicesLocator.TeamServices.getTeamsForInsertBatter();
             
+            if(teams.isEmpty()){
+                UtilsConnector.viewMessagesUtils.showErrorMessage(this, "Todos los equipos se encuentran con el máximo de bateadores admitidos.");
+                this.dispose();
+            }
+            
             for(ReadTeamDTO t: this.teams){
                 this.teamComboBox.addItem(t.getTeam_name());
             }
