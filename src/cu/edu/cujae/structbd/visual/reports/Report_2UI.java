@@ -243,7 +243,6 @@ public class Report_2UI extends AppCustomDialog {
                     ReadTeamDTO secondTeam = this.teams.get(selectSecondIndex);
 
                     games = ServicesLocator.AppServices.getGamesByTeams(firstTeam.getTeam_id(), secondTeam.getTeam_id());
-                    System.out.println(games.size());
                     
                     DefaultTableModel model = (DefaultTableModel) this.jTable1.getModel();
                     games.forEach(g -> {
