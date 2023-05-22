@@ -100,18 +100,14 @@ public class UserServices {
         }
     }
     
-    public void createUser(CreateUserDTO newUser) throws DifferentPasswordsException, SQLException, ClassNotFoundException, EmptyFieldFormException, ShortUsernameException, DuplicateUserException{
+    public void createUser(CreateUserDTO newUser) throws DifferentPasswordsException, SQLException, ClassNotFoundException, EmptyFieldFormException, ShortUsernameException, DuplicateUserException, EmptyNewPasswordException, ShortPasswordException{
         this.validateUsername(newUser.getUsername());
         
         if(this.foundDuplicateUsername(newUser.getUsername()) != null){
             throw new DuplicateUserException();
         }
         
-        
-        if(!(newUser.getComfirmPassword().equals(newUser.getPassword()))){
-            throw new DifferentPasswordsException();
-        }
-        
+        this.validateUserPassword(newUser.getPassword(), newUser.getComfirmPassword());
         
         String function = "{call user_insert(?,?,?)}";
         java.sql.Connection connection = Connector.getConnection();
@@ -235,6 +231,20 @@ public class UserServices {
         return found;
     }
     
+    private void validateUserPassword(String password, String comfirmPassword) throws EmptyNewPasswordException, ShortPasswordException, DifferentPasswordsException{
+        if(password.equals("")){
+            throw new EmptyNewPasswordException();
+        }
+        
+        if(password.length() < 5){
+            throw new ShortPasswordException();
+        }
+        
+        if(!(comfirmPassword.equals(password))){
+            throw new DifferentPasswordsException();
+        }
+    }
+    
     public void updateUserPassword(UpdatePasswordDTO newPassword) throws SQLException, ClassNotFoundException, NotEqualOldPassword, EmptyNewPasswordException, DifferentPasswordsException, ShortPasswordException{
         ReadUserDTO foundUser = this.findUser(new FindUserDTO(newPassword.getUserID()));
         
@@ -242,17 +252,7 @@ public class UserServices {
             throw new NotEqualOldPassword();
         }
         
-        if(newPassword.getNewPassword().equals("")){
-            throw new EmptyNewPasswordException();
-        }
-        
-        if(newPassword.getNewPassword().length() < 5){
-            throw new ShortPasswordException();
-        }
-        
-        if(!newPassword.getNewPassword().equals(newPassword.getComfirmPassword())){
-            throw new DifferentPasswordsException();
-        }
+        this.validateUserPassword(newPassword.getNewPassword(), newPassword.getComfirmPassword());
         
         String function = "{call user_update(?,?,?,?)}";
         java.sql.Connection connection = Connector.getConnection();

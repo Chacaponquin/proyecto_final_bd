@@ -9,12 +9,16 @@ import cu.edu.cujae.structbd.dto.user_role.ReadUserRoleDTO;
 import cu.edu.cujae.structbd.exceptions.app.EmptyFieldFormException;
 import cu.edu.cujae.structbd.exceptions.user.DifferentPasswordsException;
 import cu.edu.cujae.structbd.exceptions.user.DuplicateUserException;
+import cu.edu.cujae.structbd.exceptions.user.EmptyNewPasswordException;
+import cu.edu.cujae.structbd.exceptions.user.ShortPasswordException;
 import cu.edu.cujae.structbd.exceptions.user.ShortUsernameException;
 import cu.edu.cujae.structbd.services.ServicesLocator;
 import cu.edu.cujae.structbd.utils.UtilsConnector;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -242,6 +246,10 @@ public class CreateUserUI extends javax.swing.JDialog {
        }
         catch(DuplicateUserException ex){
             UtilsConnector.viewMessagesUtils.showErrorMessage(this, "Ya existe un usuario con ese nombre");
+        } catch (EmptyNewPasswordException ex) {
+            UtilsConnector.viewMessagesUtils.showErrorMessage(this, "La contraseña del usuario no puede estar vacía.");
+        } catch (ShortPasswordException ex) {
+            UtilsConnector.viewMessagesUtils.showErrorMessage(this, "La contraseña del usuario debe tener al menos 5 caracteres");
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
