@@ -4,6 +4,7 @@
  */
 package cu.edu.cujae.structbd.services;
 
+import cu.edu.cujae.structbd.dto.user.ActualUserDTO;
 import cu.edu.cujae.structbd.dto.user_role.FindUserRoleDTO;
 import cu.edu.cujae.structbd.dto.user_role.ReadUserRoleDTO;
 import cu.edu.cujae.structbd.utils.Connector;
@@ -44,9 +45,18 @@ public class UserRoleServices {
     public List<ReadUserRoleDTO> readLoginRoles() throws SQLException, ClassNotFoundException{
         LinkedList<ReadUserRoleDTO> user_roles = new LinkedList<>();
         List<ReadUserRoleDTO> allRoles = this.readUserRoles();
+        ActualUserDTO actualUser = ServicesLocator.UserServices.getActualUser();
         
         for(ReadUserRoleDTO r: allRoles){
-            if(!USER_ROLE.SUPER_ADMIN.equal(r.getRoleName())) user_roles.add(r);
+            if(!USER_ROLE.SUPER_ADMIN.equal(r.getRoleName())){
+                if(USER_ROLE.ADMIN.equal(r.getRoleName())){
+                   if(USER_ROLE.SUPER_ADMIN.equal(actualUser.getRole())){
+                       user_roles.add(r);
+                    }
+                }else{
+                    user_roles.add(r);
+                }      
+            }
         }
         
         return user_roles;
