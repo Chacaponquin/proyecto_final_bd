@@ -231,7 +231,7 @@ public class AppServices
 
         if (firstTeamID != -1 && secondTeamID != -1)
         {
-            String function = "{?= call report_games_by_date_stadium(?,?)}";
+            String function = "{?= call report_games_by_teams(?,?)}";
             java.sql.Connection connection = Connector.getConnection();
             connection.setAutoCommit(false);
             CallableStatement preparedFunction = connection.prepareCall(function);
@@ -244,13 +244,23 @@ public class AppServices
             ResultSet resultSet = (ResultSet) preparedFunction.getObject(1);
             while (resultSet.next())
             {
+                String phaseName = resultSet.getString("phase_name");
+                LocalDate date = resultSet.getDate("game_date").toLocalDate();
+                String winner = resultSet.getString("winner_name");
+                int audience = resultSet.getInt("total_audience");
+                int runs_home_club = resultSet.getInt("runs_home_club");
+                int runs_visitant = resultSet.getInt("runs_visitant");
+                String stadiumName = resultSet.getString("stadium_name");
                 
+                ReadReport_2DTO rep = new ReadReport_2DTO(phaseName, date, winner, audience, runs_home_club, runs_visitant, stadiumName);
+                list.add(rep);
             }
             
             resultSet.close();
             preparedFunction.close();
             connection.commit();
         }
+        
         return list;
     }
     
