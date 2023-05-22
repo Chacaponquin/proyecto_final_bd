@@ -34,7 +34,7 @@
                       <EmptySpace min="-2" pref="68" max="-2" attributes="0"/>
                       <Component id="jLabel2" min="-2" pref="43" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jComboBox1" min="-2" pref="129" max="-2" attributes="0"/>
+                      <Component id="jComboBox1" min="-2" pref="229" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
@@ -81,6 +81,7 @@
     <Component class="com.toedter.calendar.JDateChooser" name="jCalendarDate">
       <Events>
         <EventHandler event="inputMethodTextChanged" listener="java.awt.event.InputMethodListener" parameters="java.awt.event.InputMethodEvent" handler="jCalendarDateInputMethodTextChanged"/>
+        <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="jCalendarDatePropertyChange"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel2">

@@ -4,14 +4,20 @@
  */
 package cu.edu.cujae.structbd.visual.reports;
 
+import cu.edu.cujae.structbd.dto.game.ReadGameDTO;
 import cu.edu.cujae.structbd.dto.stadium.ReadStadiumDTO;
 import cu.edu.cujae.structbd.services.ServicesLocator;
 import cu.edu.cujae.structbd.utils.AppCustomDialog;
 import cu.edu.cujae.structbd.utils.UtilsConnector;
 import java.awt.event.ItemEvent;
 import java.sql.SQLException;
+import java.time.Instant;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -19,6 +25,7 @@ import java.util.List;
  */
 public class Report_3UI extends AppCustomDialog {
     private List<ReadStadiumDTO> stadiums = new LinkedList<>();
+    private final String SELECT_TEXT = "<Seleccione>";
 
     /**
      * Creates new form Report_3UI
@@ -37,6 +44,7 @@ public class Report_3UI extends AppCustomDialog {
             this.jComboBox1.removeAllItems();
             this.stadiums = ServicesLocator.StadiumServices.getStadiums();
             
+            this.jComboBox1.addItem(SELECT_TEXT);
             this.stadiums.forEach(s -> {
                 this.jComboBox1.addItem(s.getStadiumName());
             });
@@ -50,7 +58,34 @@ public class Report_3UI extends AppCustomDialog {
     }
     
     private void updateTable(){
+        UtilsConnector.viewUtils.cleanTable(jTable1);
+        List<ReadGameDTO> games = new LinkedList<>();
         
+        Date gameDate = this.jCalendarDate.getDate();
+        int stadiumIndex = this.jComboBox1.getSelectedIndex();
+        
+        
+        if(gameDate != null){
+            ZoneId defaultZoneId = ZoneId.systemDefault();
+            Instant iStart = gameDate.toInstant();
+            LocalDate game_date = iStart.atZone(defaultZoneId).toLocalDate();
+
+            try{
+                if(stadiumIndex > 0){
+                    ReadStadiumDTO selectStadium = this.stadiums.get(stadiumIndex - 1);
+                    games = ServicesLocator.AppServices.getGamesByDateAndStadium(java.sql.Date.valueOf(game_date), selectStadium.getStadiumID());
+                }else {
+                    games = ServicesLocator.AppServices.getGamesByDateAndStadium(java.sql.Date.valueOf(game_date), null);
+                }
+            }catch(SQLException | ClassNotFoundException ex){
+                UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
+            }
+        }  
+        
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        for(ReadGameDTO g: games){
+            model.addRow(new Object[]{g.getPhaseName(), g.getDate().toString(), g.getHcTeamName(), g.getVisTeamName(), g.getResult(), g.getAudience()});
+        }
     }
 
     /**
@@ -60,8 +95,7 @@ public class Report_3UI extends AppCustomDialog {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents()
-    {
+    private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
         jCalendarDate = new com.toedter.calendar.JDateChooser();
@@ -76,42 +110,38 @@ public class Report_3UI extends AppCustomDialog {
 
         jLabel1.setText("Fecha:");
 
-        jCalendarDate.addInputMethodListener(new java.awt.event.InputMethodListener()
-        {
-            public void caretPositionChanged(java.awt.event.InputMethodEvent evt)
-            {
+        jCalendarDate.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
             }
-            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt)
-            {
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
                 jCalendarDateInputMethodTextChanged(evt);
+            }
+        });
+        jCalendarDate.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                jCalendarDatePropertyChange(evt);
             }
         });
 
         jLabel2.setText("Estadio");
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox1.addItemListener(new java.awt.event.ItemListener()
-        {
-            public void itemStateChanged(java.awt.event.ItemEvent evt)
-            {
+        jComboBox1.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 jComboBox1ItemStateChanged(evt);
             }
         });
-        jComboBox1.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox1ActionPerformed(evt);
             }
         });
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][]
-            {
+            new Object [][] {
 
             },
-            new String []
-            {
+            new String [] {
                 "Fase", "Fecha", "Home Club", "Visitante", "Marcador", "Audiencia"
             }
         ));
@@ -119,10 +149,8 @@ public class Report_3UI extends AppCustomDialog {
 
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jButton1.setText("Cerrar");
-        jButton1.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
@@ -141,7 +169,7 @@ public class Report_3UI extends AppCustomDialog {
                         .addGap(68, 68, 68)
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -189,6 +217,10 @@ System.out.println("Buenas");        // TODO add your handling code here:
     {//GEN-HEADEREND:event_jComboBox1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void jCalendarDatePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jCalendarDatePropertyChange
+        this.updateTable();
+    }//GEN-LAST:event_jCalendarDatePropertyChange
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

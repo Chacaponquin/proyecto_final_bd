@@ -4,6 +4,7 @@
  */
 package cu.edu.cujae.structbd.services;
 
+import cu.edu.cujae.structbd.dto.game.ReadGameDTO;
 import cu.edu.cujae.structbd.dto.phase.ReadAPhaseDTO;
 import cu.edu.cujae.structbd.dto.reports.ReadReport_1DTO;
 import cu.edu.cujae.structbd.dto.reports.ReadReport_2DTO;
@@ -19,6 +20,7 @@ import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.sql.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -222,14 +224,14 @@ public class AppServices
      * @throws SQLException
      * @throws ClassNotFoundException
      */
-    public List<ReadReport_2DTO> getGamesByTeams(int firstTeamID, int secondTeamID) throws SQLException,
+    public List<ReadReport_2DTO> getGamesByTeams(int firstTeamID, Integer secondTeamID) throws SQLException,
                                                                                            ClassNotFoundException
     {
         LinkedList<ReadReport_2DTO> list = new LinkedList<>();
 
         if (firstTeamID != -1 && secondTeamID != -1)
         {
-            String function = "{?= call report_games_by_teams(?,?)}";
+            String function = "{?= call report_games_by_date_stadium(?,?)}";
             java.sql.Connection connection = Connector.getConnection();
             connection.setAutoCommit(false);
             CallableStatement preparedFunction = connection.prepareCall(function);
@@ -242,22 +244,61 @@ public class AppServices
             ResultSet resultSet = (ResultSet) preparedFunction.getObject(1);
             while (resultSet.next())
             {
-                String phaseName = resultSet.getString("phase_name");
-                LocalDate date = resultSet.getDate("game_date").toLocalDate();
-                String winner = resultSet.getString("team_winner_name");
-                int audience = resultSet.getInt("total_audience");
-                int runs_home_club = resultSet.getInt("runs_home_club");
-                int runs_visitant = resultSet.getInt("runs_visitant");
-                String stadiumName = resultSet.getString("stadium_name");
-
-                list.add(new ReadReport_2DTO(phaseName, date, winner, audience, runs_home_club, runs_visitant,
-                                             stadiumName));
+                
             }
+            
             resultSet.close();
             preparedFunction.close();
             connection.commit();
         }
         return list;
+    }
+    
+    public List<ReadGameDTO> getGamesByDateAndStadium(Date date, Integer stadiumID) throws SQLException, ClassNotFoundException{
+        List<ReadGameDTO> games = new LinkedList<>();
+        
+        
+        java.sql.Connection connection = Connector.getConnection();
+        connection.setAutoCommit(false);
+        
+        CallableStatement preparedFunction;
+        if(stadiumID != null){
+            String function = "{?= call report_games_by_date_stadium(?,?)}";
+            preparedFunction = connection.prepareCall(function);
+            preparedFunction.setInt(2, stadiumID);
+             preparedFunction.setDate(3, date);
+        }else {
+            String function = "{?= call report_games_by_date(?)}";
+            preparedFunction = connection.prepareCall(function);
+            preparedFunction.setDate(2, date);
+        }
+        
+        preparedFunction.registerOutParameter(1, java.sql.Types.REF_CURSOR);
+        preparedFunction.execute();
+
+        ResultSet resultSet = (ResultSet) preparedFunction.getObject(1);
+        while (resultSet.next())
+        {
+            int id = resultSet.getInt("game_id");
+            String hcTeamName = resultSet.getString("home_club_name");
+            String visTeamName = resultSet.getString("visitant_name");
+            String phaseName = resultSet.getString("phase_name");
+            LocalDate game_date = resultSet.getDate("game_date").toLocalDate();
+            String winner = resultSet.getString("winner_name");
+            int audience = resultSet.getInt("total_audience");
+            int runs_home_club = resultSet.getInt("runs_home_club");
+            int runs_visitant = resultSet.getInt("runs_visitant");
+            
+            ReadGameDTO game = new ReadGameDTO(id, hcTeamName, visTeamName, phaseName, game_date, winner, audience, runs_home_club, runs_visitant);
+            games.add(game);
+
+        }
+
+        resultSet.close();
+        preparedFunction.close();
+        connection.commit();
+        
+        return games;
     }
 
     /**

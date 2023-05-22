@@ -36,6 +36,10 @@ public class ReadGameDTO {
     {
         this.id = id;
     }
+    
+    public String getResult(){
+        return this.runs_home_club + "-" + this.runs_visitant; 
+    }
 
     public String getHcTeamName() {
         return hcTeamName;
