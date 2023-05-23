@@ -5,12 +5,12 @@
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="caseBaseball"/>
 	<parameter name="imagen" class="inputSream"/>
 	<queryString language="SQL">
-		<![CDATA[SELECT stadium.stadium_name,((sum(game.total_audience)*100.00)/(stadium.capacity*count(game.game_id))) as porc
-  FROM team
-  JOIN game ON team.team_id = game.team_home_club
-  JOIN stadium ON team.stadium_id = team.stadium_id
-  GROUP BY stadium.stadium_name,stadium.capacity
-  ORDER BY porc DESC]]>
+		<![CDATA[SELECT stadium.stadium_name,coalesce (((sum(game.total_audience)*100.00)/(stadium.capacity*count(game.game_id))),0) as porc
+   FROM team
+   LEFT JOIN game ON team.team_id = game.team_home_club
+   JOIN stadium ON team.stadium_id = stadium.stadium_id
+   GROUP BY stadium.stadium_name,stadium.capacity
+   ORDER BY porc DESC;]]>
 	</queryString>
 	<field name="stadium_name" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="stadium_name"/>
