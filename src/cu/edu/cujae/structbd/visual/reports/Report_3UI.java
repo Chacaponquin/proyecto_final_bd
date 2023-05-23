@@ -10,8 +10,13 @@ import cu.edu.cujae.structbd.services.ServicesLocator;
 import cu.edu.cujae.structbd.utils.AppCustomDialog;
 import cu.edu.cujae.structbd.utils.UtilsConnector;
 import java.awt.event.ItemEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.sql.SQLException;
+<<<<<<< HEAD
 import java.text.ParseException;
+=======
+>>>>>>> 3e0b4060c7fa63b7a92099ef26b9974e66705e9b
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.Date;
@@ -60,7 +65,24 @@ public class Report_3UI extends AppCustomDialog {
     }
     
     public void updateUI(){
+        this.setCalendarAction();
         this.getStadiums();  
+    }
+    
+    
+    private void setCalendarAction(){
+        this.jCalendarDate.getDateEditor().addPropertyChangeListener(this.calendarAction(this));
+    }
+    
+    private PropertyChangeListener calendarAction(Report_3UI win){
+        return new PropertyChangeListener() {
+                @Override
+                public void propertyChange(PropertyChangeEvent e) {
+                    if ("date".equals(e.getPropertyName())) {
+                        win.updateTable();
+                    }
+                }
+        };
     }
     
     private void updateTable(){
@@ -252,10 +274,11 @@ this.dispose();        // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void jCalendarDatePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jCalendarDatePropertyChange
-        this.updateTable();
+
     }//GEN-LAST:event_jCalendarDatePropertyChange
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+<<<<<<< HEAD
         try
         {
             Date gameDate = this.jCalendarDate.getDate();
@@ -286,7 +309,35 @@ this.dispose();        // TODO add your handling code here:
             }
             }else{
                 UtilsConnector.viewMessagesUtils.showErrorMessage(this, "Seleccione una fecha para poder generar el reporte");
+=======
+        Date gameDate = this.jCalendarDate.getDate();
+        int stadiumIndex = this.jComboBox1.getSelectedIndex();
+        
+        if(gameDate != null){
+            String game_date =new SimpleDateFormat("yyyy-MM-dd").format(gameDate);
+            
+            HashMap<String, Object> parametros = new HashMap<>();
+            parametros.put("var_date", game_date);
+            
+            String report = "Report_3_2";
+            
+            if(stadiumIndex > 0){
+                ReadStadiumDTO selectStadium = this.stadiums.get(stadiumIndex - 1);
+                parametros.put("var_stadium", selectStadium.getStadiumID());
+                
+                report = "Report_3";
+>>>>>>> 3e0b4060c7fa63b7a92099ef26b9974e66705e9b
             }
+            
+            System.out.println(game_date);
+            System.out.println(report);
+         
+            try {
+                UtilsConnector.export.exportToPDF(report, parametros, null);
+            } catch (JRException | SQLException | ClassNotFoundException ex) {
+                UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
+            } 
+            
         }
         catch (ParseException | JRException | SQLException | ClassNotFoundException ex)
         {
