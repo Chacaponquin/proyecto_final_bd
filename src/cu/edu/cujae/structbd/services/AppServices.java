@@ -51,7 +51,8 @@ public class AppServices
         ResultSet resultSet = (ResultSet) preparedFunction.getObject(1);
         while (resultSet.next())
         {
-            list.add(new ReadReport_4DTO(resultSet.getString(1), resultSet.getString(2), resultSet.getInt(3)));
+            list.add(new ReadReport_4DTO(resultSet.getString(1), resultSet.getString(2), resultSet.getInt(4), resultSet.
+                                         getInt(3)));
         }
         resultSet.close();
         preparedFunction.close();

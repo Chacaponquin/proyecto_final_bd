@@ -42,7 +42,8 @@ public class Report_4UI extends AppCustomDialog
                 ReadReport_4DTO readReport_4DTO = it_list.next();
                 ((DefaultTableModel) table.getModel()).addRow(new Object[]
                 {
-                    readReport_4DTO.getTeam_name(), readReport_4DTO.getCoach_name(), readReport_4DTO.
+                    readReport_4DTO.getTeam_name(), readReport_4DTO.getCoach_name(), readReport_4DTO.getMember_number(),
+                    readReport_4DTO.
                     getExperience_years()
                 });
             }
@@ -82,17 +83,17 @@ public class Report_4UI extends AppCustomDialog
             },
             new String []
             {
-                "Equipo", "Nombre", "Años de experiencia"
+                "Equipo", "Nombre", "Número", "Años de experiencia"
             }
         )
         {
             Class[] types = new Class []
             {
-                java.lang.String.class, java.lang.String.class, java.lang.Integer.class
+                java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean []
             {
-                false, false, false
+                false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex)

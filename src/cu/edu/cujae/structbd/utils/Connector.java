@@ -29,7 +29,7 @@ public class Connector {
         String database = System.getProperty("DATABASE_NAME");
         String port = System.getProperty("DATABASE_PORT");
 
-       createConnection("localhost", database, username, password, port);
+        createConnection("localhost", database, username, password, port);
     }
     
     public static void restartConnection(){
