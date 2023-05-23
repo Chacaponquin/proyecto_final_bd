@@ -11,6 +11,8 @@ import cu.edu.cujae.structbd.utils.AppCustomDialog;
 import cu.edu.cujae.structbd.utils.UtilsConnector;
 import java.awt.event.ItemEvent;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.Date;
 import java.util.LinkedList;
@@ -18,6 +20,8 @@ import java.util.List;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import net.sf.jasperreports.engine.JRException;
 
@@ -252,29 +256,43 @@ this.dispose();        // TODO add your handling code here:
     }//GEN-LAST:event_jCalendarDatePropertyChange
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        Date gameDate = this.jCalendarDate.getDate();
-        int stadiumIndex = this.jComboBox1.getSelectedIndex();
-        
-        if(gameDate != null){
+        try
+        {
+            Date gameDate = this.jCalendarDate.getDate();
+            int stadiumIndex = this.jComboBox1.getSelectedIndex();
+
+            if (gameDate != null)
+            {
             ZoneId defaultZoneId = ZoneId.systemDefault();
             Instant iStart = gameDate.toInstant();
             LocalDate game_date = iStart.atZone(defaultZoneId).toLocalDate();
-            
-            HashMap<String, Object> parametros = new HashMap<>();
-            parametros.put("date", game_date);
-            
+                String day = String.valueOf(game_date.getDayOfMonth());
+                String month = String.valueOf(game_date.getMonthValue());
+                String year = String.valueOf(game_date.getYear());
+                String format_date = day + "-" + month + "-" + year;
+                System.out.println(format_date);
+                SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
+                Date query_date = formato.parse(format_date);
+                HashMap<String, Object> parametros = new HashMap<>();
+                parametros.put("fecha", query_date);
             if(stadiumIndex > 0){
                 ReadStadiumDTO selectStadium = this.stadiums.get(stadiumIndex - 1);
                 parametros.put("stadium", selectStadium.getStadiumID());
+                UtilsConnector.export.exportToPDF("Report_3V1", parametros, null);
             }
-            else{
-                try {
-                    UtilsConnector.export.exportToPDF("Report_3_2", parametros, null);
-                } catch (JRException | SQLException | ClassNotFoundException ex) {
-                    UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
-                } 
+            else
+            {
+                UtilsConnector.export.exportToPDF("Report_3V2", parametros, null);
+            }
+            }else{
+                UtilsConnector.viewMessagesUtils.showErrorMessage(this, "Seleccione una fecha para poder generar el reporte");
             }
         }
+        catch (ParseException | JRException | SQLException | ClassNotFoundException ex)
+        {
+            UtilsConnector.viewMessagesUtils.showErrorMessage(this, ex.getMessage());
+        }
+
     }//GEN-LAST:event_jButton2ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
