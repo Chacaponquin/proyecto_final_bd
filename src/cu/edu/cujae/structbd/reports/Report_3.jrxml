@@ -3,16 +3,16 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Report_3" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6ef5d45c-6d7d-439d-8572-6b4a63f7d72d">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="caseBaseball"/>
-	<parameter name="stadium" class="java.lang.Integer"/>
-	<parameter name="date" class="java.sql.Date"/>
+	<parameter name="var_stadium" class="java.lang.Integer"/>
+	<parameter name="var_date" class="java.sql.Date"/>
 	<queryString language="SQL">
-		<![CDATA[SELECT * FROM game
+		<![CDATA[SELECT home_club_name, phase_name, game_date, runs_visitant, visitant_name, total_audience FROM game
 JOIN (SELECT team.team_id, team.team_name as home_club_name, team.stadium_id FROM team) as home_club ON game.team_home_club = home_club.team_id 
 JOIN (SELECT team.team_id, team.team_name as visitant_name FROM team) as visitant ON game.team_visitant = visitant.team_id
 JOIN (SELECT team.team_id, team.team_name as winner_name FROM team) as winner_team ON game.winner = winner_team.team_id
 JOIN phase ON game.phase_id = phase.phase_id
 JOIN stadium ON stadium.stadium_id = home_club.stadium_id
-WHERE game.game_date = $P!{date} AND stadium.stadium_id = $P!{stadium};]]>
+WHERE game.game_date = $P!{var_date} AND stadium.stadium_id = $P!{var_stadium};]]>
 	</queryString>
 	<field name="phase_name" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="phase_name"/>
@@ -23,11 +23,6 @@ WHERE game.game_date = $P!{date} AND stadium.stadium_id = $P!{stadium};]]>
 		<property name="com.jaspersoft.studio.field.name" value="game_date"/>
 		<property name="com.jaspersoft.studio.field.label" value="game_date"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="game"/>
-	</field>
-	<field name="hc" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="hc"/>
-		<property name="com.jaspersoft.studio.field.label" value="hc"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="team"/>
 	</field>
 	<field name="runs_home_club" class="java.lang.Integer">
 		<property name="com.jaspersoft.studio.field.name" value="runs_home_club"/>
