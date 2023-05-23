@@ -179,8 +179,6 @@ public class PhaseUI extends AppCustomWindow {
                 LocalDate fd = LocalDate.of(Integer.valueOf(finish_date.substring(0, 4)), Integer.valueOf(finish_date.
                                             substring(5, 7)), Integer.valueOf(finish_date.substring(8, 10)));
                 UpdatePhaseDTO updatePhaseDTO = new UpdatePhaseDTO(id, name, sd, fd, teams_amount, false);
-                UpdatePhaseUI ufui = new UpdatePhaseUI(null, true, updatePhaseDTO);
-                ufui.setVisible(true);
                 
                 this.updateList();
             }

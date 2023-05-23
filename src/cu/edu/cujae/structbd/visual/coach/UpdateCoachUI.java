@@ -60,7 +60,7 @@ public class UpdateCoachUI extends JDialog
             
             SpinnerNumberModel snm = new SpinnerNumberModel();
             snm.setValue(this.updateCoachDTO.getYears_in_team());
-            snm.setMinimum(1);
+            snm.setMinimum(0);
             snm.setMaximum(readTeamDTO.getPlayed_championships());
             snm.setStepSize(1);
 

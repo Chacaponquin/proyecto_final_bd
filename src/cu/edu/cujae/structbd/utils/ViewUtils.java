@@ -54,6 +54,7 @@ public class ViewUtils {
         views.clear();
         reports.clear();
         boolean isAdmin = ServicesLocator.UserServices.actualUserIsAdmin();
+        boolean isInvited = ServicesLocator.UserServices.actualUserIsInvited();
         
         this.views.add(new ViewWindow("Estadios", new StadiumUI(), !isAdmin));
         this.views.add(new ViewWindow("Posiciones", new PositionUI(), !isAdmin));
@@ -65,7 +66,7 @@ public class ViewUtils {
         this.views.add(new ViewWindow("Bateadores", new BatterUI(), !isAdmin));
         this.views.add(new ViewWindow("Jugadores", new Player_UI(), !isAdmin));
         this.views.add(new ViewWindow("Provincias", new Province_UI(), !isAdmin));
-        this.views.add(new ViewWindow("SNB", new SerieUI(), !isAdmin));
+        this.views.add(new ViewWindow("SNB", new SerieUI(), !isAdmin && !isInvited));
         this.views.add(new ViewWindow("Usuarios", new UserUI(), isAdmin));
 
         this.reports.add(new ViewDialog("Tabla de posiciones", new Report_1UI(null, true)));

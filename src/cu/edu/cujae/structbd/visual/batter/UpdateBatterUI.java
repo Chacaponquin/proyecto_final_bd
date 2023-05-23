@@ -81,7 +81,7 @@ public class UpdateBatterUI extends javax.swing.JDialog {
 
             SpinnerNumberModel snm = new SpinnerNumberModel();
             snm.setValue(this.batter.getYearsInTeam());
-            snm.setMinimum(1);
+            snm.setMinimum(0);
             snm.setMaximum(foundTeam.getPlayed_championships());
             snm.setStepSize(1);
             yearnsInTeamInput.setModel(snm);

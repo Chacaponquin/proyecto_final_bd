@@ -23,17 +23,17 @@ public class Export
     public void exportToPDF(String report_name, HashMap<String, Object> parameters, String information) throws
         JRException, SQLException,                                                                                           ClassNotFoundException
     {
-        String jrxPath = "src/cu/edu/cujae/structbd/reports/" + report_name + ".jrxml";
+        String jrxPath = "reports/" + report_name + ".jrxml";
         JasperReport report = JasperCompileManager.compileReport(jrxPath);
         JasperPrint print = JasperFillManager.fillReport(report, parameters, Connector.getConnection());
         String exportPath = null;
         if (information != null)
         {
-            exportPath = "src/cu/edu/cujae/structbd/reports/" + report_name + information + ".pdf";
+            exportPath = "reports/" + report_name + information + ".pdf";
         }
         else
         {
-            exportPath = "src/cu/edu/cujae/structbd/reports/" + report_name + ".pdf";
+            exportPath = "reports/" + report_name + ".pdf";
         }
         File file = new File(exportPath);
         if (file.exists())
@@ -41,5 +41,6 @@ public class Export
             file.delete();
         }
         JasperExportManager.exportReportToPdfFile(print, exportPath);
+        UtilsConnector.viewMessagesUtils.showSuccessMessage(null, "Exportado con éxito.");
     }
 }

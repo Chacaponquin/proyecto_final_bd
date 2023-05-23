@@ -354,8 +354,8 @@ public class Coach_UI extends AppCustomWindow
                         //Eliminando al entrenador
                         if (found)
                         {
-                            System.out.println("llegue");
                             ServicesLocator.CoachServices.deleteCoach(new DeleteCoachDTO(id));
+                            UtilsConnector.viewMessagesUtils.showSuccessMessage(this, "Entrenador eliminado satisfactoriamente.");
                             this.updateList();
                         }
                     }

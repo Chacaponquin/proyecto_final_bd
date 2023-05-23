@@ -214,6 +214,9 @@ public class Report_2UI extends AppCustomDialog {
                 UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
             }
         }
+        else {
+            UtilsConnector.viewMessagesUtils.showErrorMessage(this, "Debe seleccionar ambos equipos para poder exportar el reporte.");
+        }
         
     }//GEN-LAST:event_exportButtonActionPerformed
 

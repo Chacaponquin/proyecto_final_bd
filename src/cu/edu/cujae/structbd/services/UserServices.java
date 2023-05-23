@@ -208,7 +208,9 @@ public class UserServices {
             int contAdmin = this.countAdminUsers();
             
             if(contAdmin == 1){
-                throw new AtLeastOneAdminException();
+                if(USER_ROLE.ADMIN.equal(foundUserDelete.getRole())){
+                    throw new AtLeastOneAdminException();
+                }     
             }
         }
     }
@@ -308,6 +310,7 @@ public class UserServices {
     }
     
     public boolean actualUserIsInvited(){
+        if(actualUser == null) return false;
         return USER_ROLE.INVITED.equal(this.actualUser.getRole());
     }
     

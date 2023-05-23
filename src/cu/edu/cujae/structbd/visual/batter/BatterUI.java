@@ -172,6 +172,7 @@ public class BatterUI extends AppCustomWindow {
                 try {
                     int sb = this.batters.get(selectRow).getMember_id();
                     ServicesLocator.BatterServices.deleteBatter(new DeleteBatterDTO(sb));
+                    UtilsConnector.viewMessagesUtils.showSuccessMessage(this, "Bateador eliminado satisfactoriamente.");
                     this.updateUI();
                 } catch (SQLException | ClassNotFoundException ex) {
                     UtilsConnector.viewMessagesUtils.showConecctionErrorMessage(this, ex);
